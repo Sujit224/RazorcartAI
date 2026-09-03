@@ -1,12 +1,14 @@
 import json
 import re
 from typing import List, Dict, Any, Optional
+from sqlalchemy import or_
 from ..state import AgentState
 from ..reference import KIND_PRODUCT, FocusItem, set_focus, set_last_ref, get_focus
 from ...database import SessionLocal
 from ...models.product import Product
 from ...services.vector_store import vector_store
 from ...services.ranking import rank_products
+from ...services.category_matcher import resolve_category_from_query
 
 _ORDINAL_WORDS = {
     "1st": 1, "first": 1, "one": 1, "1": 1,
@@ -217,11 +219,9 @@ def discovery_node(state: AgentState) -> AgentState:
             q = q.filter(Product.brand.ilike(f"%{brand}%"))
 
         # Canonical Category & Department Filter (LLM + Regex Ontology Scoping)
-        from ...services.category_matcher import resolve_category_from_query
-        from sqlalchemy import or_
-
         extracted_cat = filters.get("category")
         canon_cat, canon_dept = resolve_category_from_query(raw_query, extracted_cat)
+        category = canon_cat or extracted_cat
 
         if canon_cat or canon_dept:
             cat_conditions = []
