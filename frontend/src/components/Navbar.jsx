@@ -93,41 +93,6 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
         ]
       }
     },
-    {
-      label: "HOME",
-      cat: "HOME & KITCHEN",
-      dropdown: {
-        title: "HOME & LIVING",
-        subcategories: [
-          { name: "Home Decor & Lighting", query: "Show modern home decor and lamps" },
-          { name: "Cookware & Dining", query: "Show nonstick cookware and dinnerware" },
-        ]
-      }
-    },
-    {
-      label: "BEAUTY",
-      cat: "BEAUTY & PERSONAL CARE",
-      dropdown: {
-        title: "BEAUTY & PERSONAL CARE",
-        subcategories: [
-          { name: "Skincare Essentials", query: "Show top rated skincare and serums" },
-          { name: "Fragrances & Perfumes", query: "Show luxury perfumes and mists" },
-        ]
-      }
-    },
-    {
-      label: "STUDIO",
-      cat: "ALL",
-      isNew: true,
-      dropdown: {
-        title: "AGENTIC COMMERCE STUDIO",
-        subcategories: [
-          { name: "AI Semantic Search", query: "Explore semantic recommendation feed" },
-          { name: "Frequently Bought Together", query: "Show frequently bought together bundle pairings" },
-          { name: "Zero-Dropoff Payment Recovery", query: "Explain 504 gateway recovery workflow" },
-        ]
-      }
-    },
   ];
 
   const handleSearchSubmit = (e) => {
