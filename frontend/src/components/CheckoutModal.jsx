@@ -50,12 +50,9 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
       if (window.Razorpay && keyId && razorpayOrderId) {
         const options = {
           key: keyId,
-          amount: Math.round(totalAmount * 100),
-          currency: 'INR',
-          name: 'RazorCartAI Store',
-          description: `Payment for ${cart.items?.length || 1} item(s)`,
-          image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=120&h=120&q=80',
           order_id: razorpayOrderId,
+          name: 'RazorCartAI',
+          description: `Payment for Order #${localOrderId || ''}`,
           handler: async function (response) {
             setPaymentStep('processing');
             try {
@@ -80,7 +77,7 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
           prefill: {
             name: currentUser?.name || 'Priya Sharma',
             email: currentUser?.email || 'priya@razorcart.ai',
-            contact: '9999999999'
+            contact: '9876543210'
           },
           theme: {
             color: '#FF3F6C'
