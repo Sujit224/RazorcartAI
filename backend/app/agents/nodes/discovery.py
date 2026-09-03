@@ -170,15 +170,35 @@ def discovery_node(state: AgentState) -> AgentState:
                 return state
 
     # ── 2. Generalized Attribute & Vector Search ─────────────────────────────
-    # Extract clean semantic search query
-    clean_q = raw_query.lower()
-    for fw in ["recommendation", "recommendations", "recommend", "suggest", "looking for", "show me", "find me", "help me find", "help me", "best", "good", "please", "wanted to buy", "buy", "all the ones having", "show the ones which have", "the ones with", "having", "with"]:
-        clean_q = clean_q.replace(fw, " ")
+    # Extract Price Range (between X and Y, from X to Y, under X, above Y)
+    min_price = filters.get("min_price")
+    max_price = filters.get("max_price")
 
-    # Strip price clauses
-    clean_q = re.sub(r'(?:under|below|less than|within|around|upto|up to)\s*(?:rs\.?|inr|₹)?\s*\d+\s*(?:/|-|k)?', ' ', clean_q, flags=re.I)
+    if not min_price and not max_price:
+        range_match = re.search(r'(?:between|from)?\s*(?:rs\.?|inr|₹)?\s*(\d+)\s*(?:-|to|and)\s*(?:rs\.?|inr|₹)?\s*(\d+)', msg_lower)
+        if range_match:
+            val1 = float(range_match.group(1))
+            val2 = float(range_match.group(2))
+            min_price = min(val1, val2)
+            max_price = max(val1, val2)
+        else:
+            under_match = re.search(r'(?:under|below|less than|within|around|upto|up to)\s*(?:rs\.?|inr|₹)?\s*(\d+)', msg_lower)
+            if under_match:
+                max_price = float(under_match.group(1))
+            above_match = re.search(r'(?:above|over|more than|exceeding|from)\s*(?:rs\.?|inr|₹)?\s*(\d+)', msg_lower)
+            if above_match:
+                min_price = float(above_match.group(1))
+
+    # Clean semantic search query
+    clean_q = raw_query.lower()
+    for fw in ["recommendation", "recommendations", "recommend", "suggest", "looking for", "show me", "find me", "help me find", "help me", "best", "good", "cool", "great", "latest", "new", "hot", "nice", "awesome", "please", "wanted to buy", "buy", "all the ones having", "show the ones which have", "the ones with", "having", "with"]:
+        clean_q = re.sub(r'\b' + re.escape(fw) + r'\b', ' ', clean_q, flags=re.I)
+
+    # Strip price range clauses
+    clean_q = re.sub(r'(?:between|from)?\s*(?:rs\.?|inr|₹)?\s*\d+\s*(?:-|to|and)\s*(?:rs\.?|inr|₹)?\s*\d+\s*(?:/|-)?', ' ', clean_q, flags=re.I)
+    clean_q = re.sub(r'(?:under|below|less than|within|around|upto|up to|above|over|more than)\s*(?:rs\.?|inr|₹)?\s*\d+\s*(?:/|-|k)?', ' ', clean_q, flags=re.I)
     clean_q = re.sub(r'(?:rs\.?|inr|₹)\s*\d+', ' ', clean_q, flags=re.I)
-    clean_q = re.sub(r'\b\d{4,6}\s*(?:/|-)?\b', ' ', clean_q)
+    clean_q = re.sub(r'\b\d{3,6}\s*(?:/|-)?\b', ' ', clean_q)
     clean_q = " ".join(clean_q.split())
     query = clean_q if clean_q else raw_query
 
@@ -219,13 +239,9 @@ def discovery_node(state: AgentState) -> AgentState:
         if color:
             q = q.filter(Product.color.ilike(f"%{color}%"))
 
-        # Dynamic Price Filtering
-        max_price = filters.get("max_price")
-        if not max_price:
-            price_match = re.search(r'(?:under|below|less than|within|around|upto|up to)\s*(?:rs\.?|inr|₹)?\s*(\d+)', msg_lower)
-            if price_match:
-                max_price = float(price_match.group(1))
-
+        # Dynamic Price Range Filtering (min_price & max_price)
+        if min_price:
+            q = q.filter(Product.price >= float(min_price))
         if max_price:
             q = q.filter(Product.price <= float(max_price))
 
@@ -234,7 +250,7 @@ def discovery_node(state: AgentState) -> AgentState:
         if min_rating:
             q = q.filter(Product.rating >= float(min_rating))
 
-        # Dynamic Spec / Keyword Filtering (Works for RAM, fabrics, chipsets, features, wattage, etc.)
+        # Dynamic Spec / Keyword Filtering
         spec_keywords = filters.get("spec_keywords") or []
         if isinstance(spec_keywords, list):
             for kw in spec_keywords:
@@ -258,11 +274,18 @@ def discovery_node(state: AgentState) -> AgentState:
             if any(p.id in rel_ids for p in matched_products):
                 matched_products = [p for p in matched_products if p.id in rel_ids]
 
-        # Graceful fallback: If strict combined filters returned 0 items, fall back to vector semantic matches
+        # Graceful fallback: If strict price filter returned 0, show closest category options
+        is_relaxed_fallback = False
         if not matched_products and vector_results:
-            top_ids = [pid for pid, s in vector_results[:25] if s > 0.03]
-            if top_ids:
-                matched_products = db.query(Product).filter(Product.id.in_(top_ids)).all()
+            fallback_q = db.query(Product).filter(Product.is_active == True)
+            if category:
+                cat_clean = category.strip().lower().rstrip('s')
+                fallback_q = fallback_q.filter((Product.category.ilike(f"%{cat_clean}%")) | (Product.tags.ilike(f"%{cat_clean}%")))
+            elif brand:
+                fallback_q = fallback_q.filter(Product.brand.ilike(f"%{brand}%"))
+            matched_products = fallback_q.limit(12).all()
+            if matched_products:
+                is_relaxed_fallback = True
 
         # Multi-factor smart ranking (quality, reviews, seller proximity)
         ranked = rank_products(
@@ -329,12 +352,20 @@ def discovery_node(state: AgentState) -> AgentState:
         if formatted_products:
             top = formatted_products[0]
             local_str = f"⚡ Express dispatch available from {top['city']}." if top["is_local_seller"] else ""
-            reply_msg = (
-                f"I found **{len(formatted_products)} top-rated results** matching your query.\n\n"
-                f"🌟 **Top Pick**: **{top['brand']} {top['title']}** "
-                f"at **Rs. {int(top['price']):,}** (Rated **★ {top['rating']}** across {top['review_count']} verified reviews). {local_str}\n\n"
-                f"Ask me to *\"Compare 1st and 3rd\"*, refine by brand, budget, or specifications."
-            )
+            if is_relaxed_fallback:
+                reply_msg = (
+                    f"I couldn't find exact items within that specific budget range, but here are the **top-rated {category or 'closest'} alternatives** from our catalog:\n\n"
+                    f"🌟 **Top Recommendation**: **{top['brand']} {top['title']}** at **Rs. {int(top['price']):,}** "
+                    f"(Rated **★ {top['rating']}** across {top['review_count']} reviews). {local_str}"
+                )
+            else:
+                price_context = f" between Rs. {int(min_price):,} - Rs. {int(max_price):,}" if (min_price and max_price) else (f" under Rs. {int(max_price):,}" if max_price else "")
+                reply_msg = (
+                    f"I found **{len(formatted_products)} top-rated results** matching your query{price_context}.\n\n"
+                    f"🌟 **Top Pick**: **{top['brand']} {top['title']}** "
+                    f"at **Rs. {int(top['price']):,}** (Rated **★ {top['rating']}** across {top['review_count']} verified reviews). {local_str}\n\n"
+                    f"Ask me to *\"Compare 1st and 3rd\"*, refine by brand, budget, or specifications."
+                )
             audit_reasoning = f"Evaluated {len(matched_products)} candidates across quality, rating weights, and vector relevance. Top pick: {top['brand']} {top['title']}."
             rating_impact = f"Weighted {top['rating']}★ rating & {top['review_count']} reviews with quality ranking influence."
             suggested_actions = [
