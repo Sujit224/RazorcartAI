@@ -44,6 +44,7 @@ export const AgentProvider = ({ children }) => {
     setLoading(true);
 
     try {
+      const cartIds = (cart?.items || []).map(it => it.product_id);
       const lastAgentMsg = [...messages].reverse().find(m => m.sender === 'agent' && m.products?.length > 0);
       const prevProducts = lastAgentMsg ? lastAgentMsg.products : [];
 
