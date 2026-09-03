@@ -65,53 +65,59 @@ def _build_generic_comparison_response(products: List[Dict[str, Any]]) -> str:
             f"**Description**: {p.get('description', '')}"
         )
 
-    p1, p2 = products[0], products[1]
-    p3 = products[2] if len(products) > 2 else None
+    # Multi-product table (2 to 4 products)
+    col_headers = [f"{i}. **{p['brand']} {p['title']}**" for i, p in enumerate(products, 1)]
+    
+    # Parse all metas
+    all_metas = []
+    for p in products:
+        m = p.get("product_meta") or {}
+        if isinstance(m, str):
+            try: m = json.loads(m)
+            except: m = {}
+        all_metas.append(m)
 
-    meta1 = p1.get("product_meta") or {}
-    if isinstance(meta1, str):
-        try: meta1 = json.loads(meta1)
-        except: meta1 = {}
+    # Collect unique attribute keys
+    all_keys = []
+    for m in all_metas:
+        for k in m.keys():
+            if k not in all_keys and k not in ["returnable", "return_window", "merchant_id", "merchant_name", "warranty"]:
+                all_keys.append(k)
 
-    meta2 = p2.get("product_meta") or {}
-    if isinstance(meta2, str):
-        try: meta2 = json.loads(meta2)
-        except: meta2 = {}
+    # Build Markdown Table
+    table_rows = [
+        "| Feature / Specification | " + " | ".join(col_headers) + " |",
+        "| :--- | " + " | ".join([":---"] * len(products)) + " |",
+        "| **Price** | " + " | ".join([f"**Rs. {int(p['price']):,}** ({p.get('discount_pct', 0)}% OFF)" for p in products]) + " |",
+        "| **Rating & Reviews** | " + " | ".join([f"★ {p.get('rating', 4.5)} ({p.get('review_count', 0)} reviews)" for p in products]) + " |",
+        "| **Department / Category** | " + " | ".join([p.get('category', '-') for p in products]) + " |",
+        "| **Verified Merchant** | " + " | ".join([f"{p.get('merchant_name', 'Verified')} (📍 {p.get('city', '')})" for p in products]) + " |",
+    ]
 
-    meta3 = {}
-    if p3:
-        meta3 = p3.get("product_meta") or {}
-        if isinstance(meta3, str):
-            try: meta3 = json.loads(meta3)
-            except: meta3 = {}
+    for k in all_keys[:6]:
+        row_vals = [str(m.get(k, "-")) for m in all_metas]
+        table_rows.append(f"| **{k.replace('_', ' ').capitalize()}** | " + " | ".join(row_vals) + " |")
 
-    # Collect unique attribute keys across compared items
-    all_keys = list(dict.fromkeys(list(meta1.keys()) + list(meta2.keys()) + (list(meta3.keys()) if p3 else [])))
-    spec_keys = [k for k in all_keys if k not in ["returnable", "return_window", "merchant_id", "merchant_name", "warranty"]]
+    table_md = "\n".join(table_rows)
 
-    table = (
-        f"### Side-by-Side Comparison & Summary\n\n"
-        f"| Feature / Specification | 1. **{p1['brand']} {p1['title']}** | 2. **{p2['brand']} {p2['title']}**" + (f" | 3. **{p3['brand']} {p3['title']}** |" if p3 else " |") + "\n"
-        f"| :--- | :--- | :---" + (" | :--- |" if p3 else " |") + "\n"
-        f"| **Price** | **Rs. {int(p1['price']):,}** ({p1.get('discount_pct', 0)}% OFF) | **Rs. {int(p2['price']):,}** ({p2.get('discount_pct', 0)}% OFF)" + (f" | **Rs. {int(p3['price']):,}** ({p3.get('discount_pct', 0)}% OFF) |" if p3 else " |") + "\n"
-        f"| **Rating & Reviews** | ★ {p1.get('rating', 4.5)} ({p1.get('review_count', 0)} reviews) | ★ {p2.get('rating', 4.5)} ({p2.get('review_count', 0)} reviews)" + (f" | ★ {p3.get('rating', 4.5)} ({p3.get('review_count', 0)} reviews) |" if p3 else " |") + "\n"
-        f"| **Department / Category** | {p1.get('category', '-')} | {p2.get('category', '-')}" + (f" | {p3.get('category', '-')} |" if p3 else " |") + "\n"
-        f"| **Verified Seller** | {p1.get('merchant_name', 'Verified')} (📍 {p1.get('city', '')}) | {p2.get('merchant_name', 'Verified')} (📍 {p2.get('city', '')})" + (f" | {p3.get('merchant_name', 'Verified')} (📍 {p3.get('city', '')}) |" if p3 else " |") + "\n"
+    # Generate key takeaways
+    takeaways = []
+    for i, p in enumerate(products, 1):
+        ram_info = all_metas[i-1].get("ram") or all_metas[i-1].get("storage") or all_metas[i-1].get("material") or ""
+        chip_info = all_metas[i-1].get("processor") or all_metas[i-1].get("fit") or ""
+        specs_str = f" with {ram_info}" if ram_info else ""
+        if chip_info: specs_str += f" ({chip_info})"
+        takeaways.append(f"{i}. **{p['brand']} {p['title']}**: Priced at **Rs. {int(p['price']):,}**{specs_str}. Rated **★ {p.get('rating', 4.5)}**.")
+
+    takeaways_md = "\n".join(takeaways)
+
+    return (
+        f"### 📊 Side-by-Side Comparison & Glimpse\n\n"
+        f"{table_md}\n\n"
+        f"#### 🔍 Key Differentiators:\n"
+        f"{takeaways_md}\n\n"
+        f"💡 **Recommendation**: If prioritizing top performance & maximum specifications, option **1** is the top pick. For optimal budget efficiency, compare the price differences above."
     )
-
-    for k in spec_keys[:5]:
-        v1 = meta1.get(k, "-")
-        v2 = meta2.get(k, "-")
-        v3 = meta3.get(k, "-") if p3 else None
-        table += f"| **{k.replace('_', ' ').capitalize()}** | {v1} | {v2}" + (f" | {v3} |" if p3 else " |") + "\n"
-
-    table += (
-        f"\n#### Key Comparison Takeaways:\n"
-        f"1. **{p1['brand']} {p1['title']}** is priced at **Rs. {int(p1['price']):,}** with a verified rating of **★ {p1.get('rating', 4.5)}**.\n"
-        f"2. **{p2['brand']} {p2['title']}** is priced at **Rs. {int(p2['price']):,}** with a verified rating of **★ {p2.get('rating', 4.5)}**.\n"
-        f"3. **Recommendation**: Both options offer stellar quality backed by authentic merchant guarantees. Choose **{p1['brand']}** for its specific design profile, or **{p2['brand']}** for value."
-    )
-    return table
 
 def discovery_node(state: AgentState) -> AgentState:
     """
@@ -127,10 +133,14 @@ def discovery_node(state: AgentState) -> AgentState:
     msg_lower = state.get("user_message", "").lower()
 
     # ── 1. Check for Product Comparison Intent ──────────────────────────────
-    is_compare = any(w in msg_lower for w in [
-        "compare", "comparison", "summarise", "summarize", "difference between",
-        "which is better", "contrast", "vs", "versus"
-    ])
+    comparison_triggers = [
+        "compare", "comparison", "summarise", "summarize", "summary", "difference",
+        "different", "differ", "glimpse", "breakdown", "which is better", "contrast",
+        "vs", "versus", "distinguish", "tradeoff", "trade-off"
+    ]
+    is_compare = any(w in msg_lower for w in comparison_triggers) or (
+        "table" in msg_lower and any(w in msg_lower for w in ["these", "how", "difference", "compare", "glimpse", "summary", "different", "show", "give", "each"])
+    )
 
     if is_compare:
         ord_indices = _extract_comparison_indices(msg_lower)
@@ -156,8 +166,11 @@ def discovery_node(state: AgentState) -> AgentState:
                     db_temp.close()
 
         if candidate_pool:
-            if not ord_indices or len(ord_indices) < 2:
-                ord_indices = [1, 2]
+            # If user didn't specify ordinals (e.g. "how each of these are different"), compare top 3 or 4
+            if not ord_indices:
+                ord_indices = list(range(1, min(len(candidate_pool), 4) + 1))
+            elif len(ord_indices) == 1 and len(candidate_pool) > 1:
+                ord_indices = [ord_indices[0], 2 if ord_indices[0] == 1 else 1]
 
             selected = [candidate_pool[i - 1] for i in ord_indices if 1 <= i <= len(candidate_pool)]
             if selected:
