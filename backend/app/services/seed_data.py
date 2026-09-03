@@ -177,7 +177,7 @@ def seed_database(db: Session):
     if existing_merchants_count < len(MERCHANTS):
         print(f"[Seed] Seeding {len(MERCHANTS)} verified merchants across Indian hubs...")
         for m in MERCHANTS:
-            user_exists = db.query(User).filter(User.merchant_id == m["merchant_id"]).first()
+            user_exists = db.query(User).filter(User.email == m["email"]).first()
             if not user_exists:
                 db.add(User(
                     name=f"{m['merchant_name']} Admin",
@@ -188,6 +188,17 @@ def seed_database(db: Session):
                     merchant_id=m["merchant_id"],
                     merchant_name=m["merchant_name"]
                 ))
+        # Ensure demo merchant@razorcart.ai is always present
+        if not db.query(User).filter(User.email == "merchant@razorcart.ai").first():
+            db.add(User(
+                name="Arjun Mehta (Store Admin)",
+                email="merchant@razorcart.ai",
+                hashed_password=_hash("merchant123"),
+                role="merchant",
+                city="Bengaluru",
+                merchant_id="merch_001",
+                merchant_name="RazorCart Official Store"
+            ))
         db.commit()
 
     # Razorpay Admin
