@@ -33,7 +33,6 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showCityMenu, setShowCityMenu] = useState(false);
-  const [showSearchModal, setShowSearchModal] = useState(false);
 
   const cities = [
     { name: "Bengaluru", state: "Karnataka" },
@@ -43,95 +42,92 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
     { name: "Chennai", state: "Tamil Nadu" },
   ];
 
-  const navMenuItems = [
+  // Original E-Commerce Bar Headings & Titles with Razorpay-style interactive dropdowns
+  const navCategories = [
     {
-      id: "agentic",
-      label: "Agentic Stack",
-      isSpecial: true,
-      category: "ALL",
+      label: "MEN",
+      cat: "MEN",
       dropdown: {
-        title: "MULTI-AGENT COMMERCE CORE",
-        items: [
-          { name: "Semantic Discovery Agent", desc: "Vector catalog ranking & customer intent", query: "Show semantic discovery top ranked items" },
-          { name: "Autonomous Upsell Engine", desc: "Frequently Bought Together pairings", query: "Show frequently bought together accessories" },
-          { name: "High-Velocity Checkout Agent", desc: "Dynamic price locks & instant authorization", query: "Proceed to fast checkout" },
-          { name: "504 Failure Recovery Agent", desc: "Zero-dropoff dynamic UPI QR fallback", query: "Simulate gateway timeout recovery" },
+        title: "MEN'S COLLECTION",
+        subcategories: [
+          { name: "Running & Sports Shoes", query: "Show top rated men's running shoes" },
+          { name: "Casual Sneakers & Loafers", query: "Show men's white sneakers" },
+          { name: "T-Shirts & Polos", query: "Show men's cotton t-shirts" },
+          { name: "Jackets & Activewear", query: "Show men's jackets and activewear" },
         ]
       }
     },
     {
-      id: "payments",
-      label: "Payments",
-      category: "ELECTRONICS",
+      label: "WOMEN",
+      cat: "WOMEN",
       dropdown: {
-        title: "PAYMENT SOLUTIONS",
-        items: [
-          { name: "Payment Gateway", desc: "Accept 100+ payment modes in Test Sandbox", category: "ELECTRONICS" },
-          { name: "Payment Links & UPI QR", desc: "Dynamic intent strings & 15-min price hold", query: "Show dynamic UPI QR payment fallback" },
-          { name: "Subscriptions & Recurring", desc: "Automated billing for premium members", category: "APPLIANCES" },
-          { name: "Smart Collect & Reconcile", desc: "Virtual VPA accounts for instant verify", category: "ALL" },
+        title: "WOMEN'S COLLECTION",
+        subcategories: [
+          { name: "Dresses & Western Wear", query: "Show women's western dresses" },
+          { name: "Ethnic Wear & Kurtas", query: "Show women's ethnic kurtas" },
+          { name: "Footwear & Heels", query: "Show women's footwear and sandals" },
+          { name: "Handbags & Accessories", query: "Show women's designer handbags" },
         ]
       }
     },
     {
-      id: "banking",
-      label: "Banking+",
-      category: "HOME & KITCHEN",
+      label: "ELECTRONICS",
+      cat: "ELECTRONICS",
       dropdown: {
-        title: "BUSINESS BANKING & CATALOG",
-        items: [
-          { name: "Store Product Catalog", desc: "Manage catalog with live vector indexing", link: "/merchant/dashboard" },
-          { name: "Merchant Revenue Ledger", desc: "Real-time AI profit attribution & telemetry", link: "/merchant/dashboard" },
-          { name: "Corporate Admin Suite", desc: "System-wide audit ledger and telemetry", link: "/admin/dashboard" },
+        title: "ELECTRONICS & AUDIO",
+        subcategories: [
+          { name: "Wireless Earbuds & Headphones", query: "Show noise cancelling wireless headphones" },
+          { name: "Smartwatches & Fitness Bands", query: "Show smartwatches with health tracking" },
+          { name: "Smart Speakers & Tech", query: "Show smart speakers and home audio" },
         ]
       }
     },
     {
-      id: "payroll",
-      label: "Payroll",
-      category: "MEN",
-      active: true, // Matching screenshot with Payroll active tab
+      label: "APPLIANCES",
+      cat: "APPLIANCES",
       dropdown: {
-        title: "PAYROLL",
-        items: [
-          { name: "For Startups & SMEs", desc: "Automated salary & tax compliance", category: "MEN" },
-          { name: "For Enterprises", desc: "High scale custom HRMS workflows", isNew: true, category: "WOMEN" },
+        title: "HOME APPLIANCES",
+        subcategories: [
+          { name: "Kitchen Appliances", query: "Show smart kitchen appliances and air fryers" },
+          { name: "Personal Grooming", query: "Show trimmers and hair stylers" },
         ]
       }
     },
     {
-      id: "engage",
-      label: "Engage",
-      category: "WOMEN",
+      label: "HOME",
+      cat: "HOME & KITCHEN",
       dropdown: {
-        title: "CUSTOMER ENGAGEMENT",
-        items: [
-          { name: "Verified Customer Reviews", desc: "Deep sentiment analysis from buyers", query: "Show top customer ratings and reviews" },
-          { name: "Express Local Delivery", desc: "Geo-targeted inventory from local sellers", query: "Show local sellers in my city" },
-          { name: "Magic 1-Click Checkout", desc: "Zero form fill fast buyer conversion", category: "WOMEN" },
+        title: "HOME & LIVING",
+        subcategories: [
+          { name: "Home Decor & Lighting", query: "Show modern home decor and lamps" },
+          { name: "Cookware & Dining", query: "Show nonstick cookware and dinnerware" },
         ]
       }
     },
     {
-      id: "partners",
-      label: "Partners",
-      category: "BEAUTY & PERSONAL CARE",
+      label: "BEAUTY",
+      cat: "BEAUTY & PERSONAL CARE",
+      dropdown: {
+        title: "BEAUTY & PERSONAL CARE",
+        subcategories: [
+          { name: "Skincare Essentials", query: "Show top rated skincare and serums" },
+          { name: "Fragrances & Perfumes", query: "Show luxury perfumes and mists" },
+        ]
+      }
     },
     {
-      id: "startups",
-      label: "Startups",
-      category: "ALL",
+      label: "STUDIO",
+      cat: "ALL",
+      isNew: true,
+      dropdown: {
+        title: "AGENTIC COMMERCE STUDIO",
+        subcategories: [
+          { name: "AI Semantic Search", query: "Explore semantic recommendation feed" },
+          { name: "Frequently Bought Together", query: "Show frequently bought together bundle pairings" },
+          { name: "Zero-Dropoff Payment Recovery", query: "Explain 504 gateway recovery workflow" },
+        ]
+      }
     },
-    {
-      id: "resources",
-      label: "Resources",
-      link: "/merchant/dashboard"
-    },
-    {
-      id: "pricing",
-      label: "Pricing",
-      query: "What are the pricing rules and AI discounts available?"
-    }
   ];
 
   const handleSearchSubmit = (e) => {
@@ -141,14 +137,15 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
     }
   };
 
-  const handleItemClick = (item) => {
-    if (item.link) {
-      navigate(item.link);
-    } else if (item.query) {
+  const handleCategorySelect = (cat) => {
+    setSelectedCategory(cat);
+    setActiveDropdown(null);
+  };
+
+  const handleSubcategoryClick = (sub) => {
+    if (sub.query) {
       setIsAgentOpen(true);
-      sendMessage(item.query);
-    } else if (item.category) {
-      setSelectedCategory(item.category);
+      sendMessage(sub.query);
     }
     setActiveDropdown(null);
   };
@@ -157,88 +154,77 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
     <header className="sticky top-0 z-40 bg-white border-b border-[#e2e8f0] shadow-xs">
       <div className="max-w-[1440px] mx-auto px-4 md:px-8 h-18 flex items-center justify-between gap-4">
         
-        {/* ── Left: Official Razorpay Brand & Nav Tabs ── */}
+        {/* ── Left: Razorcart AI Brand Logo & Category Headings ── */}
         <div className="flex items-center gap-6 lg:gap-8">
           
-          {/* Razorpay Brand Monogram Logo */}
+          {/* Razorcart AI Brand Logo with Razorpay Slash Monogram */}
           <div 
             onClick={() => { setSelectedCategory("ALL"); onSearch(""); navigate('/'); }}
-            className="flex items-center gap-1.5 cursor-pointer group select-none py-1 shrink-0"
-            title="Razorpay / Razorcart AI"
+            className="flex items-center gap-2 cursor-pointer group select-none py-1 shrink-0"
+            title="Razorcart AI"
           >
             <RazorpayLogo className="w-7 h-7" />
             <div className="flex items-baseline font-sans">
-              <span className="font-extrabold text-[22px] tracking-tight text-[#0c2340] italic">
-                Razorpay
+              <span className="font-extrabold text-[22px] tracking-tight text-[#0b72e7] italic group-hover:text-[#0052cc] transition-colors">
+                Razorcart
               </span>
-              <span className="text-[10px] font-bold text-[#00b386] ml-1 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
+              <span className="font-extrabold text-base text-[#0c2340] ml-1 tracking-tight">
                 AI
               </span>
             </div>
           </div>
 
-          {/* Navigation Links with Hover Dropdown (Matching Screenshot) */}
-          <nav className="hidden xl:flex items-center gap-5 relative">
-            {navMenuItems.map((item) => {
-              const isSelected = item.active || (item.category && selectedCategory === item.category);
-              const isOpen = activeDropdown === item.id;
+          {/* Navigation Category Tabs (Original Headings) with Razorpay Blue Underline & Dropdowns */}
+          <nav className="hidden lg:flex items-center gap-6 relative">
+            {navCategories.map((item) => {
+              const isSelected = selectedCategory === item.cat || (item.label === "STUDIO" && selectedCategory === "ALL");
+              const isOpen = activeDropdown === item.label;
 
               return (
                 <div
-                  key={item.id}
+                  key={item.label}
                   className="relative"
-                  onMouseEnter={() => item.dropdown && setActiveDropdown(item.id)}
+                  onMouseEnter={() => setActiveDropdown(item.label)}
                   onMouseLeave={() => setActiveDropdown(null)}
                 >
                   <button
-                    onClick={() => handleItemClick(item)}
-                    className={`text-[13px] font-semibold tracking-tight transition-all relative py-6 flex items-center gap-1 cursor-pointer select-none ${
-                      item.isSpecial
-                        ? "text-[#00b386] font-bold hover:text-[#009973]"
-                        : isSelected
-                          ? "text-[#0b72e7] font-bold" 
-                          : "text-[#0c2340] hover:text-[#0b72e7]"
+                    onClick={() => handleCategorySelect(item.cat)}
+                    className={`text-[13px] font-bold tracking-tight uppercase transition-all relative py-6 flex items-center gap-1 cursor-pointer select-none ${
+                      isSelected
+                        ? "text-[#0b72e7]" 
+                        : "text-[#0c2340] hover:text-[#0b72e7]"
                     }`}
                   >
                     <span>{item.label}</span>
-                    {item.dropdown && (
-                      <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                    {item.isNew && (
+                      <span className="text-[9px] font-black uppercase text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200 ml-0.5">
+                        NEW
+                      </span>
                     )}
 
-                    {/* Active State Bottom Blue Bar (Exact match to screenshot under Payroll) */}
+                    {/* Active State Rounded Blue Underline Bar (Razorpay style) */}
                     {isSelected && (
                       <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#0b72e7] rounded-full" />
                     )}
                   </button>
 
-                  {/* Dropdown Card */}
+                  {/* Razorpay-style Hover Dropdown */}
                   {isOpen && item.dropdown && (
-                    <div className="absolute left-0 top-full -mt-1 w-64 bg-white border border-[#e2e8f0] rounded-2xl shadow-2xl p-3 z-50 animate-fade-in text-left">
+                    <div className="absolute left-0 top-full -mt-1 w-64 bg-white border border-[#e2e8f0] rounded-2xl shadow-2xl p-3.5 z-50 animate-fade-in text-left">
                       <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider px-2 py-1">
                         {item.dropdown.title}
                       </p>
                       <div className="space-y-1 mt-1">
-                        {item.dropdown.items.map((sub, sIdx) => (
+                        {item.dropdown.subcategories.map((sub, sIdx) => (
                           <div
                             key={sIdx}
-                            onClick={() => handleItemClick(sub)}
-                            className="p-2 rounded-xl hover:bg-[#f0f7ff] cursor-pointer transition-colors group"
+                            onClick={() => handleSubcategoryClick(sub)}
+                            className="p-2 rounded-xl hover:bg-[#f0f7ff] cursor-pointer transition-colors group flex items-center justify-between"
                           >
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs font-bold text-[#0c2340] group-hover:text-[#0b72e7] transition-colors">
-                                {sub.name}
-                              </span>
-                              {sub.isNew && (
-                                <span className="text-[9px] font-black uppercase text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
-                                  NEW
-                                </span>
-                              )}
-                            </div>
-                            {sub.desc && (
-                              <p className="text-[11px] text-slate-500 line-clamp-1 mt-0.5">
-                                {sub.desc}
-                              </p>
-                            )}
+                            <span className="text-xs font-bold text-[#0c2340] group-hover:text-[#0b72e7] transition-colors">
+                              {sub.name}
+                            </span>
+                            <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-[#0b72e7] transition-colors" />
                           </div>
                         ))}
                       </div>
@@ -251,19 +237,19 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
 
         </div>
 
-        {/* ── Right Actions: Search, Support, Country Flag, Login & Sign Up CTA ── */}
+        {/* ── Right Actions: Search Bar, Support, Country Flag, Login & Sign Up CTA ── */}
         <div className="flex items-center gap-3 md:gap-4">
           
-          {/* Quick Search Trigger */}
-          <div className="hidden lg:block relative w-48 xl:w-56">
+          {/* Quick Search Input */}
+          <div className="hidden sm:block relative w-44 md:w-56">
             <form onSubmit={handleSearchSubmit} className="relative flex items-center">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-3.5 h-3.5" />
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search products, brands..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-xs text-[#0c2340] placeholder-slate-400 focus:bg-white focus:border-[#0b72e7] focus:outline-none transition-all"
+                className="w-full pl-8 pr-3 py-1.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-lg text-xs text-[#0c2340] placeholder-slate-400 focus:bg-white focus:border-[#0b72e7] focus:outline-none transition-all font-medium"
               />
             </form>
           </div>
@@ -281,7 +267,7 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
             <Headphones className="w-5 h-5" />
           </button>
 
-          {/* Country / City Selector Flag (Matching Screenshot 🇮🇳 ⌵) */}
+          {/* Country / City Selector Flag (🇮🇳 ⌵) */}
           <div className="relative">
             <button
               onClick={() => setShowCityMenu(!showCityMenu)}
@@ -337,7 +323,7 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
             )}
           </button>
 
-          {/* ── Login & Sign Up CTA Buttons (Exact match to screenshot) ── */}
+          {/* ── Profile or Razorpay-style Login & Sign Up CTA Buttons ── */}
           {currentUser ? (
             <div
               className="relative"
