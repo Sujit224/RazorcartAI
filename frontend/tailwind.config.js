@@ -21,7 +21,8 @@ export default {
         }
       },
       fontFamily: {
-        sans: ['Assistant', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
       },
       boxShadow: {
         'myntra-card': '0 2px 16px 0 rgba(0, 0, 0, 0.08)',
