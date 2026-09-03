@@ -80,7 +80,7 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
             contact: '9876543210'
           },
           theme: {
-            color: '#FF3F6C'
+            color: '#0066CC'
           },
           modal: {
             ondismiss: function () {
@@ -151,19 +151,19 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
       <div className="bg-white w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden border border-gray-100 animate-fade-in">
         
         {/* Modal Header */}
-        <div className="bg-white text-[#282c3f] p-5 flex items-center justify-between border-b border-[#eaeaec]">
+        <div className="bg-white text-[#0c2340] p-5 flex items-center justify-between border-b border-[#e2e8f0]">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-[#ff3f6c] flex items-center justify-center font-bold text-white text-sm">
+            <div className="w-8 h-8 rounded-lg bg-[#0066cc] flex items-center justify-center font-bold text-white text-sm">
               R
             </div>
             <div>
-              <h3 className="font-bold text-base text-[#282c3f]">Razorpay Test Gateway</h3>
+              <h3 className="font-bold text-base text-[#0c2340]">Razorpay Test Gateway</h3>
               <p className="text-xs text-[#94969f]">Secure 256-Bit Encrypted Payment Session</p>
             </div>
           </div>
           <button
             onClick={() => setIsCheckoutModalOpen(false)}
-            className="text-gray-400 hover:text-[#282c3f] transition-colors p-1 rounded-full hover:bg-gray-100"
+            className="text-gray-400 hover:text-[#0c2340] transition-colors p-1 rounded-full hover:bg-gray-100"
           >
             <X className="w-5 h-5" />
           </button>
@@ -185,8 +185,8 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
                   <span className="font-semibold text-gray-800">{currentUser?.name} ({currentUser?.city})</span>
                 </div>
                 <div className="pt-2 border-t border-gray-200 flex justify-between items-center">
-                  <span className="text-sm font-extrabold text-[#282c3f]">Total Payable:</span>
-                  <span className="text-lg font-black text-[#ff3f6c]">
+                  <span className="text-sm font-extrabold text-[#0c2340]">Total Payable:</span>
+                  <span className="text-lg font-black text-[#0066cc]">
                     Rs. {Math.round(totalAmount).toLocaleString()}
                   </span>
                 </div>
@@ -195,15 +195,15 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
               {/* Payment Methods */}
               <div className="space-y-2">
                 <p className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Select Payment Method</p>
-                <div className="p-3 border-2 border-[#ff3f6c] bg-pink-50/30 rounded-xl flex items-center justify-between cursor-pointer">
+                <div className="p-3 border-2 border-[#0066cc] bg-[#f0f7ff]/30 rounded-xl flex items-center justify-between cursor-pointer">
                   <div className="flex items-center gap-3">
-                    <CreditCard className="w-5 h-5 text-[#ff3f6c]" />
+                    <CreditCard className="w-5 h-5 text-[#0066cc]" />
                     <div>
                       <p className="text-xs font-extrabold text-gray-900">Razorpay Standard Checkout (Popup / UPI / Card)</p>
                       <p className="text-[11px] text-gray-500">Live Test Sandbox with Cards, UPI, Netbanking</p>
                     </div>
                   </div>
-                  <span className="w-4 h-4 rounded-full border-4 border-[#ff3f6c] bg-white"></span>
+                  <span className="w-4 h-4 rounded-full border-4 border-[#0066cc] bg-white"></span>
                 </div>
               </div>
 
@@ -212,7 +212,7 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
                 <button
                   onClick={handlePayWithRazorpay}
                   disabled={loading}
-                  className="w-full py-3 bg-[#ff3f6c] hover:bg-[#e0355d] text-white font-extrabold text-sm rounded-xl shadow-md transition-colors uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full py-3 bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-sm rounded-xl shadow-md transition-colors uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <ShieldCheck className="w-4 h-4" />
                   <span>{loading ? "INITIALIZING RAZORPAY..." : `PAY RS. ${Math.round(totalAmount).toLocaleString()} WITH RAZORPAY`}</span>
@@ -233,8 +233,8 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
 
           {paymentStep === 'processing' && (
             <div className="py-12 text-center space-y-4">
-              <RefreshCw className="w-10 h-10 text-[#ff3f6c] animate-spin mx-auto" />
-              <p className="text-sm font-extrabold text-[#282c3f]">Connecting to Razorpay Banking Gateway...</p>
+              <RefreshCw className="w-10 h-10 text-[#0066cc] animate-spin mx-auto" />
+              <p className="text-sm font-extrabold text-[#0c2340]">Connecting to Razorpay Banking Gateway...</p>
               <p className="text-xs text-gray-500">Verifying authorization and recording to Immutable Ledger...</p>
             </div>
           )}
@@ -256,13 +256,13 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
               {/* Dynamic QR Display */}
               <div className="bg-white p-4 border border-gray-200 rounded-xl text-center shadow-inner">
                 <div className="w-40 h-40 mx-auto bg-gray-900 rounded-lg p-3 flex flex-col items-center justify-center text-white text-center">
-                  <QrCode className="w-24 h-24 text-pink-400 mb-1" />
+                  <QrCode className="w-24 h-24 text-[#0066cc] mb-1" />
                   <span className="text-[10px] font-mono tracking-wider">{upiData?.vpa || "razorcart.merchant@upi"}</span>
                 </div>
                 
                 <div className="mt-3">
                   <p className="text-xs font-bold text-gray-700">Amount: Rs. {Math.round(totalAmount).toLocaleString()}</p>
-                  <div className="inline-flex items-center gap-1 text-[11px] font-bold text-pink-600 bg-pink-50 px-2 py-0.5 rounded-full mt-1">
+                  <div className="inline-flex items-center gap-1 text-[11px] font-bold text-[#0066cc] bg-[#f0f7ff] px-2 py-0.5 rounded-full mt-1">
                     <Clock className="w-3 h-3" />
                     <span>Price Held for 14:59 mins</span>
                   </div>
@@ -309,12 +309,12 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
                 <CheckCircle2 className="w-10 h-10" />
               </div>
               <div>
-                <h4 className="text-lg font-black text-[#282c3f]">Order Confirmed!</h4>
+                <h4 className="text-lg font-black text-[#0c2340]">Order Confirmed!</h4>
                 <p className="text-xs text-gray-500 mt-1">
                   Payment of <strong className="text-emerald-700">Rs. {Math.round(totalAmount).toLocaleString()}</strong> was successfully processed.
                 </p>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  Delivering to <strong className="text-gray-800">{currentUser?.name}</strong> in <strong className="text-[#ff3f6c]">{currentUser?.city}</strong>.
+                  Delivering to <strong className="text-gray-800">{currentUser?.name}</strong> in <strong className="text-[#0066cc]">{currentUser?.city}</strong>.
                 </p>
               </div>
 
@@ -324,7 +324,7 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
                     handleClose();
                     setPaymentStep('gateway');
                   }}
-                  className="px-5 py-2.5 bg-[#ff3f6c] hover:bg-[#e62e5b] text-white font-bold text-xs rounded-lg uppercase tracking-wider transition-colors cursor-pointer"
+                  className="px-5 py-2.5 bg-[#0066cc] hover:bg-[#0052a3] text-white font-bold text-xs rounded-lg uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   Continue Shopping
                 </button>

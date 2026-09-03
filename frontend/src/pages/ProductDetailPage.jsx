@@ -75,7 +75,7 @@ export default function ProductDetailPage() {
         <Navbar onSearch={() => {}} searchQuery="" setSearchQuery={() => {}} selectedCategory="ALL" setSelectedCategory={() => {}} />
         <div className="flex-1 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-[#ff3f6c] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+            <div className="w-12 h-12 border-4 border-[#0066cc] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
             <p className="text-xs font-bold text-gray-500">Loading Product Details…</p>
           </div>
         </div>
@@ -89,7 +89,7 @@ export default function ProductDetailPage() {
         <Navbar onSearch={() => {}} searchQuery="" setSearchQuery={() => {}} selectedCategory="ALL" setSelectedCategory={() => {}} />
         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
           <h2 className="text-xl font-bold text-gray-800 mb-2">Product Not Found</h2>
-          <button onClick={() => navigate('/')} className="px-5 py-2.5 bg-[#ff3f6c] text-white font-bold text-xs rounded-lg">
+          <button onClick={() => navigate('/')} className="px-5 py-2.5 bg-[#0066cc] text-white font-bold text-xs rounded-lg">
             Back to Storefront
           </button>
         </div>
@@ -115,7 +115,7 @@ export default function ProductDetailPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-[#282c3f] flex flex-col font-sans">
+    <div className="min-h-screen bg-white text-[#0c2340] flex flex-col font-sans">
       <Navbar
         onSearch={(q) => navigate(`/?search=${encodeURIComponent(q)}`)}
         searchQuery=""
@@ -131,7 +131,7 @@ export default function ProductDetailPage() {
         {/* Breadcrumb & Back Link */}
         <div className="flex items-center justify-between mb-6 text-xs text-gray-500 font-semibold">
           <div className="flex items-center gap-2">
-            <Link to="/" className="hover:text-[#ff3f6c] transition-colors">Home</Link>
+            <Link to="/" className="hover:text-[#0066cc] transition-colors">Home</Link>
             <ChevronRight className="w-3 h-3 text-gray-400" />
             <span className="capitalize">{product.category}</span>
             <ChevronRight className="w-3 h-3 text-gray-400" />
@@ -152,7 +152,7 @@ export default function ProductDetailPage() {
           
           {/* Left Column: Product Image Showcase (Compact & Centered) */}
           <div className="lg:col-span-5 lg:sticky lg:top-24 space-y-4">
-            <div className="relative w-full max-w-[420px] mx-auto bg-white border border-[#eaeaec] rounded-xl overflow-hidden shadow-sm flex items-center justify-center p-2">
+            <div className="relative w-full max-w-[420px] mx-auto bg-white border border-[#e2e8f0] rounded-xl overflow-hidden shadow-sm flex items-center justify-center p-2">
               <img
                 src={product.image_url}
                 alt={product.title}
@@ -168,7 +168,7 @@ export default function ProductDetailPage() {
               )}
 
               {/* Rating & Review Overlay Badge */}
-              <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1 rounded-md border border-[#eaeaec] shadow-sm flex items-center gap-1.5 text-xs font-bold text-[#282c3f]">
+              <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-3 py-1 rounded-md border border-[#e2e8f0] shadow-sm flex items-center gap-1.5 text-xs font-bold text-[#0c2340]">
                 <span className="text-xs font-bold">{product.rating || 4.5}</span>
                 <Star className="w-3.5 h-3.5 fill-emerald-600 text-emerald-600" />
                 <span className="text-gray-300 font-light">|</span>
@@ -181,8 +181,8 @@ export default function ProductDetailPage() {
           <div className="lg:col-span-7 flex flex-col justify-between">
             <div>
               {/* Brand & Title */}
-              <h1 className="text-2xl md:text-3xl font-black text-[#282c3f] tracking-tight">{product.brand}</h1>
-              <p className="text-base text-[#535766] font-medium mt-1">{product.title}</p>
+              <h1 className="text-2xl md:text-3xl font-black text-[#0c2340] tracking-tight">{product.brand}</h1>
+              <p className="text-base text-[#5c6f84] font-medium mt-1">{product.title}</p>
 
               {/* Rating Summary Bar */}
               <div className="mt-3 flex items-center gap-3">
@@ -197,7 +197,7 @@ export default function ProductDetailPage() {
 
               {/* Pricing Section */}
               <div className="mt-6 pt-6 border-t border-gray-200 flex items-baseline gap-3">
-                <span className="text-3xl font-black text-[#282c3f]">Rs. {int(product.price)}</span>
+                <span className="text-3xl font-black text-[#0c2340]">Rs. {int(product.price)}</span>
                 {product.original_price > product.price && (
                   <>
                     <span className="text-base text-gray-400 line-through">Rs. {int(product.original_price)}</span>
@@ -219,7 +219,7 @@ export default function ProductDetailPage() {
               <div className="mt-6">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-extrabold uppercase tracking-wider text-gray-700">Select Size</span>
-                  <span className="text-xs text-[#ff3f6c] font-bold cursor-pointer hover:underline">Size Chart</span>
+                  <span className="text-xs text-[#0066cc] font-bold cursor-pointer hover:underline">Size Chart</span>
                 </div>
                 <div className="flex flex-wrap gap-2.5">
                   {sizes.map((sz) => (
@@ -228,7 +228,7 @@ export default function ProductDetailPage() {
                       onClick={() => setSelectedSize(sz)}
                       className={`w-14 h-14 rounded-xl text-xs font-bold transition-all border ${
                         selectedSize === sz
-                          ? 'border-[#ff3f6c] text-[#ff3f6c] bg-pink-50/50 shadow-sm font-extrabold scale-105'
+                          ? 'border-[#0066cc] text-[#0066cc] bg-[#f0f7ff]/50 shadow-sm font-extrabold scale-105'
                           : 'border-gray-200 text-gray-700 hover:border-gray-400'
                       }`}
                     >
@@ -242,7 +242,7 @@ export default function ProductDetailPage() {
               <div className="mt-8 flex items-center gap-4">
                 <button
                   onClick={handleAdd}
-                  className="flex-1 py-4 rounded-xl bg-[#ff3f6c] hover:bg-[#e0355d] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
+                  className="flex-1 py-4 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   <span>Add to Bag</span>
@@ -253,7 +253,7 @@ export default function ProductDetailPage() {
                   className="px-5 py-4 rounded-xl bg-gray-900 hover:bg-black text-white font-extrabold text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 transition-all"
                   title="Ask AI Copilot about fit, performance & reviews"
                 >
-                  <Bot className="w-4 h-4 text-[#ff3f6c]" />
+                  <Bot className="w-4 h-4 text-[#0066cc]" />
                   <span>Ask AI</span>
                 </button>
               </div>
@@ -261,7 +261,7 @@ export default function ProductDetailPage() {
               {/* Shipping & Delivery Info */}
               <div className="mt-8 p-4 bg-gray-50 rounded-2xl border border-gray-200/80 space-y-3 text-xs">
                 <div className="flex items-center gap-3 text-gray-700 font-medium">
-                  <Truck className="w-4 h-4 text-[#ff3f6c]" />
+                  <Truck className="w-4 h-4 text-[#0066cc]" />
                   <span>Get it delivered in <strong>2-3 Business Days</strong></span>
                 </div>
                 <div className="flex items-center gap-3 text-gray-700 font-medium">
@@ -293,7 +293,7 @@ export default function ProductDetailPage() {
                           <img src={fbt.image_url} alt="" className="w-12 h-12 rounded-lg object-cover" />
                           <div className="min-w-0">
                             <p className="text-xs font-bold text-gray-900 truncate">{fbt.title}</p>
-                            <p className="text-xs font-extrabold text-[#ff3f6c]">Rs. {int(fbt.price)}</p>
+                            <p className="text-xs font-extrabold text-[#0066cc]">Rs. {int(fbt.price)}</p>
                           </div>
                         </div>
                         <button
@@ -316,7 +316,7 @@ export default function ProductDetailPage() {
                 </div>
                 <button
                   onClick={() => setIsReviewsModalOpen(true)}
-                  className="text-xs font-extrabold text-[#ff3f6c] border border-[#ff3f6c]/30 bg-pink-50 hover:bg-pink-100 px-4 py-2 rounded-xl flex items-center gap-1.5 transition-colors"
+                  className="text-xs font-extrabold text-[#0066cc] border border-[#0066cc]/30 bg-[#f0f7ff] hover:bg-pink-100 px-4 py-2 rounded-xl flex items-center gap-1.5 transition-colors"
                 >
                   <MessageSquare className="w-4 h-4" />
                   <span>Read & Write Reviews</span>
@@ -334,7 +334,7 @@ export default function ProductDetailPage() {
       <footer className="bg-gray-50 border-t border-gray-200 mt-16 py-8">
         <div className="max-w-[1400px] mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
           <div>
-            <span className="font-extrabold text-[#282c3f]">RazorCartAI</span> • Agentic AI E-Commerce Platform
+            <span className="font-extrabold text-[#0c2340]">RazorCartAI</span> • Agentic AI E-Commerce Platform
           </div>
           <div className="flex items-center gap-4">
             <span>LangGraph Multi-Agent Engine</span>

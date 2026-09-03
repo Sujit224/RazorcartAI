@@ -7,17 +7,33 @@ export default {
   theme: {
     extend: {
       colors: {
+        brand: {
+          blue: "#0066cc",
+          blueHover: "#0052a3",
+          electric: "#0b72e7",
+          navy: "#0c2340",
+          navyLight: "#182c4f",
+          slate: "#5c6f84",
+          slateLight: "#94a3b8",
+          emerald: "#00b386",
+          emeraldHover: "#009973",
+          emeraldLight: "#e6f7f3",
+          ice: "#f0f7ff",
+          iceDark: "#e2effa",
+          border: "#e2e8f0",
+          bg: "#f8fafc",
+        },
         myntra: {
-          pink: "#ff3f6c",
-          pinkHover: "#e62e5b",
-          orange: "#f26a10",
-          yellow: "#ff905a",
-          dark: "#282c3f",
-          charcoal: "#535766",
-          lightGray: "#f5f5f6",
-          border: "#eaeaec",
-          ratingGreen: "#14958f",
-          emerald: "#03a685"
+          pink: "#0066cc",
+          pinkHover: "#0052a3",
+          orange: "#0b72e7",
+          yellow: "#00b386",
+          dark: "#0c2340",
+          charcoal: "#5c6f84",
+          lightGray: "#f8fafc",
+          border: "#e2e8f0",
+          ratingGreen: "#00b386",
+          emerald: "#00b386"
         }
       },
       fontFamily: {
@@ -25,9 +41,9 @@ export default {
         heading: ['"Plus Jakarta Sans"', 'sans-serif'],
       },
       boxShadow: {
-        'myntra-card': '0 2px 16px 0 rgba(0, 0, 0, 0.08)',
-        'myntra-hover': '0 8px 24px 0 rgba(0, 0, 0, 0.12)',
-        'agent-glow': '0 0 25px rgba(255, 63, 108, 0.25)'
+        'brand-card': '0 2px 12px 0 rgba(12, 35, 64, 0.06)',
+        'brand-hover': '0 8px 24px 0 rgba(12, 35, 64, 0.1)',
+        'agent-glow': '0 0 25px rgba(0, 179, 134, 0.25)'
       }
     },
   },

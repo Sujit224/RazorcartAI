@@ -69,7 +69,7 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-white text-[#282c3f] flex flex-col font-sans">
+    <div className="min-h-screen bg-white text-[#0c2340] flex flex-col font-sans">
       {/* Universal Myntra Navbar */}
       <Navbar
         onSearch={(q) => navigate(`/?search=${encodeURIComponent(q)}`)}
@@ -84,22 +84,22 @@ export default function ProfilePage() {
         
         {/* Breadcrumb */}
         <div className="text-xs text-[#94969f] mb-6 flex items-center gap-1.5 font-normal">
-          <Link to="/" className="hover:text-[#ff3f6c] transition-colors">Home</Link>
+          <Link to="/" className="hover:text-[#0066cc] transition-colors">Home</Link>
           <span>/</span>
-          <span className="font-bold text-[#282c3f]">My Account</span>
+          <span className="font-bold text-[#0c2340]">My Account</span>
           <span>/</span>
-          <span className="capitalize font-semibold text-[#535766]">{activeTab}</span>
+          <span className="capitalize font-semibold text-[#5c6f84]">{activeTab}</span>
         </div>
 
         {/* Account Grid: Left Sidebar + Right Content */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           
           {/* ── Left Sidebar Navigation with Exact Myntra Typography ── */}
-          <div className="md:col-span-4 lg:col-span-3 bg-white border border-[#eaeaec] py-4 sticky top-24">
+          <div className="md:col-span-4 lg:col-span-3 bg-white border border-[#e2e8f0] py-4 sticky top-24">
             
             {/* Account Header */}
-            <div className="px-5 pb-3 border-b border-[#eaeaec]">
-              <h1 className="text-lg font-bold text-[#282c3f]">Account</h1>
+            <div className="px-5 pb-3 border-b border-[#e2e8f0]">
+              <h1 className="text-lg font-bold text-[#0c2340]">Account</h1>
               <p className="text-xs text-[#94969f] mt-0.5">{currentUser?.name}</p>
             </div>
 
@@ -110,14 +110,14 @@ export default function ProfilePage() {
                 className={`w-full text-left px-5 py-2 text-[15px] transition-colors ${
                   activeTab === 'overview'
                     ? 'text-[#14958f] font-bold border-l-4 border-[#14958f] bg-teal-50/20'
-                    : 'text-[#282c3f] font-normal hover:text-[#ff3f6c] border-l-4 border-transparent'
+                    : 'text-[#0c2340] font-normal hover:text-[#0066cc] border-l-4 border-transparent'
                 }`}
               >
                 Overview
               </button>
             </div>
 
-            <div className="border-b border-[#eaeaec] mx-5 my-2" />
+            <div className="border-b border-[#e2e8f0] mx-5 my-2" />
 
             {/* ORDERS */}
             <div>
@@ -129,7 +129,7 @@ export default function ProfilePage() {
                 className={`w-full text-left px-5 py-1.5 text-[15px] transition-colors flex items-center justify-between ${
                   activeTab === 'orders'
                     ? 'text-[#14958f] font-bold border-l-4 border-[#14958f] bg-teal-50/20'
-                    : 'text-[#282c3f] font-normal hover:text-[#ff3f6c] border-l-4 border-transparent'
+                    : 'text-[#0c2340] font-normal hover:text-[#0066cc] border-l-4 border-transparent'
                 }`}
               >
                 <span>Orders & Returns</span>
@@ -141,7 +141,7 @@ export default function ProfilePage() {
               </button>
             </div>
 
-            <div className="border-b border-[#eaeaec] mx-5 my-2" />
+            <div className="border-b border-[#e2e8f0] mx-5 my-2" />
 
             {/* CREDITS */}
             <div>
@@ -153,7 +153,7 @@ export default function ProfilePage() {
                 className={`w-full text-left px-5 py-1.5 text-[15px] transition-colors ${
                   activeTab === 'coupons'
                     ? 'text-[#14958f] font-bold border-l-4 border-[#14958f] bg-teal-50/20'
-                    : 'text-[#282c3f] font-normal hover:text-[#ff3f6c] border-l-4 border-transparent'
+                    : 'text-[#0c2340] font-normal hover:text-[#0066cc] border-l-4 border-transparent'
                 }`}
               >
                 Coupons
@@ -163,7 +163,7 @@ export default function ProfilePage() {
                 className={`w-full text-left px-5 py-1.5 text-[15px] transition-colors ${
                   activeTab === 'credit'
                     ? 'text-[#14958f] font-bold border-l-4 border-[#14958f] bg-teal-50/20'
-                    : 'text-[#282c3f] font-normal hover:text-[#ff3f6c] border-l-4 border-transparent'
+                    : 'text-[#0c2340] font-normal hover:text-[#0066cc] border-l-4 border-transparent'
                 }`}
               >
                 Myntra Credit
@@ -173,14 +173,14 @@ export default function ProfilePage() {
                 className={`w-full text-left px-5 py-1.5 text-[15px] transition-colors ${
                   activeTab === 'myncash'
                     ? 'text-[#14958f] font-bold border-l-4 border-[#14958f] bg-teal-50/20'
-                    : 'text-[#282c3f] font-normal hover:text-[#ff3f6c] border-l-4 border-transparent'
+                    : 'text-[#0c2340] font-normal hover:text-[#0066cc] border-l-4 border-transparent'
                 }`}
               >
                 MynCash
               </button>
             </div>
 
-            <div className="border-b border-[#eaeaec] mx-5 my-2" />
+            <div className="border-b border-[#e2e8f0] mx-5 my-2" />
 
             {/* ACCOUNT */}
             <div>
@@ -192,7 +192,7 @@ export default function ProfilePage() {
                 className={`w-full text-left px-5 py-1.5 text-[15px] transition-colors ${
                   activeTab === 'profile'
                     ? 'text-[#14958f] font-bold border-l-4 border-[#14958f] bg-teal-50/20'
-                    : 'text-[#282c3f] font-normal hover:text-[#ff3f6c] border-l-4 border-transparent'
+                    : 'text-[#0c2340] font-normal hover:text-[#0066cc] border-l-4 border-transparent'
                 }`}
               >
                 Profile
@@ -202,7 +202,7 @@ export default function ProfilePage() {
                 className={`w-full text-left px-5 py-1.5 text-[15px] transition-colors ${
                   activeTab === 'payments'
                     ? 'text-[#14958f] font-bold border-l-4 border-[#14958f] bg-teal-50/20'
-                    : 'text-[#282c3f] font-normal hover:text-[#ff3f6c] border-l-4 border-transparent'
+                    : 'text-[#0c2340] font-normal hover:text-[#0066cc] border-l-4 border-transparent'
                 }`}
               >
                 Saved Cards
@@ -212,7 +212,7 @@ export default function ProfilePage() {
                 className={`w-full text-left px-5 py-1.5 text-[15px] transition-colors ${
                   activeTab === 'addresses'
                     ? 'text-[#14958f] font-bold border-l-4 border-[#14958f] bg-teal-50/20'
-                    : 'text-[#282c3f] font-normal hover:text-[#ff3f6c] border-l-4 border-transparent'
+                    : 'text-[#0c2340] font-normal hover:text-[#0066cc] border-l-4 border-transparent'
                 }`}
               >
                 Addresses
@@ -222,14 +222,14 @@ export default function ProfilePage() {
                 className={`w-full text-left px-5 py-1.5 text-[15px] transition-colors ${
                   activeTab === 'persona'
                     ? 'text-[#14958f] font-bold border-l-4 border-[#14958f] bg-teal-50/20'
-                    : 'text-[#282c3f] font-normal hover:text-[#ff3f6c] border-l-4 border-transparent'
+                    : 'text-[#0c2340] font-normal hover:text-[#0066cc] border-l-4 border-transparent'
                 }`}
               >
                 Zero-Query AI Persona
               </button>
             </div>
 
-            <div className="border-b border-[#eaeaec] mx-5 my-2" />
+            <div className="border-b border-[#e2e8f0] mx-5 my-2" />
 
             {/* AI & SYSTEM PORTALS */}
             <div>
@@ -241,14 +241,14 @@ export default function ProfilePage() {
                 className={`w-full text-left px-5 py-1.5 text-[15px] transition-colors ${
                   activeTab === 'portals'
                     ? 'text-[#14958f] font-bold border-l-4 border-[#14958f] bg-teal-50/20'
-                    : 'text-[#282c3f] font-normal hover:text-[#ff3f6c] border-l-4 border-transparent'
+                    : 'text-[#0c2340] font-normal hover:text-[#0066cc] border-l-4 border-transparent'
                 }`}
               >
                 Merchant & Admin Portals
               </button>
             </div>
 
-            <div className="border-b border-[#eaeaec] mx-5 my-2" />
+            <div className="border-b border-[#e2e8f0] mx-5 my-2" />
 
             {/* Logout Button */}
             <div className="px-5 py-1">
@@ -274,13 +274,13 @@ export default function ProfilePage() {
               <div className="space-y-6">
                 
                 {/* Profile Overview Banner */}
-                <div className="bg-white p-6 md:p-8 border border-[#eaeaec]">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#eaeaec]">
+                <div className="bg-white p-6 md:p-8 border border-[#e2e8f0]">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#e2e8f0]">
                     <div>
-                      <span className="text-[11px] font-normal uppercase tracking-widest text-[#ff3f6c] block mb-1">
+                      <span className="text-[11px] font-normal uppercase tracking-widest text-[#0066cc] block mb-1">
                         Verified Customer Profile
                       </span>
-                      <h1 className="text-2xl font-bold text-[#282c3f] tracking-tight">{currentUser?.name}</h1>
+                      <h1 className="text-2xl font-bold text-[#0c2340] tracking-tight">{currentUser?.name}</h1>
                       <p className="text-xs text-[#94969f] mt-0.5">Myntra • RazorCart AI Member since 2026</p>
                     </div>
 
@@ -304,22 +304,22 @@ export default function ProfilePage() {
 
                   {/* Clean Personal Information Table */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-6">
-                    <div className="border-b border-[#eaeaec] pb-3 space-y-1">
+                    <div className="border-b border-[#e2e8f0] pb-3 space-y-1">
                       <span className="text-[11px] font-normal text-[#94969f] uppercase tracking-wider block">Full Name</span>
-                      <p className="text-[15px] font-semibold text-[#282c3f]">{currentUser?.name}</p>
+                      <p className="text-[15px] font-semibold text-[#0c2340]">{currentUser?.name}</p>
                     </div>
 
-                    <div className="border-b border-[#eaeaec] pb-3 space-y-1">
+                    <div className="border-b border-[#e2e8f0] pb-3 space-y-1">
                       <span className="text-[11px] font-normal text-[#94969f] uppercase tracking-wider block">Email Address</span>
-                      <p className="text-[15px] font-semibold text-[#282c3f]">{currentUser?.email}</p>
+                      <p className="text-[15px] font-semibold text-[#0c2340]">{currentUser?.email}</p>
                     </div>
 
-                    <div className="border-b border-[#eaeaec] pb-3 space-y-1">
+                    <div className="border-b border-[#e2e8f0] pb-3 space-y-1">
                       <div className="flex items-center justify-between">
                         <span className="text-[11px] font-normal text-[#94969f] uppercase tracking-wider block">Delivery City (Proximity Engine)</span>
                         <button
                           onClick={() => setEditingCity(!editingCity)}
-                          className="text-xs text-[#ff3f6c] font-semibold hover:underline"
+                          className="text-xs text-[#0066cc] font-semibold hover:underline"
                         >
                           {editingCity ? 'Cancel' : 'Change City'}
                         </button>
@@ -330,7 +330,7 @@ export default function ProfilePage() {
                           <select
                             value={selectedCity}
                             onChange={(e) => setSelectedCity(e.target.value)}
-                            className="text-xs p-1.5 border border-gray-300 rounded bg-white font-semibold text-gray-800 focus:outline-none focus:border-[#ff3f6c]"
+                            className="text-xs p-1.5 border border-gray-300 rounded bg-white font-semibold text-gray-800 focus:outline-none focus:border-[#0066cc]"
                           >
                             {cities.map((c) => (
                               <option key={c} value={c}>{c}</option>
@@ -338,23 +338,23 @@ export default function ProfilePage() {
                           </select>
                           <button
                             onClick={() => handleCitySave(selectedCity)}
-                            className="px-3 py-1 bg-[#ff3f6c] text-white text-xs font-bold rounded shadow-sm hover:bg-[#e62e5b]"
+                            className="px-3 py-1 bg-[#0066cc] text-white text-xs font-bold rounded shadow-sm hover:bg-[#0052a3]"
                           >
                             Save
                           </button>
                         </div>
                       ) : (
-                        <p className="text-[15px] font-semibold text-[#282c3f] flex items-center gap-1.5">
-                          <MapPin className="w-4 h-4 text-[#ff3f6c]" />
+                        <p className="text-[15px] font-semibold text-[#0c2340] flex items-center gap-1.5">
+                          <MapPin className="w-4 h-4 text-[#0066cc]" />
                           <span>{currentUser?.city || 'Bengaluru'}</span>
                           <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 ml-2">Express Hub</span>
                         </p>
                       )}
                     </div>
 
-                    <div className="border-b border-[#eaeaec] pb-3 space-y-1">
+                    <div className="border-b border-[#e2e8f0] pb-3 space-y-1">
                       <span className="text-[11px] font-normal text-[#94969f] uppercase tracking-wider block">Account Type</span>
-                      <p className="text-[15px] font-semibold text-[#282c3f] capitalize">{currentUser?.role || 'Customer'}</p>
+                      <p className="text-[15px] font-semibold text-[#0c2340] capitalize">{currentUser?.role || 'Customer'}</p>
                     </div>
                   </div>
                 </div>
@@ -363,14 +363,14 @@ export default function ProfilePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                   <div
                     onClick={() => setActiveTab('orders')}
-                    className="bg-white p-5 border border-[#eaeaec] hover:border-[#282c3f] cursor-pointer transition-all flex flex-col justify-between group"
+                    className="bg-white p-5 border border-[#e2e8f0] hover:border-[#0c2340] cursor-pointer transition-all flex flex-col justify-between group"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-[11px] font-normal uppercase tracking-wider text-[#94969f]">Orders Summary</span>
-                      <span className="text-sm font-bold text-[#ff3f6c]">{orders.length} Placed</span>
+                      <span className="text-sm font-bold text-[#0066cc]">{orders.length} Placed</span>
                     </div>
                     <div>
-                      <h4 className="font-bold text-[16px] text-[#282c3f] group-hover:text-[#ff3f6c] transition-colors flex items-center justify-between">
+                      <h4 className="font-bold text-[16px] text-[#0c2340] group-hover:text-[#0066cc] transition-colors flex items-center justify-between">
                         <span>Orders & Returns</span>
                         <span className="text-gray-400 group-hover:translate-x-1 transition-transform">❯</span>
                       </h4>
@@ -380,14 +380,14 @@ export default function ProfilePage() {
 
                   <div
                     onClick={() => setActiveTab('persona')}
-                    className="bg-white p-5 border border-[#eaeaec] hover:border-[#282c3f] cursor-pointer transition-all flex flex-col justify-between group"
+                    className="bg-white p-5 border border-[#e2e8f0] hover:border-[#0c2340] cursor-pointer transition-all flex flex-col justify-between group"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-[11px] font-normal uppercase tracking-wider text-[#94969f]">AI Personalization</span>
                       <span className="text-[10px] font-semibold uppercase text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">Active Vectors</span>
                     </div>
                     <div>
-                      <h4 className="font-bold text-[16px] text-[#282c3f] group-hover:text-[#ff3f6c] transition-colors flex items-center justify-between">
+                      <h4 className="font-bold text-[16px] text-[#0c2340] group-hover:text-[#0066cc] transition-colors flex items-center justify-between">
                         <span>Zero-Query Persona</span>
                         <span className="text-gray-400 group-hover:translate-x-1 transition-transform">❯</span>
                       </h4>
@@ -397,14 +397,14 @@ export default function ProfilePage() {
 
                   <div
                     onClick={() => navigate('/cart')}
-                    className="bg-white p-5 border border-[#eaeaec] hover:border-[#282c3f] cursor-pointer transition-all flex flex-col justify-between group"
+                    className="bg-white p-5 border border-[#e2e8f0] hover:border-[#0c2340] cursor-pointer transition-all flex flex-col justify-between group"
                   >
                     <div className="flex items-center justify-between mb-4">
                       <span className="text-[11px] font-normal uppercase tracking-wider text-[#94969f]">Current Bag</span>
-                      <span className="text-sm font-bold text-[#282c3f]">{cart?.item_count || 0} Items</span>
+                      <span className="text-sm font-bold text-[#0c2340]">{cart?.item_count || 0} Items</span>
                     </div>
                     <div>
-                      <h4 className="font-bold text-[16px] text-[#282c3f] group-hover:text-[#ff3f6c] transition-colors flex items-center justify-between">
+                      <h4 className="font-bold text-[16px] text-[#0c2340] group-hover:text-[#0066cc] transition-colors flex items-center justify-between">
                         <span>Shopping Bag</span>
                         <span className="text-gray-400 group-hover:translate-x-1 transition-transform">❯</span>
                       </h4>
@@ -419,14 +419,14 @@ export default function ProfilePage() {
             {/* ══ 2. ORDERS TAB ══ */}
             {activeTab === 'orders' && (
               <div className="space-y-4">
-                <div className="bg-white p-6 border border-[#eaeaec] flex items-center justify-between">
+                <div className="bg-white p-6 border border-[#e2e8f0] flex items-center justify-between">
                   <div>
-                    <h2 className="text-xl font-bold text-[#282c3f] tracking-tight">Order History & Returns</h2>
+                    <h2 className="text-xl font-bold text-[#0c2340] tracking-tight">Order History & Returns</h2>
                     <p className="text-xs text-[#94969f] mt-0.5">All transactions processed through Razorpay Gateway</p>
                   </div>
                   <button
                     onClick={fetchOrders}
-                    className="px-3 py-1.5 bg-white border border-[#eaeaec] hover:border-[#282c3f] text-[#282c3f] text-xs font-semibold rounded flex items-center gap-1.5 transition-colors"
+                    className="px-3 py-1.5 bg-white border border-[#e2e8f0] hover:border-[#0c2340] text-[#0c2340] text-xs font-semibold rounded flex items-center gap-1.5 transition-colors"
                   >
                     <RefreshCw className={`w-3.5 h-3.5 ${loadingOrders ? 'animate-spin' : ''}`} />
                     <span>Refresh</span>
@@ -434,31 +434,31 @@ export default function ProfilePage() {
                 </div>
 
                 {loadingOrders ? (
-                  <div className="bg-white p-12 border border-[#eaeaec] text-center text-gray-400 text-xs animate-pulse">
+                  <div className="bg-white p-12 border border-[#e2e8f0] text-center text-gray-400 text-xs animate-pulse">
                     Loading your orders and tracking status...
                   </div>
                 ) : orders.length === 0 ? (
-                  <div className="bg-white p-12 border border-[#eaeaec] text-center">
-                    <h3 className="font-bold text-base text-[#282c3f]">No Orders Found</h3>
+                  <div className="bg-white p-12 border border-[#e2e8f0] text-center">
+                    <h3 className="font-bold text-base text-[#0c2340]">No Orders Found</h3>
                     <p className="text-xs text-[#94969f] mt-1 max-w-sm mx-auto">
                       You haven't placed any orders with this persona yet. Shop top rated fashion and test checkout!
                     </p>
                     <button
                       onClick={() => navigate('/')}
-                      className="mt-5 px-6 py-2.5 bg-[#ff3f6c] hover:bg-[#e62e5b] text-white font-bold text-xs uppercase tracking-wider rounded shadow-sm"
+                      className="mt-5 px-6 py-2.5 bg-[#0066cc] hover:bg-[#0052a3] text-white font-bold text-xs uppercase tracking-wider rounded shadow-sm"
                     >
                       Start Shopping
                     </button>
                   </div>
                 ) : (
                   orders.map((ord) => (
-                    <div key={ord.id} className="bg-white border border-[#eaeaec] space-y-4 p-5">
+                    <div key={ord.id} className="bg-white border border-[#e2e8f0] space-y-4 p-5">
                       
                       {/* Order Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#eaeaec]">
+                      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#e2e8f0]">
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-bold text-sm text-[#282c3f]">Order #{ord.id}</span>
+                            <span className="font-bold text-sm text-[#0c2340]">Order #{ord.id}</span>
                             <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${STATUS_COLOR[ord.status] || STATUS_COLOR.pending}`}>
                               {ord.status.replace('_', ' ')}
                             </span>
@@ -470,19 +470,19 @@ export default function ProfilePage() {
 
                         <div className="text-right">
                           <span className="text-xs text-[#94969f] block">Total Amount</span>
-                          <span className="text-base font-bold text-[#282c3f]">₹{ord.total_amount?.toLocaleString()}</span>
+                          <span className="text-base font-bold text-[#0c2340]">₹{ord.total_amount?.toLocaleString()}</span>
                         </div>
                       </div>
 
                       {/* Items Ordered */}
                       <div className="space-y-3">
                         {ord.items?.map((item, idx) => (
-                          <div key={idx} className="flex items-center justify-between gap-4 p-3 bg-white border border-[#eaeaec] rounded">
+                          <div key={idx} className="flex items-center justify-between gap-4 p-3 bg-white border border-[#e2e8f0] rounded">
                             <div>
-                              <p className="font-bold text-xs text-[#282c3f]">{item.title || item.name || 'Product'}</p>
+                              <p className="font-bold text-xs text-[#0c2340]">{item.title || item.name || 'Product'}</p>
                               <p className="text-[11px] text-[#94969f]">Qty: {item.quantity} × ₹{item.price}</p>
                             </div>
-                            <span className="font-bold text-xs text-[#282c3f]">₹{(item.price * item.quantity).toLocaleString()}</span>
+                            <span className="font-bold text-xs text-[#0c2340]">₹{(item.price * item.quantity).toLocaleString()}</span>
                           </div>
                         ))}
                       </div>
@@ -498,7 +498,7 @@ export default function ProfilePage() {
                             setIsAgentOpen(true);
                             sendMessage(`Show order status and delivery updates for Order #${ord.id}`);
                           }}
-                          className="px-3.5 py-1.5 bg-white border border-pink-200 text-[#ff3f6c] font-bold rounded hover:bg-pink-50 transition-colors"
+                          className="px-3.5 py-1.5 bg-white border border-blue-200 text-[#0066cc] font-bold rounded hover:bg-[#f0f7ff] transition-colors"
                         >
                           Ask AI Agent
                         </button>
@@ -515,33 +515,33 @@ export default function ProfilePage() {
               <div className="space-y-6">
                 
                 {/* Persona Engine Overview */}
-                <div className="bg-white p-6 border border-[#eaeaec] space-y-4">
+                <div className="bg-white p-6 border border-[#e2e8f0] space-y-4">
                   <div>
-                    <h2 className="text-lg font-bold text-[#282c3f] tracking-tight">Zero-Query Composite Vector AI</h2>
+                    <h2 className="text-lg font-bold text-[#0c2340] tracking-tight">Zero-Query Composite Vector AI</h2>
                     <p className="text-xs text-[#94969f]">Semantic taste profile, review weightings, and real-time city seller boosting</p>
                   </div>
 
-                  <div className="p-4 bg-white rounded border border-[#eaeaec] space-y-2">
+                  <div className="p-4 bg-white rounded border border-[#e2e8f0] space-y-2">
                     <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#ff3f6c] uppercase tracking-wider">Active Demo Persona</span>
-                      <span className="text-[10px] bg-white border border-pink-200 font-bold px-2 py-0.5 rounded text-[#282c3f]">
+                      <span className="text-xs font-bold text-[#0066cc] uppercase tracking-wider">Active Demo Persona</span>
+                      <span className="text-[10px] bg-white border border-blue-200 font-bold px-2 py-0.5 rounded text-[#0c2340]">
                         User ID: {currentUser?.id}
                       </span>
                     </div>
-                    <p className="text-base font-bold text-[#282c3f]">{currentUser?.name}</p>
-                    <p className="text-xs text-[#535766]">{currentUser?.email} • Based in {currentUser?.city}</p>
+                    <p className="text-base font-bold text-[#0c2340]">{currentUser?.name}</p>
+                    <p className="text-xs text-[#5c6f84]">{currentUser?.email} • Based in {currentUser?.city}</p>
                   </div>
                 </div>
 
                 {/* Interest History Vector Tags */}
-                <div className="bg-white p-6 border border-[#eaeaec] space-y-3">
+                <div className="bg-white p-6 border border-[#e2e8f0] space-y-3">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-[#94969f]">
                     Recorded Search Vector Interests
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {currentUser?.search_history?.length > 0 ? (
                       currentUser.search_history.map((term, i) => (
-                        <span key={i} className="px-3 py-1.5 bg-white hover:border-[#ff3f6c] hover:text-[#ff3f6c] text-[#282c3f] text-xs rounded-full border border-[#eaeaec] font-semibold transition-colors">
+                        <span key={i} className="px-3 py-1.5 bg-white hover:border-[#0066cc] hover:text-[#0066cc] text-[#0c2340] text-xs rounded-full border border-[#e2e8f0] font-semibold transition-colors">
                           {term}
                         </span>
                       ))
@@ -552,7 +552,7 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Switch Persona Selection */}
-                <div className="bg-white p-6 border border-[#eaeaec] space-y-4">
+                <div className="bg-white p-6 border border-[#e2e8f0] space-y-4">
                   <h3 className="text-xs font-bold uppercase tracking-wider text-[#94969f]">
                     Switch Demo Customer Persona
                   </h3>
@@ -567,17 +567,17 @@ export default function ProfilePage() {
                         onClick={() => switchPersona(persona.id)}
                         className={`text-left p-4 rounded border transition-all flex items-start justify-between ${
                           currentUser?.id === persona.id
-                            ? 'border-[#ff3f6c] bg-pink-50/20'
-                            : 'border-[#eaeaec] hover:border-gray-400'
+                            ? 'border-[#0066cc] bg-[#f0f7ff]/20'
+                            : 'border-[#e2e8f0] hover:border-gray-400'
                         }`}
                       >
                         <div>
-                          <p className="text-sm font-bold text-[#282c3f]">{persona.name}</p>
+                          <p className="text-sm font-bold text-[#0c2340]">{persona.name}</p>
                           <p className="text-xs text-[#94969f] mt-0.5">{persona.style}</p>
-                          <p className="text-[11px] font-bold text-[#ff3f6c] mt-2">📍 {persona.city}</p>
+                          <p className="text-[11px] font-bold text-[#0066cc] mt-2">📍 {persona.city}</p>
                         </div>
                         {currentUser?.id === persona.id && (
-                          <CheckCircle2 className="w-5 h-5 text-[#ff3f6c]" />
+                          <CheckCircle2 className="w-5 h-5 text-[#0066cc]" />
                         )}
                       </button>
                     ))}
@@ -590,22 +590,22 @@ export default function ProfilePage() {
             {/* ══ 4. ADDRESSES TAB ══ */}
             {activeTab === 'addresses' && (
               <div className="space-y-4">
-                <div className="bg-white p-6 border border-[#eaeaec]">
-                  <h2 className="text-xl font-bold text-[#282c3f] tracking-tight">Saved Delivery Addresses</h2>
+                <div className="bg-white p-6 border border-[#e2e8f0]">
+                  <h2 className="text-xl font-bold text-[#0c2340] tracking-tight">Saved Delivery Addresses</h2>
                   <p className="text-xs text-[#94969f] mt-0.5">Matched with local seller inventory for same-day express delivery</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-white p-5 border border-[#ff3f6c] relative space-y-2">
-                    <span className="absolute top-4 right-4 text-[10px] font-bold uppercase bg-[#ff3f6c] text-white px-2 py-0.5 rounded">
+                  <div className="bg-white p-5 border border-[#0066cc] relative space-y-2">
+                    <span className="absolute top-4 right-4 text-[10px] font-bold uppercase bg-[#0066cc] text-white px-2 py-0.5 rounded">
                       Default
                     </span>
-                    <p className="font-bold text-sm text-[#282c3f]">{currentUser?.name}</p>
-                    <p className="text-xs text-[#535766] leading-relaxed">
+                    <p className="font-bold text-sm text-[#0c2340]">{currentUser?.name}</p>
+                    <p className="text-xs text-[#5c6f84] leading-relaxed">
                       Flat 402, Green Glen Layout, Outer Ring Road<br />
                       {currentUser?.city}, 560103
                     </p>
-                    <p className="text-xs text-[#535766] font-semibold pt-1">Mobile: +91 98765 43210</p>
+                    <p className="text-xs text-[#5c6f84] font-semibold pt-1">Mobile: +91 98765 43210</p>
                     <div className="pt-2 flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
                       <Truck className="w-3.5 h-3.5" />
                       <span>Express delivery available from {currentUser?.city} sellers</span>
@@ -618,16 +618,16 @@ export default function ProfilePage() {
             {/* ══ 5. PAYMENTS & WALLET TAB ══ */}
             {activeTab === 'payments' && (
               <div className="space-y-4">
-                <div className="bg-white p-6 border border-[#eaeaec]">
-                  <h2 className="text-xl font-bold text-[#282c3f] tracking-tight">Payment & Agentic Wallet</h2>
+                <div className="bg-white p-6 border border-[#e2e8f0]">
+                  <h2 className="text-xl font-bold text-[#0c2340] tracking-tight">Payment & Agentic Wallet</h2>
                   <p className="text-xs text-[#94969f] mt-0.5">Razorpay Test Gateway with Autonomous 504 Timeout & UPI recovery</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="bg-white p-5 border border-[#eaeaec] space-y-3">
+                  <div className="bg-white p-5 border border-[#e2e8f0] space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-xs text-[#282c3f]">Razorpay Direct Gateway</span>
-                      <CreditCard className="w-4 h-4 text-[#282c3f]" />
+                      <span className="font-bold text-xs text-[#0c2340]">Razorpay Direct Gateway</span>
+                      <CreditCard className="w-4 h-4 text-[#0c2340]" />
                     </div>
                     <p className="text-xs text-[#7e818c] leading-relaxed">
                       Instant checkout with Cards, Netbanking, UPI, and Wallet integration.
@@ -637,10 +637,10 @@ export default function ProfilePage() {
                     </span>
                   </div>
 
-                  <div className="bg-white p-5 border border-[#eaeaec] space-y-3">
+                  <div className="bg-white p-5 border border-[#e2e8f0] space-y-3">
                     <div className="flex items-center justify-between">
-                      <span className="font-bold text-xs text-[#282c3f]">Dynamic Price-Lock Protection</span>
-                      <Clock className="w-4 h-4 text-[#282c3f]" />
+                      <span className="font-bold text-xs text-[#0c2340]">Dynamic Price-Lock Protection</span>
+                      <Clock className="w-4 h-4 text-[#0c2340]" />
                     </div>
                     <p className="text-xs text-[#7e818c] leading-relaxed">
                       15-minute price hold automatically engaged upon any gateway timeout.
@@ -656,33 +656,33 @@ export default function ProfilePage() {
             {/* ══ 6. SYSTEM PORTALS TAB ══ */}
             {activeTab === 'portals' && (
               <div className="space-y-4">
-                <div className="bg-white p-6 border border-[#eaeaec]">
-                  <h2 className="text-xl font-bold text-[#282c3f] tracking-tight">System Portal Navigation</h2>
+                <div className="bg-white p-6 border border-[#e2e8f0]">
+                  <h2 className="text-xl font-bold text-[#0c2340] tracking-tight">System Portal Navigation</h2>
                   <p className="text-xs text-[#94969f] mt-0.5">Switch between Customer Storefront, Merchant Dashboard, and Admin Portal</p>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div
                     onClick={() => navigate('/merchant/login')}
-                    className="bg-white p-5 border border-[#eaeaec] hover:border-[#282c3f] cursor-pointer transition-all space-y-2 group"
+                    className="bg-white p-5 border border-[#e2e8f0] hover:border-[#0c2340] cursor-pointer transition-all space-y-2 group"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs uppercase font-bold text-[#7c3aed]">Merchant</span>
                       <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-1 transition-transform" />
                     </div>
-                    <h3 className="font-bold text-sm text-[#282c3f]">Merchant Partner Dashboard</h3>
+                    <h3 className="font-bold text-sm text-[#0c2340]">Merchant Partner Dashboard</h3>
                     <p className="text-xs text-[#94969f]">Order fulfilling, stock controls, autonomous pricing, and transaction history.</p>
                   </div>
 
                   <div
                     onClick={() => navigate('/admin/login')}
-                    className="bg-white p-5 border border-[#eaeaec] hover:border-[#282c3f] cursor-pointer transition-all space-y-2 group"
+                    className="bg-white p-5 border border-[#e2e8f0] hover:border-[#0c2340] cursor-pointer transition-all space-y-2 group"
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-xs uppercase font-bold text-emerald-700">Razorpay Admin</span>
                       <ArrowRight className="w-4 h-4 text-gray-400 group-hover:translate-x-1 transition-transform" />
                     </div>
-                    <h3 className="font-bold text-sm text-[#282c3f]">Razorpay Admin Portal</h3>
+                    <h3 className="font-bold text-sm text-[#0c2340]">Razorpay Admin Portal</h3>
                     <p className="text-xs text-[#94969f]">Merchant onboarding, system-wide GMV analytics, and fee configuration.</p>
                   </div>
                 </div>

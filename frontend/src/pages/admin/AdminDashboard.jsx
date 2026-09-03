@@ -20,15 +20,15 @@ const STATUS_BADGE = {
 };
 
 const StatCard = ({ icon: Icon, label, value, sub, bgLight = 'bg-emerald-50', textColor = 'text-emerald-700', borderColor = 'border-emerald-200' }) => (
-  <div className="bg-white border border-[#eaeaec] rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all group">
+  <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all group">
     <div className="flex items-center justify-between mb-4">
-      <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#535766]">{label}</span>
+      <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#5c6f84]">{label}</span>
       <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bgLight} ${textColor} border ${borderColor} transition-transform group-hover:scale-105`}>
         <Icon className="w-5 h-5" />
       </div>
     </div>
-    <p className="text-2xl md:text-3xl font-black text-[#282c3f] tracking-tight mb-2">{value}</p>
-    {sub && <p className="text-xs text-[#535766] font-medium">{sub}</p>}
+    <p className="text-2xl md:text-3xl font-black text-[#0c2340] tracking-tight mb-2">{value}</p>
+    {sub && <p className="text-xs text-[#5c6f84] font-medium">{sub}</p>}
   </div>
 );
 
@@ -54,13 +54,13 @@ function OnboardModal({ onClose, onSuccess }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-      <div className="bg-white border border-[#eaeaec] rounded-2xl p-6 md:p-8 w-full max-w-md shadow-2xl">
-        <div className="flex items-center justify-between pb-4 mb-5 border-b border-[#eaeaec]">
+      <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 md:p-8 w-full max-w-md shadow-2xl">
+        <div className="flex items-center justify-between pb-4 mb-5 border-b border-[#e2e8f0]">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
               <Building2 className="w-4 h-4" />
             </div>
-            <h3 className="text-lg font-extrabold text-[#282c3f]">Onboard New Merchant</h3>
+            <h3 className="text-lg font-extrabold text-[#0c2340]">Onboard New Merchant</h3>
           </div>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
             <X className="w-5 h-5" />
@@ -78,14 +78,14 @@ function OnboardModal({ onClose, onSuccess }) {
             { key: 'password', label: 'Initial Password', placeholder: 'merchant123', type: 'password' },
           ].map(({ key, label, placeholder, type = 'text' }) => (
             <div key={key}>
-              <label className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1.5 block">{label}</label>
+              <label className="text-[11px] font-bold text-[#5c6f84] uppercase tracking-wider mb-1.5 block">{label}</label>
               <input
                 type={type}
                 required
                 value={form[key]}
                 onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                 placeholder={placeholder}
-                className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#282c3f] text-sm placeholder-gray-400 focus:outline-none focus:border-emerald-600 transition-colors"
+                className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#0c2340] text-sm placeholder-gray-400 focus:outline-none focus:border-emerald-600 transition-colors"
               />
             </div>
           ))}
@@ -135,19 +135,19 @@ function MerchantDrillDown({ merchant, onClose }) {
   const totalPages = Math.ceil((txns.total || 0) / 25);
 
   return (
-    <div className="fixed inset-y-0 right-0 z-40 w-full max-w-3xl bg-white border-l border-[#eaeaec] shadow-2xl overflow-y-auto">
+    <div className="fixed inset-y-0 right-0 z-40 w-full max-w-3xl bg-white border-l border-[#e2e8f0] shadow-2xl overflow-y-auto">
       {/* Header */}
-      <div className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-[#eaeaec] px-6 py-4 flex items-center justify-between z-10">
+      <div className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-[#e2e8f0] px-6 py-4 flex items-center justify-between z-10">
         <div className="flex items-center gap-3">
-          <button onClick={onClose} className="text-[#535766] hover:text-[#282c3f]">
+          <button onClick={onClose} className="text-[#5c6f84] hover:text-[#0c2340]">
             <ArrowLeft className="w-5 h-5" />
           </button>
           <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
             <Building2 className="w-5 h-5" />
           </div>
           <div>
-            <h2 className="font-extrabold text-[#282c3f] text-base leading-tight">{merchant.merchant_name}</h2>
-            <p className="text-xs text-[#535766]">{merchant.email} · {merchant.city}</p>
+            <h2 className="font-extrabold text-[#0c2340] text-base leading-tight">{merchant.merchant_name}</h2>
+            <p className="text-xs text-[#5c6f84]">{merchant.email} · {merchant.city}</p>
           </div>
         </div>
         <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
@@ -163,17 +163,17 @@ function MerchantDrillDown({ merchant, onClose }) {
         <div className="p-6 space-y-6">
           {/* Mini Stats */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white rounded-2xl p-4 border border-[#eaeaec] shadow-sm">
-              <p className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1">Total Revenue</p>
-              <p className="text-xl font-black text-[#282c3f]">{fmt(stats?.total_revenue)}</p>
+            <div className="bg-white rounded-2xl p-4 border border-[#e2e8f0] shadow-sm">
+              <p className="text-[11px] font-bold text-[#5c6f84] uppercase tracking-wider mb-1">Total Revenue</p>
+              <p className="text-xl font-black text-[#0c2340]">{fmt(stats?.total_revenue)}</p>
             </div>
             <div className="bg-emerald-50/60 rounded-2xl p-4 border border-emerald-200 shadow-sm">
               <p className="text-[11px] font-bold text-emerald-800 uppercase tracking-wider mb-1">AI-Generated Profit</p>
               <p className="text-xl font-black text-emerald-700">{fmt(stats?.total_ai_profit)}</p>
             </div>
-            <div className="bg-white rounded-2xl p-4 border border-[#eaeaec] shadow-sm">
-              <p className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1">Profit Impact</p>
-              <p className="text-xl font-black text-[#282c3f]">{fmt(stats?.total_profit_impact)}</p>
+            <div className="bg-white rounded-2xl p-4 border border-[#e2e8f0] shadow-sm">
+              <p className="text-[11px] font-bold text-[#5c6f84] uppercase tracking-wider mb-1">Profit Impact</p>
+              <p className="text-xl font-black text-[#0c2340]">{fmt(stats?.total_profit_impact)}</p>
             </div>
             <div className="bg-amber-50/60 rounded-2xl p-4 border border-amber-200 shadow-sm">
               <p className="text-[11px] font-bold text-amber-800 uppercase tracking-wider mb-1">Recoveries</p>
@@ -183,15 +183,15 @@ function MerchantDrillDown({ merchant, onClose }) {
 
           {/* Per-merchant chart */}
           {stats?.daily_chart?.length > 0 && (
-            <div className="bg-white border border-[#eaeaec] rounded-2xl p-5 shadow-sm">
-              <h3 className="text-sm font-extrabold text-[#282c3f] mb-4">Revenue vs AI Profit — 30 Days</h3>
+            <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 shadow-sm">
+              <h3 className="text-sm font-extrabold text-[#0c2340] mb-4">Revenue vs AI Profit — 30 Days</h3>
               <ResponsiveContainer width="100%" height={200}>
                 <LineChart data={stats.daily_chart} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f2" />
-                  <XAxis dataKey="date" tick={{ fill: '#535766', fontSize: 10, fontWeight: 600 }} tickLine={false} stroke="#eaeaec" />
-                  <YAxis tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} tick={{ fill: '#535766', fontSize: 10, fontWeight: 600 }} tickLine={false} axisLine={false} stroke="#eaeaec" />
+                  <XAxis dataKey="date" tick={{ fill: '#5c6f84', fontSize: 10, fontWeight: 600 }} tickLine={false} stroke="#e2e8f0" />
+                  <YAxis tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} tick={{ fill: '#5c6f84', fontSize: 10, fontWeight: 600 }} tickLine={false} axisLine={false} stroke="#e2e8f0" />
                   <Tooltip
-                    contentStyle={{ background: '#ffffff', border: '1px solid #eaeaec', borderRadius: 10, color: '#282c3f', fontSize: 12, fontWeight: 700, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
+                    contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 10, color: '#0c2340', fontSize: 12, fontWeight: 700, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
                     formatter={(val) => [`₹${Number(val).toLocaleString('en-IN')}`, '']}
                   />
                   <Line type="monotone" dataKey="revenue" stroke="#059669" strokeWidth={2.5} dot={false} name="Revenue" />
@@ -202,15 +202,15 @@ function MerchantDrillDown({ merchant, onClose }) {
           )}
 
           {/* Transactions */}
-          <div className="bg-white border border-[#eaeaec] rounded-2xl overflow-hidden shadow-sm">
-            <div className="px-5 py-3.5 border-b border-[#eaeaec] flex items-center justify-between bg-white">
-              <h3 className="text-sm font-extrabold text-[#282c3f]">Transaction Log</h3>
+          <div className="bg-white border border-[#e2e8f0] rounded-2xl overflow-hidden shadow-sm">
+            <div className="px-5 py-3.5 border-b border-[#e2e8f0] flex items-center justify-between bg-white">
+              <h3 className="text-sm font-extrabold text-[#0c2340]">Transaction Log</h3>
               <span className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full border border-emerald-200 font-bold">{txns.total} entries</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="bg-[#f9fafb] text-[10px] font-bold text-[#535766] uppercase tracking-wider border-b border-[#eaeaec]">
+                  <tr className="bg-[#f9fafb] text-[10px] font-bold text-[#5c6f84] uppercase tracking-wider border-b border-[#e2e8f0]">
                     <th className="px-4 py-3 text-left">Time</th>
                     <th className="px-4 py-3 text-left">Agent</th>
                     <th className="px-4 py-3 text-right">Amount</th>
@@ -218,14 +218,14 @@ function MerchantDrillDown({ merchant, onClose }) {
                     <th className="px-4 py-3 text-left">Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#eaeaec]">
+                <tbody className="divide-y divide-[#e2e8f0]">
                   {txns.transactions?.map((t) => (
                     <React.Fragment key={t.id}>
                       <tr
                         className="hover:bg-emerald-50/30 cursor-pointer transition-colors"
                         onClick={() => setExpandedRow(expandedRow === t.id ? null : t.id)}
                       >
-                        <td className="px-4 py-3 text-[#535766] font-mono whitespace-nowrap">
+                        <td className="px-4 py-3 text-[#5c6f84] font-mono whitespace-nowrap">
                           {new Date(t.timestamp).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </td>
                         <td className="px-4 py-3">
@@ -233,7 +233,7 @@ function MerchantDrillDown({ merchant, onClose }) {
                             {t.agent_type?.replace('Agent', '')}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-right font-bold text-[#282c3f]">
+                        <td className="px-4 py-3 text-right font-bold text-[#0c2340]">
                           {t.money_amount > 0 ? fmt(t.money_amount) : '—'}
                         </td>
                         <td className="px-4 py-3 text-right font-bold text-[#059669]">
@@ -250,7 +250,7 @@ function MerchantDrillDown({ merchant, onClose }) {
                       {expandedRow === t.id && (
                         <tr className="bg-emerald-50/40">
                           <td colSpan={5} className="px-5 py-3">
-                            <p className="text-[11px] text-[#535766] leading-relaxed">{t.decision_reasoning}</p>
+                            <p className="text-[11px] text-[#5c6f84] leading-relaxed">{t.decision_reasoning}</p>
                           </td>
                         </tr>
                       )}
@@ -260,15 +260,15 @@ function MerchantDrillDown({ merchant, onClose }) {
               </table>
             </div>
             {totalPages > 1 && (
-              <div className="flex items-center justify-between px-5 py-3 border-t border-[#eaeaec] bg-white">
-                <span className="text-xs text-[#535766] font-semibold">Page {page} of {totalPages}</span>
+              <div className="flex items-center justify-between px-5 py-3 border-t border-[#e2e8f0] bg-white">
+                <span className="text-xs text-[#5c6f84] font-semibold">Page {page} of {totalPages}</span>
                 <div className="flex gap-2">
                   <button disabled={page <= 1} onClick={() => loadPage(page - 1)}
-                    className="p-1.5 rounded-lg border border-[#eaeaec] hover:bg-gray-50 disabled:opacity-30">
+                    className="p-1.5 rounded-lg border border-[#e2e8f0] hover:bg-gray-50 disabled:opacity-30">
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button disabled={page >= totalPages} onClick={() => loadPage(page + 1)}
-                    className="p-1.5 rounded-lg border border-[#eaeaec] hover:bg-gray-50 disabled:opacity-30">
+                    className="p-1.5 rounded-lg border border-[#e2e8f0] hover:bg-gray-50 disabled:opacity-30">
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -325,22 +325,22 @@ export default function AdminDashboard() {
       <div className="min-h-screen bg-[#fdf8f9] flex items-center justify-center">
         <div className="text-center">
           <div className="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-[#282c3f] font-bold text-sm">Loading Admin Console…</p>
+          <p className="text-[#0c2340] font-bold text-sm">Loading Admin Console…</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#fdf8f9] text-[#282c3f] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#fdf8f9] text-[#0c2340] flex flex-col font-sans">
       {/* Top Nav */}
-      <header className="sticky top-0 z-30 bg-white border-b border-[#eaeaec] px-4 md:px-8 py-3.5 shadow-sm">
+      <header className="sticky top-0 z-30 bg-white border-b border-[#e2e8f0] px-4 md:px-8 py-3.5 shadow-sm">
         <div className="max-w-[1300px] mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link to="/" className="flex items-center">
               <span className="text-2xl font-black italic tracking-tight select-none">
-                <span className="text-[#FF3F6C]">Razorcart</span>
-                <span className="text-[#282c3f] ml-1">AI</span>
+                <span className="text-[#0066CC]">Razorcart</span>
+                <span className="text-[#0c2340] ml-1">AI</span>
               </span>
             </Link>
 
@@ -351,7 +351,7 @@ export default function AdminDashboard() {
                 <ShieldCheck className="w-5 h-5" />
               </div>
               <div>
-                <h1 className="font-extrabold text-[#282c3f] text-sm md:text-base leading-tight">Razorpay Admin</h1>
+                <h1 className="font-extrabold text-[#0c2340] text-sm md:text-base leading-tight">Razorpay Admin</h1>
                 <p className="text-[11px] text-emerald-700 font-semibold">Global Platform Analytics</p>
               </div>
             </div>
@@ -360,7 +360,7 @@ export default function AdminDashboard() {
           <div className="flex items-center gap-3 md:gap-4">
             <Link
               to="/"
-              className="hidden md:flex items-center gap-1.5 text-xs font-bold text-[#535766] hover:text-[#ff3f6c] transition-colors"
+              className="hidden md:flex items-center gap-1.5 text-xs font-bold text-[#5c6f84] hover:text-[#0066cc] transition-colors"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Storefront</span>
@@ -410,9 +410,9 @@ export default function AdminDashboard() {
             label="Total AI Profit"
             value={fmt(dash?.total_ai_profit)}
             sub="Across all connected stores"
-            bgLight="bg-pink-50"
-            textColor="text-[#ff3f6c]"
-            borderColor="border-pink-200"
+            bgLight="bg-[#f0f7ff]"
+            textColor="text-[#0066cc]"
+            borderColor="border-blue-200"
           />
           <StatCard
             icon={RefreshCw}
@@ -426,13 +426,13 @@ export default function AdminDashboard() {
         </div>
 
         {/* Global Profit/Day Chart */}
-        <div className="bg-white border border-[#eaeaec] rounded-2xl p-6 md:p-7 shadow-sm">
-          <div className="flex items-center justify-between pb-5 mb-6 border-b border-[#eaeaec]">
+        <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 md:p-7 shadow-sm">
+          <div className="flex items-center justify-between pb-5 mb-6 border-b border-[#e2e8f0]">
             <div className="flex items-center gap-2.5">
               <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
                 <TrendingUp className="w-4 h-4" />
               </div>
-              <h2 className="text-base font-extrabold text-[#282c3f]">Global Revenue & AI Profit — Last 30 Days</h2>
+              <h2 className="text-base font-extrabold text-[#0c2340]">Global Revenue & AI Profit — Last 30 Days</h2>
             </div>
             <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
               Platform Overview
@@ -441,13 +441,13 @@ export default function AdminDashboard() {
           <ResponsiveContainer width="100%" height={280}>
             <BarChart data={dash?.daily_chart || []} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f2" />
-              <XAxis dataKey="date" tick={{ fill: '#535766', fontSize: 11, fontWeight: 600 }} tickLine={false} stroke="#eaeaec" />
-              <YAxis tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} tick={{ fill: '#535766', fontSize: 11, fontWeight: 600 }} tickLine={false} axisLine={false} stroke="#eaeaec" />
+              <XAxis dataKey="date" tick={{ fill: '#5c6f84', fontSize: 11, fontWeight: 600 }} tickLine={false} stroke="#e2e8f0" />
+              <YAxis tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} tick={{ fill: '#5c6f84', fontSize: 11, fontWeight: 600 }} tickLine={false} axisLine={false} stroke="#e2e8f0" />
               <Tooltip
-                contentStyle={{ background: '#ffffff', border: '1px solid #eaeaec', borderRadius: 12, color: '#282c3f', fontSize: 12, fontWeight: 700, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
+                contentStyle={{ background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 12, color: '#0c2340', fontSize: 12, fontWeight: 700, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
                 formatter={(val) => [`₹${Number(val).toLocaleString('en-IN')}`, '']}
               />
-              <Legend wrapperStyle={{ color: '#535766', fontSize: 12, fontWeight: 700, paddingTop: 10 }} />
+              <Legend wrapperStyle={{ color: '#5c6f84', fontSize: 12, fontWeight: 700, paddingTop: 10 }} />
               <Bar dataKey="revenue" fill="#059669" name="Revenue" radius={[4, 4, 0, 0]} opacity={0.9} />
               <Bar dataKey="ai_profit" fill="#7c3aed" name="AI Profit" radius={[4, 4, 0, 0]} opacity={0.9} />
             </BarChart>
@@ -455,23 +455,23 @@ export default function AdminDashboard() {
         </div>
 
         {/* Merchants Table */}
-        <div className="bg-white border border-[#eaeaec] rounded-2xl shadow-sm overflow-hidden">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 border-b border-[#eaeaec] gap-2 bg-white">
+        <div className="bg-white border border-[#e2e8f0] rounded-2xl shadow-sm overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 border-b border-[#e2e8f0] gap-2 bg-white">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
                 <Users className="w-4 h-4" />
               </div>
-              <h2 className="font-extrabold text-[#282c3f] text-base">Onboarded Merchants</h2>
+              <h2 className="font-extrabold text-[#0c2340] text-base">Onboarded Merchants</h2>
               <span className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full font-bold border border-emerald-200">
                 {merchants.length} merchants
               </span>
             </div>
-            <p className="text-xs text-[#535766] font-semibold">Click a row for drill-down audit →</p>
+            <p className="text-xs text-[#5c6f84] font-semibold">Click a row for drill-down audit →</p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
               <thead>
-                <tr className="bg-[#f9fafb] text-[11px] font-extrabold text-[#535766] uppercase tracking-wider border-b border-[#eaeaec]">
+                <tr className="bg-[#f9fafb] text-[11px] font-extrabold text-[#5c6f84] uppercase tracking-wider border-b border-[#e2e8f0]">
                   <th className="px-5 py-3.5">Merchant</th>
                   <th className="px-5 py-3.5">City</th>
                   <th className="px-5 py-3.5 text-right">Revenue</th>
@@ -480,7 +480,7 @@ export default function AdminDashboard() {
                   <th className="px-5 py-3.5 text-center">Recoveries</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#eaeaec]">
+              <tbody className="divide-y divide-[#e2e8f0]">
                 {merchants.map((m) => (
                   <tr
                     key={m.merchant_id}
@@ -493,13 +493,13 @@ export default function AdminDashboard() {
                           <Store className="w-4 h-4" />
                         </div>
                         <div>
-                          <p className="font-extrabold text-[#282c3f] group-hover:text-emerald-700 transition-colors">{m.merchant_name}</p>
-                          <p className="text-xs text-[#535766] font-mono">{m.email}</p>
+                          <p className="font-extrabold text-[#0c2340] group-hover:text-emerald-700 transition-colors">{m.merchant_name}</p>
+                          <p className="text-xs text-[#5c6f84] font-mono">{m.email}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-4 text-[#535766] text-sm">{m.city}</td>
-                    <td className="px-5 py-4 text-right font-black text-[#282c3f]">{fmt(m.total_revenue)}</td>
+                    <td className="px-5 py-4 text-[#5c6f84] text-sm">{m.city}</td>
+                    <td className="px-5 py-4 text-right font-black text-[#0c2340]">{fmt(m.total_revenue)}</td>
                     <td className="px-5 py-4 text-right font-black text-[#059669]">{fmt(m.total_ai_profit)}</td>
                     <td className="px-5 py-4 text-center">
                       <span className="text-xs font-bold bg-gray-100 text-gray-700 px-2 py-1 rounded-lg border border-gray-200">{m.total_transactions}</span>
@@ -518,10 +518,10 @@ export default function AdminDashboard() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-[#eaeaec] py-5 px-4 md:px-8 text-center text-xs text-[#94969f] mt-12">
+      <footer className="bg-white border-t border-[#e2e8f0] py-5 px-4 md:px-8 text-center text-xs text-[#94969f] mt-12">
         <div className="max-w-[1300px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-[#282c3f]">RazorCartAI</span>
+            <span className="font-bold text-[#0c2340]">RazorCartAI</span>
             <span>•</span>
             <span>Razorpay Administrator Governance</span>
           </div>

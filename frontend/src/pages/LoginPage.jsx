@@ -25,11 +25,11 @@ const PORTALS = [
     key: 'customer',
     label: 'Customer',
     icon: ShoppingBag,
-    color: '#ff3f6c',
-    bgActive: 'bg-[#ff3f6c] text-white',
-    textActive: 'text-[#ff3f6c]',
-    borderActive: 'border-[#ff3f6c]',
-    lightBg: 'bg-pink-50',
+    color: '#0066cc',
+    bgActive: 'bg-[#0066cc] text-white',
+    textActive: 'text-[#0066cc]',
+    borderActive: 'border-[#0066cc]',
+    lightBg: 'bg-[#f0f7ff]',
     description: 'Shop 10,000+ fashion, electronics, and lifestyle products',
     redirect: '/',
     demoEmail: 'priya@razorcart.ai',
@@ -172,21 +172,21 @@ export default function LoginPage({ initialPortal = 'customer' }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf8f9] text-[#282c3f] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#fdf8f9] text-[#0c2340] flex flex-col font-sans">
       
       {/* ── Top Header ────────────────────────────────────────────────────── */}
-      <header className="bg-white border-b border-[#eaeaec] px-4 md:px-8 py-3.5 sticky top-0 z-30 shadow-sm">
+      <header className="bg-white border-b border-[#e2e8f0] px-4 md:px-8 py-3.5 sticky top-0 z-30 shadow-sm">
         <div className="max-w-[1200px] mx-auto flex items-center justify-between">
           <Link to="/" className="flex items-center">
             <span className="text-2xl font-black italic tracking-tight select-none">
-              <span className="text-[#FF3F6C]">Razorcart</span>
-              <span className="text-[#282c3f] ml-1">AI</span>
+              <span className="text-[#0066CC]">Razorcart</span>
+              <span className="text-[#0c2340] ml-1">AI</span>
             </span>
           </Link>
 
           <Link
             to="/"
-            className="flex items-center gap-1.5 text-xs font-bold text-[#535766] hover:text-[#ff3f6c] transition-colors"
+            className="flex items-center gap-1.5 text-xs font-bold text-[#5c6f84] hover:text-[#0066cc] transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Storefront</span>
@@ -199,7 +199,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
         <div className="w-full max-w-[460px]">
 
           {/* Role Portal Tabs */}
-          <div className="bg-white p-1 rounded-xl border border-[#eaeaec] shadow-sm grid grid-cols-3 gap-1 mb-5">
+          <div className="bg-white p-1 rounded-xl border border-[#e2e8f0] shadow-sm grid grid-cols-3 gap-1 mb-5">
             {PORTALS.map((p) => {
               const Icon = p.icon;
               const isActive = activePortal === p.key;
@@ -211,7 +211,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                   className={`flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-lg text-xs font-extrabold uppercase tracking-wider transition-all duration-200 ${
                     isActive
                       ? p.bgActive + ' shadow-sm'
-                      : 'text-[#535766] hover:text-[#282c3f] hover:bg-gray-50'
+                      : 'text-[#5c6f84] hover:text-[#0c2340] hover:bg-gray-50'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -222,15 +222,15 @@ export default function LoginPage({ initialPortal = 'customer' }) {
           </div>
 
           {/* Form Card */}
-          <div className="bg-white border border-[#eaeaec] rounded-2xl shadow-xl p-7 md:p-9 relative">
+          <div className="bg-white border border-[#e2e8f0] rounded-2xl shadow-xl p-7 md:p-9 relative">
             
             {/* Top Banner & Mode Toggle */}
-            <div className="flex items-start justify-between pb-5 border-b border-[#eaeaec] mb-6">
+            <div className="flex items-start justify-between pb-5 border-b border-[#e2e8f0] mb-6">
               <div>
                 <span className="text-[11px] font-extrabold uppercase tracking-widest block mb-0.5" style={{ color: portal.color }}>
                   {portal.label} Portal
                 </span>
-                <h2 className="text-xl font-bold text-[#282c3f]">
+                <h2 className="text-xl font-bold text-[#0c2340]">
                   {authMode === 'login' ? `Sign In` : `Create Account`}
                 </h2>
                 <p className="text-xs text-[#94969f] mt-0.5 max-w-[240px]">
@@ -245,7 +245,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                   onClick={() => { setAuthMode('login'); setError(''); setSuccessMsg(''); }}
                   className={`px-3 py-1.5 rounded text-xs font-bold transition-all ${
                     authMode === 'login'
-                      ? 'bg-white text-[#282c3f] shadow-sm font-extrabold'
+                      ? 'bg-white text-[#0c2340] shadow-sm font-extrabold'
                       : 'text-gray-500 hover:text-gray-800'
                   }`}
                 >
@@ -256,7 +256,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                   onClick={() => { setAuthMode('signup'); setError(''); setSuccessMsg(''); }}
                   className={`px-3 py-1.5 rounded text-xs font-bold transition-all ${
                     authMode === 'signup'
-                      ? 'bg-white text-[#282c3f] shadow-sm font-extrabold'
+                      ? 'bg-white text-[#0c2340] shadow-sm font-extrabold'
                       : 'text-gray-500 hover:text-gray-800'
                   }`}
                 >
@@ -288,7 +288,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                 <>
                   {/* Full Name */}
                   <div>
-                    <label className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1.5 block">
+                    <label className="text-[11px] font-bold text-[#5c6f84] uppercase tracking-wider mb-1.5 block">
                       {activePortal === 'merchant' ? 'Owner / Manager Full Name' : 'Full Name'}
                     </label>
                     <input
@@ -297,14 +297,14 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder={portal.demoName}
-                      className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#282c3f] text-sm placeholder-gray-400 focus:outline-none focus:border-[#ff3f6c] transition-colors"
+                      className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#0c2340] text-sm placeholder-gray-400 focus:outline-none focus:border-[#0066cc] transition-colors"
                     />
                   </div>
 
                   {/* Merchant Store Name */}
                   {activePortal === 'merchant' && (
                     <div>
-                      <label className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <label className="text-[11px] font-bold text-[#5c6f84] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                         <Building className="w-3.5 h-3.5 text-purple-600" />
                         <span>Store / Brand Name</span>
                       </label>
@@ -314,7 +314,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                         value={merchantName}
                         onChange={(e) => setMerchantName(e.target.value)}
                         placeholder="e.g. Apex Tech & Lifestyle"
-                        className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#282c3f] text-sm placeholder-gray-400 focus:outline-none focus:border-purple-600 transition-colors"
+                        className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#0c2340] text-sm placeholder-gray-400 focus:outline-none focus:border-purple-600 transition-colors"
                       />
                     </div>
                   )}
@@ -322,14 +322,14 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                   {/* City Selection */}
                   {activePortal !== 'admin' && (
                     <div>
-                      <label className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 text-[#ff3f6c]" />
+                      <label className="text-[11px] font-bold text-[#5c6f84] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                        <MapPin className="w-3.5 h-3.5 text-[#0066cc]" />
                         <span>Operating City</span>
                       </label>
                       <select
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
-                        className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#282c3f] text-sm focus:outline-none focus:border-[#ff3f6c] transition-colors"
+                        className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#0c2340] text-sm focus:outline-none focus:border-[#0066cc] transition-colors"
                       >
                         {CITIES.map((c) => (
                           <option key={c} value={c}>
@@ -343,7 +343,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                   {/* Admin Authorization Code */}
                   {activePortal === 'admin' && (
                     <div>
-                      <label className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                      <label className="text-[11px] font-bold text-[#5c6f84] uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
                         <KeyRound className="w-3.5 h-3.5 text-emerald-600" />
                         <span>Admin Authorization Passcode</span>
                       </label>
@@ -352,7 +352,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                         value={adminCode}
                         onChange={(e) => setAdminCode(e.target.value)}
                         placeholder="RAZORPAY_ADMIN_2026"
-                        className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#282c3f] text-sm placeholder-gray-400 focus:outline-none focus:border-emerald-600 transition-colors"
+                        className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#0c2340] text-sm placeholder-gray-400 focus:outline-none focus:border-emerald-600 transition-colors"
                       />
                       <p className="text-[10px] text-gray-500 mt-1 font-mono">Demo Code: RAZORPAY_ADMIN_2026</p>
                     </div>
@@ -362,7 +362,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
 
               {/* Email Address */}
               <div>
-                <label className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1.5 block">
+                <label className="text-[11px] font-bold text-[#5c6f84] uppercase tracking-wider mb-1.5 block">
                   {activePortal === 'admin' ? 'Official Admin Email' : 'Email Address'}
                 </label>
                 <input
@@ -371,13 +371,13 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={portal.demoEmail}
-                  className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#282c3f] text-sm placeholder-gray-400 focus:outline-none focus:border-[#ff3f6c] transition-colors"
+                  className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#0c2340] text-sm placeholder-gray-400 focus:outline-none focus:border-[#0066cc] transition-colors"
                 />
               </div>
 
               {/* Password */}
               <div>
-                <label className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1.5 block">
+                <label className="text-[11px] font-bold text-[#5c6f84] uppercase tracking-wider mb-1.5 block">
                   Password
                 </label>
                 <div className="relative">
@@ -387,7 +387,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
-                    className="w-full px-3.5 py-2.5 pr-10 bg-white border border-[#d4d5d9] rounded-lg text-[#282c3f] text-sm placeholder-gray-400 focus:outline-none focus:border-[#ff3f6c] transition-colors"
+                    className="w-full px-3.5 py-2.5 pr-10 bg-white border border-[#d4d5d9] rounded-lg text-[#0c2340] text-sm placeholder-gray-400 focus:outline-none focus:border-[#0066cc] transition-colors"
                   />
                   <button
                     type="button"
@@ -418,11 +418,11 @@ export default function LoginPage({ initialPortal = 'customer' }) {
             </form>
 
             {/* Autofill Demo Credentials */}
-            <div className="mt-5 pt-4 border-t border-[#eaeaec]">
+            <div className="mt-5 pt-4 border-t border-[#e2e8f0]">
               <button
                 type="button"
                 onClick={fillDemo}
-                className="w-full py-2 px-3 text-xs font-bold text-[#535766] hover:text-[#282c3f] bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-all flex items-center justify-center gap-2"
+                className="w-full py-2 px-3 text-xs font-bold text-[#5c6f84] hover:text-[#0c2340] bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-all flex items-center justify-center gap-2"
               >
                 <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                 <span>Auto-fill Demo Credentials ({portal.label})</span>
@@ -443,7 +443,7 @@ export default function LoginPage({ initialPortal = 'customer' }) {
                   setAuthMode('login');
                 }}
                 className={`bg-white rounded-xl p-3 border transition-all cursor-pointer shadow-sm ${
-                  activePortal === p.key ? 'border-[#ff3f6c] ring-1 ring-[#ff3f6c]' : 'border-[#eaeaec] hover:border-gray-300'
+                  activePortal === p.key ? 'border-[#0066cc] ring-1 ring-[#0066cc]' : 'border-[#e2e8f0] hover:border-gray-300'
                 }`}
               >
                 <p className="text-[10px] font-extrabold uppercase tracking-wider mb-1" style={{ color: p.color }}>
@@ -459,9 +459,9 @@ export default function LoginPage({ initialPortal = 'customer' }) {
       </main>
 
       {/* ── Footer ────────────────────────────────────────────────────────── */}
-      <footer className="bg-white border-t border-[#eaeaec] py-4 px-4 text-center text-xs text-[#94969f]">
+      <footer className="bg-white border-t border-[#e2e8f0] py-4 px-4 text-center text-xs text-[#94969f]">
         <div className="flex items-center justify-center gap-2">
-          <span className="font-bold text-[#282c3f]">RazorCartAI</span>
+          <span className="font-bold text-[#0c2340]">RazorCartAI</span>
           <span>•</span>
           <span>Agentic Multi-Role Commerce Platform</span>
         </div>

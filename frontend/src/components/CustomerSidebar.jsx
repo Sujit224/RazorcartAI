@@ -57,21 +57,21 @@ export function CustomerSidebar({ isOpen, onClose, onOpenCheckout }) {
         <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col border-l border-gray-100">
           
           {/* Header */}
-          <div className="p-5 bg-white text-[#282c3f] flex items-center justify-between border-b border-[#eaeaec]">
+          <div className="p-5 bg-white text-[#0c2340] flex items-center justify-between border-b border-[#e2e8f0]">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-[#ff3f6c] flex items-center justify-center font-bold text-white text-lg shadow-sm">
+              <div className="w-10 h-10 rounded-full bg-[#0066cc] flex items-center justify-center font-bold text-white text-lg shadow-sm">
                 {currentUser?.name?.charAt(0) || 'U'}
               </div>
               <div>
-                <h2 className="font-bold text-sm tracking-tight text-[#282c3f]">{currentUser?.name || 'Customer Account'}</h2>
+                <h2 className="font-bold text-sm tracking-tight text-[#0c2340]">{currentUser?.name || 'Customer Account'}</h2>
                 <p className="text-[11px] text-[#94969f] flex items-center gap-1">
-                  <MapPin className="w-3 h-3 text-[#ff3f6c]" /> {currentUser?.city || 'Bengaluru'}
+                  <MapPin className="w-3 h-3 text-[#0066cc]" /> {currentUser?.city || 'Bengaluru'}
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 hover:text-[#282c3f] transition-colors"
+              className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 hover:text-[#0c2340] transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -93,14 +93,14 @@ export function CustomerSidebar({ isOpen, onClose, onOpenCheckout }) {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex-1 py-3 px-2 flex items-center justify-center gap-1.5 border-b-2 transition-all ${
                     isActive
-                      ? 'border-[#ff3f6c] text-[#ff3f6c] bg-white font-extrabold shadow-sm'
+                      ? 'border-[#0066cc] text-[#0066cc] bg-white font-extrabold shadow-sm'
                       : 'border-transparent hover:text-gray-900 hover:bg-gray-100/50'
                   }`}
                 >
                   <Icon className="w-3.5 h-3.5" />
                   <span>{tab.label}</span>
                   {tab.badge > 0 && (
-                    <span className="ml-0.5 px-1.5 py-0.2 text-[10px] bg-[#ff3f6c] text-white rounded-full">
+                    <span className="ml-0.5 px-1.5 py-0.2 text-[10px] bg-[#0066cc] text-white rounded-full">
                       {tab.badge}
                     </span>
                   )}
@@ -115,15 +115,15 @@ export function CustomerSidebar({ isOpen, onClose, onOpenCheckout }) {
             {/* ── PROFILE TAB ── */}
             {activeTab === 'profile' && (
               <div className="space-y-6">
-                <div className="bg-pink-50/70 p-4 rounded-xl border border-pink-100">
-                  <span className="text-[10px] font-extrabold uppercase text-[#ff3f6c] tracking-wider block mb-1">
+                <div className="bg-[#f0f7ff]/70 p-4 rounded-xl border border-blue-100">
+                  <span className="text-[10px] font-extrabold uppercase text-[#0066cc] tracking-wider block mb-1">
                     Zero-Query Personalization Persona
                   </span>
                   <p className="text-sm font-bold text-gray-900">{currentUser?.name}</p>
                   <p className="text-xs text-gray-500">{currentUser?.email}</p>
-                  <div className="mt-3 pt-3 border-t border-pink-200/60 flex items-center justify-between text-xs">
+                  <div className="mt-3 pt-3 border-t border-blue-200/60 flex items-center justify-between text-xs">
                     <span className="text-gray-500 font-semibold">City Proximity:</span>
-                    <span className="font-extrabold text-[#ff3f6c] flex items-center gap-1">
+                    <span className="font-extrabold text-[#0066cc] flex items-center gap-1">
                       <MapPin className="w-3 h-3" /> {currentUser?.city}
                     </span>
                   </div>
@@ -132,7 +132,7 @@ export function CustomerSidebar({ isOpen, onClose, onOpenCheckout }) {
                 {/* Past Search History */}
                 <div>
                   <h3 className="text-xs font-extrabold uppercase tracking-wider text-gray-500 mb-2 flex items-center gap-1.5">
-                    <Tag className="w-3.5 h-3.5 text-[#ff3f6c]" /> Interest Search History
+                    <Tag className="w-3.5 h-3.5 text-[#0066cc]" /> Interest Search History
                   </h3>
                   <div className="flex flex-wrap gap-1.5">
                     {currentUser?.search_history?.length > 0 ? (
@@ -162,7 +162,7 @@ export function CustomerSidebar({ isOpen, onClose, onOpenCheckout }) {
                         onClick={() => switchPersona(persona.id)}
                         className={`w-full text-left p-3 rounded-xl border transition-all flex items-center justify-between ${
                           currentUser?.id === persona.id
-                            ? 'border-[#ff3f6c] bg-pink-50/50 shadow-sm'
+                            ? 'border-[#0066cc] bg-[#f0f7ff]/50 shadow-sm'
                             : 'border-gray-200 hover:border-gray-300 hover:bg-gray-50'
                         }`}
                       >
@@ -171,7 +171,7 @@ export function CustomerSidebar({ isOpen, onClose, onOpenCheckout }) {
                           <p className="text-[11px] text-gray-500">{persona.style} · {persona.city}</p>
                         </div>
                         {currentUser?.id === persona.id && (
-                          <CheckCircle2 className="w-4 h-4 text-[#ff3f6c]" />
+                          <CheckCircle2 className="w-4 h-4 text-[#0066cc]" />
                         )}
                       </button>
                     ))}
@@ -198,7 +198,7 @@ export function CustomerSidebar({ isOpen, onClose, onOpenCheckout }) {
                         onClose();
                         navigate('/login');
                       }}
-                      className="w-full py-2.5 px-4 bg-gradient-to-r from-[#ff3f6c] to-[#ff7034] hover:opacity-95 text-white rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md"
+                      className="w-full py-2.5 px-4 bg-gradient-to-r from-[#0066cc] to-[#ff7034] hover:opacity-95 text-white rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md"
                     >
                       <User className="w-4 h-4" />
                       <span>Sign In / Create Account</span>
@@ -214,7 +214,7 @@ export function CustomerSidebar({ isOpen, onClose, onOpenCheckout }) {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-xs font-extrabold uppercase tracking-wider text-gray-500">My Orders</h3>
-                  <button onClick={fetchOrders} className="text-xs text-[#ff3f6c] font-bold flex items-center gap-1">
+                  <button onClick={fetchOrders} className="text-xs text-[#0066cc] font-bold flex items-center gap-1">
                     <RefreshCw className="w-3 h-3" /> Refresh
                   </button>
                 </div>
@@ -288,7 +288,7 @@ export function CustomerSidebar({ isOpen, onClose, onOpenCheckout }) {
                             <p className="text-xs font-bold text-gray-900 truncate">{item.product?.title}</p>
                             <p className="text-[11px] text-gray-500 font-semibold">Qty: {item.quantity} × ₹{item.product?.price}</p>
                           </div>
-                          <span className="text-xs font-extrabold text-[#ff3f6c]">
+                          <span className="text-xs font-extrabold text-[#0066cc]">
                             ₹{(item.product?.price * item.quantity).toLocaleString()}
                           </span>
                         </div>
@@ -298,14 +298,14 @@ export function CustomerSidebar({ isOpen, onClose, onOpenCheckout }) {
                     <div className="pt-4 border-t border-gray-200 space-y-3">
                       <div className="flex items-center justify-between text-sm">
                         <span className="font-bold text-gray-600">Total:</span>
-                        <span className="font-extrabold text-[#ff3f6c] text-lg">₹{totalAmount.toLocaleString()}</span>
+                        <span className="font-extrabold text-[#0066cc] text-lg">₹{totalAmount.toLocaleString()}</span>
                       </div>
                       <button
                         onClick={() => {
                           onClose();
                           navigate('/cart');
                         }}
-                        className="w-full py-3 rounded-xl bg-[#ff3f6c] hover:bg-[#e62e5b] text-white font-extrabold text-xs uppercase tracking-wider shadow-md transition-colors flex items-center justify-center gap-2"
+                        className="w-full py-3 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs uppercase tracking-wider shadow-md transition-colors flex items-center justify-center gap-2"
                       >
                         <span>View Full Bag & Checkout</span>
                         <ArrowRight className="w-4 h-4" />

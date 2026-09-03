@@ -34,7 +34,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-[#282c3f] flex flex-col font-sans">
+    <div className="min-h-screen bg-gray-50 text-[#0c2340] flex flex-col font-sans">
       <Navbar
         onSearch={(q) => navigate(`/?search=${encodeURIComponent(q)}`)}
         searchQuery=""
@@ -56,8 +56,8 @@ export default function CartPage() {
             >
               <ArrowLeft className="w-4 h-4" />
             </button>
-            <h1 className="text-xl md:text-2xl font-black text-[#282c3f] tracking-tight flex items-center gap-2">
-              <ShoppingBag className="w-6 h-6 text-[#ff3f6c]" />
+            <h1 className="text-xl md:text-2xl font-black text-[#0c2340] tracking-tight flex items-center gap-2">
+              <ShoppingBag className="w-6 h-6 text-[#0066cc]" />
               <span>SHOPPING BAG</span>
               <span className="text-sm font-bold text-gray-500 font-mono">({cart.item_count || 0} Items)</span>
             </h1>
@@ -65,7 +65,7 @@ export default function CartPage() {
 
           {/* Stepper Steps */}
           <div className="hidden sm:flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider">
-            <span className="text-[#ff3f6c] border-b-2 border-[#ff3f6c] pb-1">1. BAG</span>
+            <span className="text-[#0066cc] border-b-2 border-[#0066cc] pb-1">1. BAG</span>
             <span className="text-gray-300">-----------</span>
             <span className="text-gray-400">2. ADDRESS</span>
             <span className="text-gray-300">-----------</span>
@@ -76,14 +76,14 @@ export default function CartPage() {
         {cartItems.length === 0 ? (
           /* Empty Cart View */
           <div className="bg-white rounded-2xl p-12 text-center border border-gray-200 shadow-sm max-w-md mx-auto my-8">
-            <div className="w-20 h-20 bg-pink-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-pink-100">
-              <ShoppingBag className="w-10 h-10 text-[#ff3f6c]" />
+            <div className="w-20 h-20 bg-[#f0f7ff] rounded-full flex items-center justify-center mx-auto mb-4 border border-blue-100">
+              <ShoppingBag className="w-10 h-10 text-[#0066cc]" />
             </div>
             <h2 className="text-lg font-black text-gray-900 mb-1">Your Shopping Bag is empty</h2>
             <p className="text-xs text-gray-500 mb-6">Explore our latest sneakers, athletic apparel, and accessories.</p>
             <button
               onClick={() => navigate('/')}
-              className="px-6 py-3 bg-[#ff3f6c] hover:bg-[#e0355d] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-lg transition-all"
+              className="px-6 py-3 bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-lg transition-all"
             >
               Start Shopping
             </button>
@@ -96,12 +96,12 @@ export default function CartPage() {
             <div className="lg:col-span-7 space-y-6">
               
               {/* Delivery Address Banner */}
-              <div className="bg-pink-50/60 border border-pink-100 rounded-2xl p-4 flex items-center justify-between">
+              <div className="bg-[#f0f7ff]/60 border border-blue-100 rounded-2xl p-4 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <MapPin className="w-5 h-5 text-[#ff3f6c]" />
+                  <MapPin className="w-5 h-5 text-[#0066cc]" />
                   <div>
                     <p className="text-xs font-extrabold text-gray-900">
-                      Deliver to: <span className="text-[#ff3f6c]">{currentUser?.name}</span> ({currentUser?.city})
+                      Deliver to: <span className="text-[#0066cc]">{currentUser?.name}</span> ({currentUser?.city})
                     </p>
                     <p className="text-[11px] text-gray-500">Express local seller dispatch priority active</p>
                   </div>
@@ -133,10 +133,10 @@ export default function CartPage() {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between">
                         <div>
-                          <h3 className="font-extrabold text-sm text-[#282c3f] tracking-tight">
+                          <h3 className="font-extrabold text-sm text-[#0c2340] tracking-tight">
                             {item.product?.brand}
                           </h3>
-                          <p className="text-xs text-[#535766] truncate mt-0.5 font-normal">
+                          <p className="text-xs text-[#5c6f84] truncate mt-0.5 font-normal">
                             {item.product?.title}
                           </p>
                         </div>
@@ -157,7 +157,7 @@ export default function CartPage() {
 
                       {/* Price Row */}
                       <div className="mt-3 flex items-baseline gap-2">
-                        <span className="font-extrabold text-sm text-[#282c3f]">
+                        <span className="font-extrabold text-sm text-[#0c2340]">
                           Rs. {int(item.product?.price * item.quantity)}
                         </span>
                         {item.product?.original_price > item.product?.price && (
@@ -181,7 +181,7 @@ export default function CartPage() {
                 <div className="bg-purple-50/80 rounded-2xl p-5 border border-purple-100 space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-extrabold uppercase tracking-wider text-purple-700 flex items-center gap-1.5">
-                      <Sparkles className="w-4 h-4 text-[#ff3f6c]" /> Frequently Bought Together
+                      <Sparkles className="w-4 h-4 text-[#0066cc]" /> Frequently Bought Together
                     </span>
                     <span className="text-[10px] bg-purple-200/60 text-purple-900 font-bold px-2 py-0.5 rounded-full">AI Suggested</span>
                   </div>
@@ -196,14 +196,14 @@ export default function CartPage() {
                           <div className="min-w-0">
                             <p className="text-xs font-bold text-gray-900 truncate">{fbt.title}</p>
                             <div className="flex items-center gap-2 text-xs">
-                              <span className="font-extrabold text-[#ff3f6c]">Rs. {int(fbt.price)}</span>
+                              <span className="font-extrabold text-[#0066cc]">Rs. {int(fbt.price)}</span>
                               <span className="text-gray-500">• {fbt.rating} ★</span>
                             </div>
                           </div>
                         </div>
                         <button
                           onClick={() => addToCart(fbt.id, 1, "Standard")}
-                          className="px-3.5 py-1.5 bg-[#ff3f6c] hover:bg-[#e0355d] text-white font-extrabold text-xs rounded-lg shadow transition-colors shrink-0"
+                          className="px-3.5 py-1.5 bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs rounded-lg shadow transition-colors shrink-0"
                         >
                           + Add
                         </button>
@@ -216,7 +216,7 @@ export default function CartPage() {
               {/* AI Copilot Cart Advisory Banner */}
               <div className="p-4 bg-gray-900 text-white rounded-2xl flex items-center justify-between gap-4 shadow-md">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#ff3f6c] flex items-center justify-center shrink-0">
+                  <div className="w-10 h-10 rounded-xl bg-[#0066cc] flex items-center justify-center shrink-0">
                     <Bot className="w-5 h-5 text-white" />
                   </div>
                   <div>
@@ -261,13 +261,13 @@ export default function CartPage() {
 
                 <div className="pt-4 border-t border-gray-200 flex items-baseline justify-between">
                   <span className="text-sm font-extrabold text-gray-900">Total Amount:</span>
-                  <span className="text-xl font-black text-[#ff3f6c]">Rs. {int(total)}</span>
+                  <span className="text-xl font-black text-[#0066cc]">Rs. {int(total)}</span>
                 </div>
 
                 {/* Main Checkout Button */}
                 <button
                   onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full py-4 rounded-xl bg-[#ff3f6c] hover:bg-[#e62e5b] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-colors"
+                  className="w-full py-4 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-colors"
                 >
                   <span>Proceed to Checkout</span>
                   <ArrowRight className="w-4 h-4" />
@@ -290,7 +290,7 @@ export default function CartPage() {
       <footer className="bg-gray-50 border-t border-gray-200 mt-16 py-8">
         <div className="max-w-[1200px] mx-auto px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
           <div>
-            <span className="font-extrabold text-[#282c3f]">RazorCartAI</span> • Agentic AI E-Commerce Platform
+            <span className="font-extrabold text-[#0c2340]">RazorCartAI</span> • Agentic AI E-Commerce Platform
           </div>
           <div className="flex items-center gap-4">
             <span>LangGraph Multi-Agent Engine</span>

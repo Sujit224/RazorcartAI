@@ -28,8 +28,8 @@ export const CartDrawer = () => {
         {/* Cart Header */}
         <div className="p-4 bg-white border-b border-gray-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <ShoppingBag className="w-5 h-5 text-[#ff3f6c]" />
-            <h3 className="font-extrabold text-base text-[#282c3f]">
+            <ShoppingBag className="w-5 h-5 text-[#0066cc]" />
+            <h3 className="font-extrabold text-base text-[#0c2340]">
               SHOPPING BAG ({cart.item_count} Items)
             </h3>
           </div>
@@ -42,10 +42,10 @@ export const CartDrawer = () => {
         </div>
 
         {/* Delivery Address Pill */}
-        <div className="bg-pink-50/70 px-4 py-2.5 border-b border-pink-100 flex items-center justify-between text-xs">
+        <div className="bg-[#f0f7ff]/70 px-4 py-2.5 border-b border-blue-100 flex items-center justify-between text-xs">
           <div className="flex items-center gap-1.5 text-gray-700">
-            <MapPin className="w-3.5 h-3.5 text-[#ff3f6c]" />
-            <span>Deliver to <strong className="text-[#282c3f]">{currentUser?.name}</strong>, {currentUser?.city}</span>
+            <MapPin className="w-3.5 h-3.5 text-[#0066cc]" />
+            <span>Deliver to <strong className="text-[#0c2340]">{currentUser?.name}</strong>, {currentUser?.city}</span>
           </div>
           <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded">
             Express Active
@@ -74,7 +74,7 @@ export const CartDrawer = () => {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex justify-between items-start">
-                    <h4 className="font-extrabold text-xs text-[#282c3f] truncate">{item.product.brand}</h4>
+                    <h4 className="font-extrabold text-xs text-[#0c2340] truncate">{item.product.brand}</h4>
                     <button
                       onClick={() => removeFromCart(item.id)}
                       className="text-gray-400 hover:text-red-500 transition-colors p-0.5"
@@ -95,7 +95,7 @@ export const CartDrawer = () => {
                   </div>
 
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="font-bold text-xs text-[#282c3f]">
+                    <span className="font-bold text-xs text-[#0c2340]">
                       Rs. {Math.round(item.product.price * item.quantity).toLocaleString()}
                     </span>
                     <span className="text-[10px] text-emerald-700 font-bold">
@@ -110,15 +110,15 @@ export const CartDrawer = () => {
           {/* FBT Recommendations Tile */}
           {cart.fbt_recommendations && cart.fbt_recommendations.length > 0 && (
             <div className="mt-4 pt-3 border-t border-gray-200">
-              <div className="flex items-center gap-1.5 text-xs font-extrabold text-[#282c3f] uppercase tracking-wider mb-2">
-                <Sparkles className="w-3.5 h-3.5 text-[#ff3f6c]" />
+              <div className="flex items-center gap-1.5 text-xs font-extrabold text-[#0c2340] uppercase tracking-wider mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-[#0066cc]" />
                 <span>Frequently Bought Together</span>
               </div>
               <div className="space-y-2">
                 {cart.fbt_recommendations.map((fbt) => (
                   <div
                     key={fbt.id}
-                    className="p-2.5 bg-pink-50/60 rounded-lg border border-pink-100 flex items-center justify-between gap-3"
+                    className="p-2.5 bg-[#f0f7ff]/60 rounded-lg border border-blue-100 flex items-center justify-between gap-3"
                   >
                     <img src={fbt.image_url} alt={fbt.title} className="w-10 h-10 object-cover rounded bg-white" />
                     <div className="flex-1 min-w-0">
@@ -129,7 +129,7 @@ export const CartDrawer = () => {
                     </div>
                     <button
                       onClick={() => addToCart(fbt.id, 1, "Standard")}
-                      className="px-2.5 py-1 bg-[#ff3f6c] hover:bg-[#e62e5b] text-white text-[11px] font-bold rounded shadow-sm"
+                      className="px-2.5 py-1 bg-[#0066cc] hover:bg-[#0052a3] text-white text-[11px] font-bold rounded shadow-sm"
                     >
                       + Add
                     </button>
@@ -152,15 +152,15 @@ export const CartDrawer = () => {
                 <span>Convenience / Delivery Fee:</span>
                 <span className="font-semibold text-emerald-700">{cart.shipping_fee === 0 ? "FREE" : `Rs. ${cart.shipping_fee}`}</span>
               </div>
-              <div className="flex justify-between pt-2 border-t border-gray-100 text-sm font-extrabold text-[#282c3f]">
+              <div className="flex justify-between pt-2 border-t border-gray-100 text-sm font-extrabold text-[#0c2340]">
                 <span>Total Amount:</span>
-                <span className="text-[#ff3f6c]">Rs. {Math.round(cart.total).toLocaleString()}</span>
+                <span className="text-[#0066cc]">Rs. {Math.round(cart.total).toLocaleString()}</span>
               </div>
             </div>
 
             <button
               onClick={handleProceedToCheckout}
-              className="w-full py-3 bg-[#ff3f6c] hover:bg-[#e62e5b] text-white font-extrabold text-sm rounded shadow-md flex items-center justify-center gap-2 transition-all uppercase tracking-wider"
+              className="w-full py-3 bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-sm rounded shadow-md flex items-center justify-center gap-2 transition-all uppercase tracking-wider"
             >
               <span>PROCEED TO CHECKOUT</span>
               <ArrowRight className="w-4 h-4" />

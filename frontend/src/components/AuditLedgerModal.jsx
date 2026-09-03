@@ -84,7 +84,7 @@ export const AuditLedgerModal = () => {
 
             <div className="bg-white p-3 rounded-xl border border-gray-200 shadow-sm">
               <span className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Recovered Lost Sales</span>
-              <div className="text-lg font-black text-[#ff3f6c] mt-0.5">
+              <div className="text-lg font-black text-[#0066cc] mt-0.5">
                 Rs. {Math.round(stats.recovered_revenue).toLocaleString()}
               </div>
             </div>
@@ -156,7 +156,7 @@ export const AuditLedgerModal = () => {
 
                     {/* Agent & Action */}
                     <td className="p-3 whitespace-nowrap">
-                      <span className="font-bold text-[#282c3f] block">{row.agent_type}</span>
+                      <span className="font-bold text-[#0c2340] block">{row.agent_type}</span>
                       <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-gray-100 text-gray-600">
                         {row.action_type}
                       </span>

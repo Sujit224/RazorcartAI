@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Bot, Sparkles } from 'lucide-react';
+import React from 'react';
+import { Sparkles } from 'lucide-react';
 import { useAgent } from '../context/AgentContext';
 
 export const AgenticChatbotLauncher = () => {
@@ -10,31 +10,32 @@ export const AgenticChatbotLauncher = () => {
   return (
     <div className="fixed bottom-6 right-6 z-40 flex items-center gap-3 animate-fade-in group">
       
-      {/* Sleek White Theme Pill: "Experience in Agentic Mode" */}
+      {/* Experience in Agentic Mode Pill */}
       <button
         onClick={() => setIsAgentOpen(true)}
-        className="flex items-center gap-2.5 pl-4 pr-3.5 py-2.5 bg-white hover:bg-pink-50 text-[#282c3f] hover:text-[#ff3f6c] rounded-full shadow-lg border border-[#eaeaec] hover:border-[#ff3f6c] transition-all duration-200 transform hover:scale-105 active:scale-95"
+        className="hidden sm:flex items-center gap-2 pl-4 pr-3.5 py-2.5 bg-white hover:bg-slate-50 text-[#0c2340] rounded-full shadow-md border border-[#e2e8f0] hover:border-[#00b386] transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
       >
         <span className="flex h-2 w-2 relative">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff3f6c] opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#ff3f6c]" />
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00b386] opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00b386]" />
         </span>
         
-        <span className="text-xs font-bold tracking-wide">
+        <span className="text-xs font-bold tracking-tight">
           Experience in Agentic Mode
         </span>
 
-        <Sparkles className="w-3.5 h-3.5 text-[#ff3f6c]" />
+        <Sparkles className="w-3.5 h-3.5 text-[#00b386]" />
       </button>
 
-      {/* Solid Circular Chatbot Launcher Button */}
+      {/* Razorpay 'Ask RAY' Widget Button */}
       <button
         onClick={() => setIsAgentOpen(true)}
-        className="w-14 h-14 rounded-full bg-[#ff3f6c] hover:bg-[#e62e5b] text-white flex items-center justify-center shadow-lg transition-all duration-200 transform hover:scale-110 active:scale-95 border-2 border-white"
-        title="Experience in Agentic Mode • Razorcart AI Copilot"
-        aria-label="Open Agentic AI Copilot"
+        className="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-emerald-50/50 text-[#0c2340] border-2 border-[#00b386] rounded-xl shadow-lg transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer font-extrabold text-sm"
+        title="Ask Agentic AI Copilot (RAY)"
+        aria-label="Ask RAY"
       >
-        <Bot className="w-7 h-7 text-white" />
+        <span className="w-4 h-4 text-[#00b386] flex items-center justify-center font-black text-base">✤</span>
+        <span className="tracking-tight">Ask RAY</span>
       </button>
 
     </div>

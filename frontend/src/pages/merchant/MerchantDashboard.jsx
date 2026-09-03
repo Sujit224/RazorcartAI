@@ -27,8 +27,8 @@ const STATUS_BADGE = {
 };
 
 const AGENT_BADGE = {
-  Discovery: 'bg-pink-50 text-[#ff3f6c] border-pink-200',
-  DiscoveryAgent: 'bg-pink-50 text-[#ff3f6c] border-pink-200',
+  Discovery: 'bg-[#f0f7ff] text-[#0066cc] border-blue-200',
+  DiscoveryAgent: 'bg-[#f0f7ff] text-[#0066cc] border-blue-200',
   Bundle: 'bg-purple-50 text-purple-700 border-purple-200',
   UpsellAgent: 'bg-purple-50 text-purple-700 border-purple-200',
   Negotiation: 'bg-indigo-50 text-indigo-700 border-indigo-200',
@@ -39,17 +39,17 @@ const AGENT_BADGE = {
   ZeroQueryPersonalizer: 'bg-teal-50 text-teal-700 border-teal-200',
 };
 
-const StatCard = ({ icon: Icon, label, value, sub, iconColor = 'text-[#ff3f6c]', iconBg = 'bg-[#ff3f6c]/10' }) => (
-  <div className="bg-white border border-[#eaeaec] rounded-2xl p-5 md:p-6 shadow-sm hover:border-gray-300 transition-all group">
+const StatCard = ({ icon: Icon, label, value, sub, iconColor = 'text-[#0066cc]', iconBg = 'bg-[#0066cc]/10' }) => (
+  <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 md:p-6 shadow-sm hover:border-gray-300 transition-all group">
     <div className="flex items-center justify-between mb-4">
-      <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#535766]">{label}</span>
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${iconBg} ${iconColor} border border-[#eaeaec]`}>
+      <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#5c6f84]">{label}</span>
+      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${iconBg} ${iconColor} border border-[#e2e8f0]`}>
         <Icon className="w-5 h-5" />
       </div>
     </div>
-    <p className="text-2xl md:text-3xl font-black text-[#282c3f] tracking-tight mb-2">{value}</p>
+    <p className="text-2xl md:text-3xl font-black text-[#0c2340] tracking-tight mb-2">{value}</p>
     {sub && (
-      <div className="flex items-center gap-1.5 text-xs text-[#535766]">
+      <div className="flex items-center gap-1.5 text-xs text-[#5c6f84]">
         {sub}
       </div>
     )}
@@ -265,10 +265,10 @@ export default function MerchantDashboard() {
 
   if (loadingDash) {
     return (
-      <div className="min-h-screen bg-white text-[#282c3f] flex items-center justify-center">
+      <div className="min-h-screen bg-white text-[#0c2340] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-10 h-10 border-3 border-[#ff3f6c] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-[#535766] font-extrabold text-xs uppercase tracking-wider">Loading Merchant Dashboard...</p>
+          <div className="w-10 h-10 border-3 border-[#0066cc] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-[#5c6f84] font-extrabold text-xs uppercase tracking-wider">Loading Merchant Dashboard...</p>
         </div>
       </div>
     );
@@ -289,30 +289,30 @@ export default function MerchantDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] text-[#282c3f] flex flex-col font-sans selection:bg-[#ff3f6c] selection:text-white">
+    <div className="min-h-screen bg-[#fafbfc] text-[#0c2340] flex flex-col font-sans selection:bg-[#0066cc] selection:text-white">
       
       {/* ── Top Header (Clean Myntra-Style Light Nav) ────────────────────────── */}
-      <header className="sticky top-0 z-40 bg-white border-b border-[#eaeaec] px-4 md:px-8 py-3.5 shadow-sm">
+      <header className="sticky top-0 z-40 bg-white border-b border-[#e2e8f0] px-4 md:px-8 py-3.5 shadow-sm">
         <div className="max-w-[1440px] mx-auto flex items-center justify-between">
           
           {/* Brand & Merchant Organization */}
           <div className="flex items-center gap-3 md:gap-5">
             <Link to="/" className="flex items-center">
               <span className="text-2xl font-black italic tracking-tight select-none">
-                <span className="text-[#FF3F6C]">Razorcart</span>
-                <span className="text-[#282c3f] ml-1">AI</span>
+                <span className="text-[#0066CC]">Razorcart</span>
+                <span className="text-[#0c2340] ml-1">AI</span>
               </span>
             </Link>
 
             <span className="hidden sm:inline-block text-[#d4d5d9]">|</span>
 
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gray-50 border border-[#eaeaec] flex items-center justify-center text-[#ff3f6c] shrink-0">
+              <div className="w-9 h-9 rounded-xl bg-gray-50 border border-[#e2e8f0] flex items-center justify-center text-[#0066cc] shrink-0">
                 <Building2 className="w-5 h-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h1 className="font-extrabold text-[#282c3f] text-sm md:text-base leading-tight">
+                  <h1 className="font-extrabold text-[#0c2340] text-sm md:text-base leading-tight">
                     {orgName}
                   </h1>
                   <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
@@ -320,8 +320,8 @@ export default function MerchantDashboard() {
                     Verified Merchant
                   </span>
                 </div>
-                <p className="text-[11px] text-[#535766] font-medium flex items-center gap-2">
-                  <span className="font-mono text-[#282c3f] font-bold">ID: {dash?.merchant_id || 'merch_001'}</span>
+                <p className="text-[11px] text-[#5c6f84] font-medium flex items-center gap-2">
+                  <span className="font-mono text-[#0c2340] font-bold">ID: {dash?.merchant_id || 'merch_001'}</span>
                   <span>•</span>
                   <span>{dash?.merchant_city || 'Bengaluru, India'}</span>
                 </p>
@@ -333,13 +333,13 @@ export default function MerchantDashboard() {
           <div className="flex items-center gap-3 md:gap-4">
             <Link
               to="/"
-              className="hidden md:flex items-center gap-1.5 text-xs font-bold text-[#535766] hover:text-[#ff3f6c] bg-[#f5f5f6] hover:bg-gray-100 border border-[#eaeaec] px-3.5 py-2 rounded-xl transition-all"
+              className="hidden md:flex items-center gap-1.5 text-xs font-bold text-[#5c6f84] hover:text-[#0066cc] bg-[#f5f5f6] hover:bg-gray-100 border border-[#e2e8f0] px-3.5 py-2 rounded-xl transition-all"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Storefront</span>
             </Link>
 
-            <span className="text-xs text-[#535766] font-mono hidden lg:block bg-[#f5f5f6] px-3 py-1.5 rounded-xl border border-[#eaeaec]">
+            <span className="text-xs text-[#5c6f84] font-mono hidden lg:block bg-[#f5f5f6] px-3 py-1.5 rounded-xl border border-[#e2e8f0]">
               {user.email}
             </span>
 
@@ -361,31 +361,31 @@ export default function MerchantDashboard() {
         <aside className="w-full md:w-64 shrink-0 space-y-4">
           
           {/* Organization Profile Card */}
-          <div className="bg-white border border-[#eaeaec] rounded-2xl p-5 shadow-sm">
+          <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 shadow-sm">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-11 h-11 rounded-xl bg-[#f5f5f6] border border-[#eaeaec] text-[#ff3f6c] flex items-center justify-center font-black text-lg">
+              <div className="w-11 h-11 rounded-xl bg-[#f5f5f6] border border-[#e2e8f0] text-[#0066cc] flex items-center justify-center font-black text-lg">
                 {orgName.charAt(0)}
               </div>
               <div className="min-w-0">
-                <h3 className="text-sm font-extrabold text-[#282c3f] truncate">{orgName}</h3>
-                <p className="text-[11px] text-[#535766] truncate font-medium">Enterprise Merchant</p>
+                <h3 className="text-sm font-extrabold text-[#0c2340] truncate">{orgName}</h3>
+                <p className="text-[11px] text-[#5c6f84] truncate font-medium">Enterprise Merchant</p>
               </div>
             </div>
             
-            <div className="pt-3 border-t border-[#eaeaec] grid grid-cols-2 gap-2 text-center">
-              <div className="bg-[#f9fafb] p-2.5 rounded-xl border border-[#eaeaec]">
+            <div className="pt-3 border-t border-[#e2e8f0] grid grid-cols-2 gap-2 text-center">
+              <div className="bg-[#f9fafb] p-2.5 rounded-xl border border-[#e2e8f0]">
                 <p className="text-[10px] uppercase font-extrabold text-[#94969f]">Products</p>
-                <p className="text-sm font-black text-[#282c3f]">{dash?.total_products || 0}</p>
+                <p className="text-sm font-black text-[#0c2340]">{dash?.total_products || 0}</p>
               </div>
-              <div className="bg-[#f9fafb] p-2.5 rounded-xl border border-[#eaeaec]">
+              <div className="bg-[#f9fafb] p-2.5 rounded-xl border border-[#e2e8f0]">
                 <p className="text-[10px] uppercase font-extrabold text-[#94969f]">Buyers</p>
-                <p className="text-sm font-black text-[#ff3f6c]">{dash?.total_customers || 0}</p>
+                <p className="text-sm font-black text-[#0066cc]">{dash?.total_customers || 0}</p>
               </div>
             </div>
           </div>
 
           {/* Navigation Tabs */}
-          <nav className="bg-white border border-[#eaeaec] rounded-2xl p-2.5 shadow-sm space-y-1.5">
+          <nav className="bg-white border border-[#e2e8f0] rounded-2xl p-2.5 shadow-sm space-y-1.5">
             <p className="text-[10px] font-extrabold text-[#94969f] uppercase tracking-wider px-3 py-1.5">
               Portal Navigation
             </p>
@@ -394,8 +394,8 @@ export default function MerchantDashboard() {
               onClick={() => setActiveTab('overview')}
               className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs transition-all text-left cursor-pointer ${
                 activeTab === 'overview'
-                  ? 'bg-[#ff3f6c] text-white shadow-sm'
-                  : 'text-[#535766] hover:bg-[#f5f5f6] hover:text-[#282c3f]'
+                  ? 'bg-[#0066cc] text-white shadow-sm'
+                  : 'text-[#5c6f84] hover:bg-[#f5f5f6] hover:text-[#0c2340]'
               }`}
             >
               <div className="flex items-center gap-2.5">
@@ -403,7 +403,7 @@ export default function MerchantDashboard() {
                 <span>Overview & Analytics</span>
               </div>
               <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md ${
-                activeTab === 'overview' ? 'bg-black/15 text-white' : 'bg-[#f5f5f6] text-[#535766]'
+                activeTab === 'overview' ? 'bg-black/15 text-white' : 'bg-[#f5f5f6] text-[#5c6f84]'
               }`}>
                 Live
               </span>
@@ -413,8 +413,8 @@ export default function MerchantDashboard() {
               onClick={() => setActiveTab('products')}
               className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs transition-all text-left cursor-pointer ${
                 activeTab === 'products'
-                  ? 'bg-[#ff3f6c] text-white shadow-sm'
-                  : 'text-[#535766] hover:bg-[#f5f5f6] hover:text-[#282c3f]'
+                  ? 'bg-[#0066cc] text-white shadow-sm'
+                  : 'text-[#5c6f84] hover:bg-[#f5f5f6] hover:text-[#0c2340]'
               }`}
             >
               <div className="flex items-center gap-2.5">
@@ -422,7 +422,7 @@ export default function MerchantDashboard() {
                 <span>Products Catalog</span>
               </div>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                activeTab === 'products' ? 'bg-black/15 text-white' : 'bg-gray-100 text-[#282c3f]'
+                activeTab === 'products' ? 'bg-black/15 text-white' : 'bg-gray-100 text-[#0c2340]'
               }`}>
                 {dash?.total_products || '10k+'}
               </span>
@@ -432,8 +432,8 @@ export default function MerchantDashboard() {
               onClick={() => setActiveTab('users')}
               className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs transition-all text-left cursor-pointer ${
                 activeTab === 'users'
-                  ? 'bg-[#ff3f6c] text-white shadow-sm'
-                  : 'text-[#535766] hover:bg-[#f5f5f6] hover:text-[#282c3f]'
+                  ? 'bg-[#0066cc] text-white shadow-sm'
+                  : 'text-[#5c6f84] hover:bg-[#f5f5f6] hover:text-[#0c2340]'
               }`}
             >
               <div className="flex items-center gap-2.5">
@@ -441,7 +441,7 @@ export default function MerchantDashboard() {
                 <span>Customer Journeys</span>
               </div>
               <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                activeTab === 'users' ? 'bg-black/15 text-white' : 'bg-pink-50 text-[#ff3f6c]'
+                activeTab === 'users' ? 'bg-black/15 text-white' : 'bg-[#f0f7ff] text-[#0066cc]'
               }`}>
                 {dash?.total_customers || 'Buyers'}
               </span>
@@ -449,12 +449,12 @@ export default function MerchantDashboard() {
           </nav>
 
           {/* Autonomous Engine Status Box */}
-          <div className="bg-white border border-[#eaeaec] rounded-2xl p-4 space-y-2 shadow-sm">
-            <div className="flex items-center gap-2 text-[#282c3f] font-extrabold text-xs">
-              <Bot className="w-4 h-4 text-[#ff3f6c]" />
+          <div className="bg-white border border-[#e2e8f0] rounded-2xl p-4 space-y-2 shadow-sm">
+            <div className="flex items-center gap-2 text-[#0c2340] font-extrabold text-xs">
+              <Bot className="w-4 h-4 text-[#0066cc]" />
               <span>Multi-Agent Core Active</span>
             </div>
-            <p className="text-[11px] text-[#535766] leading-relaxed font-normal">
+            <p className="text-[11px] text-[#5c6f84] leading-relaxed font-normal">
               Autonomous agents continually drive discovery ranking, FBT bundling, dynamic price locks, and gateway timeout recoveries.
             </p>
           </div>
@@ -470,17 +470,17 @@ export default function MerchantDashboard() {
             <div className="space-y-6">
               
               {/* Top Banner Card */}
-              <div className="bg-white border border-[#eaeaec] rounded-2xl p-6 md:p-8 shadow-sm">
+              <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 md:p-8 shadow-sm">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div className="space-y-1.5">
-                    <div className="inline-flex items-center gap-1.5 bg-[#f5f5f6] border border-[#eaeaec] px-3 py-1 rounded-full text-xs font-bold text-[#535766]">
-                      <Store className="w-3.5 h-3.5 text-[#ff3f6c]" />
+                    <div className="inline-flex items-center gap-1.5 bg-[#f5f5f6] border border-[#e2e8f0] px-3 py-1 rounded-full text-xs font-bold text-[#5c6f84]">
+                      <Store className="w-3.5 h-3.5 text-[#0066cc]" />
                       <span>{orgName}</span>
                     </div>
-                    <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#282c3f]">
+                    <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#0c2340]">
                       Merchant Operations & Telemetry
                     </h2>
-                    <p className="text-xs md:text-sm text-[#535766] max-w-xl font-medium">
+                    <p className="text-xs md:text-sm text-[#5c6f84] max-w-xl font-medium">
                       Real-time telemetry for your product catalog, agentic revenue lift, and buyer interactions.
                     </p>
                   </div>
@@ -488,14 +488,14 @@ export default function MerchantDashboard() {
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => setActiveTab('products')}
-                      className="px-4 py-2.5 rounded-xl bg-[#ff3f6c] hover:bg-[#e0355d] text-white font-extrabold text-xs transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+                      className="px-4 py-2.5 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs transition-all shadow-sm flex items-center gap-2 cursor-pointer"
                     >
                       <Plus className="w-4 h-4" />
                       <span>Add Product</span>
                     </button>
                     <button
                       onClick={() => setActiveTab('users')}
-                      className="px-4 py-2.5 rounded-xl bg-white hover:bg-gray-50 border border-[#eaeaec] text-[#282c3f] font-extrabold text-xs transition-all flex items-center gap-2 cursor-pointer"
+                      className="px-4 py-2.5 rounded-xl bg-white hover:bg-gray-50 border border-[#e2e8f0] text-[#0c2340] font-extrabold text-xs transition-all flex items-center gap-2 cursor-pointer"
                     >
                       <Users className="w-4 h-4" />
                       <span>View Customers</span>
@@ -510,8 +510,8 @@ export default function MerchantDashboard() {
                   icon={IndianRupee}
                   label="Total Gross Revenue"
                   value={fmt(dash?.total_revenue)}
-                  sub={<span className="font-medium text-[#535766]">Completed customer checkouts</span>}
-                  iconColor="text-[#282c3f]"
+                  sub={<span className="font-medium text-[#5c6f84]">Completed customer checkouts</span>}
+                  iconColor="text-[#0c2340]"
                   iconBg="bg-gray-100"
                 />
                 <StatCard
@@ -540,24 +540,24 @@ export default function MerchantDashboard() {
                   label="Today's Revenue"
                   value={fmt(dash?.today_revenue)}
                   sub={
-                    <span className="font-medium text-[#535766]">
-                      AI profit: <span className="font-bold text-[#ff3f6c]">{fmt(dash?.today_ai_profit)}</span>
+                    <span className="font-medium text-[#5c6f84]">
+                      AI profit: <span className="font-bold text-[#0066cc]">{fmt(dash?.today_ai_profit)}</span>
                     </span>
                   }
-                  iconColor="text-[#ff3f6c]"
-                  iconBg="bg-pink-50"
+                  iconColor="text-[#0066cc]"
+                  iconBg="bg-[#f0f7ff]"
                 />
               </div>
 
               {/* Chart: Revenue vs AI Profit */}
-              <div className="bg-white border border-[#eaeaec] rounded-2xl p-6 md:p-7 shadow-sm">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-6 border-b border-[#eaeaec] gap-2">
+              <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 md:p-7 shadow-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-6 border-b border-[#e2e8f0] gap-2">
                   <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-gray-50 border border-[#eaeaec] flex items-center justify-center text-[#ff3f6c]">
+                    <div className="w-8 h-8 rounded-lg bg-gray-50 border border-[#e2e8f0] flex items-center justify-center text-[#0066cc]">
                       <TrendingUp className="w-4 h-4" />
                     </div>
                     <div>
-                      <h2 className="text-base font-extrabold text-[#282c3f]">
+                      <h2 className="text-base font-extrabold text-[#0c2340]">
                         Revenue vs AI Profit (Last 30 Days)
                       </h2>
                       <p className="text-xs text-[#94969f]">
@@ -566,7 +566,7 @@ export default function MerchantDashboard() {
                     </div>
                   </div>
 
-                  <span className="self-start sm:self-auto text-[11px] font-mono font-bold uppercase tracking-wider text-[#535766] bg-[#f5f5f6] px-3 py-1 rounded-md border border-[#eaeaec]">
+                  <span className="self-start sm:self-auto text-[11px] font-mono font-bold uppercase tracking-wider text-[#5c6f84] bg-[#f5f5f6] px-3 py-1 rounded-md border border-[#e2e8f0]">
                     30-Day Window
                   </span>
                 </div>
@@ -582,38 +582,38 @@ export default function MerchantDashboard() {
                       <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f2" />
                       <XAxis
                         dataKey="date"
-                        tick={{ fill: '#535766', fontSize: 11, fontWeight: 600 }}
+                        tick={{ fill: '#5c6f84', fontSize: 11, fontWeight: 600 }}
                         tickLine={false}
-                        stroke="#eaeaec"
+                        stroke="#e2e8f0"
                       />
                       <YAxis
                         tickFormatter={(v) => `₹${v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v}`}
-                        tick={{ fill: '#535766', fontSize: 11, fontWeight: 600 }}
+                        tick={{ fill: '#5c6f84', fontSize: 11, fontWeight: 600 }}
                         tickLine={false}
                         axisLine={false}
-                        stroke="#eaeaec"
+                        stroke="#e2e8f0"
                       />
                       <Tooltip
                         contentStyle={{
                           background: '#ffffff',
-                          border: '1px solid #eaeaec',
+                          border: '1px solid #e2e8f0',
                           borderRadius: 12,
                           boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                          color: '#282c3f',
+                          color: '#0c2340',
                           fontSize: 12,
                           fontWeight: 700,
                         }}
                         formatter={(val, name) => [`₹${Number(val).toLocaleString('en-IN')}`, name]}
                       />
                       <Legend
-                        wrapperStyle={{ color: '#535766', fontSize: 12, fontWeight: 700, paddingTop: 10 }}
+                        wrapperStyle={{ color: '#5c6f84', fontSize: 12, fontWeight: 700, paddingTop: 10 }}
                       />
                       <Line
                         type="monotone"
                         dataKey="revenue"
-                        stroke="#ff3f6c"
+                        stroke="#0066cc"
                         strokeWidth={2.5}
-                        dot={{ r: 3, fill: '#ff3f6c' }}
+                        dot={{ r: 3, fill: '#0066cc' }}
                         activeDot={{ r: 5 }}
                         name="Total Revenue"
                       />
@@ -633,17 +633,17 @@ export default function MerchantDashboard() {
               </div>
 
               {/* Transaction Audit Ledger */}
-              <div className="bg-white border border-[#eaeaec] rounded-2xl shadow-sm overflow-hidden">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 border-b border-[#eaeaec] gap-2 bg-white">
+              <div className="bg-white border border-[#e2e8f0] rounded-2xl shadow-sm overflow-hidden">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 border-b border-[#e2e8f0] gap-2 bg-white">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-gray-50 border border-[#eaeaec] flex items-center justify-center text-[#ff3f6c]">
+                    <div className="w-8 h-8 rounded-lg bg-gray-50 border border-[#e2e8f0] flex items-center justify-center text-[#0066cc]">
                       <Package className="w-4 h-4" />
                     </div>
                     <div>
-                      <h2 className="font-extrabold text-[#282c3f] text-base">Transaction Audit Ledger</h2>
+                      <h2 className="font-extrabold text-[#0c2340] text-base">Transaction Audit Ledger</h2>
                       <p className="text-[11px] text-[#94969f]">Full agentic decision trail for every transaction</p>
                     </div>
-                    <span className="ml-2 text-xs bg-[#f5f5f6] text-[#282c3f] px-2.5 py-0.5 rounded-full font-extrabold border border-[#eaeaec]">
+                    <span className="ml-2 text-xs bg-[#f5f5f6] text-[#0c2340] px-2.5 py-0.5 rounded-full font-extrabold border border-[#e2e8f0]">
                       {txns.total} entries
                     </span>
                   </div>
@@ -657,7 +657,7 @@ export default function MerchantDashboard() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm text-left">
                     <thead>
-                      <tr className="bg-[#f9fafb] text-[11px] font-extrabold text-[#535766] uppercase tracking-wider border-b border-[#eaeaec]">
+                      <tr className="bg-[#f9fafb] text-[11px] font-extrabold text-[#5c6f84] uppercase tracking-wider border-b border-[#e2e8f0]">
                         <th className="px-5 py-3.5">Timestamp</th>
                         <th className="px-5 py-3.5">Agent</th>
                         <th className="px-5 py-3.5">Action</th>
@@ -667,7 +667,7 @@ export default function MerchantDashboard() {
                         <th className="px-5 py-3.5 text-center">Audit</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#eaeaec]">
+                    <tbody className="divide-y divide-[#e2e8f0]">
                       {txns.transactions?.length === 0 ? (
                         <tr>
                           <td colSpan={7} className="px-5 py-8 text-center text-[#94969f] text-xs">
@@ -685,7 +685,7 @@ export default function MerchantDashboard() {
                                 className="hover:bg-gray-50/70 cursor-pointer transition-colors"
                                 onClick={() => setExpandedRow(isExpanded ? null : t.id)}
                               >
-                                <td className="px-5 py-4 text-[#535766] text-xs font-mono whitespace-nowrap">
+                                <td className="px-5 py-4 text-[#5c6f84] text-xs font-mono whitespace-nowrap">
                                   {new Date(t.timestamp).toLocaleString('en-IN', {
                                     month: 'short',
                                     day: 'numeric',
@@ -696,16 +696,16 @@ export default function MerchantDashboard() {
                                 <td className="px-5 py-4">
                                   <span
                                     className={`text-[11px] font-extrabold px-2.5 py-1 rounded-md border ${
-                                      AGENT_BADGE[t.agent_type] || AGENT_BADGE[agentClean] || 'bg-gray-100 text-[#282c3f] border-gray-200'
+                                      AGENT_BADGE[t.agent_type] || AGENT_BADGE[agentClean] || 'bg-gray-100 text-[#0c2340] border-gray-200'
                                     }`}
                                   >
                                     {agentClean}
                                   </span>
                                 </td>
-                                <td className="px-5 py-4 text-xs font-semibold text-[#282c3f] max-w-[200px] truncate">
+                                <td className="px-5 py-4 text-xs font-semibold text-[#0c2340] max-w-[200px] truncate">
                                   {t.action_type}
                                 </td>
-                                <td className="px-5 py-4 text-right font-black text-[#282c3f]">
+                                <td className="px-5 py-4 text-right font-black text-[#0c2340]">
                                   {t.money_amount > 0 ? fmt(t.money_amount) : '—'}
                                 </td>
                                 <td className="px-5 py-4 text-right font-black text-emerald-700">
@@ -727,7 +727,7 @@ export default function MerchantDashboard() {
                                 <td className="px-5 py-4 text-center">
                                   <button
                                     type="button"
-                                    className="text-[#94969f] hover:text-[#282c3f] transition-colors"
+                                    className="text-[#94969f] hover:text-[#0c2340] transition-colors"
                                   >
                                     {isExpanded ? (
                                       <ChevronUp className="w-4 h-4 mx-auto" />
@@ -739,25 +739,25 @@ export default function MerchantDashboard() {
                               </tr>
 
                               {isExpanded && (
-                                <tr className="bg-[#fbfafd] border-b border-[#eaeaec]">
+                                <tr className="bg-[#fbfafd] border-b border-[#e2e8f0]">
                                   <td colSpan={7} className="px-6 py-4">
-                                    <div className="bg-white border border-[#eaeaec] rounded-xl p-4 shadow-sm space-y-3">
+                                    <div className="bg-white border border-[#e2e8f0] rounded-xl p-4 shadow-sm space-y-3">
                                       <div className="flex items-center gap-2">
-                                        <div className="w-6 h-6 rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center text-[#ff3f6c]">
+                                        <div className="w-6 h-6 rounded-md bg-gray-100 border border-gray-200 flex items-center justify-center text-[#0066cc]">
                                           <Bot className="w-3.5 h-3.5" />
                                         </div>
-                                        <span className="text-xs font-extrabold text-[#ff3f6c] uppercase tracking-wider">
+                                        <span className="text-xs font-extrabold text-[#0066cc] uppercase tracking-wider">
                                           Autonomous Agent Reasoning
                                         </span>
                                       </div>
-                                      <p className="text-xs text-[#535766] leading-relaxed font-normal bg-[#f9fafb] p-3 rounded-lg border border-[#eaeaec]">
+                                      <p className="text-xs text-[#5c6f84] leading-relaxed font-normal bg-[#f9fafb] p-3 rounded-lg border border-[#e2e8f0]">
                                         {t.decision_reasoning || 'Transaction recorded without additional agent metadata.'}
                                       </p>
                                       {t.rating_review_impact && (
                                         <div className="flex items-center gap-2 pt-1 text-xs text-amber-700">
                                           <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                                           <span className="font-bold">Customer Rating Impact:</span>
-                                          <span className="text-[#535766]">{t.rating_review_impact}</span>
+                                          <span className="text-[#5c6f84]">{t.rating_review_impact}</span>
                                         </div>
                                       )}
                                     </div>
@@ -773,22 +773,22 @@ export default function MerchantDashboard() {
                 </div>
 
                 {totalTxnPages > 1 && (
-                  <div className="flex items-center justify-between px-6 py-4 border-t border-[#eaeaec] bg-white">
-                    <span className="text-xs text-[#535766] font-semibold">
+                  <div className="flex items-center justify-between px-6 py-4 border-t border-[#e2e8f0] bg-white">
+                    <span className="text-xs text-[#5c6f84] font-semibold">
                       Page {page} of {totalTxnPages}
                     </span>
                     <div className="flex gap-2">
                       <button
                         disabled={page <= 1}
                         onClick={() => loadTxnPage(page - 1)}
-                        className="p-2 rounded-lg border border-[#eaeaec] hover:bg-gray-50 text-[#282c3f] disabled:opacity-30 transition-colors cursor-pointer"
+                        className="p-2 rounded-lg border border-[#e2e8f0] hover:bg-gray-50 text-[#0c2340] disabled:opacity-30 transition-colors cursor-pointer"
                       >
                         <ChevronLeft className="w-4 h-4" />
                       </button>
                       <button
                         disabled={page >= totalTxnPages}
                         onClick={() => loadTxnPage(page + 1)}
-                        className="p-2 rounded-lg border border-[#eaeaec] hover:bg-gray-50 text-[#282c3f] disabled:opacity-30 transition-colors cursor-pointer"
+                        className="p-2 rounded-lg border border-[#e2e8f0] hover:bg-gray-50 text-[#0c2340] disabled:opacity-30 transition-colors cursor-pointer"
                       >
                         <ChevronRight className="w-4 h-4" />
                       </button>
@@ -806,15 +806,15 @@ export default function MerchantDashboard() {
             <div className="space-y-6">
               
               {/* Products Header Bar */}
-              <div className="bg-white border border-[#eaeaec] rounded-2xl p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-black text-[#282c3f]">Product Catalog</h2>
-                    <span className="text-xs font-mono font-bold bg-[#f5f5f6] text-[#282c3f] px-2.5 py-0.5 rounded-md border border-[#eaeaec]">
+                    <h2 className="text-lg font-black text-[#0c2340]">Product Catalog</h2>
+                    <span className="text-xs font-mono font-bold bg-[#f5f5f6] text-[#0c2340] px-2.5 py-0.5 rounded-md border border-[#e2e8f0]">
                       {productsData.total} Total Items
                     </span>
                   </div>
-                  <p className="text-xs text-[#535766] font-medium mt-0.5">
+                  <p className="text-xs text-[#5c6f84] font-medium mt-0.5">
                     Manage store catalog items, add new merchandise, and sync with RAG vector search.
                   </p>
                 </div>
@@ -831,7 +831,7 @@ export default function MerchantDashboard() {
                         setProdSearch(e.target.value);
                         fetchProducts(1, e.target.value, prodCategory);
                       }}
-                      className="w-full pl-9 pr-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#ff3f6c] transition-all"
+                      className="w-full pl-9 pr-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#0066cc] transition-all"
                     />
                   </div>
 
@@ -842,7 +842,7 @@ export default function MerchantDashboard() {
                       setProdCategory(e.target.value);
                       fetchProducts(1, prodSearch, e.target.value);
                     }}
-                    className="py-2 px-3 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-bold text-[#535766] focus:outline-none focus:border-[#ff3f6c] cursor-pointer"
+                    className="py-2 px-3 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-bold text-[#5c6f84] focus:outline-none focus:border-[#0066cc] cursor-pointer"
                   >
                     <option value="ALL">All Categories</option>
                     {productsData.categories?.map((c) => (
@@ -853,7 +853,7 @@ export default function MerchantDashboard() {
                   {/* Add Product Button */}
                   <button
                     onClick={() => setIsAddModalOpen(true)}
-                    className="flex items-center gap-1.5 px-4 py-2 bg-[#ff3f6c] hover:bg-[#e0355d] text-white font-extrabold text-xs rounded-xl shadow-sm transition-all cursor-pointer"
+                    className="flex items-center gap-1.5 px-4 py-2 bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs rounded-xl shadow-sm transition-all cursor-pointer"
                   >
                     <Plus className="w-4 h-4" />
                     <span>Add Product</span>
@@ -862,23 +862,23 @@ export default function MerchantDashboard() {
               </div>
 
               {/* Products Table */}
-              <div className="bg-white border border-[#eaeaec] rounded-2xl shadow-sm overflow-hidden">
+              <div className="bg-white border border-[#e2e8f0] rounded-2xl shadow-sm overflow-hidden">
                 {loadingProducts ? (
                   <div className="py-16 text-center">
-                    <div className="w-8 h-8 border-3 border-[#ff3f6c] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-                    <p className="text-xs font-bold text-[#535766]">Loading catalog products...</p>
+                    <div className="w-8 h-8 border-3 border-[#0066cc] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                    <p className="text-xs font-bold text-[#5c6f84]">Loading catalog products...</p>
                   </div>
                 ) : productsData.products?.length === 0 ? (
                   <div className="py-16 text-center text-gray-400">
                     <Package className="w-10 h-10 mx-auto mb-2 text-gray-300" />
-                    <p className="text-sm font-bold text-[#282c3f]">No products found</p>
+                    <p className="text-sm font-bold text-[#0c2340]">No products found</p>
                     <p className="text-xs text-[#94969f]">Try adjusting your search or category filter.</p>
                   </div>
                 ) : (
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm text-left">
                       <thead>
-                        <tr className="bg-[#f9fafb] text-[11px] font-extrabold text-[#535766] uppercase tracking-wider border-b border-[#eaeaec]">
+                        <tr className="bg-[#f9fafb] text-[11px] font-extrabold text-[#5c6f84] uppercase tracking-wider border-b border-[#e2e8f0]">
                           <th className="px-5 py-3.5">Product</th>
                           <th className="px-5 py-3.5">Category</th>
                           <th className="px-5 py-3.5">Gender</th>
@@ -888,7 +888,7 @@ export default function MerchantDashboard() {
                           <th className="px-5 py-3.5 text-center">Actions</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-[#eaeaec]">
+                      <tbody className="divide-y divide-[#e2e8f0]">
                         {productsData.products?.map((p) => (
                           <tr key={p.id} className="hover:bg-gray-50/70 transition-colors">
                             {/* Product Info */}
@@ -897,14 +897,14 @@ export default function MerchantDashboard() {
                                 <img
                                   src={p.image_url}
                                   alt={p.title}
-                                  className="w-12 h-14 object-cover rounded-lg border border-[#eaeaec] bg-[#f5f5f6] shrink-0"
+                                  className="w-12 h-14 object-cover rounded-lg border border-[#e2e8f0] bg-[#f5f5f6] shrink-0"
                                   onError={(e) => {
                                     e.target.src = 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&q=80';
                                   }}
                                 />
                                 <div className="min-w-0 max-w-[280px]">
-                                  <p className="font-bold text-xs text-[#282c3f] truncate">{p.title}</p>
-                                  <p className="text-[11px] text-[#ff3f6c] font-black uppercase tracking-wider">{p.brand}</p>
+                                  <p className="font-bold text-xs text-[#0c2340] truncate">{p.title}</p>
+                                  <p className="text-[11px] text-[#0066cc] font-black uppercase tracking-wider">{p.brand}</p>
                                   <p className="text-[10px] text-[#94969f] font-mono">ID #{p.id}</p>
                                 </div>
                               </div>
@@ -912,19 +912,19 @@ export default function MerchantDashboard() {
 
                             {/* Category */}
                             <td className="px-5 py-3.5">
-                              <span className="text-xs font-semibold text-[#535766] bg-[#f5f5f6] px-2.5 py-1 rounded-md border border-[#eaeaec]">
+                              <span className="text-xs font-semibold text-[#5c6f84] bg-[#f5f5f6] px-2.5 py-1 rounded-md border border-[#e2e8f0]">
                                 {p.category}
                               </span>
                             </td>
 
                             {/* Gender */}
-                            <td className="px-5 py-3.5 text-xs text-[#535766] font-medium">
+                            <td className="px-5 py-3.5 text-xs text-[#5c6f84] font-medium">
                               {p.gender}
                             </td>
 
                             {/* Price */}
                             <td className="px-5 py-3.5 text-right">
-                              <div className="font-black text-sm text-[#282c3f]">
+                              <div className="font-black text-sm text-[#0c2340]">
                                 {fmt(p.price)}
                               </div>
                               {p.discount_pct > 0 && (
@@ -970,22 +970,22 @@ export default function MerchantDashboard() {
 
                 {/* Pagination */}
                 {totalProdPages > 1 && (
-                  <div className="flex items-center justify-between px-6 py-4 border-t border-[#eaeaec] bg-white">
-                    <span className="text-xs text-[#535766] font-semibold">
+                  <div className="flex items-center justify-between px-6 py-4 border-t border-[#e2e8f0] bg-white">
+                    <span className="text-xs text-[#5c6f84] font-semibold">
                       Showing Page {prodPage} of {totalProdPages} ({productsData.total} products)
                     </span>
                     <div className="flex gap-2">
                       <button
                         disabled={prodPage <= 1}
                         onClick={() => fetchProducts(prodPage - 1, prodSearch, prodCategory)}
-                        className="p-2 rounded-lg border border-[#eaeaec] hover:bg-gray-50 text-[#282c3f] disabled:opacity-30 transition-colors cursor-pointer"
+                        className="p-2 rounded-lg border border-[#e2e8f0] hover:bg-gray-50 text-[#0c2340] disabled:opacity-30 transition-colors cursor-pointer"
                       >
                         <ChevronLeft className="w-4 h-4" />
                       </button>
                       <button
                         disabled={prodPage >= totalProdPages}
                         onClick={() => fetchProducts(prodPage + 1, prodSearch, prodCategory)}
-                        className="p-2 rounded-lg border border-[#eaeaec] hover:bg-gray-50 text-[#282c3f] disabled:opacity-30 transition-colors cursor-pointer"
+                        className="p-2 rounded-lg border border-[#e2e8f0] hover:bg-gray-50 text-[#0c2340] disabled:opacity-30 transition-colors cursor-pointer"
                       >
                         <ChevronRight className="w-4 h-4" />
                       </button>
@@ -1003,15 +1003,15 @@ export default function MerchantDashboard() {
             <div className="space-y-6">
               
               {/* Customers Header Bar */}
-              <div className="bg-white border border-[#eaeaec] rounded-2xl p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-black text-[#282c3f]">Razorcart Buyers & Action Telemetry</h2>
-                    <span className="text-xs font-mono font-bold bg-pink-50 text-[#ff3f6c] px-2.5 py-0.5 rounded-md border border-pink-200">
+                    <h2 className="text-lg font-black text-[#0c2340]">Razorcart Buyers & Action Telemetry</h2>
+                    <span className="text-xs font-mono font-bold bg-[#f0f7ff] text-[#0066cc] px-2.5 py-0.5 rounded-md border border-blue-200">
                       {customersData.total_customers} Verified Customers
                     </span>
                   </div>
-                  <p className="text-xs text-[#535766] font-medium mt-0.5">
+                  <p className="text-xs text-[#5c6f84] font-medium mt-0.5">
                     Click on any customer to inspect their action history and see how Razorcart AI boosted revenue at every stage.
                   </p>
                 </div>
@@ -1023,21 +1023,21 @@ export default function MerchantDashboard() {
                     placeholder="Search name, email, city..."
                     value={customerSearch}
                     onChange={(e) => setCustomerSearch(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#ff3f6c] transition-all"
+                    className="w-full pl-9 pr-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#0066cc] transition-all"
                   />
                 </div>
               </div>
 
               {/* Customers Directory Cards */}
               {loadingCustomers ? (
-                <div className="py-16 text-center bg-white rounded-2xl border border-[#eaeaec]">
-                  <div className="w-8 h-8 border-3 border-[#ff3f6c] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-                  <p className="text-xs font-bold text-[#535766]">Loading customer buyer profiles...</p>
+                <div className="py-16 text-center bg-white rounded-2xl border border-[#e2e8f0]">
+                  <div className="w-8 h-8 border-3 border-[#0066cc] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                  <p className="text-xs font-bold text-[#5c6f84]">Loading customer buyer profiles...</p>
                 </div>
               ) : filteredCustomers?.length === 0 ? (
-                <div className="py-16 text-center bg-white rounded-2xl border border-[#eaeaec] text-gray-400">
+                <div className="py-16 text-center bg-white rounded-2xl border border-[#e2e8f0] text-gray-400">
                   <Users className="w-10 h-10 mx-auto mb-2 text-gray-300" />
-                  <p className="text-sm font-bold text-[#282c3f]">No customers found</p>
+                  <p className="text-sm font-bold text-[#0c2340]">No customers found</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -1045,26 +1045,26 @@ export default function MerchantDashboard() {
                     <div
                       key={c.id}
                       onClick={() => handleOpenCustomer(c.id)}
-                      className="bg-white border border-[#eaeaec] hover:border-[#ff3f6c]/40 hover:shadow-md rounded-2xl p-5 md:p-6 transition-all cursor-pointer group flex flex-col justify-between"
+                      className="bg-white border border-[#e2e8f0] hover:border-[#0066cc]/40 hover:shadow-md rounded-2xl p-5 md:p-6 transition-all cursor-pointer group flex flex-col justify-between"
                     >
                       <div className="space-y-4">
                         
                         {/* Top Profile Bar */}
                         <div className="flex items-start justify-between">
                           <div className="flex items-center gap-3">
-                            <div className="w-12 h-12 rounded-xl bg-pink-50 border border-pink-200 text-[#ff3f6c] font-black text-lg flex items-center justify-center">
+                            <div className="w-12 h-12 rounded-xl bg-[#f0f7ff] border border-blue-200 text-[#0066cc] font-black text-lg flex items-center justify-center">
                               {c.name?.charAt(0) || 'U'}
                             </div>
                             <div>
                               <div className="flex items-center gap-2">
-                                <h3 className="font-extrabold text-[#282c3f] text-sm group-hover:text-[#ff3f6c] transition-colors">
+                                <h3 className="font-extrabold text-[#0c2340] text-sm group-hover:text-[#0066cc] transition-colors">
                                   {c.name}
                                 </h3>
-                                <span className="text-[10px] font-mono text-[#535766] bg-[#f5f5f6] px-2 py-0.5 rounded-md border border-[#eaeaec]">
+                                <span className="text-[10px] font-mono text-[#5c6f84] bg-[#f5f5f6] px-2 py-0.5 rounded-md border border-[#e2e8f0]">
                                   UID #{c.id}
                                 </span>
                               </div>
-                              <p className="text-xs text-[#535766] font-medium">{c.email}</p>
+                              <p className="text-xs text-[#5c6f84] font-medium">{c.email}</p>
                               <p className="text-[11px] text-[#94969f] flex items-center gap-1 mt-0.5">
                                 <MapPin className="w-3 h-3 text-gray-400" />
                                 <span>{c.city}</span>
@@ -1072,32 +1072,32 @@ export default function MerchantDashboard() {
                             </div>
                           </div>
 
-                          <span className="p-2 rounded-xl bg-[#f5f5f6] text-[#535766] group-hover:text-white group-hover:bg-[#ff3f6c] transition-all border border-[#eaeaec]">
+                          <span className="p-2 rounded-xl bg-[#f5f5f6] text-[#5c6f84] group-hover:text-white group-hover:bg-[#0066cc] transition-all border border-[#e2e8f0]">
                             <ArrowRight className="w-4 h-4" />
                           </span>
                         </div>
 
                         {/* Metrics Bar */}
-                        <div className="grid grid-cols-3 gap-2 bg-[#f9fafb] p-3 rounded-xl border border-[#eaeaec] text-center">
+                        <div className="grid grid-cols-3 gap-2 bg-[#f9fafb] p-3 rounded-xl border border-[#e2e8f0] text-center">
                           <div>
                             <p className="text-[10px] uppercase font-extrabold text-[#94969f]">Gross Spend</p>
-                            <p className="text-sm font-black text-[#282c3f]">{fmt(c.total_spend)}</p>
+                            <p className="text-sm font-black text-[#0c2340]">{fmt(c.total_spend)}</p>
                           </div>
                           <div>
                             <p className="text-[10px] uppercase font-extrabold text-emerald-700">AI Revenue Lift</p>
                             <p className="text-sm font-black text-emerald-700">+{fmt(c.ai_profit_lift)}</p>
                           </div>
                           <div>
-                            <p className="text-[10px] uppercase font-extrabold text-[#535766]">Actions</p>
-                            <p className="text-sm font-black text-[#282c3f]">{c.total_actions}</p>
+                            <p className="text-[10px] uppercase font-extrabold text-[#5c6f84]">Actions</p>
+                            <p className="text-sm font-black text-[#0c2340]">{c.total_actions}</p>
                           </div>
                         </div>
 
                         {/* Recent Activity */}
-                        <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px] text-[#535766]">
+                        <div className="flex flex-wrap items-center justify-between gap-2 pt-1 text-[11px] text-[#5c6f84]">
                           <div className="flex items-center gap-1.5">
-                            <span className="font-bold text-[#282c3f]">Latest:</span>
-                            <span className="bg-[#f5f5f6] text-[#282c3f] font-mono font-bold px-2 py-0.5 rounded-md text-[10px] border border-[#eaeaec]">
+                            <span className="font-bold text-[#0c2340]">Latest:</span>
+                            <span className="bg-[#f5f5f6] text-[#0c2340] font-mono font-bold px-2 py-0.5 rounded-md text-[10px] border border-[#e2e8f0]">
                               {c.latest_action}
                             </span>
                           </div>
@@ -1110,7 +1110,7 @@ export default function MerchantDashboard() {
                         </div>
                       </div>
 
-                      <div className="mt-4 pt-3 border-t border-[#eaeaec] flex items-center justify-between text-xs font-extrabold text-[#ff3f6c]">
+                      <div className="mt-4 pt-3 border-t border-[#e2e8f0] flex items-center justify-between text-xs font-extrabold text-[#0066cc]">
                         <span>Inspect Full Journey & Telemetry</span>
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -1128,24 +1128,24 @@ export default function MerchantDashboard() {
       {/* ═════════════════════════════════════════════════════════════════ */}
       {selectedCustomerId && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 md:p-6 overflow-y-auto">
-          <div className="bg-white border border-[#eaeaec] rounded-2xl w-full max-w-5xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto text-[#282c3f]">
+          <div className="bg-white border border-[#e2e8f0] rounded-2xl w-full max-w-5xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto text-[#0c2340]">
             
             {/* Modal Header */}
-            <div className="px-6 py-5 bg-white border-b border-[#eaeaec] text-[#282c3f] flex items-center justify-between shrink-0">
+            <div className="px-6 py-5 bg-white border-b border-[#e2e8f0] text-[#0c2340] flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center text-[#ff3f6c] font-black text-lg">
+                <div className="w-11 h-11 rounded-xl bg-[#f0f7ff] border border-blue-200 flex items-center justify-center text-[#0066cc] font-black text-lg">
                   {customerDetails?.customer?.name?.charAt(0) || 'C'}
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h2 className="text-lg font-black text-[#282c3f] leading-tight">
+                    <h2 className="text-lg font-black text-[#0c2340] leading-tight">
                       {customerDetails?.customer?.name || 'Customer Profile'}
                     </h2>
-                    <span className="text-[10px] font-extrabold uppercase tracking-wider bg-pink-50 text-[#ff3f6c] px-2 py-0.5 rounded-md border border-pink-200">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider bg-[#f0f7ff] text-[#0066cc] px-2 py-0.5 rounded-md border border-blue-200">
                       Razorcart Verified Buyer
                     </span>
                   </div>
-                  <p className="text-xs text-[#535766] font-medium">
+                  <p className="text-xs text-[#5c6f84] font-medium">
                     {customerDetails?.customer?.email} • {customerDetails?.customer?.city}
                   </p>
                 </div>
@@ -1153,7 +1153,7 @@ export default function MerchantDashboard() {
 
               <button
                 onClick={handleCloseCustomer}
-                className="w-8 h-8 rounded-lg bg-[#f5f5f6] hover:bg-gray-200 flex items-center justify-center text-[#535766] transition-colors cursor-pointer border border-[#eaeaec]"
+                className="w-8 h-8 rounded-lg bg-[#f5f5f6] hover:bg-gray-200 flex items-center justify-center text-[#5c6f84] transition-colors cursor-pointer border border-[#e2e8f0]"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1163,19 +1163,19 @@ export default function MerchantDashboard() {
             <div className="p-6 overflow-y-auto flex-1 space-y-6">
               {loadingCustomerDetails ? (
                 <div className="py-20 text-center">
-                  <div className="w-10 h-10 border-4 border-[#ff3f6c] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
-                  <p className="text-sm font-bold text-[#535766]">Reconstructing Customer Journey & Telemetry...</p>
+                  <div className="w-10 h-10 border-4 border-[#0066cc] border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                  <p className="text-sm font-bold text-[#5c6f84]">Reconstructing Customer Journey & Telemetry...</p>
                 </div>
               ) : (
                 <>
                   {/* Revenue Metrics Summary */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
-                    <div className="bg-[#f9fafb] border border-[#eaeaec] rounded-2xl p-4">
+                    <div className="bg-[#f9fafb] border border-[#e2e8f0] rounded-2xl p-4">
                       <p className="text-[10px] font-extrabold uppercase text-[#94969f]">Gross Customer Spend</p>
-                      <p className="text-xl md:text-2xl font-black text-[#282c3f] mt-1">
+                      <p className="text-xl md:text-2xl font-black text-[#0c2340] mt-1">
                         {fmt(customerDetails?.metrics?.total_spend)}
                       </p>
-                      <p className="text-[11px] text-[#535766] mt-0.5">Across store purchases</p>
+                      <p className="text-[11px] text-[#5c6f84] mt-0.5">Across store purchases</p>
                     </div>
 
                     <div className="bg-emerald-50/70 border border-emerald-200 rounded-2xl p-4">
@@ -1198,27 +1198,27 @@ export default function MerchantDashboard() {
                       </p>
                     </div>
 
-                    <div className="bg-[#f9fafb] border border-[#eaeaec] rounded-2xl p-4">
+                    <div className="bg-[#f9fafb] border border-[#e2e8f0] rounded-2xl p-4">
                       <p className="text-[10px] font-extrabold uppercase text-[#94969f]">Lifetime Agent Events</p>
-                      <p className="text-xl md:text-2xl font-black text-[#282c3f] mt-1">
+                      <p className="text-xl md:text-2xl font-black text-[#0c2340] mt-1">
                         {customerDetails?.metrics?.total_actions_count} Actions
                       </p>
-                      <p className="text-[11px] text-[#535766] mt-0.5">Logged in Immutable Ledger</p>
+                      <p className="text-[11px] text-[#5c6f84] mt-0.5">Logged in Immutable Ledger</p>
                     </div>
                   </div>
 
                   {/* ───────────────────────────────────────────────────────────── */}
                   {/* STAGE-BY-STAGE REVENUE INCREASE BREAKDOWN                      */}
                   {/* ───────────────────────────────────────────────────────────── */}
-                  <div className="bg-white border border-[#eaeaec] rounded-2xl p-6 shadow-sm space-y-4">
-                    <div className="flex items-center justify-between border-b border-[#eaeaec] pb-3">
+                  <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 shadow-sm space-y-4">
+                    <div className="flex items-center justify-between border-b border-[#e2e8f0] pb-3">
                       <div className="flex items-center gap-2">
-                        <Activity className="w-5 h-5 text-[#ff3f6c]" />
-                        <h3 className="font-extrabold text-base text-[#282c3f]">
+                        <Activity className="w-5 h-5 text-[#0066cc]" />
+                        <h3 className="font-extrabold text-base text-[#0c2340]">
                           How Razorcart Increased Revenue at Every Stage
                         </h3>
                       </div>
-                      <span className="text-xs font-mono font-bold text-[#535766] bg-[#f5f5f6] px-2.5 py-1 rounded-md border border-[#eaeaec]">
+                      <span className="text-xs font-mono font-bold text-[#5c6f84] bg-[#f5f5f6] px-2.5 py-1 rounded-md border border-[#e2e8f0]">
                         4-Stage Autonomous Funnel
                       </span>
                     </div>
@@ -1227,30 +1227,30 @@ export default function MerchantDashboard() {
                       {customerDetails?.revenue_stages?.map((stg) => (
                         <div
                           key={stg.stage_number}
-                          className="bg-[#f9fafb] border border-[#eaeaec] rounded-2xl p-4 space-y-3 hover:border-gray-300 transition-all"
+                          className="bg-[#f9fafb] border border-[#e2e8f0] rounded-2xl p-4 space-y-3 hover:border-gray-300 transition-all"
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <span className="w-6 h-6 rounded-md bg-[#ff3f6c] text-white font-black text-xs flex items-center justify-center">
+                              <span className="w-6 h-6 rounded-md bg-[#0066cc] text-white font-black text-xs flex items-center justify-center">
                                 {stg.stage_number}
                               </span>
-                              <h4 className="font-extrabold text-xs text-[#282c3f]">{stg.stage_name}</h4>
+                              <h4 className="font-extrabold text-xs text-[#0c2340]">{stg.stage_name}</h4>
                             </div>
-                            <span className="text-[11px] font-mono font-bold text-[#535766] bg-white px-2.5 py-0.5 rounded-md border border-[#eaeaec]">
+                            <span className="text-[11px] font-mono font-bold text-[#5c6f84] bg-white px-2.5 py-0.5 rounded-md border border-[#e2e8f0]">
                               {stg.agent}
                             </span>
                           </div>
 
-                          <div className="bg-white p-3 rounded-xl border border-[#eaeaec] space-y-1">
-                            <p className="text-xs font-extrabold text-[#282c3f]">{stg.headline}</p>
-                            <p className="text-[11px] text-[#535766] leading-relaxed font-normal">
+                          <div className="bg-white p-3 rounded-xl border border-[#e2e8f0] space-y-1">
+                            <p className="text-xs font-extrabold text-[#0c2340]">{stg.headline}</p>
+                            <p className="text-[11px] text-[#5c6f84] leading-relaxed font-normal">
                               {stg.impact_description}
                             </p>
                           </div>
 
                           <div className="flex items-center justify-between pt-1 text-xs">
-                            <span className="text-[#535766] font-medium">
-                              Actions Executed: <strong className="text-[#282c3f]">{stg.action_count}</strong>
+                            <span className="text-[#5c6f84] font-medium">
+                              Actions Executed: <strong className="text-[#0c2340]">{stg.action_count}</strong>
                             </span>
                             {stg.revenue_lift > 0 && (
                               <span className="font-black text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
@@ -1267,33 +1267,33 @@ export default function MerchantDashboard() {
                   {/* COMPLETED ORDERS FOR THIS CUSTOMER                            */}
                   {/* ───────────────────────────────────────────────────────────── */}
                   {customerDetails?.orders?.length > 0 && (
-                    <div className="bg-white border border-[#eaeaec] rounded-2xl p-5 shadow-sm space-y-3">
-                      <div className="flex items-center gap-2 text-sm font-extrabold text-[#282c3f]">
-                        <ShoppingBag className="w-4 h-4 text-[#ff3f6c]" />
+                    <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 shadow-sm space-y-3">
+                      <div className="flex items-center gap-2 text-sm font-extrabold text-[#0c2340]">
+                        <ShoppingBag className="w-4 h-4 text-[#0066cc]" />
                         <span>Completed Purchases ({customerDetails.orders.length})</span>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {customerDetails.orders.map((ord) => (
-                          <div key={ord.id} className="bg-[#f9fafb] border border-[#eaeaec] rounded-xl p-3.5 space-y-2">
+                          <div key={ord.id} className="bg-[#f9fafb] border border-[#e2e8f0] rounded-xl p-3.5 space-y-2">
                             <div className="flex items-center justify-between">
-                              <span className="text-xs font-mono font-bold text-[#282c3f]">Order #{ord.id}</span>
+                              <span className="text-xs font-mono font-bold text-[#0c2340]">Order #{ord.id}</span>
                               <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md border ${STATUS_BADGE[ord.status] || STATUS_BADGE.SUCCESS}`}>
                                 {ord.status.replace(/_/g, ' ')}
                               </span>
                             </div>
-                            <div className="text-xs font-black text-[#282c3f]">
+                            <div className="text-xs font-black text-[#0c2340]">
                               Total: {fmt(ord.total_amount)}
                             </div>
-                            <div className="text-[11px] text-[#535766]">
-                              Payment: <span className="font-semibold text-[#282c3f]">{ord.payment_method}</span>
+                            <div className="text-[11px] text-[#5c6f84]">
+                              Payment: <span className="font-semibold text-[#0c2340]">{ord.payment_method}</span>
                               {ord.recovery_type && <span className="text-amber-700 font-bold ml-1">({ord.recovery_type})</span>}
                             </div>
                             {ord.items?.length > 0 && (
-                              <div className="space-y-1 pt-1 border-t border-[#eaeaec]">
+                              <div className="space-y-1 pt-1 border-t border-[#e2e8f0]">
                                 {ord.items.map((it, idx) => (
-                                  <div key={idx} className="flex items-center justify-between text-[11px] text-[#535766]">
-                                    <span className="truncate max-w-[200px] text-[#282c3f]">{it.title}</span>
-                                    <span className="font-bold text-[#282c3f]">{fmt(it.price)}</span>
+                                  <div key={idx} className="flex items-center justify-between text-[11px] text-[#5c6f84]">
+                                    <span className="truncate max-w-[200px] text-[#0c2340]">{it.title}</span>
+                                    <span className="font-bold text-[#0c2340]">{fmt(it.price)}</span>
                                   </div>
                                 ))}
                               </div>
@@ -1307,10 +1307,10 @@ export default function MerchantDashboard() {
                   {/* ───────────────────────────────────────────────────────────── */}
                   {/* FULL CHRONOLOGICAL ACTION HISTORY TIMELINE                    */}
                   {/* ───────────────────────────────────────────────────────────── */}
-                  <div className="bg-white border border-[#eaeaec] rounded-2xl p-6 shadow-sm space-y-4">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#eaeaec] pb-3">
+                  <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 shadow-sm space-y-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#e2e8f0] pb-3">
                       <div>
-                        <h3 className="font-extrabold text-base text-[#282c3f]">
+                        <h3 className="font-extrabold text-base text-[#0c2340]">
                           Complete Chronological Action History
                         </h3>
                         <p className="text-xs text-[#94969f]">
@@ -1326,8 +1326,8 @@ export default function MerchantDashboard() {
                             onClick={() => setActionHistoryFilter(flt)}
                             className={`px-2.5 py-1 rounded-md text-[11px] font-bold transition-all cursor-pointer ${
                               actionHistoryFilter === flt
-                                ? 'bg-[#ff3f6c] text-white'
-                                : 'bg-[#f5f5f6] text-[#535766] hover:bg-gray-200 border border-[#eaeaec]'
+                                ? 'bg-[#0066cc] text-white'
+                                : 'bg-[#f5f5f6] text-[#5c6f84] hover:bg-gray-200 border border-[#e2e8f0]'
                             }`}
                           >
                             {flt.replace('Agent', '')}
@@ -1345,7 +1345,7 @@ export default function MerchantDashboard() {
                           return (
                             <div
                               key={act.id}
-                              className="border border-[#eaeaec] rounded-xl p-3.5 hover:border-gray-300 transition-all bg-[#f9fafb]"
+                              className="border border-[#e2e8f0] rounded-xl p-3.5 hover:border-gray-300 transition-all bg-[#f9fafb]"
                             >
                               <div
                                 className="flex items-center justify-between cursor-pointer"
@@ -1354,19 +1354,19 @@ export default function MerchantDashboard() {
                                 <div className="flex items-center gap-2.5 min-w-0">
                                   <span
                                     className={`text-[10px] font-extrabold px-2 py-0.5 rounded-md border shrink-0 ${
-                                      AGENT_BADGE[act.agent_type] || 'bg-gray-100 text-[#282c3f] border-gray-200'
+                                      AGENT_BADGE[act.agent_type] || 'bg-gray-100 text-[#0c2340] border-gray-200'
                                     }`}
                                   >
                                     {act.agent_type?.replace('Agent', '')}
                                   </span>
-                                  <span className="font-bold text-xs text-[#282c3f] truncate">
+                                  <span className="font-bold text-xs text-[#0c2340] truncate">
                                     {act.action_type}
                                   </span>
                                 </div>
 
                                 <div className="flex items-center gap-3 shrink-0">
                                   {act.money_amount > 0 && (
-                                    <span className="font-black text-xs text-[#282c3f]">
+                                    <span className="font-black text-xs text-[#0c2340]">
                                       {fmt(act.money_amount)}
                                     </span>
                                   )}
@@ -1383,7 +1383,7 @@ export default function MerchantDashboard() {
                                       minute: '2-digit',
                                     })}
                                   </span>
-                                  <button type="button" className="text-[#94969f] hover:text-[#282c3f]">
+                                  <button type="button" className="text-[#94969f] hover:text-[#0c2340]">
                                     {isExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                                   </button>
                                 </div>
@@ -1391,12 +1391,12 @@ export default function MerchantDashboard() {
 
                               {/* Expanded Agent Decision Reasoning */}
                               {isExpanded && (
-                                <div className="mt-3 pt-3 border-t border-[#eaeaec] space-y-2 bg-white p-3 rounded-lg">
-                                  <div className="flex items-center gap-1.5 text-xs font-extrabold text-[#ff3f6c]">
+                                <div className="mt-3 pt-3 border-t border-[#e2e8f0] space-y-2 bg-white p-3 rounded-lg">
+                                  <div className="flex items-center gap-1.5 text-xs font-extrabold text-[#0066cc]">
                                     <Bot className="w-3.5 h-3.5" />
                                     <span>Agent Decision Logic:</span>
                                   </div>
-                                  <p className="text-xs text-[#535766] leading-relaxed font-normal">
+                                  <p className="text-xs text-[#5c6f84] leading-relaxed font-normal">
                                     {act.decision_reasoning}
                                   </p>
                                   {act.rating_review_impact && (
@@ -1417,13 +1417,13 @@ export default function MerchantDashboard() {
             </div>
 
             {/* Modal Footer */}
-            <div className="px-6 py-4 bg-[#f9fafb] border-t border-[#eaeaec] flex items-center justify-between shrink-0">
+            <div className="px-6 py-4 bg-[#f9fafb] border-t border-[#e2e8f0] flex items-center justify-between shrink-0">
               <span className="text-xs text-[#94969f]">
                 Telemetry recorded via Razorcart Autonomous Multi-Agent Core
               </span>
               <button
                 onClick={handleCloseCustomer}
-                className="px-5 py-2 bg-white hover:bg-gray-100 text-[#282c3f] font-extrabold text-xs rounded-xl border border-[#eaeaec] transition-all cursor-pointer"
+                className="px-5 py-2 bg-white hover:bg-gray-100 text-[#0c2340] font-extrabold text-xs rounded-xl border border-[#e2e8f0] transition-all cursor-pointer"
               >
                 Close View
               </button>
@@ -1437,16 +1437,16 @@ export default function MerchantDashboard() {
       {/* ═════════════════════════════════════════════════════════════════ */}
       {isAddModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 md:p-6 overflow-y-auto">
-          <div className="bg-white border border-[#eaeaec] rounded-2xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto text-[#282c3f]">
+          <div className="bg-white border border-[#e2e8f0] rounded-2xl w-full max-w-2xl max-h-[92vh] flex flex-col shadow-2xl overflow-hidden my-auto text-[#0c2340]">
             
-            <div className="px-6 py-4 bg-white border-b border-[#eaeaec] text-[#282c3f] flex items-center justify-between shrink-0">
+            <div className="px-6 py-4 bg-white border-b border-[#e2e8f0] text-[#0c2340] flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
-                <Plus className="w-5 h-5 text-[#ff3f6c]" />
-                <h3 className="font-extrabold text-base text-[#282c3f]">Add New Catalog Product</h3>
+                <Plus className="w-5 h-5 text-[#0066cc]" />
+                <h3 className="font-extrabold text-base text-[#0c2340]">Add New Catalog Product</h3>
               </div>
               <button
                 onClick={() => setIsAddModalOpen(false)}
-                className="w-8 h-8 rounded-lg bg-[#f5f5f6] hover:bg-gray-200 flex items-center justify-center transition-colors cursor-pointer border border-[#eaeaec] text-[#535766]"
+                className="w-8 h-8 rounded-lg bg-[#f5f5f6] hover:bg-gray-200 flex items-center justify-center transition-colors cursor-pointer border border-[#e2e8f0] text-[#5c6f84]"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -1462,37 +1462,37 @@ export default function MerchantDashboard() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Product Title *</label>
+                  <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Product Title *</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Air Zoom Max Pro Running Shoes"
                     value={newProduct.title}
                     onChange={(e) => setNewProduct({ ...newProduct, title: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#ff3f6c]"
+                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#0066cc]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Brand *</label>
+                  <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Brand *</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Nike, Puma, Adidas"
                     value={newProduct.brand}
                     onChange={(e) => setNewProduct({ ...newProduct, brand: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#ff3f6c]"
+                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#0066cc]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Category *</label>
+                  <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Category *</label>
                   <select
                     value={newProduct.category}
                     onChange={(e) => setNewProduct({ ...newProduct, category: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-bold text-[#535766] focus:outline-none focus:border-[#ff3f6c]"
+                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-bold text-[#5c6f84] focus:outline-none focus:border-[#0066cc]"
                   >
                     <option value="Footwear">Footwear</option>
                     <option value="Topwear">Topwear</option>
@@ -1505,11 +1505,11 @@ export default function MerchantDashboard() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Gender *</label>
+                  <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Gender *</label>
                   <select
                     value={newProduct.gender}
                     onChange={(e) => setNewProduct({ ...newProduct, gender: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-bold text-[#535766] focus:outline-none focus:border-[#ff3f6c]"
+                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-bold text-[#5c6f84] focus:outline-none focus:border-[#0066cc]"
                   >
                     <option value="Men">Men</option>
                     <option value="Women">Women</option>
@@ -1519,20 +1519,20 @@ export default function MerchantDashboard() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Stock Units</label>
+                  <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Stock Units</label>
                   <input
                     type="number"
                     min="1"
                     value={newProduct.stock}
                     onChange={(e) => setNewProduct({ ...newProduct, stock: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] focus:outline-none focus:bg-white focus:border-[#ff3f6c]"
+                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] focus:outline-none focus:bg-white focus:border-[#0066cc]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Selling Price (₹) *</label>
+                  <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Selling Price (₹) *</label>
                   <input
                     type="number"
                     step="0.01"
@@ -1540,79 +1540,79 @@ export default function MerchantDashboard() {
                     placeholder="e.g. 3999"
                     value={newProduct.price}
                     onChange={(e) => setNewProduct({ ...newProduct, price: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#ff3f6c]"
+                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#0066cc]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Original Price (MRP)</label>
+                  <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Original Price (MRP)</label>
                   <input
                     type="number"
                     step="0.01"
                     placeholder="e.g. 4999"
                     value={newProduct.original_price}
                     onChange={(e) => setNewProduct({ ...newProduct, original_price: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#ff3f6c]"
+                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#0066cc]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Color / Variant</label>
+                  <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Color / Variant</label>
                   <input
                     type="text"
                     placeholder="e.g. Triple Black"
                     value={newProduct.color}
                     onChange={(e) => setNewProduct({ ...newProduct, color: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#ff3f6c]"
+                    className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#0066cc]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Image URL</label>
+                <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Image URL</label>
                 <input
                   type="url"
                   placeholder="https://images.unsplash.com/..."
                   value={newProduct.image_url}
                   onChange={(e) => setNewProduct({ ...newProduct, image_url: e.target.value })}
-                  className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#ff3f6c]"
+                  className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#0066cc]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Description</label>
+                <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Description</label>
                 <textarea
                   rows="3"
                   placeholder="Detailed product features, materials, and technology..."
                   value={newProduct.description}
                   onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
-                  className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#ff3f6c]"
+                  className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#0066cc]"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-extrabold text-[#535766] uppercase mb-1">Tags (Comma-separated)</label>
+                <label className="block text-xs font-extrabold text-[#5c6f84] uppercase mb-1">Tags (Comma-separated)</label>
                 <input
                   type="text"
                   placeholder="running, lightweight, cushion, marathon"
                   value={newProduct.tags}
                   onChange={(e) => setNewProduct({ ...newProduct, tags: e.target.value })}
-                  className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#eaeaec] rounded-xl text-xs font-semibold text-[#282c3f] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#ff3f6c]"
+                  className="w-full px-3 py-2 bg-[#f5f5f6] border border-[#e2e8f0] rounded-xl text-xs font-semibold text-[#0c2340] placeholder-[#94969f] focus:outline-none focus:bg-white focus:border-[#0066cc]"
                 />
               </div>
 
-              <div className="pt-4 border-t border-[#eaeaec] flex items-center justify-end gap-3">
+              <div className="pt-4 border-t border-[#e2e8f0] flex items-center justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 border border-[#eaeaec] text-[#535766] hover:bg-[#f5f5f6] rounded-xl text-xs font-bold transition-all cursor-pointer"
+                  className="px-4 py-2 border border-[#e2e8f0] text-[#5c6f84] hover:bg-[#f5f5f6] rounded-xl text-xs font-bold transition-all cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={addFormLoading}
-                  className="px-6 py-2 bg-[#ff3f6c] hover:bg-[#e0355d] text-white rounded-xl text-xs font-extrabold shadow-sm transition-all cursor-pointer disabled:opacity-50"
+                  className="px-6 py-2 bg-[#0066cc] hover:bg-[#0052a3] text-white rounded-xl text-xs font-extrabold shadow-sm transition-all cursor-pointer disabled:opacity-50"
                 >
                   {addFormLoading ? 'Adding & Indexing...' : 'Add Product'}
                 </button>
@@ -1627,20 +1627,20 @@ export default function MerchantDashboard() {
       {/* ═════════════════════════════════════════════════════════════════ */}
       {productToDelete && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white border border-[#eaeaec] rounded-2xl w-full max-w-md p-6 shadow-2xl space-y-4 text-[#282c3f]">
+          <div className="bg-white border border-[#e2e8f0] rounded-2xl w-full max-w-md p-6 shadow-2xl space-y-4 text-[#0c2340]">
             <div className="w-12 h-12 rounded-xl bg-red-50 text-red-600 border border-red-200 flex items-center justify-center mx-auto">
               <AlertTriangle className="w-6 h-6" />
             </div>
             <div className="text-center space-y-1">
-              <h3 className="font-extrabold text-base text-[#282c3f]">Delete Product?</h3>
-              <p className="text-xs text-[#535766]">
-                Are you sure you want to remove <strong className="text-[#282c3f]">"{productToDelete.title}"</strong> from your store catalog?
+              <h3 className="font-extrabold text-base text-[#0c2340]">Delete Product?</h3>
+              <p className="text-xs text-[#5c6f84]">
+                Are you sure you want to remove <strong className="text-[#0c2340]">"{productToDelete.title}"</strong> from your store catalog?
               </p>
             </div>
             <div className="grid grid-cols-2 gap-3 pt-2">
               <button
                 onClick={() => setProductToDelete(null)}
-                className="py-2.5 rounded-xl border border-[#eaeaec] text-[#535766] hover:bg-gray-50 text-xs font-bold transition-colors cursor-pointer"
+                className="py-2.5 rounded-xl border border-[#e2e8f0] text-[#5c6f84] hover:bg-gray-50 text-xs font-bold transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -1656,10 +1656,10 @@ export default function MerchantDashboard() {
       )}
 
       {/* ── Footer ────────────────────────────────────────────────────────── */}
-      <footer className="bg-white border-t border-[#eaeaec] py-5 px-4 md:px-8 text-center text-xs text-[#94969f] mt-12">
+      <footer className="bg-white border-t border-[#e2e8f0] py-5 px-4 md:px-8 text-center text-xs text-[#94969f] mt-12">
         <div className="max-w-[1440px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="font-extrabold text-[#282c3f]">{orgName}</span>
+            <span className="font-extrabold text-[#0c2340]">{orgName}</span>
             <span>•</span>
             <span>Merchant Business Suite</span>
           </div>

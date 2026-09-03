@@ -87,7 +87,7 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
           />
 
           {/* Rating Badge */}
-          <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-md flex items-center gap-2 text-xs font-extrabold text-[#282c3f]">
+          <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-3 py-1.5 rounded-lg shadow-md flex items-center gap-2 text-xs font-extrabold text-[#0c2340]">
             <span className="text-sm font-black">{product.rating || 4.5}</span>
             <Star className="w-4 h-4 fill-emerald-600 text-emerald-600" />
             <span className="text-gray-300 font-light">|</span>
@@ -108,13 +108,13 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
           
           {/* Brand & Title */}
           <div>
-            <h2 className="text-xl font-black text-[#282c3f] tracking-tight">{product.brand}</h2>
-            <h1 className="text-base text-[#535766] font-medium mt-0.5">{product.title}</h1>
+            <h2 className="text-xl font-black text-[#0c2340] tracking-tight">{product.brand}</h2>
+            <h1 className="text-base text-[#5c6f84] font-medium mt-0.5">{product.title}</h1>
           </div>
 
           {/* Price Block */}
           <div className="mt-4 pt-4 border-t border-gray-100 flex items-baseline gap-3">
-            <span className="text-2xl font-black text-[#282c3f]">Rs. {int(product.price)}</span>
+            <span className="text-2xl font-black text-[#0c2340]">Rs. {int(product.price)}</span>
             {product.original_price > product.price && (
               <>
                 <span className="text-sm text-gray-400 line-through">Rs. {int(product.original_price)}</span>
@@ -136,7 +136,7 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
           <div className="mt-5">
             <div className="flex items-center justify-between mb-2">
               <span className="text-xs font-extrabold uppercase tracking-wider text-gray-700">Select Size</span>
-              <span className="text-xs text-[#ff3f6c] font-bold cursor-pointer hover:underline">Size Chart</span>
+              <span className="text-xs text-[#0066cc] font-bold cursor-pointer hover:underline">Size Chart</span>
             </div>
             <div className="flex flex-wrap gap-2">
               {sizes.map((sz) => (
@@ -145,7 +145,7 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
                   onClick={() => setSelectedSize(sz)}
                   className={`w-12 h-12 rounded-xl text-xs font-bold transition-all border ${
                     selectedSize === sz
-                      ? 'border-[#ff3f6c] text-[#ff3f6c] bg-pink-50/50 shadow-sm font-extrabold scale-105'
+                      ? 'border-[#0066cc] text-[#0066cc] bg-[#f0f7ff]/50 shadow-sm font-extrabold scale-105'
                       : 'border-gray-200 text-gray-700 hover:border-gray-400'
                   }`}
                 >
@@ -166,7 +166,7 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
           {/* Delivery & Seller Stats */}
           <div className="mt-5 p-3.5 bg-gray-50 rounded-xl border border-gray-200/80 space-y-2 text-xs">
             <div className="flex items-center gap-2 text-gray-700 font-medium">
-              <Truck className="w-4 h-4 text-[#ff3f6c]" />
+              <Truck className="w-4 h-4 text-[#0066cc]" />
               <span>Standard Express Shipping: 2-3 Days</span>
             </div>
             <div className="flex items-center gap-2 text-gray-700 font-medium">
@@ -188,7 +188,7 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
                       <img src={fbt.image_url} alt="" className="w-10 h-10 rounded-lg object-cover" />
                       <div className="min-w-0">
                         <p className="text-xs font-bold text-gray-900 truncate">{fbt.title}</p>
-                        <p className="text-[11px] font-extrabold text-[#ff3f6c]">Rs. {int(fbt.price)}</p>
+                        <p className="text-[11px] font-extrabold text-[#0066cc]">Rs. {int(fbt.price)}</p>
                       </div>
                     </div>
                     <button
@@ -211,7 +211,7 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
             </div>
             <button
               onClick={() => setIsReviewsModalOpen(true)}
-              className="text-xs font-extrabold text-[#ff3f6c] border border-[#ff3f6c]/30 bg-pink-50 hover:bg-pink-100 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors"
+              className="text-xs font-extrabold text-[#0066cc] border border-[#0066cc]/30 bg-[#f0f7ff] hover:bg-pink-100 px-3 py-1.5 rounded-lg flex items-center gap-1 transition-colors"
             >
               <MessageSquare className="w-3.5 h-3.5" />
               <span>Read & Write Reviews</span>
@@ -222,7 +222,7 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
           <div className="mt-6 pt-4 border-t border-gray-200 flex items-center gap-3">
             <button
               onClick={handleAdd}
-              className="flex-1 py-3.5 rounded-xl bg-[#ff3f6c] hover:bg-[#e0355d] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
+              className="flex-1 py-3.5 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
             >
               <ShoppingBag className="w-4 h-4" />
               <span>Add to Bag</span>
@@ -233,7 +233,7 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
               className="px-4 py-3.5 rounded-xl bg-gray-900 hover:bg-black text-white font-extrabold text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-1.5 transition-all"
               title="Ask AI Copilot about sizing, compatibility & performance"
             >
-              <Bot className="w-4 h-4 text-[#ff3f6c]" />
+              <Bot className="w-4 h-4 text-[#0066cc]" />
               <span className="hidden sm:inline">Ask AI</span>
             </button>
           </div>
