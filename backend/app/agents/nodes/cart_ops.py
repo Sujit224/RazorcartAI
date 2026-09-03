@@ -117,7 +117,7 @@ def _order_items(order: Order) -> List[Dict[str, Any]]:
         if not isinstance(entry, dict):
             continue
         nested = entry.get("product") if isinstance(entry.get("product"), dict) else {}
-        pid = entry.get("product_id") or nested.get("id")
+        pid = entry.get("product_id") or entry.get("id") or nested.get("id") or nested.get("product_id")
         if not pid:
             continue
         out.append({
@@ -132,10 +132,10 @@ def _order_items(order: Order) -> List[Dict[str, Any]]:
 
 def _order_label(order: Order, items: List[Dict[str, Any]]) -> str:
     when = order.created_at.strftime("%d %b %Y") if order.created_at else "date unknown"
-    lead = ("%s %s" % (items[0].get("brand", ""), items[0].get("title", ""))).strip()
+    lead = ("%s %s" % (items[0].get("brand", ""), items[0].get("title", ""))).strip() if items else "Purchased items"
     if len(items) > 1:
         lead += " +%d more" % (len(items) - 1)
-    return "Order #%d - %s - %s (%s)" % (order.id, lead or "no items",
+    return "Order #%d - %s - %s (%s)" % (order.id, lead or "Purchased items",
                                         _rupees(order.total_amount), when)
 
 
