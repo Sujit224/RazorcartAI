@@ -12,8 +12,8 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 days
     
     # Groq LLM
-    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
-    GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+    GROQ_API_KEY: str = (os.getenv("GROQ_API_KEY") or "").strip()
+    GROQ_MODEL: str = (os.getenv("GROQ_MODEL") or "openai/gpt-oss-120b").strip()
     
     # Razorpay Test Credentials
     RAZORPAY_KEY_ID: str = os.getenv("RAZORPAY_KEY_ID", "rzp_test_mock_razorcart2026")
