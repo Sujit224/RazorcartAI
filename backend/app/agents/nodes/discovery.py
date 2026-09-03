@@ -38,33 +38,34 @@ def _extract_comparison_indices(text: str) -> List[int]:
             if val not in found_indices:
                 found_indices.append(val)
 
-    # Sort in order of appearance
     return found_indices[:3]
 
-def _build_comparison_response(products_to_compare: List[Dict[str, Any]]) -> str:
-    """Constructs an in-depth side-by-side comparison table and summary."""
-    if len(products_to_compare) < 2:
-        p = products_to_compare[0]
+def _build_generic_comparison_response(products: List[Dict[str, Any]]) -> str:
+    """Dynamically builds a side-by-side comparison table for ANY category of products."""
+    if not products:
+        return "Please specify which products you would like me to compare."
+
+    if len(products) == 1:
+        p = products[0]
         meta = p.get("product_meta") or {}
         if isinstance(meta, str):
             try: meta = json.loads(meta)
             except: meta = {}
+        
+        meta_bullets = "\n".join(f"- **{k.capitalize()}**: {v}" for k, v in meta.items() if isinstance(v, (str, int, float)) and k not in ["returnable", "return_window"])
         return (
-            f"### Detailed Specifications for **{p['brand']} {p['title']}**\n\n"
+            f"### Product Overview: **{p['brand']} {p['title']}**\n\n"
             f"- **Price**: Rs. {int(p['price']):,} ({p.get('discount_pct', 0)}% OFF MRP Rs. {int(p.get('original_price', p['price'])):,})\n"
-            f"- **Rating**: {p.get('rating', 4.5)}/5.0 ({p.get('review_count', 0)} verified customer reviews)\n"
-            f"- **Processor / Chipset**: {meta.get('processor', 'High-Performance Multi-Core')}\n"
-            f"- **RAM & Multitasking**: {meta.get('ram', '16GB RAM')}\n"
-            f"- **Storage**: {meta.get('storage', '256GB High-Speed Storage')}\n"
-            f"- **Display**: {meta.get('display', '120Hz LTPO AMOLED')}\n"
-            f"- **Camera System**: {meta.get('camera', 'High-Res Multi-Camera OIS')}\n"
-            f"- **Merchant / Seller**: {p.get('merchant_name', 'Verified Store')} (📍 {p.get('city', 'Bengaluru')})\n\n"
-            f"**Summary**: {p.get('description', '')}"
+            f"- **Rating**: {p.get('rating', 4.5)}/5.0 ({p.get('review_count', 0)} verified reviews)\n"
+            f"- **Category**: {p.get('category', 'General')}\n"
+            f"- **Merchant**: {p.get('merchant_name', 'Verified Seller')} (📍 {p.get('city', 'India')})\n"
+            f"{meta_bullets}\n\n"
+            f"**Description**: {p.get('description', '')}"
         )
 
-    p1 = products_to_compare[0]
-    p2 = products_to_compare[1]
-    
+    p1, p2 = products[0], products[1]
+    p3 = products[2] if len(products) > 2 else None
+
     meta1 = p1.get("product_meta") or {}
     if isinstance(meta1, str):
         try: meta1 = json.loads(meta1)
@@ -75,7 +76,6 @@ def _build_comparison_response(products_to_compare: List[Dict[str, Any]]) -> str
         try: meta2 = json.loads(meta2)
         except: meta2 = {}
 
-    p3 = products_to_compare[2] if len(products_to_compare) > 2 else None
     meta3 = {}
     if p3:
         meta3 = p3.get("product_meta") or {}
@@ -83,48 +83,57 @@ def _build_comparison_response(products_to_compare: List[Dict[str, Any]]) -> str
             try: meta3 = json.loads(meta3)
             except: meta3 = {}
 
+    # Collect unique attribute keys across compared items
+    all_keys = list(dict.fromkeys(list(meta1.keys()) + list(meta2.keys()) + (list(meta3.keys()) if p3 else [])))
+    spec_keys = [k for k in all_keys if k not in ["returnable", "return_window", "merchant_id", "merchant_name", "warranty"]]
+
     table = (
-        f"### Side-by-Side Product Comparison & Summary\n\n"
-        f"| Feature / Spec | 1. **{p1['brand']} {p1['title']}** | 2. **{p2['brand']} {p2['title']}**" + (f" | 3. **{p3['brand']} {p3['title']}** |" if p3 else " |") + "\n"
+        f"### Side-by-Side Comparison & Summary\n\n"
+        f"| Feature / Specification | 1. **{p1['brand']} {p1['title']}** | 2. **{p2['brand']} {p2['title']}**" + (f" | 3. **{p3['brand']} {p3['title']}** |" if p3 else " |") + "\n"
         f"| :--- | :--- | :---" + (" | :--- |" if p3 else " |") + "\n"
-        f"| **Price** | **Rs. {int(p1['price']):,}** | **Rs. {int(p2['price']):,}**" + (f" | **Rs. {int(p3['price']):,}** |" if p3 else " |") + "\n"
-        f"| **Rating** | ★ {p1.get('rating', 4.5)} ({p1.get('review_count', 0)} reviews) | ★ {p2.get('rating', 4.5)} ({p2.get('review_count', 0)} reviews)" + (f" | ★ {p3.get('rating', 4.5)} ({p3.get('review_count', 0)} reviews) |" if p3 else " |") + "\n"
-        f"| **Processor** | {meta1.get('processor', 'High-Performance')} | {meta2.get('processor', 'High-Performance')}" + (f" | {meta3.get('processor', 'High-Performance')} |" if p3 else " |") + "\n"
-        f"| **RAM** | **{meta1.get('ram', '16GB RAM')}** | **{meta2.get('ram', '16GB RAM')}**" + (f" | **{meta3.get('ram', '16GB RAM')}** |" if p3 else " |") + "\n"
-        f"| **Storage** | {meta1.get('storage', '256GB')} | {meta2.get('storage', '256GB')}" + (f" | {meta3.get('storage', '256GB')} |" if p3 else " |") + "\n"
-        f"| **Display** | {meta1.get('display', '120Hz AMOLED')} | {meta2.get('display', '120Hz AMOLED')}" + (f" | {meta3.get('display', '120Hz AMOLED')} |" if p3 else " |") + "\n"
-        f"| **Cameras** | {meta1.get('camera', '50MP OIS')} | {meta2.get('camera', '50MP OIS')}" + (f" | {meta3.get('camera', '50MP OIS')} |" if p3 else " |") + "\n"
-        f"| **Seller** | {p1.get('merchant_name', 'Verified Store')} | {p2.get('merchant_name', 'Verified Store')}" + (f" | {p3.get('merchant_name', 'Verified Store')} |" if p3 else " |") + "\n\n"
-        f"#### Key Takeaways & Recommendations:\n"
-        f"1. **Performance**: **{p1['brand']} {p1['title']}** features **{meta1.get('processor', 'advanced chipset')}** with **{meta1.get('ram', 'fast memory')}**, offering exceptional responsiveness for multitasking.\n"
-        f"2. **Value & Optics**: **{p2['brand']} {p2['title']}** stands out for its **{meta2.get('camera', 'optics')}** and sharp display at Rs. {int(p2['price']):,}.\n"
-        f"3. **Conclusion**: Choose **{p1['brand']}** for maximum hardware muscle and memory bandwidth, or **{p2['brand']}** for balanced everyday reliability."
+        f"| **Price** | **Rs. {int(p1['price']):,}** ({p1.get('discount_pct', 0)}% OFF) | **Rs. {int(p2['price']):,}** ({p2.get('discount_pct', 0)}% OFF)" + (f" | **Rs. {int(p3['price']):,}** ({p3.get('discount_pct', 0)}% OFF) |" if p3 else " |") + "\n"
+        f"| **Rating & Reviews** | ★ {p1.get('rating', 4.5)} ({p1.get('review_count', 0)} reviews) | ★ {p2.get('rating', 4.5)} ({p2.get('review_count', 0)} reviews)" + (f" | ★ {p3.get('rating', 4.5)} ({p3.get('review_count', 0)} reviews) |" if p3 else " |") + "\n"
+        f"| **Department / Category** | {p1.get('category', '-')} | {p2.get('category', '-')}" + (f" | {p3.get('category', '-')} |" if p3 else " |") + "\n"
+        f"| **Verified Seller** | {p1.get('merchant_name', 'Verified')} (📍 {p1.get('city', '')}) | {p2.get('merchant_name', 'Verified')} (📍 {p2.get('city', '')})" + (f" | {p3.get('merchant_name', 'Verified')} (📍 {p3.get('city', '')}) |" if p3 else " |") + "\n"
+    )
+
+    for k in spec_keys[:5]:
+        v1 = meta1.get(k, "-")
+        v2 = meta2.get(k, "-")
+        v3 = meta3.get(k, "-") if p3 else None
+        table += f"| **{k.replace('_', ' ').capitalize()}** | {v1} | {v2}" + (f" | {v3} |" if p3 else " |") + "\n"
+
+    table += (
+        f"\n#### Key Comparison Takeaways:\n"
+        f"1. **{p1['brand']} {p1['title']}** is priced at **Rs. {int(p1['price']):,}** with a verified rating of **★ {p1.get('rating', 4.5)}**.\n"
+        f"2. **{p2['brand']} {p2['title']}** is priced at **Rs. {int(p2['price']):,}** with a verified rating of **★ {p2.get('rating', 4.5)}**.\n"
+        f"3. **Recommendation**: Both options offer stellar quality backed by authentic merchant guarantees. Choose **{p1['brand']}** for its specific design profile, or **{p2['brand']}** for value."
     )
     return table
 
 def discovery_node(state: AgentState) -> AgentState:
-    """Finds, ranks, compares, and summarizes products with full chat history memory."""
+    """
+    Completely generalized, domain-agnostic discovery and ranking engine.
+    Works seamlessly across all 12 store departments (Fashion, Electronics, Home, Kitchen, Appliances, etc.).
+    """
     raw_query = state.get("search_query", state.get("user_message", ""))
     user_city = state.get("user_city", "Bengaluru")
-    filters = state.get("extracted_filters", {})
-    chat_history = state.get("chat_history") or []
+    filters = state.get("extracted_filters", {}) or {}
     prev_products = state.get("previous_products") or []
     session_id = state.get("session_id") or "default"
 
-    msg_lower = raw_query.lower()
+    msg_lower = state.get("user_message", "").lower()
 
-    # ── 1. Check for Direct Comparison / Summary Intent ────────────────────────
-    is_compare_query = any(w in msg_lower for w in [
+    # ── 1. Check for Product Comparison Intent ──────────────────────────────
+    is_compare = any(w in msg_lower for w in [
         "compare", "comparison", "summarise", "summarize", "difference between",
         "which is better", "contrast", "vs", "versus"
     ])
 
-    if is_compare_query:
-        # Resolve ordinal references (e.g. 1st and 3rd)
+    if is_compare:
         ord_indices = _extract_comparison_indices(msg_lower)
         candidate_pool = prev_products
-        
-        # If no previous_products in state payload, check focus frame
+
         if not candidate_pool:
             saved_focus = get_focus(session_id)
             if saved_focus:
@@ -144,138 +153,118 @@ def discovery_node(state: AgentState) -> AgentState:
                 finally:
                     db_temp.close()
 
-        if candidate_pool and len(candidate_pool) >= 2:
+        if candidate_pool:
             if not ord_indices or len(ord_indices) < 2:
-                ord_indices = [1, 2] # Default to first two
+                ord_indices = [1, 2]
 
-            selected_products = []
-            for idx in ord_indices:
-                if 1 <= idx <= len(candidate_pool):
-                    selected_products.append(candidate_pool[idx - 1])
-
-            if len(selected_products) >= 2:
-                comparison_text = _build_comparison_response(selected_products)
-                state["reply"] = comparison_text
-                state["products"] = selected_products
-                state["audit_reasoning"] = f"Compared {len(selected_products)} products ({', '.join(p['title'] for p in selected_products)}) with side-by-side specifications and summaries."
+            selected = [candidate_pool[i - 1] for i in ord_indices if 1 <= i <= len(candidate_pool)]
+            if selected:
+                state["reply"] = _build_generic_comparison_response(selected)
+                state["products"] = selected
+                state["audit_reasoning"] = f"Generated generalized comparison for {len(selected)} items."
                 state["suggested_actions"] = [
-                    f"Add {selected_products[0]['brand']} to Bag",
-                    f"Add {selected_products[1]['brand']} to Bag",
-                    "Proceed to Razorpay Checkout"
+                    f"Add {selected[0]['brand']} to Bag",
+                    f"Add {selected[1]['brand'] if len(selected) > 1 else selected[0]['brand']} to Bag",
+                    "Proceed to Checkout"
                 ]
                 return state
 
-    # ── 2. Contextual Spec & Smartphone Detection ──────────────────────────────
-    is_phone_explicit = any(w in msg_lower for w in [
-        "mobile", "mobiles", "phone", "phones", "smartphone", "smartphones",
-        "cellphone", "cellphones", "handset", "handsets", "android", "ios",
-        "iphone", "samsung", "nokia", "oneplus", "pixel", "xiaomi", "redmi",
-        "poco", "realme", "motorola", "asus", "vivo", "oppo", "nothing",
-        "snapdragon", "qualcomm", "64gb ram", "32gb ram", "24gb ram", "16gb ram", "8gb ram"
-    ])
-    is_phone_context = is_phone_explicit or any(
-        "phone" in m.get("content", "").lower() or "mobile" in m.get("content", "").lower() or "samsung" in m.get("content", "").lower() or "iphone" in m.get("content", "").lower()
-        for m in chat_history[-4:]
-    )
-    if any(w in msg_lower for w in ["shoe", "shoes", "dress", "saree", "shirt", "pant", "jeans"]):
-        is_phone_context = False
-
-    # Extract Max Price before cleaning query
-    max_price = filters.get("max_price")
-    if not max_price:
-        price_match = re.search(r'(?:under|below|less than|within|around|upto|up to)\s*(?:rs\.?|inr|₹)?\s*(\d+)', msg_lower)
-        if price_match:
-            max_price = float(price_match.group(1))
-
-    # Clean query for semantic vector search (strip filler words and price patterns)
+    # ── 2. Generalized Attribute & Vector Search ─────────────────────────────
+    # Extract clean semantic search query
     clean_q = raw_query.lower()
     for fw in ["recommendation", "recommendations", "recommend", "suggest", "looking for", "show me", "find me", "help me find", "help me", "best", "good", "please", "wanted to buy", "buy", "all the ones having", "show the ones which have", "the ones with", "having", "with"]:
         clean_q = clean_q.replace(fw, " ")
 
-    # Strip price clauses like "under 50000", "below 40000/-", "under 50000/-"
+    # Strip price clauses
     clean_q = re.sub(r'(?:under|below|less than|within|around|upto|up to)\s*(?:rs\.?|inr|₹)?\s*\d+\s*(?:/|-|k)?', ' ', clean_q, flags=re.I)
     clean_q = re.sub(r'(?:rs\.?|inr|₹)\s*\d+', ' ', clean_q, flags=re.I)
-    clean_q = re.sub(r'\b\d{4,6}\s*(?:/|-)?\b', ' ', clean_q) # strip bare 50000
-
-    # Expand mobile synonyms
-    clean_q = re.sub(r'\bmobiles\b', 'mobile phone smartphone', clean_q, flags=re.I)
-    clean_q = re.sub(r'\bphones\b', 'phone smartphone', clean_q, flags=re.I)
+    clean_q = re.sub(r'\b\d{4,6}\s*(?:/|-)?\b', ' ', clean_q)
     clean_q = " ".join(clean_q.split())
-    query = clean_q if clean_q else ("smartphone mobile phone" if is_phone_context else raw_query)
-
-    # Augment query with context if implicit
-    if is_phone_context and not any(w in query.lower() for w in ["phone", "mobile", "smartphone", "iphone", "samsung", "nokia", "oneplus", "pixel", "xiaomi"]):
-        query = f"smartphone mobile phone {query}"
+    query = clean_q if clean_q else raw_query
 
     db = SessionLocal()
     try:
-        # Perform Vector Search with wider top_k (100 items)
+        # Perform Vector Search across entire catalog
         vector_results = vector_store.search(query, top_k=100)
         semantic_scores = {pid: score for pid, score in vector_results}
 
-        # Build SQL Query with metadata filters
+        # Build Dynamic SQL Query based on extracted generic filters
         q = db.query(Product).filter(Product.is_active == True)
 
-        # Explicit Brand Filtering
+        # Dynamic Brand Filter
         brand = filters.get("brand")
-        for b_cand in ["samsung", "apple", "nokia", "oneplus", "google", "xiaomi", "motorola", "asus", "vivo", "oppo", "nothing", "nike", "adidas", "puma", "pepe"]:
-            if b_cand in msg_lower:
-                brand = b_cand.capitalize() if b_cand != "iphone" else "Apple"
-                break
-
         if brand:
-            if brand.lower() == "iphone":
-                q = q.filter(Product.brand == "Apple")
-            else:
-                q = q.filter(Product.brand.ilike(f"%{brand}%"))
+            q = q.filter(Product.brand.ilike(f"%{brand}%"))
 
-        # Explicit RAM Filtering (e.g. 64GB RAM)
-        if "64gb" in msg_lower:
-            q = q.filter((Product.tags.ilike("%64gb%")) | (Product.description.ilike("%64GB%")) | (Product.title.ilike("%64GB%")))
-        elif "32gb" in msg_lower:
-            q = q.filter((Product.tags.ilike("%32gb%")) | (Product.description.ilike("%32GB%")))
-        elif "24gb" in msg_lower:
-            q = q.filter((Product.tags.ilike("%24gb%")) | (Product.description.ilike("%24GB%")))
-        elif "16gb" in msg_lower:
-            q = q.filter((Product.tags.ilike("%16gb%")) | (Product.description.ilike("%16GB%")))
-        elif "8gb" in msg_lower:
-            q = q.filter((Product.tags.ilike("%8gb%")) | (Product.description.ilike("%8GB%")))
-
-        # Explicit Processor Filtering (e.g. Qualcomm / Snapdragon)
-        if "qualcomm" in msg_lower or "snapdragon" in msg_lower:
-            q = q.filter((Product.tags.ilike("%qualcomm%")) | (Product.tags.ilike("%snapdragon%")) | (Product.description.ilike("%Qualcomm%")) | (Product.description.ilike("%Snapdragon%")))
-
-        if "bionic" in msg_lower or "a18" in msg_lower or "a17" in msg_lower:
-            q = q.filter((Product.tags.ilike("%bionic%")) | (Product.description.ilike("%Bionic%")))
-
-        # Category / Department Filtering
+        # Dynamic Category / Department Filter (checks category, tags, and title)
         category = filters.get("category")
         if category:
-            q = q.filter(Product.category.ilike(f"%{category}%"))
-        elif is_phone_context:
-            q = q.filter((Product.category == "Electronics") | (Product.tags.ilike("%smartphone%")) | (Product.tags.ilike("%mobile%")) | (Product.tags.ilike("%phone%")))
+            cat_clean = category.strip().lower()
+            cat_stem = cat_clean.rstrip('s') if len(cat_clean) > 3 else cat_clean
+            q = q.filter(
+                (Product.category.ilike(f"%{cat_clean}%")) |
+                (Product.category.ilike(f"%{cat_stem}%")) |
+                (Product.tags.ilike(f"%{cat_clean}%")) |
+                (Product.tags.ilike(f"%{cat_stem}%")) |
+                (Product.title.ilike(f"%{cat_stem}%"))
+            )
 
-        # Max Price Filtering
+        # Dynamic Gender Filter
+        gender = filters.get("gender")
+        if gender:
+            q = q.filter(Product.gender.in_([gender, "Unisex"]))
+
+        # Dynamic Color Filter
+        color = filters.get("color")
+        if color:
+            q = q.filter(Product.color.ilike(f"%{color}%"))
+
+        # Dynamic Price Filtering
+        max_price = filters.get("max_price")
+        if not max_price:
+            price_match = re.search(r'(?:under|below|less than|within|around|upto|up to)\s*(?:rs\.?|inr|₹)?\s*(\d+)', msg_lower)
+            if price_match:
+                max_price = float(price_match.group(1))
+
         if max_price:
             q = q.filter(Product.price <= float(max_price))
 
+        # Dynamic Rating Filtering
         min_rating = filters.get("min_rating")
         if min_rating:
             q = q.filter(Product.rating >= float(min_rating))
+
+        # Dynamic Spec / Keyword Filtering (Works for RAM, fabrics, chipsets, features, wattage, etc.)
+        spec_keywords = filters.get("spec_keywords") or []
+        if isinstance(spec_keywords, list):
+            for kw in spec_keywords:
+                if kw and len(kw.strip()) > 1:
+                    kw_clean = kw.strip()
+                    q = q.filter(
+                        (Product.title.ilike(f"%{kw_clean}%")) |
+                        (Product.tags.ilike(f"%{kw_clean}%")) |
+                        (Product.description.ilike(f"%{kw_clean}%")) |
+                        (Product.product_meta.ilike(f"%{kw_clean}%"))
+                    )
 
         matched_products = q.all()
 
         has_query = bool(query and query.strip())
         top_vec_score = vector_results[0][1] if vector_results else 0.0
 
-        if has_query and top_vec_score >= 0.15:
-            threshold = max(0.15, top_vec_score * 0.20)
+        if has_query and top_vec_score >= 0.04:
+            threshold = max(0.04, top_vec_score * 0.35)
             rel_ids = {pid for pid, s in vector_results if s >= threshold}
             if any(p.id in rel_ids for p in matched_products):
-                # Filter down to semantic matches within the SQL-filtered pool
                 matched_products = [p for p in matched_products if p.id in rel_ids]
 
-        # Rank products with rating & review weights
+        # Graceful fallback: If strict combined filters returned 0 items, fall back to vector semantic matches
+        if not matched_products and vector_results:
+            top_ids = [pid for pid, s in vector_results[:25] if s > 0.03]
+            if top_ids:
+                matched_products = db.query(Product).filter(Product.id.in_(top_ids)).all()
+
+        # Multi-factor smart ranking (quality, reviews, seller proximity)
         ranked = rank_products(
             products=matched_products,
             user_city=user_city,
@@ -284,7 +273,6 @@ def discovery_node(state: AgentState) -> AgentState:
             has_query=has_query
         )
 
-        # Return a wide variety of up to 12 curated results
         formatted_products = []
         for item in ranked[:12]:
             p = item["product"]
@@ -323,7 +311,7 @@ def discovery_node(state: AgentState) -> AgentState:
 
         state["products"] = formatted_products
 
-        # Bind the ordinals (1..12) for the focus frame
+        # Set Focus List
         focus = [
             FocusItem(
                 ordinal=n,
@@ -338,33 +326,28 @@ def discovery_node(state: AgentState) -> AgentState:
         set_last_ref(session_id, None)
         state["focus_list"] = [f.to_dict() for f in focus]
 
-        # Dynamic reply highlighting brand, ratings, specs, and variety
         if formatted_products:
             top = formatted_products[0]
-            top_meta = top.get("product_meta") or {}
-            proc_highlight = f" with **{top_meta.get('processor', '')}**" if top_meta.get('processor') else ""
-            ram_highlight = f" (**{top_meta.get('ram', '')}**)" if top_meta.get('ram') else ""
-            local_str = f"⚡ Express local dispatch available from {top['city']}." if top["is_local_seller"] else ""
-
+            local_str = f"⚡ Express dispatch available from {top['city']}." if top["is_local_seller"] else ""
             reply_msg = (
-                f"I found **{len(formatted_products)} top-rated results** matching '{raw_query}'.\n\n"
-                f"🌟 **Top Recommendation**: **{top['brand']} {top['title']}**{proc_highlight}{ram_highlight} "
+                f"I found **{len(formatted_products)} top-rated results** matching your query.\n\n"
+                f"🌟 **Top Pick**: **{top['brand']} {top['title']}** "
                 f"at **Rs. {int(top['price']):,}** (Rated **★ {top['rating']}** across {top['review_count']} verified reviews). {local_str}\n\n"
-                f"You can ask me follow-up questions like *\"Compare and summarise the product descriptions of 1st and 3rd\"*, *\"Show me all the ones having 64GB RAM\"*, or *\"Show ones with Qualcomm processor\"*."
+                f"Ask me to *\"Compare 1st and 3rd\"*, refine by brand, budget, or specifications."
             )
-            audit_reasoning = f"Surfaced {len(formatted_products)} smart-ranked matches from {len(matched_products)} items. Top item {top['brand']} {top['title']} selected with {top['rating']}★ rating."
+            audit_reasoning = f"Evaluated {len(matched_products)} candidates across quality, rating weights, and vector relevance. Top pick: {top['brand']} {top['title']}."
             rating_impact = f"Weighted {top['rating']}★ rating & {top['review_count']} reviews with quality ranking influence."
             suggested_actions = [
-                "Compare 1st and 3rd",
-                "Show 64GB RAM models",
-                "Show Qualcomm Snapdragon phones",
+                "Compare 1st and 2nd",
+                "Show under ₹10,000",
+                "Show highest rated",
                 "Proceed to Checkout"
             ]
         else:
-            reply_msg = f"I could not find exact items matching '{raw_query}'. Try asking for top brands like Samsung, Apple iPhone, Nokia, or OnePlus."
+            reply_msg = f"I could not find exact items matching '{raw_query}'. Try broadening your search or exploring popular categories."
             audit_reasoning = f"No active catalog items matched query '{raw_query}'."
             rating_impact = "None"
-            suggested_actions = ["Show all mobile phones", "Show Samsung Galaxy S24", "Show iPhone 16 Pro Max", "Show 64GB RAM models"]
+            suggested_actions = ["Show top electronics", "Show running shoes", "Show trending fashion", "Show home appliances"]
 
         state["reply"] = reply_msg
         state["audit_reasoning"] = audit_reasoning
