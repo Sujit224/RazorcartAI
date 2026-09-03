@@ -5,6 +5,8 @@ import { useAgent } from '../context/AgentContext';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
+import { MarkdownMessage } from './MarkdownMessage';
+
 export const AgentCopilotModal = () => {
   const navigate = useNavigate();
   const {
@@ -122,9 +124,7 @@ export const AgentCopilotModal = () => {
                 }`}
               >
                 {/* Render Text / Markdown formatted message */}
-                <div className="whitespace-pre-line font-normal">
-                  {msg.text}
-                </div>
+                <MarkdownMessage content={msg.text} isUser={msg.sender === 'user'} />
 
                 {/* Embedded Products Carousel in Chat */}
                 {msg.products && msg.products.length > 0 && (

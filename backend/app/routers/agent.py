@@ -49,6 +49,13 @@ def agent_chat(req: AgentChatRequest, db: Session = Depends(get_db)):
         "fbt_products": [],
         "checkout_data": None,
         "recovery_data": None,
+        "focus_list": [],
+        "reference_reason": None,
+        "cart_snapshot": None,
+        "orders_snapshot": None,
+        "action_result": None,
+        "pending_confirmation": None,
+        "client_action": None,
         "reply": "",
         "suggested_actions": [],
         "audit_reasoning": "",
@@ -68,5 +75,12 @@ def agent_chat(req: AgentChatRequest, db: Session = Depends(get_db)):
         checkout_data=final_state.get("checkout_data"),
         recovery_data=final_state.get("recovery_data"),
         audit_id=final_state.get("audit_id"),
-        suggested_actions=final_state.get("suggested_actions", [])
+        suggested_actions=final_state.get("suggested_actions", []),
+        focus_list=final_state.get("focus_list") or [],
+        reference_reason=final_state.get("reference_reason"),
+        cart_snapshot=final_state.get("cart_snapshot"),
+        orders_snapshot=final_state.get("orders_snapshot"),
+        action_result=final_state.get("action_result"),
+        pending_confirmation=final_state.get("pending_confirmation"),
+        client_action=final_state.get("client_action")
     )

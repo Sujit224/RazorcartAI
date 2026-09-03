@@ -1,6 +1,7 @@
 import json
 from typing import List, Dict, Any
 from ..state import AgentState
+from ..reference import KIND_PRODUCT, FocusItem, set_focus, set_last_ref
 from ...database import SessionLocal
 from ...models.product import Product
 from ...services.vector_store import vector_store
@@ -104,6 +105,27 @@ def discovery_node(state: AgentState) -> AgentState:
 
         state["products"] = formatted_products
 
+        # Bind the ordinals the user is about to see.  Without this, "open the
+        # first one" in the very next turn has nothing to resolve against -- the
+        # numbering exists only in the rendered chat bubble, so it has to be
+        # recorded server-side at the moment it is produced.
+        session_id = state.get("session_id") or "default"
+        focus = [
+            FocusItem(
+                ordinal=n,
+                kind=KIND_PRODUCT,
+                ref_id=p["id"],
+                label="%s %s" % (p["brand"], p["title"]),
+                extra={"price": p["price"], "rating": p["rating"]},
+            )
+            for n, p in enumerate(formatted_products[:10], start=1)
+        ]
+        set_focus(session_id, focus)
+        # A fresh search invalidates "it" -- the previous turn's item is no
+        # longer what the user is looking at.
+        set_last_ref(session_id, None)
+        state["focus_list"] = [f.to_dict() for f in focus]
+
         # Build dynamic reply highlighting ratings and reviews
         if formatted_products:
             top = formatted_products[0]
@@ -116,9 +138,9 @@ def discovery_node(state: AgentState) -> AgentState:
             audit_reasoning = f"Smart-ranked {len(matched_products)} items. Top item {top['brand']} {top['title']} selected with {top['rating']}★ rating and {top['review_count']} reviews (score: {top['ranking_score']})."
             rating_impact = f"Weighted {top['rating']}★ rating & {top['review_count']} reviews with quality ranking influence."
             suggested_actions = [
-                "Add top pick to bag",
-                "Explore more in this category",
-                "Proceed to checkout"
+                "Add the first one to my bag",
+                "Open the first one",
+                "Show me my cart"
             ]
         else:
             reply_msg = (

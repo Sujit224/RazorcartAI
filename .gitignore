@@ -45,3 +45,12 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
+
+# Build-time ML model cache (CLIP for the image harvest, ~605 MB).
+# Lives here rather than in ~/.cache/huggingface because it is build-only and
+# does not belong in the runtime cache.  Regenerate with:
+#   cd backend && python -m app.services.image_harvest --build
+.model_cache/
+
+# RAG embedding cache -- derived from the catalog, safe to delete.
+backend/.rag_cache/

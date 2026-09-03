@@ -1,15 +1,21 @@
 from langgraph.graph import StateGraph, END
 from .state import AgentState
+from .commands import CART_OPS_INTENTS
 from .nodes.router import router_node
 from .nodes.discovery import discovery_node
 from .nodes.upsell import upsell_node
 from .nodes.checkout import checkout_node
 from .nodes.recovery import recovery_node
+from .nodes.cart_ops import cart_ops_node
 from .nodes.audit_logger import audit_logger_node
 
 def route_next_node(state: AgentState) -> str:
     """Conditional edge router based on intent."""
     intent = state.get("intent", "discovery")
+    # Cart/order operations are membership-tested against the set commands.py
+    # owns, so a new verb is wired up by adding it there and nowhere else.
+    if intent in CART_OPS_INTENTS:
+        return "cart_ops_node"
     if intent == "discovery":
         return "discovery_node"
     elif intent == "fbt_upsell":
@@ -32,6 +38,7 @@ def build_agent_graph():
     workflow.add_node("upsell_node", upsell_node)
     workflow.add_node("checkout_node", checkout_node)
     workflow.add_node("recovery_node", recovery_node)
+    workflow.add_node("cart_ops_node", cart_ops_node)
     workflow.add_node("audit_logger_node", audit_logger_node)
 
     # Entrypoint
@@ -45,7 +52,8 @@ def build_agent_graph():
             "discovery_node": "discovery_node",
             "upsell_node": "upsell_node",
             "checkout_node": "checkout_node",
-            "recovery_node": "recovery_node"
+            "recovery_node": "recovery_node",
+            "cart_ops_node": "cart_ops_node"
         }
     )
 
@@ -54,6 +62,7 @@ def build_agent_graph():
     workflow.add_edge("upsell_node", "audit_logger_node")
     workflow.add_edge("checkout_node", "audit_logger_node")
     workflow.add_edge("recovery_node", "audit_logger_node")
+    workflow.add_edge("cart_ops_node", "audit_logger_node")
     workflow.add_edge("audit_logger_node", END)
 
     return workflow.compile()

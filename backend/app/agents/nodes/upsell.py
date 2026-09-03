@@ -1,5 +1,6 @@
 import json
 from ..state import AgentState
+from ..reference import KIND_PRODUCT, FocusItem, set_focus, set_last_ref
 from ...database import SessionLocal
 from ...models.product import Product
 
@@ -53,6 +54,21 @@ def upsell_node(state: AgentState) -> AgentState:
 
         state["fbt_products"] = fbt_items
 
+        # The FBT suggestions are what the user is now looking at, so they own the
+        # ordinals: "add the second one" after a pairing pitch means the second
+        # complementary item, not the second search result from three turns ago.
+        session_id = state.get("session_id") or "default"
+        if fbt_items:
+            focus = [
+                FocusItem(n, KIND_PRODUCT, it["id"],
+                          "%s %s" % (it["brand"], it["title"]),
+                          {"price": it["price"], "rating": it["rating"]})
+                for n, it in enumerate(fbt_items, start=1)
+            ]
+            set_focus(session_id, focus)
+            set_last_ref(session_id, None)
+            state["focus_list"] = [f.to_dict() for f in focus]
+
         if fbt_items:
             fbt_titles = ", ".join([f"{item['brand']} {item['title']} (Rs. {int(item['price'])})" for item in fbt_items])
             state["reply"] = (
@@ -66,7 +82,8 @@ def upsell_node(state: AgentState) -> AgentState:
             state["audit_reasoning"] = "No complementary items needed."
 
         state["suggested_actions"] = [
-            "Add complementary items to bag",
+            "Add the first one to my bag",
+            "Show me my cart",
             "Proceed to checkout"
         ]
     finally:

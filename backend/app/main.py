@@ -1,6 +1,8 @@
 import os
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from contextlib import asynccontextmanager
 from .config import settings
 from .database import engine, Base, SessionLocal
@@ -8,6 +10,9 @@ from .models import User, Product, CartItem, Order, AuditLedger
 from .services.seed_data import seed_database
 from .routers import auth, products, cart, agent, payment, audit
 from .routers import merchant, admin, reviews, orders
+
+BACKEND_DIR = Path(__file__).resolve().parent.parent
+STATIC_DIR = BACKEND_DIR / "static"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -37,6 +42,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ── Locally-served product photography ──────────────────────────────────────
+# Every product image is a CLIP-verified WebP harvested by
+# `python -m app.services.image_harvest --build` into backend/static/products/.
+# Serving them ourselves means the storefront has zero third-party network
+# dependency at demo time -- no hotlink limits, no CDN outage, no 403s.
+STATIC_DIR.mkdir(parents=True, exist_ok=True)
+(STATIC_DIR / "products").mkdir(parents=True, exist_ok=True)
+app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
 
 # Customer-facing APIs
 app.include_router(auth.router)

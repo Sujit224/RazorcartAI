@@ -1,0 +1,619 @@
+{
+  "smartphones": {
+    "too_small": 40,
+    "aspect": 75,
+    "noun_absent": 54,
+    "blocked:leaflet": 1,
+    "mime": 30,
+    "blocked:railway": 1,
+    "blocked:scrap": 1,
+    "blocked:graph": 1,
+    "blocked:selfie": 6,
+    "blocked:logo": 1,
+    "blocked:museum": 1,
+    "kept": 256,
+    "groups": 200
+  },
+  "laptops": {
+    "noun_absent": 28,
+    "too_small": 17,
+    "mime": 137,
+    "blocked:graph": 2,
+    "blocked:cafe": 1,
+    "blocked:screenshot": 2,
+    "aspect": 31,
+    "blocked:broken": 1,
+    "blocked:collage": 1,
+    "too_large": 1,
+    "blocked:sketch": 1,
+    "blocked:museum": 2,
+    "blocked:illustration": 1,
+    "blocked:motherboard": 2,
+    "blocked:audience": 1,
+    "blocked:teardown": 1,
+    "blocked:rusty": 1,
+    "kept": 139,
+    "groups": 122
+  },
+  "tablets": {
+    "too_small": 34,
+    "mime": 54,
+    "aspect": 28,
+    "noun_absent": 18,
+    "blocked:illustration": 1,
+    "blocked:parade": 1,
+    "blocked:screenshot": 2,
+    "blocked:broken": 1,
+    "blocked:graph": 6,
+    "blocked:museum": 4,
+    "blocked:memorial": 1,
+    "kept": 137,
+    "groups": 118
+  },
+  "headphones": {
+    "noun_absent": 103,
+    "too_small": 36,
+    "aspect": 46,
+    "mime": 14,
+    "blocked:wiring": 1,
+    "kept": 144,
+    "groups": 124
+  },
+  "smartwatches": {
+    "noun_absent": 40,
+    "too_small": 8,
+    "aspect": 25,
+    "mime": 158,
+    "blocked:museum": 1,
+    "kept": 68,
+    "groups": 66
+  },
+  "cameras": {
+    "blocked:disassembled": 1,
+    "too_small": 83,
+    "aspect": 26,
+    "noun_absent": 176,
+    "mime": 40,
+    "blocked:museum": 1,
+    "blocked:graph": 2,
+    "blocked:teardown": 1,
+    "blocked:selfie": 1,
+    "blocked:cross section": 1,
+    "kept": 105,
+    "groups": 99
+  },
+  "speakers": {
+    "noun_absent": 137,
+    "aspect": 59,
+    "too_small": 11,
+    "blocked:comparison of": 2,
+    "blocked:pictogram": 1,
+    "blocked:logo": 1,
+    "blocked:size comparison": 2,
+    "mime": 8,
+    "blocked:museum": 1,
+    "kept": 78,
+    "groups": 75
+  },
+  "gaming": {
+    "aspect": 122,
+    "too_small": 25,
+    "noun_absent": 23,
+    "mime": 51,
+    "blocked:illustration": 1,
+    "blocked:landscape": 1,
+    "blocked:waste": 1,
+    "kept": 222,
+    "groups": 194
+  },
+  "power_charging": {
+    "too_small": 13,
+    "noun_absent": 119,
+    "aspect": 96,
+    "mime": 7,
+    "blocked:airport": 8,
+    "blocked:disassembled": 1,
+    "blocked:burnt": 1,
+    "blocked:icon": 1,
+    "blocked:hotel": 1,
+    "blocked:circuit board": 1,
+    "blocked:museum": 1,
+    "kept": 208,
+    "groups": 178
+  },
+  "monitors": {
+    "noun_absent": 63,
+    "mime": 29,
+    "too_small": 49,
+    "blocked:broken": 3,
+    "aspect": 28,
+    "blocked:illustration": 1,
+    "blocked:graph": 1,
+    "blocked:disassembled": 1,
+    "blocked:wiring": 1,
+    "blocked:railway": 1,
+    "blocked:diagram": 1,
+    "kept": 119,
+    "groups": 113
+  },
+  "footwear": {
+    "noun_absent": 131,
+    "blocked:wedding": 2,
+    "aspect": 48,
+    "mime": 11,
+    "too_small": 46,
+    "blocked:museum": 5,
+    "blocked:discarded": 2,
+    "blocked:broken": 1,
+    "blocked:sculpture": 1,
+    "blocked:graffiti": 2,
+    "blocked:factory": 5,
+    "blocked:patent": 1,
+    "blocked:portrait": 2,
+    "blocked:abandoned": 1,
+    "blocked:graph": 1,
+    "kept": 265,
+    "groups": 213
+  },
+  "topwear": {
+    "too_small": 46,
+    "blocked:logo": 5,
+    "blocked:pictogram": 1,
+    "blocked:railway": 1,
+    "aspect": 28,
+    "mime": 30,
+    "noun_absent": 89,
+    "blocked:protest": 1,
+    "blocked:icon": 3,
+    "blocked:painting": 1,
+    "blocked:experiment": 1,
+    "blocked:museum": 2,
+    "blocked:landscape": 2,
+    "too_large": 2,
+    "blocked:cafe": 1,
+    "blocked:factory": 1,
+    "blocked:graffiti": 1,
+    "blocked:mural": 1,
+    "blocked:graph": 1,
+    "blocked:cosplay": 1,
+    "blocked:map of": 1,
+    "blocked:portrait": 1,
+    "kept": 327,
+    "groups": 272
+  },
+  "bottomwear": {
+    "too_small": 184,
+    "aspect": 65,
+    "noun_absent": 78,
+    "blocked:broken": 1,
+    "blocked:graph": 1,
+    "blocked:logo": 1,
+    "blocked:factory": 1,
+    "blocked:museum": 2,
+    "mime": 1,
+    "kept": 213,
+    "groups": 209
+  },
+  "dresses": {
+    "noun_absent": 65,
+    "too_small": 34,
+    "blocked:wedding": 6,
+    "aspect": 42,
+    "blocked:graph": 2,
+    "blocked:museum": 3,
+    "blocked:illustration": 1,
+    "mime": 5,
+    "blocked:sketch": 3,
+    "blocked:portrait": 14,
+    "kept": 276,
+    "groups": 238
+  },
+  "ethnic": {
+    "too_small": 97,
+    "noun_absent": 176,
+    "aspect": 26,
+    "too_large": 1,
+    "mime": 61,
+    "blocked:portrait": 3,
+    "blocked:graph": 1,
+    "blocked:painting": 1,
+    "blocked:wedding": 1,
+    "kept": 99,
+    "groups": 84
+  },
+  "innerwear": {
+    "too_small": 55,
+    "mime": 18,
+    "aspect": 32,
+    "blocked:museum": 3,
+    "noun_absent": 176,
+    "blocked:montage": 1,
+    "blocked:graph": 3,
+    "too_large": 1,
+    "blocked:advertisement": 3,
+    "blocked:logo": 1,
+    "blocked:blueprint": 1,
+    "kept": 148,
+    "groups": 147
+  },
+  "watches": {
+    "too_small": 21,
+    "noun_absent": 112,
+    "blocked:coin": 1,
+    "aspect": 31,
+    "blocked:icon": 4,
+    "blocked:exhibition": 1,
+    "blocked:emblem": 1,
+    "mime": 49,
+    "kept": 170,
+    "groups": 144
+  },
+  "bags": {
+    "noun_absent": 195,
+    "too_small": 29,
+    "mime": 84,
+    "aspect": 46,
+    "blocked:railway": 1,
+    "blocked:patent": 1,
+    "blocked:airport": 3,
+    "blocked:hotel": 1,
+    "blocked:icon": 1,
+    "blocked:broken": 1,
+    "blocked:portrait": 1,
+    "blocked:soldiers": 5,
+    "kept": 240,
+    "groups": 211
+  },
+  "sunglasses": {
+    "aspect": 25,
+    "mime": 8,
+    "noun_absent": 65,
+    "too_small": 104,
+    "blocked:festival": 1,
+    "blocked:portrait": 1,
+    "kept": 105,
+    "groups": 79
+  },
+  "jewellery": {
+    "noun_absent": 25,
+    "aspect": 30,
+    "blocked:museum": 32,
+    "too_small": 41,
+    "blocked:nameplate": 1,
+    "too_large": 1,
+    "mime": 13,
+    "blocked:abandoned": 1,
+    "blocked:stamp of": 1,
+    "blocked:melted": 2,
+    "blocked:portrait": 2,
+    "kept": 451,
+    "groups": 430
+  },
+  "accessories": {
+    "noun_absent": 139,
+    "too_small": 77,
+    "aspect": 34,
+    "mime": 78,
+    "blocked:museum": 3,
+    "blocked:airport": 1,
+    "blocked:graph": 1,
+    "blocked:festival": 1,
+    "kept": 260,
+    "groups": 243
+  },
+  "cookware": {
+    "too_small": 53,
+    "noun_absent": 176,
+    "mime": 63,
+    "blocked:graph": 27,
+    "aspect": 66,
+    "blocked:museum": 6,
+    "blocked:illustration": 2,
+    "blocked:landscape": 1,
+    "too_large": 1,
+    "blocked:title page": 1,
+    "kept": 238,
+    "groups": 208
+  },
+  "dinnerware": {
+    "noun_absent": 83,
+    "blocked:engraving": 2,
+    "too_large": 1,
+    "aspect": 40,
+    "mime": 9,
+    "blocked:museum": 43,
+    "blocked:collage": 1,
+    "too_small": 23,
+    "blocked:logo": 6,
+    "blocked:airport": 1,
+    "blocked:factory": 5,
+    "blocked:exhibition": 5,
+    "blocked:sculpture": 1,
+    "blocked:coat of arms": 1,
+    "kept": 371,
+    "groups": 337
+  },
+  "kitchen_storage": {
+    "kept": 0,
+    "groups": 0
+  },
+  "home_decor": {
+    "kept": 12,
+    "groups": 5
+  },
+  "bedding": {
+    "kept": 0,
+    "groups": 0
+  },
+  "furniture": {
+    "kept": 15,
+    "groups": 5
+  },
+  "lighting": {
+    "kept": 0,
+    "groups": 0
+  },
+  "cleaning": {
+    "kept": 0,
+    "groups": 0
+  },
+  "refrigerators": {
+    "mime": 11,
+    "aspect": 20,
+    "noun_absent": 50,
+    "too_small": 11,
+    "blocked:advertisement": 2,
+    "blocked:patent": 1,
+    "too_large": 1,
+    "blocked:shelves": 1,
+    "blocked:museum": 1,
+    "kept": 57,
+    "groups": 56
+  },
+  "washing_machines": {
+    "kept": 0,
+    "groups": 0
+  },
+  "air_conditioners": {
+    "kept": 0,
+    "groups": 0
+  },
+  "microwaves": {
+    "kept": 0,
+    "groups": 0
+  },
+  "mixer_grinders": {
+    "kept": 0,
+    "groups": 0
+  },
+  "air_purifiers": {
+    "kept": 0,
+    "groups": 0
+  },
+  "water_purifiers": {
+    "kept": 0,
+    "groups": 0
+  },
+  "vacuum_cleaners": {
+    "kept": 0,
+    "groups": 0
+  },
+  "fans_coolers": {
+    "kept": 0,
+    "groups": 0
+  },
+  "skincare": {
+    "kept": 9,
+    "groups": 3
+  },
+  "haircare": {
+    "kept": 0,
+    "groups": 0
+  },
+  "makeup": {
+    "kept": 5,
+    "groups": 5
+  },
+  "fragrances": {
+    "kept": 15,
+    "groups": 5
+  },
+  "mens_grooming": {
+    "kept": 0,
+    "groups": 0
+  },
+  "bath_body": {
+    "kept": 0,
+    "groups": 0
+  },
+  "oral_care": {
+    "kept": 0,
+    "groups": 0
+  },
+  "gym_equipment": {
+    "kept": 0,
+    "groups": 0
+  },
+  "cricket": {
+    "kept": 7,
+    "groups": 4
+  },
+  "football": {
+    "kept": 12,
+    "groups": 10
+  },
+  "racquet_sports": {
+    "kept": 2,
+    "groups": 2
+  },
+  "cycling": {
+    "kept": 0,
+    "groups": 0
+  },
+  "yoga": {
+    "kept": 0,
+    "groups": 0
+  },
+  "sportswear": {
+    "kept": 0,
+    "groups": 0
+  },
+  "sports_nutrition": {
+    "kept": 1,
+    "groups": 1
+  },
+  "staples": {
+    "kept": 1,
+    "groups": 1
+  },
+  "snacks": {
+    "kept": 0,
+    "groups": 0
+  },
+  "beverages": {
+    "kept": 3,
+    "groups": 3
+  },
+  "tea_coffee": {
+    "kept": 0,
+    "groups": 0
+  },
+  "breakfast": {
+    "kept": 1,
+    "groups": 1
+  },
+  "oils_ghee": {
+    "kept": 1,
+    "groups": 1
+  },
+  "dry_fruits": {
+    "kept": 0,
+    "groups": 0
+  },
+  "chocolates": {
+    "kept": 0,
+    "groups": 0
+  },
+  "fiction": {
+    "too_small": 91,
+    "noun_absent": 72,
+    "aspect": 22,
+    "mime": 36,
+    "blocked:illustration": 1,
+    "blocked:abandoned": 1,
+    "kept": 171,
+    "groups": 161
+  },
+  "non_fiction": {
+    "kept": 0,
+    "groups": 0
+  },
+  "academic": {
+    "kept": 0,
+    "groups": 0
+  },
+  "childrens_books": {
+    "kept": 0,
+    "groups": 0
+  },
+  "notebooks": {
+    "kept": 0,
+    "groups": 0
+  },
+  "pens": {
+    "kept": 0,
+    "groups": 0
+  },
+  "art_craft": {
+    "kept": 0,
+    "groups": 0
+  },
+  "toys_games": {
+    "kept": 0,
+    "groups": 0
+  },
+  "board_games": {
+    "kept": 0,
+    "groups": 0
+  },
+  "baby_care": {
+    "kept": 0,
+    "groups": 0
+  },
+  "diapers_wipes": {
+    "kept": 0,
+    "groups": 0
+  },
+  "baby_gear": {
+    "kept": 0,
+    "groups": 0
+  },
+  "learning_stem": {
+    "kept": 0,
+    "groups": 0
+  },
+  "vitamins": {
+    "kept": 0,
+    "groups": 0
+  },
+  "medical_devices": {
+    "kept": 0,
+    "groups": 0
+  },
+  "ayurveda": {
+    "kept": 0,
+    "groups": 0
+  },
+  "first_aid": {
+    "kept": 0,
+    "groups": 0
+  },
+  "personal_hygiene": {
+    "kept": 0,
+    "groups": 0
+  },
+  "car_accessories": {
+    "kept": 0,
+    "groups": 0
+  },
+  "bike_accessories": {
+    "kept": 0,
+    "groups": 0
+  },
+  "car_care": {
+    "kept": 0,
+    "groups": 0
+  },
+  "power_tools": {
+    "kept": 0,
+    "groups": 0
+  },
+  "hand_tools": {
+    "kept": 0,
+    "groups": 0
+  },
+  "safety_security": {
+    "kept": 0,
+    "groups": 0
+  },
+  "dog_food": {
+    "kept": 1,
+    "groups": 1
+  },
+  "cat_food": {
+    "kept": 1,
+    "groups": 1
+  },
+  "pet_toys": {
+    "kept": 0,
+    "groups": 0
+  },
+  "pet_grooming": {
+    "kept": 0,
+    "groups": 0
+  },
+  "pet_accessories": {
+    "kept": 0,
+    "groups": 0
+  }
+}

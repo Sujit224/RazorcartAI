@@ -1,0 +1,3501 @@
+{
+  "version": 1,
+  "build": {
+    "clip_model": "clip-ViT-B-32",
+    "clip_min_pos_cos": 0.2,
+    "clip_min_pos_prob": 0.55,
+    "output": {
+      "width": 500,
+      "height": 625,
+      "format": "webp",
+      "quality": 80
+    },
+    "static_url_prefix": "/static/products",
+    "target_per_subcategory": 60,
+    "min_per_subcategory": 12
+  },
+  "stats": {
+    "subcategories": 61,
+    "total_images": 167,
+    "thin_subcategories": [
+      "accessories",
+      "air_conditioners",
+      "air_purifiers",
+      "bags",
+      "bath_body",
+      "bedding",
+      "beverages",
+      "bottomwear",
+      "breakfast",
+      "cameras",
+      "chocolates",
+      "cleaning",
+      "cricket",
+      "cycling",
+      "dresses",
+      "dry_fruits",
+      "ethnic",
+      "fans_coolers",
+      "football",
+      "footwear",
+      "fragrances",
+      "gaming",
+      "gym_equipment",
+      "haircare",
+      "headphones",
+      "home_decor",
+      "innerwear",
+      "jewellery",
+      "kitchen_storage",
+      "laptops",
+      "lighting",
+      "makeup",
+      "mens_grooming",
+      "microwaves",
+      "mixer_grinders",
+      "monitors",
+      "oils_ghee",
+      "oral_care",
+      "power_charging",
+      "racquet_sports",
+      "refrigerators",
+      "skincare",
+      "smartphones",
+      "smartwatches",
+      "snacks",
+      "speakers",
+      "sports_nutrition",
+      "sportswear",
+      "staples",
+      "sunglasses",
+      "tablets",
+      "tea_coffee",
+      "topwear",
+      "vacuum_cleaners",
+      "washing_machines",
+      "watches",
+      "water_purifiers",
+      "yoga"
+    ],
+    "clip_score_mean": 0.2902,
+    "clip_score_min": 0.2331
+  },
+  "images": {
+    "accessories": [],
+    "air_conditioners": [],
+    "air_purifiers": [],
+    "bags": [],
+    "bath_body": [],
+    "bedding": [],
+    "beverages": [
+      {
+        "file": "grocerygourmet_beverages_0001.webp",
+        "url": "/static/products/grocerygourmet_beverages_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 3174,
+        "colour_family": "gold",
+        "clip_score": 0.3329,
+        "clip_prob": 0.9599,
+        "group_id": "dummyjson:29",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Juice",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/29"
+        }
+      },
+      {
+        "file": "grocerygourmet_beverages_0002.webp",
+        "url": "/static/products/grocerygourmet_beverages_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 7770,
+        "colour_family": "black",
+        "clip_score": 0.2877,
+        "clip_prob": 0.5511,
+        "group_id": "dummyjson:39",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Soft Drinks",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/39"
+        }
+      },
+      {
+        "file": "grocerygourmet_beverages_0003.webp",
+        "url": "/static/products/grocerygourmet_beverages_0003.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4582,
+        "colour_family": "silver",
+        "clip_score": 0.3183,
+        "clip_prob": 0.9723,
+        "group_id": "dummyjson:42",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Water",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/42"
+        }
+      }
+    ],
+    "bottomwear": [],
+    "breakfast": [
+      {
+        "file": "grocerygourmet_breakfast_0001.webp",
+        "url": "/static/products/grocerygourmet_breakfast_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 11708,
+        "colour_family": "black",
+        "clip_score": 0.2331,
+        "clip_prob": 0.8368,
+        "group_id": "dummyjson:27",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Honey Jar",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/27"
+        }
+      }
+    ],
+    "cameras": [],
+    "chocolates": [],
+    "cleaning": [],
+    "cookware": [
+      {
+        "file": "homekitchen_cookware_0001.webp",
+        "url": "/static/products/homekitchen_cookware_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4908,
+        "colour_family": "white",
+        "clip_score": 0.296,
+        "clip_prob": 0.8087,
+        "group_id": "dummyjson:50",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Black Whisk",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/50"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0002.webp",
+        "url": "/static/products/homekitchen_cookware_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4076,
+        "colour_family": "grey",
+        "clip_score": 0.3263,
+        "clip_prob": 0.7102,
+        "group_id": "dummyjson:52",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Carbon Steel Wok",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/52"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0003.webp",
+        "url": "/static/products/homekitchen_cookware_0003.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6342,
+        "colour_family": "gold",
+        "clip_score": 0.2554,
+        "clip_prob": 0.6578,
+        "group_id": "dummyjson:53",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Chopping Board",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/53"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0004.webp",
+        "url": "/static/products/homekitchen_cookware_0004.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4734,
+        "colour_family": "yellow",
+        "clip_score": 0.3049,
+        "clip_prob": 0.9542,
+        "group_id": "dummyjson:54",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Citrus Squeezer Yellow",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/54"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0005.webp",
+        "url": "/static/products/homekitchen_cookware_0005.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 10402,
+        "colour_family": "yellow",
+        "clip_score": 0.2763,
+        "clip_prob": 0.9148,
+        "group_id": "dummyjson:55",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Egg Slicer",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/55"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0008.webp",
+        "url": "/static/products/homekitchen_cookware_0008.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4812,
+        "colour_family": "silver",
+        "clip_score": 0.2494,
+        "clip_prob": 0.7005,
+        "group_id": "dummyjson:61",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Hand Blender",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/61"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0009.webp",
+        "url": "/static/products/homekitchen_cookware_0009.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6464,
+        "colour_family": "teal",
+        "clip_score": 0.2765,
+        "clip_prob": 0.6353,
+        "group_id": "dummyjson:62",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Ice Cube Tray",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/62"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0010.webp",
+        "url": "/static/products/homekitchen_cookware_0010.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 8354,
+        "colour_family": "silver",
+        "clip_score": 0.3043,
+        "clip_prob": 0.7699,
+        "group_id": "dummyjson:63",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Kitchen Sieve",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/63"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0011.webp",
+        "url": "/static/products/homekitchen_cookware_0011.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5622,
+        "colour_family": "silver",
+        "clip_score": 0.2635,
+        "clip_prob": 0.6069,
+        "group_id": "dummyjson:66",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Microwave Oven (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/66"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0013.webp",
+        "url": "/static/products/homekitchen_cookware_0013.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4088,
+        "colour_family": "red",
+        "clip_score": 0.2613,
+        "clip_prob": 0.593,
+        "group_id": "dummyjson:70",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Red Tongs",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/70"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0014.webp",
+        "url": "/static/products/homekitchen_cookware_0014.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4388,
+        "colour_family": "grey",
+        "clip_score": 0.3352,
+        "clip_prob": 0.8806,
+        "group_id": "dummyjson:71",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Silver Pot With Glass Cap",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/71"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0016.webp",
+        "url": "/static/products/homekitchen_cookware_0016.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4696,
+        "colour_family": "grey",
+        "clip_score": 0.2458,
+        "clip_prob": 0.713,
+        "group_id": "dummyjson:75",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Tray",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/75"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0017.webp",
+        "url": "/static/products/homekitchen_cookware_0017.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 7746,
+        "colour_family": "black",
+        "clip_score": 0.3414,
+        "clip_prob": 0.936,
+        "group_id": "commons:stainless_steel_frying_pan",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Stainless Steel Frying Pan.jpg",
+          "artist": "Jim Stonos",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Stainless_Steel_Frying_Pan.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0018.webp",
+        "url": "/static/products/homekitchen_cookware_0018.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 32356,
+        "colour_family": "grey",
+        "clip_score": 0.3331,
+        "clip_prob": 0.9802,
+        "group_id": "commons:vacuum_brazed_diamond_frying_pan",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Vacuum brazed diamond frying pan.jpg",
+          "artist": "Diamond diamond diamond",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Vacuum_brazed_diamond_frying_pan.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0019.webp",
+        "url": "/static/products/homekitchen_cookware_0019.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 33016,
+        "colour_family": "grey",
+        "clip_score": 0.3441,
+        "clip_prob": 0.9858,
+        "group_id": "commons:diamond_surface_nonstick_frying_pan",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Diamond surface nonstick frying pan.jpg",
+          "artist": "Diamond diamond diamond",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Diamond_surface_nonstick_frying_pan.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0020.webp",
+        "url": "/static/products/homekitchen_cookware_0020.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 50638,
+        "colour_family": "grey",
+        "clip_score": 0.3245,
+        "clip_prob": 0.8016,
+        "group_id": "commons:water_droplets_on_diamond_surface_frying_pan",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Water droplets on Diamond surface frying pan.jpg",
+          "artist": "Diamond diamond diamond",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Water_droplets_on_Diamond_surface_frying_pan.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0021.webp",
+        "url": "/static/products/homekitchen_cookware_0021.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 12718,
+        "colour_family": "grey",
+        "clip_score": 0.2828,
+        "clip_prob": 0.6177,
+        "group_id": "commons:glass_lid_for_cookware",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Glass lid for cookware.JPG",
+          "artist": "Pogrebnoj-Alexandroff",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Glass_lid_for_cookware.JPG"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0022.webp",
+        "url": "/static/products/homekitchen_cookware_0022.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6374,
+        "colour_family": "grey",
+        "clip_score": 0.3115,
+        "clip_prob": 0.8918,
+        "group_id": "commons:pot_with_no_background",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Pot with no background.png",
+          "artist": "Lightsnap",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Pot_with_no_background.png"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0023.webp",
+        "url": "/static/products/homekitchen_cookware_0023.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 41794,
+        "colour_family": "brown",
+        "clip_score": 0.2975,
+        "clip_prob": 0.6886,
+        "group_id": "commons:modern_cooking_pot_with_glass_cover_and_vegetable_beef_stew",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Modern cooking pot with glass cover and vegetable-beef stew.jpg",
+          "artist": "Marc-Lautenbacher",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Modern_cooking_pot_with_glass_cover_and_vegetable-beef_stew.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0024.webp",
+        "url": "/static/products/homekitchen_cookware_0024.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 34952,
+        "colour_family": "black",
+        "clip_score": 0.3283,
+        "clip_prob": 0.7441,
+        "group_id": "commons:cooking_pot",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Cooking pot 11.jpg",
+          "artist": "BogTar201213",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Cooking_pot_11.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0025.webp",
+        "url": "/static/products/homekitchen_cookware_0025.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 28978,
+        "colour_family": "grey",
+        "clip_score": 0.3374,
+        "clip_prob": 0.871,
+        "group_id": "commons:cooking_pot_march",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Cooking Pot March.jpg",
+          "artist": "Peculiar grace",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Cooking_Pot_March.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0026.webp",
+        "url": "/static/products/homekitchen_cookware_0026.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 31604,
+        "colour_family": "black",
+        "clip_score": 0.3017,
+        "clip_prob": 0.7934,
+        "group_id": "commons:chamdu_cooking_pot_kullu",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Chamdu ( Cooking Pot), kullu.jpg",
+          "artist": "Rajani Gairshail",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Chamdu_(_Cooking_Pot),_kullu.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0027.webp",
+        "url": "/static/products/homekitchen_cookware_0027.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 42962,
+        "colour_family": "brown",
+        "clip_score": 0.2932,
+        "clip_prob": 0.7648,
+        "group_id": "commons:vintage_brass_cooking_pot_1",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Vintage brass cooking pot,1.jpg",
+          "artist": "Rajani Gairshail",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Vintage_brass_cooking_pot,1.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0028.webp",
+        "url": "/static/products/homekitchen_cookware_0028.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 45906,
+        "colour_family": "brown",
+        "clip_score": 0.2651,
+        "clip_prob": 0.6432,
+        "group_id": "commons:vintage_brass_cooking_pot_2",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Vintage brass cooking pot ,2.jpg",
+          "artist": "Rajani Gairshail",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Vintage_brass_cooking_pot_,2.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0029.webp",
+        "url": "/static/products/homekitchen_cookware_0029.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 8312,
+        "colour_family": "black",
+        "clip_score": 0.3066,
+        "clip_prob": 0.5935,
+        "group_id": "commons:food_pot_kitchen_cooking_23957429659",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Food-pot-kitchen-cooking (23957429659).jpg",
+          "artist": "www.Pixel.la Free Stock Photos",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Food-pot-kitchen-cooking_(23957429659).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0030.webp",
+        "url": "/static/products/homekitchen_cookware_0030.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 69622,
+        "colour_family": "grey",
+        "clip_score": 0.3181,
+        "clip_prob": 0.7185,
+        "group_id": "commons:cooking_pot_2025",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Cooking pot 2025.jpg",
+          "artist": "Nat1620",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Cooking_pot_2025.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0031.webp",
+        "url": "/static/products/homekitchen_cookware_0031.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 41378,
+        "colour_family": "grey",
+        "clip_score": 0.2966,
+        "clip_prob": 0.854,
+        "group_id": "commons:pot_aluminium_for_holding_glutinous_rice_bamboo_steamer_thailand",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Pot (aluminium) for holding glutinous rice bamboo steamer - Thailand.jpg",
+          "artist": "Susan Slater",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Pot_(aluminium)_for_holding_glutinous_rice_bamboo_steamer_-_Thailand.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0032.webp",
+        "url": "/static/products/homekitchen_cookware_0032.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 30938,
+        "colour_family": "grey",
+        "clip_score": 0.3081,
+        "clip_prob": 0.9205,
+        "group_id": "commons:mated_colander_pot_two_views_rjp",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Mated colander pot two views RJP.jpg",
+          "artist": "Rickjpelleg",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Mated_colander_pot_two_views_RJP.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0033.webp",
+        "url": "/static/products/homekitchen_cookware_0033.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 29374,
+        "colour_family": "grey",
+        "clip_score": 0.3043,
+        "clip_prob": 0.6793,
+        "group_id": "commons:a_pot_of_rape_cooking_on_stove",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:A pot of rape cooking on stove.jpg",
+          "artist": "Olgatladi2020",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:A_pot_of_rape_cooking_on_stove.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0034.webp",
+        "url": "/static/products/homekitchen_cookware_0034.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 26162,
+        "colour_family": "black",
+        "clip_score": 0.3275,
+        "clip_prob": 0.6922,
+        "group_id": "commons:pressure_cooker_oval_lid",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Pressure cooker oval lid.jpg",
+          "artist": "Hustvedt",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Pressure_cooker_oval_lid.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0035.webp",
+        "url": "/static/products/homekitchen_cookware_0035.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 19122,
+        "colour_family": "grey",
+        "clip_score": 0.2884,
+        "clip_prob": 0.623,
+        "group_id": "commons:instant_pot_duo60_pressure_cooker",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Instant Pot DUO60 pressure cooker.jpg",
+          "artist": "Your Best Digs",
+          "license": "CC BY 2.0",
+          "license_url": "https://creativecommons.org/licenses/by/2.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Instant_Pot_DUO60_pressure_cooker.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0036.webp",
+        "url": "/static/products/homekitchen_cookware_0036.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 20934,
+        "colour_family": "silver",
+        "clip_score": 0.2852,
+        "clip_prob": 0.8061,
+        "group_id": "commons:pressure_cooker_with_oval_lid",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Pressure cooker with oval lid.jpg",
+          "artist": "Boober the bird",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Pressure_cooker_with_oval_lid.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0037.webp",
+        "url": "/static/products/homekitchen_cookware_0037.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 17116,
+        "colour_family": "black",
+        "clip_score": 0.3228,
+        "clip_prob": 0.85,
+        "group_id": "commons:pressure_cooker_hawkins_contura_model_3_litres",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Pressure cooker - Hawkins, Contura Model - 3 litres - 3.jpg",
+          "artist": "Cantons-de-l'Est",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Pressure_cooker_-_Hawkins,_Contura_Model_-_3_litres_-_3.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0038.webp",
+        "url": "/static/products/homekitchen_cookware_0038.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 20688,
+        "colour_family": "black",
+        "clip_score": 0.3477,
+        "clip_prob": 0.914,
+        "group_id": "commons:non_stick_20cm_saucepan",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Non-stick 20cm saucepan.JPG",
+          "artist": "Mk2010",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Non-stick_20cm_saucepan.JPG"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0039.webp",
+        "url": "/static/products/homekitchen_cookware_0039.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5748,
+        "colour_family": "silver",
+        "clip_score": 0.3401,
+        "clip_prob": 0.7832,
+        "group_id": "commons:saucepan_met_dp245760",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Saucepan MET DP245760.jpg",
+          "artist": "Creator:I. N.",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Saucepan_MET_DP245760.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0040.webp",
+        "url": "/static/products/homekitchen_cookware_0040.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 7138,
+        "colour_family": "grey",
+        "clip_score": 0.2976,
+        "clip_prob": 0.6007,
+        "group_id": "commons:miniature_saucepan_with_stand_met_dp_12210",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Miniature saucepan with stand MET DP-12210-040.jpg",
+          "artist": "George Manjoy",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Miniature_saucepan_with_stand_MET_DP-12210-040.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0041.webp",
+        "url": "/static/products/homekitchen_cookware_0041.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 24204,
+        "colour_family": "brown",
+        "clip_score": 0.3363,
+        "clip_prob": 0.9584,
+        "group_id": "commons:kupferkasserolle_stielkasserolle_16_cm_casserole",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Kupferkasserolle Stielkasserolle 16 cm Casserole.jpg",
+          "artist": "Erik Streb",
+          "license": "CC BY-SA 3.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Kupferkasserolle_Stielkasserolle_16_cm_Casserole.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0042.webp",
+        "url": "/static/products/homekitchen_cookware_0042.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 16696,
+        "colour_family": "black",
+        "clip_score": 0.3331,
+        "clip_prob": 0.9227,
+        "group_id": "commons:casserole_en_acier",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Casserole en acier 10.jpg",
+          "artist": "René Hourdry",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Casserole_en_acier_10.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0043.webp",
+        "url": "/static/products/homekitchen_cookware_0043.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4690,
+        "colour_family": "black",
+        "clip_score": 0.2847,
+        "clip_prob": 0.9445,
+        "group_id": "dummyjson:56",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Electric Stove (2)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/56"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0044.webp",
+        "url": "/static/products/homekitchen_cookware_0044.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 32060,
+        "colour_family": "black",
+        "clip_score": 0.3064,
+        "clip_prob": 0.684,
+        "group_id": "commons:metal_cooking_pots",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Metal cooking pots 76.jpg",
+          "artist": "CNEcija12345",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Metal_cooking_pots_76.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0045.webp",
+        "url": "/static/products/homekitchen_cookware_0045.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 21442,
+        "colour_family": "gold",
+        "clip_score": 0.3145,
+        "clip_prob": 0.583,
+        "group_id": "commons:pressure_cooker_hawkins_contura_model_3_litres",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Pressure cooker - Hawkins, Contura Model - 3 litres - 2.jpg",
+          "artist": "Cantons-de-l'Est",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Pressure_cooker_-_Hawkins,_Contura_Model_-_3_litres_-_2.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0047.webp",
+        "url": "/static/products/homekitchen_cookware_0047.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 29642,
+        "colour_family": "grey",
+        "clip_score": 0.3086,
+        "clip_prob": 0.6263,
+        "group_id": "commons:pressure_cooker",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Pressure.cooker.jpg",
+          "artist": "LucaLuca",
+          "license": "CC BY-SA 3.0",
+          "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Pressure.cooker.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0048.webp",
+        "url": "/static/products/homekitchen_cookware_0048.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4906,
+        "colour_family": "black",
+        "clip_score": 0.2915,
+        "clip_prob": 0.9563,
+        "group_id": "dummyjson:56",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Electric Stove (4)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/56"
+        }
+      },
+      {
+        "file": "homekitchen_cookware_0049.webp",
+        "url": "/static/products/homekitchen_cookware_0049.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 16060,
+        "colour_family": "brown",
+        "clip_score": 0.3222,
+        "clip_prob": 0.713,
+        "group_id": "commons:pressure_cooker_hawkins_contura_model_3_litres",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Pressure cooker - Hawkins, Contura Model - 3 litres - 4.jpg",
+          "artist": "Cantons-de-l'Est",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Pressure_cooker_-_Hawkins,_Contura_Model_-_3_litres_-_4.jpg"
+        }
+      }
+    ],
+    "cricket": [
+      {
+        "file": "sportsfitness_cricket_0001.webp",
+        "url": "/static/products/sportsfitness_cricket_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 10862,
+        "colour_family": "red",
+        "clip_score": 0.326,
+        "clip_prob": 0.9348,
+        "group_id": "dummyjson:142",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Cricket Ball",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/142"
+        }
+      },
+      {
+        "file": "sportsfitness_cricket_0002.webp",
+        "url": "/static/products/sportsfitness_cricket_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4718,
+        "colour_family": "grey",
+        "clip_score": 0.3164,
+        "clip_prob": 0.6984,
+        "group_id": "dummyjson:143",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Cricket Bat",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/143"
+        }
+      },
+      {
+        "file": "sportsfitness_cricket_0003.webp",
+        "url": "/static/products/sportsfitness_cricket_0003.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6690,
+        "colour_family": "grey",
+        "clip_score": 0.3178,
+        "clip_prob": 0.8361,
+        "group_id": "dummyjson:145",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Cricket Wicket",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/145"
+        }
+      }
+    ],
+    "cycling": [],
+    "dinnerware": [
+      {
+        "file": "homekitchen_dinnerware_0001.webp",
+        "url": "/static/products/homekitchen_dinnerware_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 40572,
+        "colour_family": "brown",
+        "clip_score": 0.2922,
+        "clip_prob": 0.9234,
+        "group_id": "commons:20140707_radkersburg_decorative_plates_gombosz_collection_h4268",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:20140707 Radkersburg - Decorative plates (Gombosz collection) - H4268.jpg",
+          "artist": "Hubertl",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:20140707_Radkersburg_-_Decorative_plates_(Gombosz_collection)_-_H4268.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0002.webp",
+        "url": "/static/products/homekitchen_dinnerware_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 26256,
+        "colour_family": "silver",
+        "clip_score": 0.2352,
+        "clip_prob": 0.6105,
+        "group_id": "commons:piece_of_chocolate_cake_on_a_white_plate_decorated_with_chocolate_sauce",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Piece of chocolate cake on a white plate decorated with chocolate sauce.jpg",
+          "artist": "Daria Yakovleva Minor edits made by Subsidiary account",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Piece_of_chocolate_cake_on_a_white_plate_decorated_with_chocolate_sauce.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0003.webp",
+        "url": "/static/products/homekitchen_dinnerware_0003.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 45890,
+        "colour_family": "silver",
+        "clip_score": 0.311,
+        "clip_prob": 0.8473,
+        "group_id": "commons:crown_ducal_happy_days_side_plate_2023_11_29_andy_mabbett",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Crown Ducal Happy Days side plate - 2023-11-29 - Andy Mabbett - 05.jpg",
+          "artist": "Andy Mabbett",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Crown_Ducal_Happy_Days_side_plate_-_2023-11-29_-_Andy_Mabbett_-_05.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0004.webp",
+        "url": "/static/products/homekitchen_dinnerware_0004.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 43758,
+        "colour_family": "brown",
+        "clip_score": 0.2663,
+        "clip_prob": 0.7456,
+        "group_id": "commons:bowl_or_deep_plate_met_tem738_2s1",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Bowl or Deep Plate MET tem738-2s1.jpg",
+          "artist": "Unknown",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Bowl_or_Deep_Plate_MET_tem738-2s1.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0005.webp",
+        "url": "/static/products/homekitchen_dinnerware_0005.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 10000,
+        "colour_family": "grey",
+        "clip_score": 0.2481,
+        "clip_prob": 0.5882,
+        "group_id": "commons:bowl_or_deep_plate_met_tem738_2s2",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Bowl or Deep Plate MET tem738-2s2.jpg",
+          "artist": "Unknown",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Bowl_or_Deep_Plate_MET_tem738-2s2.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0006.webp",
+        "url": "/static/products/homekitchen_dinnerware_0006.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 59374,
+        "colour_family": "silver",
+        "clip_score": 0.3244,
+        "clip_prob": 0.8359,
+        "group_id": "commons:scotch_ivory_tableware_2022_10_26_andy_mabbett",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Scotch Ivory tableware - 2022-10-26 - Andy Mabbett - 04.jpg",
+          "artist": "Andy Mabbett",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Scotch_Ivory_tableware_-_2022-10-26_-_Andy_Mabbett_-_04.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0007.webp",
+        "url": "/static/products/homekitchen_dinnerware_0007.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 49568,
+        "colour_family": "olive",
+        "clip_score": 0.2847,
+        "clip_prob": 0.8158,
+        "group_id": "commons:zakuski_plate_with_food_rostov_on_don_russia",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Zakuski, Plate with food, Rostov-on-Don, Russia.jpg",
+          "artist": "Vyacheslav Argenberg",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Zakuski,_Plate_with_food,_Rostov-on-Don,_Russia.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0008.webp",
+        "url": "/static/products/homekitchen_dinnerware_0008.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 50452,
+        "colour_family": "silver",
+        "clip_score": 0.3238,
+        "clip_prob": 0.8446,
+        "group_id": "commons:washington_oakwood_plate_2025_11_25_andy_mabbett",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Washington 'Oakwood' plate - 2025-11-25 - Andy Mabbett - 01.jpg",
+          "artist": "Andy Mabbett",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Washington_%27Oakwood%27_plate_-_2025-11-25_-_Andy_Mabbett_-_01.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0012.webp",
+        "url": "/static/products/homekitchen_dinnerware_0012.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5122,
+        "colour_family": "white",
+        "clip_score": 0.3239,
+        "clip_prob": 0.9922,
+        "group_id": "commons:dinner_plate_am_2014_19_132_3",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Dinner plate (AM 2014.19.132-3).jpg",
+          "artist": "Crown Lynn Potteries Ltd",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Dinner_plate_(AM_2014.19.132-3).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0013.webp",
+        "url": "/static/products/homekitchen_dinnerware_0013.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5800,
+        "colour_family": "white",
+        "clip_score": 0.3381,
+        "clip_prob": 0.9852,
+        "group_id": "commons:dinner_plate_am_2014_19_112_2",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Dinner plate (AM 2014.19.112-2).jpg",
+          "artist": "Crown Lynn Potteries Ltd",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Dinner_plate_(AM_2014.19.112-2).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0015.webp",
+        "url": "/static/products/homekitchen_dinnerware_0015.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6152,
+        "colour_family": "white",
+        "clip_score": 0.2737,
+        "clip_prob": 0.9039,
+        "group_id": "commons:dinner_plate_am_2014_19_100_3",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Dinner plate (AM 2014.19.100-3).jpg",
+          "artist": "Crown Lynn Potteries Ltd",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Dinner_plate_(AM_2014.19.100-3).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0017.webp",
+        "url": "/static/products/homekitchen_dinnerware_0017.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 3850,
+        "colour_family": "white",
+        "clip_score": 0.3534,
+        "clip_prob": 0.9133,
+        "group_id": "commons:dinner_plate_am_2014_19_119_1",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Dinner plate (AM 2014.19.119-1).jpg",
+          "artist": "Crown Lynn Potteries Ltd",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Dinner_plate_(AM_2014.19.119-1).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0019.webp",
+        "url": "/static/products/homekitchen_dinnerware_0019.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 3536,
+        "colour_family": "white",
+        "clip_score": 0.3241,
+        "clip_prob": 0.7886,
+        "group_id": "commons:dinner_plate_am_2014_19_113_1",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Dinner plate (AM 2014.19.113-1).jpg",
+          "artist": "Crown Lynn Potteries Ltd",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Dinner_plate_(AM_2014.19.113-1).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0021.webp",
+        "url": "/static/products/homekitchen_dinnerware_0021.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6200,
+        "colour_family": "white",
+        "clip_score": 0.3123,
+        "clip_prob": 0.9497,
+        "group_id": "commons:dinner_plate_am_2014_19_133_3",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Dinner plate (AM 2014.19.133-3).jpg",
+          "artist": "Crown Lynn Potteries Ltd",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Dinner_plate_(AM_2014.19.133-3).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0026.webp",
+        "url": "/static/products/homekitchen_dinnerware_0026.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 3566,
+        "colour_family": "white",
+        "clip_score": 0.3321,
+        "clip_prob": 0.9402,
+        "group_id": "commons:dinner_plate_am_2014_19_117_1",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Dinner plate (AM 2014.19.117-1).jpg",
+          "artist": "Crown Lynn Potteries Ltd",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Dinner_plate_(AM_2014.19.117-1).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0028.webp",
+        "url": "/static/products/homekitchen_dinnerware_0028.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5868,
+        "colour_family": "white",
+        "clip_score": 0.2912,
+        "clip_prob": 0.9721,
+        "group_id": "commons:dinner_plate_am_2014_19_104_3",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Dinner plate (AM 2014.19.104-3).jpg",
+          "artist": "Crown Lynn Potteries Ltd",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Dinner_plate_(AM_2014.19.104-3).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0029.webp",
+        "url": "/static/products/homekitchen_dinnerware_0029.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 40536,
+        "colour_family": "silver",
+        "clip_score": 0.3067,
+        "clip_prob": 0.5646,
+        "group_id": "commons:2021_03_30_limoges_haviland_porcelain_plate_1888_1896_hand_painted_with_berries",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:2021.03.30 LIMOGES HAVILAND Porcelain Plate 1888 – 1896 Hand Painted with Berries 02.jpg",
+          "artist": "Rabbi Mendl",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:2021.03.30_LIMOGES_HAVILAND_Porcelain_Plate_1888_%E2%80%93_1896_Hand_Painted_with_Berries_02.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0030.webp",
+        "url": "/static/products/homekitchen_dinnerware_0030.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 34138,
+        "colour_family": "beige",
+        "clip_score": 0.2485,
+        "clip_prob": 0.9138,
+        "group_id": "commons:ordinary_chickpeas_in_a_ceramic_bowl",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ordinary chickpeas in a ceramic bowl.jpg",
+          "artist": "AlixSaz",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ordinary_chickpeas_in_a_ceramic_bowl.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0031.webp",
+        "url": "/static/products/homekitchen_dinnerware_0031.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 11422,
+        "colour_family": "grey",
+        "clip_score": 0.2739,
+        "clip_prob": 0.8273,
+        "group_id": "commons:bowl_met_dp235021",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Bowl MET DP235021.jpg",
+          "artist": "Creator:Ceramic Art Company",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Bowl_MET_DP235021.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0032.webp",
+        "url": "/static/products/homekitchen_dinnerware_0032.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 64182,
+        "colour_family": "grey",
+        "clip_score": 0.2976,
+        "clip_prob": 0.7828,
+        "group_id": "commons:ceramic_bowl_met_sf48_113_6a",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic Bowl MET sf48-113-6a.jpg",
+          "artist": "Unknown",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_Bowl_MET_sf48-113-6a.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0033.webp",
+        "url": "/static/products/homekitchen_dinnerware_0033.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 43248,
+        "colour_family": "brown",
+        "clip_score": 0.2827,
+        "clip_prob": 0.8076,
+        "group_id": "commons:ceramic_bowl_met_dp353098",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic Bowl MET DP353098.jpg",
+          "artist": "Unknown",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_Bowl_MET_DP353098.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0034.webp",
+        "url": "/static/products/homekitchen_dinnerware_0034.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 22900,
+        "colour_family": "brown",
+        "clip_score": 0.2562,
+        "clip_prob": 0.8307,
+        "group_id": "commons:ceramic_bowl_met_dp359564",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic Bowl MET DP359564.jpg",
+          "artist": "Unknown",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_Bowl_MET_DP359564.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0035.webp",
+        "url": "/static/products/homekitchen_dinnerware_0035.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 49508,
+        "colour_family": "brown",
+        "clip_score": 0.2679,
+        "clip_prob": 0.7458,
+        "group_id": "commons:ceramic_bowl_met_dt12011",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic Bowl MET DT12011.jpg",
+          "artist": "Unknown",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_Bowl_MET_DT12011.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0036.webp",
+        "url": "/static/products/homekitchen_dinnerware_0036.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 33078,
+        "colour_family": "grey",
+        "clip_score": 0.3301,
+        "clip_prob": 0.8229,
+        "group_id": "commons:ceramic_fruit_bowl",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic Fruit Bowl.jpg",
+          "artist": "Haviland",
+          "license": "Public domain",
+          "license_url": "",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_Fruit_Bowl.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0037.webp",
+        "url": "/static/products/homekitchen_dinnerware_0037.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 15944,
+        "colour_family": "beige",
+        "clip_score": 0.3235,
+        "clip_prob": 0.9413,
+        "group_id": "commons:simple_ceramic_bowl_cropped",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Simple-ceramic-bowl (cropped).jpg",
+          "artist": "Yonkeltron at English Wikipedia",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Simple-ceramic-bowl_(cropped).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0038.webp",
+        "url": "/static/products/homekitchen_dinnerware_0038.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 22236,
+        "colour_family": "black",
+        "clip_score": 0.2778,
+        "clip_prob": 0.8489,
+        "group_id": "commons:ceramic_bowl_4768911134",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic Bowl (4768911134).jpg",
+          "artist": "A.Davey from Portland, Oregon, EE UU",
+          "license": "CC BY 2.0",
+          "license_url": "https://creativecommons.org/licenses/by/2.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_Bowl_(4768911134).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0039.webp",
+        "url": "/static/products/homekitchen_dinnerware_0039.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 26464,
+        "colour_family": "gold",
+        "clip_score": 0.3166,
+        "clip_prob": 0.8575,
+        "group_id": "commons:ceramic_bowl_15425639911",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic Bowl (15425639911).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_Bowl_(15425639911).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0040.webp",
+        "url": "/static/products/homekitchen_dinnerware_0040.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 10808,
+        "colour_family": "grey",
+        "clip_score": 0.2655,
+        "clip_prob": 0.7923,
+        "group_id": "commons:ceramic_bowl_15242251097",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic Bowl (15242251097).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_Bowl_(15242251097).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0041.webp",
+        "url": "/static/products/homekitchen_dinnerware_0041.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 26182,
+        "colour_family": "grey",
+        "clip_score": 0.2876,
+        "clip_prob": 0.6947,
+        "group_id": "commons:ceramic_bowl_15242098890",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic Bowl (15242098890).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_Bowl_(15242098890).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0042.webp",
+        "url": "/static/products/homekitchen_dinnerware_0042.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 20144,
+        "colour_family": "beige",
+        "clip_score": 0.2637,
+        "clip_prob": 0.8078,
+        "group_id": "commons:anasazi_culture_ceramic_bowl",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Anasazi Culture Ceramic Bowl.jpg",
+          "artist": "Gary Todd",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Anasazi_Culture_Ceramic_Bowl.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0043.webp",
+        "url": "/static/products/homekitchen_dinnerware_0043.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 19240,
+        "colour_family": "brown",
+        "clip_score": 0.2669,
+        "clip_prob": 0.7653,
+        "group_id": "commons:aztec_ceramic_bowl_9754260802",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Aztec Ceramic Bowl (9754260802).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Aztec_Ceramic_Bowl_(9754260802).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0044.webp",
+        "url": "/static/products/homekitchen_dinnerware_0044.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 12170,
+        "colour_family": "black",
+        "clip_score": 0.2724,
+        "clip_prob": 0.9283,
+        "group_id": "commons:maya_ceramic_bowl_9758566402",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Maya Ceramic Bowl (9758566402).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Maya_Ceramic_Bowl_(9758566402).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0045.webp",
+        "url": "/static/products/homekitchen_dinnerware_0045.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 15990,
+        "colour_family": "brown",
+        "clip_score": 0.2677,
+        "clip_prob": 0.8767,
+        "group_id": "commons:maya_ceramic_bowl_9758505765",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Maya Ceramic Bowl (9758505765).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Maya_Ceramic_Bowl_(9758505765).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0046.webp",
+        "url": "/static/products/homekitchen_dinnerware_0046.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 11588,
+        "colour_family": "black",
+        "clip_score": 0.2812,
+        "clip_prob": 0.9441,
+        "group_id": "commons:maya_ceramic_bowl_9758424016",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Maya Ceramic Bowl (9758424016).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Maya_Ceramic_Bowl_(9758424016).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0047.webp",
+        "url": "/static/products/homekitchen_dinnerware_0047.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 8594,
+        "colour_family": "black",
+        "clip_score": 0.2882,
+        "clip_prob": 0.9381,
+        "group_id": "commons:aztec_ceramic_bowl_9781829981",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Aztec Ceramic Bowl (9781829981).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Aztec_Ceramic_Bowl_(9781829981).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0048.webp",
+        "url": "/static/products/homekitchen_dinnerware_0048.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 21052,
+        "colour_family": "grey",
+        "clip_score": 0.2972,
+        "clip_prob": 0.6883,
+        "group_id": "commons:light_green_ceramic_bowl",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Light green ceramic bowl 3.jpg",
+          "artist": "W.carter",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Light_green_ceramic_bowl_3.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0049.webp",
+        "url": "/static/products/homekitchen_dinnerware_0049.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 47708,
+        "colour_family": "brown",
+        "clip_score": 0.2487,
+        "clip_prob": 0.6174,
+        "group_id": "commons:ceramic_bowl_gui_western_zhou_dynasty_1046_770_bce_china",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic bowl (gui) Western Zhou Dynasty (1046-770 BCE) China.jpg",
+          "artist": "Mary Harrsch",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_bowl_(gui)_Western_Zhou_Dynasty_(1046-770_BCE)_China.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0050.webp",
+        "url": "/static/products/homekitchen_dinnerware_0050.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 69342,
+        "colour_family": "silver",
+        "clip_score": 0.2646,
+        "clip_prob": 0.6958,
+        "group_id": "commons:poh_onn_tong_ceramic_bowl",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Poh Onn Tong Ceramic Bowl 2.jpg",
+          "artist": "Unknown",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Poh_Onn_Tong_Ceramic_Bowl_2.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0051.webp",
+        "url": "/static/products/homekitchen_dinnerware_0051.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 37532,
+        "colour_family": "grey",
+        "clip_score": 0.2911,
+        "clip_prob": 0.5586,
+        "group_id": "commons:persian_ceramic_bowl",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Persian Ceramic Bowl.JPG",
+          "artist": "PericlesofAthens at English Wikipedia",
+          "license": "CC BY-SA 3.0",
+          "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Persian_Ceramic_Bowl.JPG"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0052.webp",
+        "url": "/static/products/homekitchen_dinnerware_0052.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 17916,
+        "colour_family": "gold",
+        "clip_score": 0.3249,
+        "clip_prob": 0.968,
+        "group_id": "commons:simple_ceramic_bowl",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Simple-ceramic-bowl.jpg",
+          "artist": "Yonkeltron at English Wikipedia",
+          "license": "CC BY 3.0",
+          "license_url": "https://creativecommons.org/licenses/by/3.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Simple-ceramic-bowl.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0053.webp",
+        "url": "/static/products/homekitchen_dinnerware_0053.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 23886,
+        "colour_family": "grey",
+        "clip_score": 0.2451,
+        "clip_prob": 0.5626,
+        "group_id": "commons:ceramic_toilet_bowl_5876760472",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic toilet bowl (5876760472).jpg",
+          "artist": "SuSanA Secretariat",
+          "license": "CC BY 2.0",
+          "license_url": "https://creativecommons.org/licenses/by/2.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_toilet_bowl_(5876760472).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0054.webp",
+        "url": "/static/products/homekitchen_dinnerware_0054.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 15304,
+        "colour_family": "brown",
+        "clip_score": 0.2726,
+        "clip_prob": 0.8694,
+        "group_id": "commons:ceramic_bowl_from_baia_mare",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ceramic bowl from Baia Mare.jpg",
+          "artist": "Bratek51",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ceramic_bowl_from_Baia_Mare.jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0055.webp",
+        "url": "/static/products/homekitchen_dinnerware_0055.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 15380,
+        "colour_family": "brown",
+        "clip_score": 0.2371,
+        "clip_prob": 0.6041,
+        "group_id": "commons:ancient_greece_ceramic_bowl_27973322333",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ancient Greece Ceramic Bowl (27973322333).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ancient_Greece_Ceramic_Bowl_(27973322333).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0056.webp",
+        "url": "/static/products/homekitchen_dinnerware_0056.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 15948,
+        "colour_family": "black",
+        "clip_score": 0.2581,
+        "clip_prob": 0.9304,
+        "group_id": "commons:ancient_cyprus_ceramic_bowl_28725080506",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ancient Cyprus Ceramic Bowl (28725080506).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ancient_Cyprus_Ceramic_Bowl_(28725080506).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0057.webp",
+        "url": "/static/products/homekitchen_dinnerware_0057.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 10162,
+        "colour_family": "silver",
+        "clip_score": 0.2612,
+        "clip_prob": 0.8582,
+        "group_id": "commons:ancient_cyprus_ceramic_bowl_28651363892",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ancient Cyprus Ceramic Bowl (28651363892).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ancient_Cyprus_Ceramic_Bowl_(28651363892).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0058.webp",
+        "url": "/static/products/homekitchen_dinnerware_0058.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 20172,
+        "colour_family": "brown",
+        "clip_score": 0.2492,
+        "clip_prob": 0.6919,
+        "group_id": "commons:ancient_cyprus_ceramic_bowl_28138973824",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ancient Cyprus Ceramic Bowl (28138973824).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ancient_Cyprus_Ceramic_Bowl_(28138973824).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0059.webp",
+        "url": "/static/products/homekitchen_dinnerware_0059.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 15148,
+        "colour_family": "olive",
+        "clip_score": 0.2769,
+        "clip_prob": 0.7258,
+        "group_id": "commons:maya_polychrome_ceramic_bowl_9756817173",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Maya Polychrome Ceramic Bowl (9756817173).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Maya_Polychrome_Ceramic_Bowl_(9756817173).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0060.webp",
+        "url": "/static/products/homekitchen_dinnerware_0060.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 22276,
+        "colour_family": "grey",
+        "clip_score": 0.2483,
+        "clip_prob": 0.7237,
+        "group_id": "commons:maya_classic_ceramic_bowl_9756643734",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Maya Classic Ceramic Bowl (9756643734).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Maya_Classic_Ceramic_Bowl_(9756643734).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0061.webp",
+        "url": "/static/products/homekitchen_dinnerware_0061.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 24028,
+        "colour_family": "grey",
+        "clip_score": 0.2543,
+        "clip_prob": 0.9077,
+        "group_id": "commons:maya_classic_polychrome_ceramic_bowl_9756615985",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Maya Classic Polychrome Ceramic Bowl (9756615985).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Maya_Classic_Polychrome_Ceramic_Bowl_(9756615985).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0062.webp",
+        "url": "/static/products/homekitchen_dinnerware_0062.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 19362,
+        "colour_family": "brown",
+        "clip_score": 0.2618,
+        "clip_prob": 0.9081,
+        "group_id": "commons:maya_classic_ceramic_bowl_9756572914",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Maya Classic Ceramic Bowl (9756572914).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Maya_Classic_Ceramic_Bowl_(9756572914).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0063.webp",
+        "url": "/static/products/homekitchen_dinnerware_0063.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 16376,
+        "colour_family": "brown",
+        "clip_score": 0.2523,
+        "clip_prob": 0.7098,
+        "group_id": "commons:maya_classic_polychrome_ceramic_bowl_9756347711",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Maya Classic Polychrome Ceramic Bowl (9756347711).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Maya_Classic_Polychrome_Ceramic_Bowl_(9756347711).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0064.webp",
+        "url": "/static/products/homekitchen_dinnerware_0064.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 16674,
+        "colour_family": "brown",
+        "clip_score": 0.2566,
+        "clip_prob": 0.741,
+        "group_id": "commons:preclassic_central_mexican_ceramic_bowl_9776424084",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Preclassic Central Mexican Ceramic Bowl (9776424084).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Preclassic_Central_Mexican_Ceramic_Bowl_(9776424084).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0065.webp",
+        "url": "/static/products/homekitchen_dinnerware_0065.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 21120,
+        "colour_family": "brown",
+        "clip_score": 0.2429,
+        "clip_prob": 0.5525,
+        "group_id": "commons:classic_maya_polychrome_ceramic_bowl_9757132395",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Classic Maya Polychrome Ceramic Bowl (9757132395).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Classic_Maya_Polychrome_Ceramic_Bowl_(9757132395).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0066.webp",
+        "url": "/static/products/homekitchen_dinnerware_0066.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 10374,
+        "colour_family": "brown",
+        "clip_score": 0.2637,
+        "clip_prob": 0.8153,
+        "group_id": "commons:preclassic_central_plateau_ceramic_bowl_9778014213",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Preclassic Central Plateau Ceramic Bowl (9778014213).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Preclassic_Central_Plateau_Ceramic_Bowl_(9778014213).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0067.webp",
+        "url": "/static/products/homekitchen_dinnerware_0067.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 19176,
+        "colour_family": "grey",
+        "clip_score": 0.2605,
+        "clip_prob": 0.6193,
+        "group_id": "commons:preclassic_central_plateau_ceramic_bowl_9777884775",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Preclassic Central Plateau Ceramic Bowl (9777884775).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Preclassic_Central_Plateau_Ceramic_Bowl_(9777884775).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0068.webp",
+        "url": "/static/products/homekitchen_dinnerware_0068.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 21966,
+        "colour_family": "grey",
+        "clip_score": 0.2531,
+        "clip_prob": 0.7333,
+        "group_id": "commons:preclassic_central_plateau_ceramic_bowl_9777682381",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Preclassic Central Plateau Ceramic Bowl (9777682381).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Preclassic_Central_Plateau_Ceramic_Bowl_(9777682381).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0069.webp",
+        "url": "/static/products/homekitchen_dinnerware_0069.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 22944,
+        "colour_family": "grey",
+        "clip_score": 0.274,
+        "clip_prob": 0.7445,
+        "group_id": "commons:preclassic_central_plateau_ceramic_bowl_9777649251",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Preclassic Central Plateau Ceramic Bowl (9777649251).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Preclassic_Central_Plateau_Ceramic_Bowl_(9777649251).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0070.webp",
+        "url": "/static/products/homekitchen_dinnerware_0070.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 19104,
+        "colour_family": "grey",
+        "clip_score": 0.2398,
+        "clip_prob": 0.6499,
+        "group_id": "commons:preclassic_central_plateau_ceramic_bowl_9777806966",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Preclassic Central Plateau Ceramic Bowl (9777806966).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Preclassic_Central_Plateau_Ceramic_Bowl_(9777806966).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0071.webp",
+        "url": "/static/products/homekitchen_dinnerware_0071.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 14678,
+        "colour_family": "brown",
+        "clip_score": 0.2387,
+        "clip_prob": 0.5759,
+        "group_id": "commons:preclassic_central_plateau_ceramic_bowl_9778327465",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Preclassic Central Plateau Ceramic Bowl (9778327465).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Preclassic_Central_Plateau_Ceramic_Bowl_(9778327465).jpg"
+        }
+      },
+      {
+        "file": "homekitchen_dinnerware_0072.webp",
+        "url": "/static/products/homekitchen_dinnerware_0072.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 9984,
+        "colour_family": "grey",
+        "clip_score": 0.2697,
+        "clip_prob": 0.6483,
+        "group_id": "commons:preclassic_central_plateau_ceramic_bowl_9778333106",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Preclassic Central Plateau Ceramic Bowl (9778333106).jpg",
+          "artist": "Gary Todd from Xinzheng, China",
+          "license": "CC0",
+          "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Preclassic_Central_Plateau_Ceramic_Bowl_(9778333106).jpg"
+        }
+      }
+    ],
+    "dresses": [],
+    "dry_fruits": [],
+    "ethnic": [],
+    "fans_coolers": [],
+    "football": [
+      {
+        "file": "sportsfitness_football_0001.webp",
+        "url": "/static/products/sportsfitness_football_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 11836,
+        "colour_family": "brown",
+        "clip_score": 0.3233,
+        "clip_prob": 0.8921,
+        "group_id": "dummyjson:137",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "American Football",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/137"
+        }
+      },
+      {
+        "file": "sportsfitness_football_0002.webp",
+        "url": "/static/products/sportsfitness_football_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 7078,
+        "colour_family": "silver",
+        "clip_score": 0.2779,
+        "clip_prob": 0.9743,
+        "group_id": "dummyjson:138",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Baseball Ball",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/138"
+        }
+      },
+      {
+        "file": "sportsfitness_football_0003.webp",
+        "url": "/static/products/sportsfitness_football_0003.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 7968,
+        "colour_family": "maroon",
+        "clip_score": 0.2536,
+        "clip_prob": 0.7596,
+        "group_id": "dummyjson:139",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Baseball Glove (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/139"
+        }
+      },
+      {
+        "file": "sportsfitness_football_0004.webp",
+        "url": "/static/products/sportsfitness_football_0004.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 10906,
+        "colour_family": "brown",
+        "clip_score": 0.3053,
+        "clip_prob": 0.9976,
+        "group_id": "dummyjson:140",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Basketball",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/140"
+        }
+      },
+      {
+        "file": "sportsfitness_football_0005.webp",
+        "url": "/static/products/sportsfitness_football_0005.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 9392,
+        "colour_family": "white",
+        "clip_score": 0.2796,
+        "clip_prob": 0.9367,
+        "group_id": "dummyjson:141",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Basketball Rim",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/141"
+        }
+      },
+      {
+        "file": "sportsfitness_football_0006.webp",
+        "url": "/static/products/sportsfitness_football_0006.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4584,
+        "colour_family": "silver",
+        "clip_score": 0.2783,
+        "clip_prob": 0.9877,
+        "group_id": "dummyjson:148",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Golf Ball",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/148"
+        }
+      },
+      {
+        "file": "sportsfitness_football_0007.webp",
+        "url": "/static/products/sportsfitness_football_0007.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4506,
+        "colour_family": "silver",
+        "clip_score": 0.2904,
+        "clip_prob": 0.8369,
+        "group_id": "dummyjson:153",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Volleyball",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/153"
+        }
+      },
+      {
+        "file": "sportsfitness_football_0008.webp",
+        "url": "/static/products/sportsfitness_football_0008.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 8494,
+        "colour_family": "maroon",
+        "clip_score": 0.2598,
+        "clip_prob": 0.7655,
+        "group_id": "dummyjson:139",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Baseball Glove (2)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/139"
+        }
+      },
+      {
+        "file": "sportsfitness_football_0009.webp",
+        "url": "/static/products/sportsfitness_football_0009.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6512,
+        "colour_family": "black",
+        "clip_score": 0.2689,
+        "clip_prob": 0.8091,
+        "group_id": "dummyjson:139",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Baseball Glove (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/139"
+        }
+      }
+    ],
+    "footwear": [],
+    "fragrances": [
+      {
+        "file": "beautypersonalcare_fragrances_0001.webp",
+        "url": "/static/products/beautypersonalcare_fragrances_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5870,
+        "colour_family": "beige",
+        "clip_score": 0.3431,
+        "clip_prob": 0.9736,
+        "group_id": "dummyjson:8",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Dior J'adore (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/8"
+        }
+      },
+      {
+        "file": "beautypersonalcare_fragrances_0002.webp",
+        "url": "/static/products/beautypersonalcare_fragrances_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6000,
+        "colour_family": "white",
+        "clip_score": 0.3215,
+        "clip_prob": 0.7147,
+        "group_id": "dummyjson:8",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Dior J'adore (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/8"
+        }
+      }
+    ],
+    "furniture": [
+      {
+        "file": "homekitchen_furniture_0001.webp",
+        "url": "/static/products/homekitchen_furniture_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5408,
+        "colour_family": "silver",
+        "clip_score": 0.2658,
+        "clip_prob": 0.7136,
+        "group_id": "dummyjson:11",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Annibale Colombo Bed (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/11"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0002.webp",
+        "url": "/static/products/homekitchen_furniture_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 8164,
+        "colour_family": "silver",
+        "clip_score": 0.2939,
+        "clip_prob": 0.9113,
+        "group_id": "dummyjson:12",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Annibale Colombo Sofa (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/12"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0003.webp",
+        "url": "/static/products/homekitchen_furniture_0003.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5050,
+        "colour_family": "black",
+        "clip_score": 0.3055,
+        "clip_prob": 0.6603,
+        "group_id": "dummyjson:13",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Bedside Table African Cherry (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/13"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0004.webp",
+        "url": "/static/products/homekitchen_furniture_0004.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6602,
+        "colour_family": "red",
+        "clip_score": 0.2804,
+        "clip_prob": 0.7412,
+        "group_id": "dummyjson:14",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Knoll Saarinen Executive Conference Chair (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/14"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0005.webp",
+        "url": "/static/products/homekitchen_furniture_0005.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 3886,
+        "colour_family": "black",
+        "clip_score": 0.2722,
+        "clip_prob": 0.8193,
+        "group_id": "dummyjson:15",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Wooden Bathroom Sink With Mirror (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/15"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0006.webp",
+        "url": "/static/products/homekitchen_furniture_0006.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 7674,
+        "colour_family": "silver",
+        "clip_score": 0.2727,
+        "clip_prob": 0.8363,
+        "group_id": "dummyjson:11",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Annibale Colombo Bed (2)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/11"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0007.webp",
+        "url": "/static/products/homekitchen_furniture_0007.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 9806,
+        "colour_family": "silver",
+        "clip_score": 0.2896,
+        "clip_prob": 0.8588,
+        "group_id": "dummyjson:12",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Annibale Colombo Sofa (2)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/12"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0008.webp",
+        "url": "/static/products/homekitchen_furniture_0008.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6598,
+        "colour_family": "red",
+        "clip_score": 0.2677,
+        "clip_prob": 0.8267,
+        "group_id": "dummyjson:14",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Knoll Saarinen Executive Conference Chair (2)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/14"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0009.webp",
+        "url": "/static/products/homekitchen_furniture_0009.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 7416,
+        "colour_family": "silver",
+        "clip_score": 0.2805,
+        "clip_prob": 0.826,
+        "group_id": "dummyjson:11",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Annibale Colombo Bed (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/11"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0010.webp",
+        "url": "/static/products/homekitchen_furniture_0010.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 8420,
+        "colour_family": "silver",
+        "clip_score": 0.3019,
+        "clip_prob": 0.9392,
+        "group_id": "dummyjson:12",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Annibale Colombo Sofa (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/12"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0011.webp",
+        "url": "/static/products/homekitchen_furniture_0011.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5726,
+        "colour_family": "black",
+        "clip_score": 0.2798,
+        "clip_prob": 0.628,
+        "group_id": "dummyjson:13",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Bedside Table African Cherry (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/13"
+        }
+      },
+      {
+        "file": "homekitchen_furniture_0012.webp",
+        "url": "/static/products/homekitchen_furniture_0012.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6850,
+        "colour_family": "red",
+        "clip_score": 0.2703,
+        "clip_prob": 0.722,
+        "group_id": "dummyjson:14",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Knoll Saarinen Executive Conference Chair (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/14"
+        }
+      }
+    ],
+    "gaming": [],
+    "gym_equipment": [],
+    "haircare": [],
+    "headphones": [],
+    "home_decor": [
+      {
+        "file": "homekitchen_home_decor_0001.webp",
+        "url": "/static/products/homekitchen_home_decor_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 15544,
+        "colour_family": "silver",
+        "clip_score": 0.2664,
+        "clip_prob": 0.8093,
+        "group_id": "dummyjson:43",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Decoration Swing (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/43"
+        }
+      },
+      {
+        "file": "homekitchen_home_decor_0002.webp",
+        "url": "/static/products/homekitchen_home_decor_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 10130,
+        "colour_family": "grey",
+        "clip_score": 0.2836,
+        "clip_prob": 0.8786,
+        "group_id": "dummyjson:44",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Family Tree Photo Frame",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/44"
+        }
+      },
+      {
+        "file": "homekitchen_home_decor_0003.webp",
+        "url": "/static/products/homekitchen_home_decor_0003.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 10172,
+        "colour_family": "olive",
+        "clip_score": 0.2405,
+        "clip_prob": 0.6304,
+        "group_id": "dummyjson:46",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Plant Pot (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/46"
+        }
+      },
+      {
+        "file": "homekitchen_home_decor_0004.webp",
+        "url": "/static/products/homekitchen_home_decor_0004.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5872,
+        "colour_family": "gold",
+        "clip_score": 0.2809,
+        "clip_prob": 0.8777,
+        "group_id": "dummyjson:47",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Table Lamp",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/47"
+        }
+      },
+      {
+        "file": "homekitchen_home_decor_0005.webp",
+        "url": "/static/products/homekitchen_home_decor_0005.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 15886,
+        "colour_family": "silver",
+        "clip_score": 0.2523,
+        "clip_prob": 0.8466,
+        "group_id": "dummyjson:43",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Decoration Swing (2)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/43"
+        }
+      },
+      {
+        "file": "homekitchen_home_decor_0006.webp",
+        "url": "/static/products/homekitchen_home_decor_0006.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 8636,
+        "colour_family": "black",
+        "clip_score": 0.2505,
+        "clip_prob": 0.7889,
+        "group_id": "dummyjson:46",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Plant Pot (2)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/46"
+        }
+      },
+      {
+        "file": "homekitchen_home_decor_0007.webp",
+        "url": "/static/products/homekitchen_home_decor_0007.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 15752,
+        "colour_family": "silver",
+        "clip_score": 0.2479,
+        "clip_prob": 0.8439,
+        "group_id": "dummyjson:43",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Decoration Swing (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/43"
+        }
+      },
+      {
+        "file": "homekitchen_home_decor_0008.webp",
+        "url": "/static/products/homekitchen_home_decor_0008.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 10924,
+        "colour_family": "grey",
+        "clip_score": 0.2564,
+        "clip_prob": 0.5685,
+        "group_id": "dummyjson:45",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "House Showpiece Plant (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/45"
+        }
+      },
+      {
+        "file": "homekitchen_home_decor_0009.webp",
+        "url": "/static/products/homekitchen_home_decor_0009.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 12056,
+        "colour_family": "olive",
+        "clip_score": 0.2353,
+        "clip_prob": 0.6242,
+        "group_id": "dummyjson:46",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Plant Pot (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/46"
+        }
+      }
+    ],
+    "innerwear": [],
+    "jewellery": [],
+    "kitchen_storage": [],
+    "laptops": [],
+    "lighting": [],
+    "makeup": [
+      {
+        "file": "beautypersonalcare_makeup_0001.webp",
+        "url": "/static/products/beautypersonalcare_makeup_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 8142,
+        "colour_family": "black",
+        "clip_score": 0.2392,
+        "clip_prob": 0.7346,
+        "group_id": "dummyjson:1",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Essence Mascara Lash Princess",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/1"
+        }
+      },
+      {
+        "file": "beautypersonalcare_makeup_0002.webp",
+        "url": "/static/products/beautypersonalcare_makeup_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 7200,
+        "colour_family": "silver",
+        "clip_score": 0.3344,
+        "clip_prob": 0.9896,
+        "group_id": "dummyjson:2",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Eyeshadow Palette with Mirror",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/2"
+        }
+      },
+      {
+        "file": "beautypersonalcare_makeup_0003.webp",
+        "url": "/static/products/beautypersonalcare_makeup_0003.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4894,
+        "colour_family": "black",
+        "clip_score": 0.3079,
+        "clip_prob": 0.9071,
+        "group_id": "dummyjson:3",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Powder Canister",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/3"
+        }
+      },
+      {
+        "file": "beautypersonalcare_makeup_0004.webp",
+        "url": "/static/products/beautypersonalcare_makeup_0004.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4148,
+        "colour_family": "black",
+        "clip_score": 0.3214,
+        "clip_prob": 0.983,
+        "group_id": "dummyjson:4",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Red Lipstick",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/4"
+        }
+      },
+      {
+        "file": "beautypersonalcare_makeup_0005.webp",
+        "url": "/static/products/beautypersonalcare_makeup_0005.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 4420,
+        "colour_family": "red",
+        "clip_score": 0.2922,
+        "clip_prob": 0.9784,
+        "group_id": "dummyjson:5",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Red Nail Polish",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/5"
+        }
+      }
+    ],
+    "mens_grooming": [],
+    "microwaves": [],
+    "mixer_grinders": [],
+    "monitors": [],
+    "oils_ghee": [],
+    "oral_care": [],
+    "power_charging": [],
+    "racquet_sports": [
+      {
+        "file": "sportsfitness_racquet_sports_0001.webp",
+        "url": "/static/products/sportsfitness_racquet_sports_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5430,
+        "colour_family": "yellow",
+        "clip_score": 0.3235,
+        "clip_prob": 0.614,
+        "group_id": "dummyjson:151",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Tennis Ball",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/151"
+        }
+      },
+      {
+        "file": "sportsfitness_racquet_sports_0002.webp",
+        "url": "/static/products/sportsfitness_racquet_sports_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 8388,
+        "colour_family": "white",
+        "clip_score": 0.3436,
+        "clip_prob": 0.7937,
+        "group_id": "dummyjson:152",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Tennis Racket",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/152"
+        }
+      }
+    ],
+    "refrigerators": [
+      {
+        "file": "appliances_refrigerators_0001.webp",
+        "url": "/static/products/appliances_refrigerators_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 22832,
+        "colour_family": "black",
+        "clip_score": 0.323,
+        "clip_prob": 0.5516,
+        "group_id": "commons:open_refrigerator_with_food_at_night",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Open refrigerator with food at night.jpg",
+          "artist": "W.carter",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Open_refrigerator_with_food_at_night.jpg"
+        }
+      },
+      {
+        "file": "appliances_refrigerators_0002.webp",
+        "url": "/static/products/appliances_refrigerators_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 20298,
+        "colour_family": "beige",
+        "clip_score": 0.336,
+        "clip_prob": 0.6081,
+        "group_id": "commons:us_domestic_refrigerator_ge",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:US Domestic Refrigerator GE.jpg",
+          "artist": "Infrogmation of New Orleans",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:US_Domestic_Refrigerator_GE.jpg"
+        }
+      },
+      {
+        "file": "appliances_refrigerators_0003.webp",
+        "url": "/static/products/appliances_refrigerators_0003.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 24726,
+        "colour_family": "brown",
+        "clip_score": 0.2837,
+        "clip_prob": 0.7433,
+        "group_id": "commons:prestcold_packaway_refrigerator",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Prestcold packaway refrigerator.jpg",
+          "artist": "Frankie Roberto",
+          "license": "CC BY 2.0",
+          "license_url": "https://creativecommons.org/licenses/by/2.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Prestcold_packaway_refrigerator.jpg"
+        }
+      },
+      {
+        "file": "appliances_refrigerators_0004.webp",
+        "url": "/static/products/appliances_refrigerators_0004.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 22630,
+        "colour_family": "silver",
+        "clip_score": 0.34,
+        "clip_prob": 0.9525,
+        "group_id": "commons:samsung_refrigerator_rf60j9030wz",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:SAMSUNG REFRIGERATOR RF60J9030WZ.jpg",
+          "artist": "Dinkun Chen",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:SAMSUNG_REFRIGERATOR_RF60J9030WZ.jpg"
+        }
+      },
+      {
+        "file": "appliances_refrigerators_0005.webp",
+        "url": "/static/products/appliances_refrigerators_0005.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 13780,
+        "colour_family": "brown",
+        "clip_score": 0.2915,
+        "clip_prob": 0.7395,
+        "group_id": "commons:ventilated_portable_refrigerator",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Ventilated portable refrigerator.jpg",
+          "artist": "Anna.Massini",
+          "license": "CC BY 4.0",
+          "license_url": "https://creativecommons.org/licenses/by/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Ventilated_portable_refrigerator.jpg"
+        }
+      },
+      {
+        "file": "appliances_refrigerators_0006.webp",
+        "url": "/static/products/appliances_refrigerators_0006.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 25328,
+        "colour_family": "black",
+        "clip_score": 0.3235,
+        "clip_prob": 0.7186,
+        "group_id": "commons:california_kitchen_fridge",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:California Kitchen Fridge 1.jpg",
+          "artist": "Stilfehler",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:California_Kitchen_Fridge_1.jpg"
+        }
+      },
+      {
+        "file": "appliances_refrigerators_0007.webp",
+        "url": "/static/products/appliances_refrigerators_0007.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 15578,
+        "colour_family": "silver",
+        "clip_score": 0.3246,
+        "clip_prob": 0.8911,
+        "group_id": "commons:efta00000565_modern_kitchen_with_white_cabinets_stainless_steel_appliances_including_a_refrigerator_and_dishwasher_and_a_countertop_with_a_microwave_and_toaster",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:EFTA00000565 - Modern kitchen with white cabinets stainless steel appliances including a refrigerator and dishwasher and a countertop with a microwave and toaster.jpg",
+          "artist": "Federal Bureau of Investigation",
+          "license": "Public domain",
+          "license_url": "",
+          "source_url": "https://commons.wikimedia.org/wiki/File:EFTA00000565_-_Modern_kitchen_with_white_cabinets_stainless_steel_appliances_including_a_refrigerator_and_dishwasher_and_a_countertop_with_a_microwave_and_toaster.jpg"
+        }
+      },
+      {
+        "file": "appliances_refrigerators_0008.webp",
+        "url": "/static/products/appliances_refrigerators_0008.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6722,
+        "colour_family": "silver",
+        "clip_score": 0.367,
+        "clip_prob": 0.9085,
+        "group_id": "commons:fridge_2015_11_2720_18_380038_2",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:Fridge (2015-11-2720-18-380038~2).jpg",
+          "artist": "Matti Blume",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0/deed.en",
+          "source_url": "https://commons.wikimedia.org/wiki/File:Fridge_(2015-11-2720-18-380038~2).jpg"
+        }
+      },
+      {
+        "file": "appliances_refrigerators_0009.webp",
+        "url": "/static/products/appliances_refrigerators_0009.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 22346,
+        "colour_family": "grey",
+        "clip_score": 0.3059,
+        "clip_prob": 0.5851,
+        "group_id": "commons:california_kitchen_fridge",
+        "source": "commons",
+        "attribution": {
+          "source": "commons",
+          "title": "File:California Kitchen Fridge 2.jpg",
+          "artist": "Stilfehler",
+          "license": "CC BY-SA 4.0",
+          "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+          "source_url": "https://commons.wikimedia.org/wiki/File:California_Kitchen_Fridge_2.jpg"
+        }
+      }
+    ],
+    "skincare": [
+      {
+        "file": "beautypersonalcare_skincare_0001.webp",
+        "url": "/static/products/beautypersonalcare_skincare_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 9164,
+        "colour_family": "silver",
+        "clip_score": 0.27,
+        "clip_prob": 0.5549,
+        "group_id": "dummyjson:118",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Attitude Super Leaves Hand Soap (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/118"
+        }
+      },
+      {
+        "file": "beautypersonalcare_skincare_0002.webp",
+        "url": "/static/products/beautypersonalcare_skincare_0002.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 7330,
+        "colour_family": "silver",
+        "clip_score": 0.268,
+        "clip_prob": 0.7171,
+        "group_id": "dummyjson:119",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Olay Ultra Moisture Shea Butter Body Wash (1)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/119"
+        }
+      },
+      {
+        "file": "beautypersonalcare_skincare_0003.webp",
+        "url": "/static/products/beautypersonalcare_skincare_0003.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6932,
+        "colour_family": "silver",
+        "clip_score": 0.288,
+        "clip_prob": 0.7395,
+        "group_id": "dummyjson:118",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Attitude Super Leaves Hand Soap (2)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/118"
+        }
+      },
+      {
+        "file": "beautypersonalcare_skincare_0004.webp",
+        "url": "/static/products/beautypersonalcare_skincare_0004.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6728,
+        "colour_family": "silver",
+        "clip_score": 0.2858,
+        "clip_prob": 0.8392,
+        "group_id": "dummyjson:118",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Attitude Super Leaves Hand Soap (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/118"
+        }
+      },
+      {
+        "file": "beautypersonalcare_skincare_0005.webp",
+        "url": "/static/products/beautypersonalcare_skincare_0005.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 5306,
+        "colour_family": "silver",
+        "clip_score": 0.2822,
+        "clip_prob": 0.8581,
+        "group_id": "dummyjson:119",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Olay Ultra Moisture Shea Butter Body Wash (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/119"
+        }
+      },
+      {
+        "file": "beautypersonalcare_skincare_0006.webp",
+        "url": "/static/products/beautypersonalcare_skincare_0006.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 7432,
+        "colour_family": "black",
+        "clip_score": 0.2531,
+        "clip_prob": 0.6805,
+        "group_id": "dummyjson:120",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Vaseline Men Body and Face Lotion (3)",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/120"
+        }
+      }
+    ],
+    "smartphones": [],
+    "smartwatches": [],
+    "snacks": [],
+    "speakers": [],
+    "sports_nutrition": [
+      {
+        "file": "sportsfitness_sports_nutrition_0001.webp",
+        "url": "/static/products/sportsfitness_sports_nutrition_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 8800,
+        "colour_family": "black",
+        "clip_score": 0.3058,
+        "clip_prob": 0.8875,
+        "group_id": "dummyjson:36",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Protein Powder",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/36"
+        }
+      }
+    ],
+    "sportswear": [],
+    "staples": [
+      {
+        "file": "grocerygourmet_staples_0001.webp",
+        "url": "/static/products/grocerygourmet_staples_0001.webp",
+        "width": 500,
+        "height": 625,
+        "bytes": 6304,
+        "colour_family": "gold",
+        "clip_score": 0.2812,
+        "clip_prob": 0.7714,
+        "group_id": "dummyjson:38",
+        "source": "dummyjson",
+        "attribution": {
+          "source": "dummyjson",
+          "title": "Rice",
+          "artist": "DummyJSON sample catalog",
+          "license": "DummyJSON free test data",
+          "license_url": "https://dummyjson.com/",
+          "source_url": "https://dummyjson.com/products/38"
+        }
+      }
+    ],
+    "sunglasses": [],
+    "tablets": [],
+    "tea_coffee": [],
+    "topwear": [],
+    "vacuum_cleaners": [],
+    "washing_machines": [],
+    "watches": [],
+    "water_purifiers": [],
+    "yoga": []
+  }
+}
