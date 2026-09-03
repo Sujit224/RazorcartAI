@@ -83,6 +83,16 @@ export const api = {
     apiClient.get(`/api/merchant/transactions?page=${page}&per_page=${perPage}`),
   getMerchantDailyChart: (days = 30) =>
     apiClient.get(`/api/merchant/daily-chart?days=${days}`),
+  getMerchantProducts: (params = {}) =>
+    apiClient.get('/api/merchant/products', { params }),
+  addMerchantProduct: (data) =>
+    apiClient.post('/api/merchant/products', data),
+  deleteMerchantProduct: (id) =>
+    apiClient.delete(`/api/merchant/products/${id}`),
+  getMerchantCustomers: () =>
+    apiClient.get('/api/merchant/customers'),
+  getMerchantCustomerDetails: (userId) =>
+    apiClient.get(`/api/merchant/customers/${userId}`),
 
   // ─── Admin Portal ─────────────────────────────────────────────────────────
 

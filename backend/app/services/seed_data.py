@@ -17,6 +17,7 @@ import bcrypt
 from ..models.product import Product
 from ..models.user import User
 from ..models.audit_ledger import AuditLedger
+from ..models.order import Order
 from ..models.review import Review
 from .vector_store import vector_store
 
@@ -924,3 +925,71 @@ def seed_database(db: Session):
             db.add(Review(**r))
         db.commit()
         print(f"[Seed] {len(sample_reviews)} customer reviews seeded.")
+
+    # ── Orders ────────────────────────────────────────────────────────────
+    if db.query(Order).count() == 0:
+        sample_orders = [
+            {
+                "user_id": 1,
+                "items_json": json.dumps([
+                    {"id": 1, "title": "Run Defy Women's Road Running Shoes", "brand": "Nike", "price": 3596.0, "quantity": 1, "image_url": _img("1542291026-7eec264c27ff")},
+                    {"id": 56, "title": "Cushioned Running Socks (3-Pack)", "brand": "Nike", "price": 795.0, "quantity": 1, "image_url": _img("1586350977771-b3b0abd50c82")}
+                ]),
+                "total_amount": 4391.0,
+                "currency": "INR",
+                "status": "success",
+                "razorpay_order_id": "order_rc_priya_001",
+                "razorpay_payment_id": "pay_rc_priya_001",
+                "payment_method": "razorpay_gateway",
+                "recovery_type": None,
+                "created_at": _days_ago(5, hour=14, minute=30)
+            },
+            {
+                "user_id": 1,
+                "items_json": json.dumps([
+                    {"id": 42, "title": "Floral Wrap Maxi Dress", "brand": "Forever New", "price": 4999.0, "quantity": 1, "image_url": _img("1515372039744-b8f02a3ae446")}
+                ]),
+                "total_amount": 4999.0,
+                "currency": "INR",
+                "status": "recovered_upi",
+                "razorpay_order_id": "order_rc_priya_002",
+                "razorpay_payment_id": "pay_rc_priya_002_upi",
+                "payment_method": "upi_qr",
+                "recovery_type": "timeout_recovered_upi",
+                "created_at": _days_ago(2, hour=18, minute=15)
+            },
+            {
+                "user_id": 2,
+                "items_json": json.dumps([
+                    {"id": 5, "title": "Pegasus 40 Men's Road Running Shoes", "brand": "Nike", "price": 8995.0, "quantity": 1, "image_url": _img("1595950653106-6c9ebd614d3a")},
+                    {"id": 57, "title": "Crep Protect Ultimate Shoe Cleaner", "brand": "Crep Protect", "price": 1299.0, "quantity": 1, "image_url": _img("1586350977771-b3b0abd50c82")}
+                ]),
+                "total_amount": 10294.0,
+                "currency": "INR",
+                "status": "success",
+                "razorpay_order_id": "order_rc_rahul_001",
+                "razorpay_payment_id": "pay_rc_rahul_001",
+                "payment_method": "razorpay_gateway",
+                "recovery_type": None,
+                "created_at": _days_ago(7, hour=11, minute=20)
+            },
+            {
+                "user_id": 2,
+                "items_json": json.dumps([
+                    {"id": 7, "title": "Ultraboost Light Running Shoes", "brand": "Adidas", "price": 9999.0, "quantity": 1, "image_url": _img("1587563871167-1ee9c731aefb")}
+                ]),
+                "total_amount": 9999.0,
+                "currency": "INR",
+                "status": "success",
+                "razorpay_order_id": "order_rc_rahul_002",
+                "razorpay_payment_id": "pay_rc_rahul_002",
+                "payment_method": "razorpay_gateway",
+                "recovery_type": "cart_negotiated_pruned",
+                "created_at": _days_ago(1, hour=16, minute=45)
+            }
+        ]
+        for o in sample_orders:
+            db.add(Order(**o))
+        db.commit()
+        print(f"[Seed] {len(sample_orders)} sample orders seeded.")
+

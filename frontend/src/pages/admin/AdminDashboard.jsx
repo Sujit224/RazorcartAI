@@ -1,31 +1,34 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip,
   Legend, ResponsiveContainer
 } from 'recharts';
 import {
   ShieldCheck, Users, Store, IndianRupee, TrendingUp, Bot, RefreshCw,
-  LogOut, Plus, X, ChevronLeft, ChevronRight, Star, Building2, ArrowLeft
+  LogOut, Plus, X, ChevronLeft, ChevronRight, Star, Building2, ArrowLeft,
+  Sparkles, CheckCircle2
 } from 'lucide-react';
 import { api } from '../../services/api';
 
 const fmt = (n) => `₹${Number(n || 0).toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
 
 const STATUS_BADGE = {
-  SUCCESS: 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30',
-  TIMEOUT_RECOVERED: 'bg-amber-500/15 text-amber-400 border-amber-500/30',
-  DECLINE_RESOLVED: 'bg-blue-500/15 text-blue-400 border-blue-500/30',
+  SUCCESS: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  TIMEOUT_RECOVERED: 'bg-amber-50 text-amber-700 border-amber-200',
+  DECLINE_RESOLVED: 'bg-blue-50 text-blue-700 border-blue-200',
 };
 
-const StatCard = ({ icon: Icon, label, value, sub, color = '#059669' }) => (
-  <div className="bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/8 transition-all">
-    <div className="w-10 h-10 rounded-xl mb-3 flex items-center justify-center" style={{ background: color + '20' }}>
-      <Icon className="w-5 h-5" style={{ color }} />
+const StatCard = ({ icon: Icon, label, value, sub, bgLight = 'bg-emerald-50', textColor = 'text-emerald-700', borderColor = 'border-emerald-200' }) => (
+  <div className="bg-white border border-[#eaeaec] rounded-2xl p-5 md:p-6 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all group">
+    <div className="flex items-center justify-between mb-4">
+      <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#535766]">{label}</span>
+      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${bgLight} ${textColor} border ${borderColor} transition-transform group-hover:scale-105`}>
+        <Icon className="w-5 h-5" />
+      </div>
     </div>
-    <p className="text-2xl font-extrabold text-white mb-1">{value}</p>
-    <p className="text-xs font-bold text-gray-400 uppercase tracking-wider">{label}</p>
-    {sub && <p className="text-xs text-gray-500 mt-1">{sub}</p>}
+    <p className="text-2xl md:text-3xl font-black text-[#282c3f] tracking-tight mb-2">{value}</p>
+    {sub && <p className="text-xs text-[#535766] font-medium">{sub}</p>}
   </div>
 );
 
@@ -50,41 +53,46 @@ function OnboardModal({ onClose, onSuccess }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-      <div className="bg-[#1a1c2b] border border-white/10 rounded-2xl p-6 w-full max-w-md shadow-2xl">
-        <div className="flex items-center justify-between mb-6">
-          <h3 className="text-lg font-extrabold text-white">Onboard New Merchant</h3>
-          <button onClick={onClose} className="text-gray-500 hover:text-white">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+      <div className="bg-white border border-[#eaeaec] rounded-2xl p-6 md:p-8 w-full max-w-md shadow-2xl">
+        <div className="flex items-center justify-between pb-4 mb-5 border-b border-[#eaeaec]">
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
+              <Building2 className="w-4 h-4" />
+            </div>
+            <h3 className="text-lg font-extrabold text-[#282c3f]">Onboard New Merchant</h3>
+          </div>
+          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
             <X className="w-5 h-5" />
           </button>
         </div>
         {err && (
-          <div className="mb-4 p-3 bg-red-500/10 border border-red-500/30 rounded-lg text-xs text-red-300">{err}</div>
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-600 font-semibold">{err}</div>
         )}
         <form onSubmit={submit} className="space-y-4">
           {[
             { key: 'name', label: 'Contact Name', placeholder: 'Arjun Mehta' },
             { key: 'merchant_name', label: 'Store / Brand Name', placeholder: 'FashionHub Delhi' },
-            { key: 'email', label: 'Email', placeholder: 'arjun@store.com', type: 'email' },
-            { key: 'city', label: 'City', placeholder: 'Bengaluru' },
+            { key: 'email', label: 'Email Address', placeholder: 'arjun@store.com', type: 'email' },
+            { key: 'city', label: 'Operating City', placeholder: 'Bengaluru' },
             { key: 'password', label: 'Initial Password', placeholder: 'merchant123', type: 'password' },
           ].map(({ key, label, placeholder, type = 'text' }) => (
             <div key={key}>
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5 block">{label}</label>
+              <label className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1.5 block">{label}</label>
               <input
                 type={type}
                 required
                 value={form[key]}
                 onChange={(e) => setForm({ ...form, [key]: e.target.value })}
                 placeholder={placeholder}
-                className="w-full px-4 py-2.5 bg-white/5 border border-white/15 rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-emerald-500/50 transition-colors"
+                className="w-full px-3.5 py-2.5 bg-white border border-[#d4d5d9] rounded-lg text-[#282c3f] text-sm placeholder-gray-400 focus:outline-none focus:border-emerald-600 transition-colors"
               />
             </div>
           ))}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-sm disabled:opacity-50 transition-colors shadow-md"
+            className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs uppercase tracking-wider disabled:opacity-50 transition-colors shadow-md mt-6 cursor-pointer"
           >
             {loading ? 'Onboarding...' : 'Onboard Merchant'}
           </button>
@@ -127,115 +135,122 @@ function MerchantDrillDown({ merchant, onClose }) {
   const totalPages = Math.ceil((txns.total || 0) / 25);
 
   return (
-    <div className="fixed inset-y-0 right-0 z-40 w-full max-w-3xl bg-[#0f0f1a] border-l border-white/10 shadow-2xl overflow-y-auto">
+    <div className="fixed inset-y-0 right-0 z-40 w-full max-w-3xl bg-white border-l border-[#eaeaec] shadow-2xl overflow-y-auto">
       {/* Header */}
-      <div className="sticky top-0 bg-[#0f0f1a]/90 backdrop-blur-xl border-b border-white/10 px-6 py-4 flex items-center gap-4">
-        <button onClick={onClose} className="text-gray-400 hover:text-white">
-          <ArrowLeft className="w-5 h-5" />
-        </button>
-        <Building2 className="w-5 h-5 text-emerald-400" />
-        <div>
-          <h2 className="font-extrabold text-white">{merchant.merchant_name}</h2>
-          <p className="text-xs text-gray-400">{merchant.email} · {merchant.city}</p>
+      <div className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-[#eaeaec] px-6 py-4 flex items-center justify-between z-10">
+        <div className="flex items-center gap-3">
+          <button onClick={onClose} className="text-[#535766] hover:text-[#282c3f]">
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
+            <Building2 className="w-5 h-5" />
+          </div>
+          <div>
+            <h2 className="font-extrabold text-[#282c3f] text-base leading-tight">{merchant.merchant_name}</h2>
+            <p className="text-xs text-[#535766]">{merchant.email} · {merchant.city}</p>
+          </div>
         </div>
+        <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <X className="w-5 h-5" />
+        </button>
       </div>
 
       {loading ? (
         <div className="flex items-center justify-center h-64">
-          <div className="w-10 h-10 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+          <div className="w-10 h-10 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : (
         <div className="p-6 space-y-6">
           {/* Mini Stats */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Total Revenue</p>
-              <p className="text-xl font-extrabold text-white">{fmt(stats?.total_revenue)}</p>
+            <div className="bg-white rounded-2xl p-4 border border-[#eaeaec] shadow-sm">
+              <p className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1">Total Revenue</p>
+              <p className="text-xl font-black text-[#282c3f]">{fmt(stats?.total_revenue)}</p>
             </div>
-            <div className="bg-emerald-500/10 rounded-xl p-4 border border-emerald-500/20">
-              <p className="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">AI-Generated Profit</p>
-              <p className="text-xl font-extrabold text-emerald-400">{fmt(stats?.total_ai_profit)}</p>
+            <div className="bg-emerald-50/60 rounded-2xl p-4 border border-emerald-200 shadow-sm">
+              <p className="text-[11px] font-bold text-emerald-800 uppercase tracking-wider mb-1">AI-Generated Profit</p>
+              <p className="text-xl font-black text-emerald-700">{fmt(stats?.total_ai_profit)}</p>
             </div>
-            <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1">Profit Impact</p>
-              <p className="text-xl font-extrabold text-white">{fmt(stats?.total_profit_impact)}</p>
+            <div className="bg-white rounded-2xl p-4 border border-[#eaeaec] shadow-sm">
+              <p className="text-[11px] font-bold text-[#535766] uppercase tracking-wider mb-1">Profit Impact</p>
+              <p className="text-xl font-black text-[#282c3f]">{fmt(stats?.total_profit_impact)}</p>
             </div>
-            <div className="bg-amber-500/10 rounded-xl p-4 border border-amber-500/20">
-              <p className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Recoveries</p>
-              <p className="text-xl font-extrabold text-amber-400">{stats?.total_recoveries || 0}</p>
+            <div className="bg-amber-50/60 rounded-2xl p-4 border border-amber-200 shadow-sm">
+              <p className="text-[11px] font-bold text-amber-800 uppercase tracking-wider mb-1">Recoveries</p>
+              <p className="text-xl font-black text-amber-700">{stats?.total_recoveries || 0}</p>
             </div>
           </div>
 
           {/* Per-merchant chart */}
           {stats?.daily_chart?.length > 0 && (
-            <div className="bg-white/5 border border-white/10 rounded-2xl p-5">
-              <h3 className="text-sm font-extrabold text-white mb-4">Revenue vs AI Profit — 30 Days</h3>
+            <div className="bg-white border border-[#eaeaec] rounded-2xl p-5 shadow-sm">
+              <h3 className="text-sm font-extrabold text-[#282c3f] mb-4">Revenue vs AI Profit — 30 Days</h3>
               <ResponsiveContainer width="100%" height={200}>
                 <LineChart data={stats.daily_chart} margin={{ top: 5, right: 10, left: 0, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-                  <XAxis dataKey="date" tick={{ fill: '#9ca3af', fontSize: 10 }} tickLine={false} />
-                  <YAxis tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} tick={{ fill: '#9ca3af', fontSize: 10 }} tickLine={false} axisLine={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f2" />
+                  <XAxis dataKey="date" tick={{ fill: '#535766', fontSize: 10, fontWeight: 600 }} tickLine={false} stroke="#eaeaec" />
+                  <YAxis tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} tick={{ fill: '#535766', fontSize: 10, fontWeight: 600 }} tickLine={false} axisLine={false} stroke="#eaeaec" />
                   <Tooltip
-                    contentStyle={{ background: '#1a1c2b', border: '1px solid #ffffff15', borderRadius: 10, color: '#fff', fontSize: 12 }}
+                    contentStyle={{ background: '#ffffff', border: '1px solid #eaeaec', borderRadius: 10, color: '#282c3f', fontSize: 12, fontWeight: 700, boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}
                     formatter={(val) => [`₹${Number(val).toLocaleString('en-IN')}`, '']}
                   />
-                  <Line type="monotone" dataKey="revenue" stroke="#059669" strokeWidth={2} dot={false} name="Revenue" />
-                  <Line type="monotone" dataKey="ai_profit" stroke="#10b981" strokeWidth={2} dot={false} name="AI Profit" strokeDasharray="4 3" />
+                  <Line type="monotone" dataKey="revenue" stroke="#059669" strokeWidth={2.5} dot={false} name="Revenue" />
+                  <Line type="monotone" dataKey="ai_profit" stroke="#10b981" strokeWidth={2.5} dot={false} name="AI Profit" strokeDasharray="4 3" />
                 </LineChart>
               </ResponsiveContainer>
             </div>
           )}
 
           {/* Transactions */}
-          <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-            <div className="px-5 py-3 border-b border-white/10 flex items-center justify-between">
-              <h3 className="text-sm font-extrabold text-white">Transaction Log</h3>
-              <span className="text-xs bg-emerald-500/15 text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-500/25 font-bold">{txns.total} entries</span>
+          <div className="bg-white border border-[#eaeaec] rounded-2xl overflow-hidden shadow-sm">
+            <div className="px-5 py-3.5 border-b border-[#eaeaec] flex items-center justify-between bg-white">
+              <h3 className="text-sm font-extrabold text-[#282c3f]">Transaction Log</h3>
+              <span className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full border border-emerald-200 font-bold">{txns.total} entries</span>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-xs">
                 <thead>
-                  <tr className="bg-white/3 text-[10px] font-bold text-gray-500 uppercase tracking-wider">
-                    <th className="px-4 py-2.5 text-left">Time</th>
-                    <th className="px-4 py-2.5 text-left">Agent</th>
-                    <th className="px-4 py-2.5 text-right">Amount</th>
-                    <th className="px-4 py-2.5 text-right">AI Profit</th>
-                    <th className="px-4 py-2.5 text-left">Status</th>
+                  <tr className="bg-[#f9fafb] text-[10px] font-bold text-[#535766] uppercase tracking-wider border-b border-[#eaeaec]">
+                    <th className="px-4 py-3 text-left">Time</th>
+                    <th className="px-4 py-3 text-left">Agent</th>
+                    <th className="px-4 py-3 text-right">Amount</th>
+                    <th className="px-4 py-3 text-right">AI Profit</th>
+                    <th className="px-4 py-3 text-left">Status</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="divide-y divide-[#eaeaec]">
                   {txns.transactions?.map((t) => (
                     <React.Fragment key={t.id}>
                       <tr
-                        className="border-t border-white/5 hover:bg-white/5 cursor-pointer transition-colors"
+                        className="hover:bg-emerald-50/30 cursor-pointer transition-colors"
                         onClick={() => setExpandedRow(expandedRow === t.id ? null : t.id)}
                       >
-                        <td className="px-4 py-2.5 text-gray-500 font-mono whitespace-nowrap">
+                        <td className="px-4 py-3 text-[#535766] font-mono whitespace-nowrap">
                           {new Date(t.timestamp).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                         </td>
-                        <td className="px-4 py-2.5">
-                          <span className="text-[10px] font-bold text-emerald-300 bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                        <td className="px-4 py-3">
+                          <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
                             {t.agent_type?.replace('Agent', '')}
                           </span>
                         </td>
-                        <td className="px-4 py-2.5 text-right font-bold text-white">
+                        <td className="px-4 py-3 text-right font-bold text-[#282c3f]">
                           {t.money_amount > 0 ? fmt(t.money_amount) : '—'}
                         </td>
-                        <td className="px-4 py-2.5 text-right font-bold text-emerald-400">
+                        <td className="px-4 py-3 text-right font-bold text-[#059669]">
                           {t.profit_from_ai > 0 ? fmt(t.profit_from_ai) : '—'}
                         </td>
-                        <td className="px-4 py-2.5">
+                        <td className="px-4 py-3">
                           {t.payment_status ? (
-                            <span className={`text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded-full border ${STATUS_BADGE[t.payment_status] || 'bg-gray-500/10 text-gray-400 border-gray-500/20'}`}>
+                            <span className={`text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-full border ${STATUS_BADGE[t.payment_status] || 'bg-gray-50 text-gray-600 border-gray-200'}`}>
                               {t.payment_status.replace(/_/g, ' ')}
                             </span>
                           ) : '—'}
                         </td>
                       </tr>
                       {expandedRow === t.id && (
-                        <tr className="bg-emerald-900/10">
+                        <tr className="bg-emerald-50/40">
                           <td colSpan={5} className="px-5 py-3">
-                            <p className="text-[11px] text-gray-400 leading-relaxed">{t.decision_reasoning}</p>
+                            <p className="text-[11px] text-[#535766] leading-relaxed">{t.decision_reasoning}</p>
                           </td>
                         </tr>
                       )}
@@ -245,15 +260,15 @@ function MerchantDrillDown({ merchant, onClose }) {
               </table>
             </div>
             {totalPages > 1 && (
-              <div className="flex items-center justify-between px-5 py-3 border-t border-white/10">
-                <span className="text-xs text-gray-500 font-semibold">Page {page} of {totalPages}</span>
+              <div className="flex items-center justify-between px-5 py-3 border-t border-[#eaeaec] bg-white">
+                <span className="text-xs text-[#535766] font-semibold">Page {page} of {totalPages}</span>
                 <div className="flex gap-2">
                   <button disabled={page <= 1} onClick={() => loadPage(page - 1)}
-                    className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30">
+                    className="p-1.5 rounded-lg border border-[#eaeaec] hover:bg-gray-50 disabled:opacity-30">
                     <ChevronLeft className="w-4 h-4" />
                   </button>
                   <button disabled={page >= totalPages} onClick={() => loadPage(page + 1)}
-                    className="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 disabled:opacity-30">
+                    className="p-1.5 rounded-lg border border-[#eaeaec] hover:bg-gray-50 disabled:opacity-30">
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
@@ -307,131 +322,190 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0f0e] flex items-center justify-center">
+      <div className="min-h-screen bg-[#fdf8f9] flex items-center justify-center">
         <div className="text-center">
-          <div className="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-gray-400 font-bold">Loading Admin Dashboard…</p>
+          <div className="w-12 h-12 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-[#282c3f] font-bold text-sm">Loading Admin Console…</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0f0e] text-white">
+    <div className="min-h-screen bg-[#fdf8f9] text-[#282c3f] flex flex-col font-sans">
       {/* Top Nav */}
-      <header className="sticky top-0 z-30 bg-[#0a0f0e]/90 backdrop-blur-xl border-b border-white/10 px-6 py-4 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center shadow-sm">
-            <ShieldCheck className="w-5 h-5 text-white" />
+      <header className="sticky top-0 z-30 bg-white border-b border-[#eaeaec] px-4 md:px-8 py-3.5 shadow-sm">
+        <div className="max-w-[1300px] mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link to="/" className="flex items-center">
+              <span className="text-2xl font-black italic tracking-tight select-none">
+                <span className="text-[#FF3F6C]">Razorcart</span>
+                <span className="text-[#282c3f] ml-1">AI</span>
+              </span>
+            </Link>
+
+            <span className="hidden sm:inline-block text-gray-300">|</span>
+
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700 shrink-0">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <div>
+                <h1 className="font-extrabold text-[#282c3f] text-sm md:text-base leading-tight">Razorpay Admin</h1>
+                <p className="text-[11px] text-emerald-700 font-semibold">Global Platform Analytics</p>
+              </div>
+            </div>
           </div>
-          <div>
-            <h1 className="font-extrabold text-white text-lg leading-tight">Razorpay Admin</h1>
-            <p className="text-xs text-emerald-400 font-bold">Global Platform Analytics</p>
+          
+          <div className="flex items-center gap-3 md:gap-4">
+            <Link
+              to="/"
+              className="hidden md:flex items-center gap-1.5 text-xs font-bold text-[#535766] hover:text-[#ff3f6c] transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Storefront</span>
+            </Link>
+
+            <button
+              onClick={() => setShowOnboard(true)}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold uppercase tracking-wider transition-all shadow-sm cursor-pointer"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Onboard Merchant</span>
+            </button>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 border border-red-200 text-xs text-red-600 font-extrabold transition-all cursor-pointer"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Logout</span>
+            </button>
           </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setShowOnboard(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-extrabold transition-all"
-          >
-            <Plus className="w-4 h-4" />
-            <span>Onboard Merchant</span>
-          </button>
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-sm text-gray-300 font-bold transition-all"
-          >
-            <LogOut className="w-4 h-4" />
-            <span>Logout</span>
-          </button>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+      <main className="max-w-[1300px] w-full mx-auto px-4 md:px-8 py-8 space-y-8 flex-1">
         {/* Global KPI Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <StatCard icon={Store} label="Total Merchants" value={dash?.total_merchants || 0}
-            sub={`${dash?.total_customers || 0} customers`} color="#059669" />
-          <StatCard icon={IndianRupee} label="Global Revenue" value={fmt(dash?.total_revenue)}
-            sub="Successful payments" color="#10b981" />
-          <StatCard icon={Bot} label="Total AI Profit" value={fmt(dash?.total_ai_profit)}
-            sub="Across all merchants" color="#7c3aed" />
-          <StatCard icon={RefreshCw} label="Total Recoveries" value={dash?.total_recoveries || 0}
-            sub={`${fmt(dash?.recovered_revenue)} saved`} color="#f59e0b" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+          <StatCard
+            icon={Store}
+            label="Total Merchants"
+            value={dash?.total_merchants || 0}
+            sub={`${dash?.total_customers || 0} active shoppers`}
+            bgLight="bg-emerald-50"
+            textColor="text-emerald-700"
+            borderColor="border-emerald-200"
+          />
+          <StatCard
+            icon={IndianRupee}
+            label="Global Revenue"
+            value={fmt(dash?.total_revenue)}
+            sub="Successful merchant transactions"
+            bgLight="bg-purple-50"
+            textColor="text-purple-700"
+            borderColor="border-purple-200"
+          />
+          <StatCard
+            icon={Bot}
+            label="Total AI Profit"
+            value={fmt(dash?.total_ai_profit)}
+            sub="Across all connected stores"
+            bgLight="bg-pink-50"
+            textColor="text-[#ff3f6c]"
+            borderColor="border-pink-200"
+          />
+          <StatCard
+            icon={RefreshCw}
+            label="Total Recoveries"
+            value={dash?.total_recoveries || 0}
+            sub={`${fmt(dash?.recovered_revenue)} GMV saved`}
+            bgLight="bg-amber-50"
+            textColor="text-amber-700"
+            borderColor="border-amber-200"
+          />
         </div>
 
         {/* Global Profit/Day Chart */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-6">
-            <TrendingUp className="w-5 h-5 text-emerald-400" />
-            <h2 className="text-base font-extrabold text-white">Global Revenue & AI Profit — Last 30 Days</h2>
+        <div className="bg-white border border-[#eaeaec] rounded-2xl p-6 md:p-7 shadow-sm">
+          <div className="flex items-center justify-between pb-5 mb-6 border-b border-[#eaeaec]">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
+                <TrendingUp className="w-4 h-4" />
+              </div>
+              <h2 className="text-base font-extrabold text-[#282c3f]">Global Revenue & AI Profit — Last 30 Days</h2>
+            </div>
+            <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+              Platform Overview
+            </span>
           </div>
-          <ResponsiveContainer width="100%" height={260}>
-            <BarChart data={dash?.daily_chart || []} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" />
-              <XAxis dataKey="date" tick={{ fill: '#9ca3af', fontSize: 11 }} tickLine={false} />
-              <YAxis tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} tick={{ fill: '#9ca3af', fontSize: 11 }} tickLine={false} axisLine={false} />
+          <ResponsiveContainer width="100%" height={280}>
+            <BarChart data={dash?.daily_chart || []} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f2" />
+              <XAxis dataKey="date" tick={{ fill: '#535766', fontSize: 11, fontWeight: 600 }} tickLine={false} stroke="#eaeaec" />
+              <YAxis tickFormatter={(v) => `₹${(v / 1000).toFixed(0)}k`} tick={{ fill: '#535766', fontSize: 11, fontWeight: 600 }} tickLine={false} axisLine={false} stroke="#eaeaec" />
               <Tooltip
-                contentStyle={{ background: '#0f1a15', border: '1px solid #ffffff15', borderRadius: 12, color: '#fff' }}
+                contentStyle={{ background: '#ffffff', border: '1px solid #eaeaec', borderRadius: 12, color: '#282c3f', fontSize: 12, fontWeight: 700, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)' }}
                 formatter={(val) => [`₹${Number(val).toLocaleString('en-IN')}`, '']}
               />
-              <Legend wrapperStyle={{ color: '#9ca3af', fontSize: 12 }} />
-              <Bar dataKey="revenue" fill="#059669" name="Revenue" radius={[4, 4, 0, 0]} opacity={0.85} />
-              <Bar dataKey="ai_profit" fill="#7c3aed" name="AI Profit" radius={[4, 4, 0, 0]} opacity={0.85} />
+              <Legend wrapperStyle={{ color: '#535766', fontSize: 12, fontWeight: 700, paddingTop: 10 }} />
+              <Bar dataKey="revenue" fill="#059669" name="Revenue" radius={[4, 4, 0, 0]} opacity={0.9} />
+              <Bar dataKey="ai_profit" fill="#7c3aed" name="AI Profit" radius={[4, 4, 0, 0]} opacity={0.9} />
             </BarChart>
           </ResponsiveContainer>
         </div>
 
         {/* Merchants Table */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden">
-          <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
+        <div className="bg-white border border-[#eaeaec] rounded-2xl shadow-sm overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 border-b border-[#eaeaec] gap-2 bg-white">
             <div className="flex items-center gap-3">
-              <Users className="w-5 h-5 text-emerald-400" />
-              <h2 className="font-extrabold text-white">Onboarded Merchants</h2>
-              <span className="text-xs bg-emerald-500/15 text-emerald-300 px-2.5 py-0.5 rounded-full font-bold border border-emerald-500/30">
+              <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
+                <Users className="w-4 h-4" />
+              </div>
+              <h2 className="font-extrabold text-[#282c3f] text-base">Onboarded Merchants</h2>
+              <span className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full font-bold border border-emerald-200">
                 {merchants.length} merchants
               </span>
             </div>
-            <p className="text-xs text-gray-500 font-semibold">Click a row for drill-down →</p>
+            <p className="text-xs text-[#535766] font-semibold">Click a row for drill-down audit →</p>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+            <table className="w-full text-sm text-left">
               <thead>
-                <tr className="bg-white/3 text-xs font-bold text-gray-500 uppercase tracking-wider">
-                  <th className="px-5 py-3 text-left">Merchant</th>
-                  <th className="px-5 py-3 text-left">City</th>
-                  <th className="px-5 py-3 text-right">Revenue</th>
-                  <th className="px-5 py-3 text-right">AI Profit</th>
-                  <th className="px-5 py-3 text-center">Transactions</th>
-                  <th className="px-5 py-3 text-center">Recoveries</th>
+                <tr className="bg-[#f9fafb] text-[11px] font-extrabold text-[#535766] uppercase tracking-wider border-b border-[#eaeaec]">
+                  <th className="px-5 py-3.5">Merchant</th>
+                  <th className="px-5 py-3.5">City</th>
+                  <th className="px-5 py-3.5 text-right">Revenue</th>
+                  <th className="px-5 py-3.5 text-right">AI Profit</th>
+                  <th className="px-5 py-3.5 text-center">Transactions</th>
+                  <th className="px-5 py-3.5 text-center">Recoveries</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody className="divide-y divide-[#eaeaec]">
                 {merchants.map((m) => (
                   <tr
                     key={m.merchant_id}
                     onClick={() => setSelectedMerchant(m)}
-                    className="border-t border-white/5 hover:bg-emerald-500/5 cursor-pointer transition-colors group"
+                    className="hover:bg-emerald-50/30 cursor-pointer transition-colors group"
                   >
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-xl bg-emerald-500/15 flex items-center justify-center border border-emerald-500/25">
-                          <Store className="w-4 h-4 text-emerald-400" />
+                        <div className="w-9 h-9 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
+                          <Store className="w-4 h-4" />
                         </div>
                         <div>
-                          <p className="font-extrabold text-white group-hover:text-emerald-400 transition-colors">{m.merchant_name}</p>
-                          <p className="text-xs text-gray-500 font-mono">{m.email}</p>
+                          <p className="font-extrabold text-[#282c3f] group-hover:text-emerald-700 transition-colors">{m.merchant_name}</p>
+                          <p className="text-xs text-[#535766] font-mono">{m.email}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-5 py-4 text-gray-400 text-sm">{m.city}</td>
-                    <td className="px-5 py-4 text-right font-extrabold text-white">{fmt(m.total_revenue)}</td>
-                    <td className="px-5 py-4 text-right font-extrabold text-emerald-400">{fmt(m.total_ai_profit)}</td>
+                    <td className="px-5 py-4 text-[#535766] text-sm">{m.city}</td>
+                    <td className="px-5 py-4 text-right font-black text-[#282c3f]">{fmt(m.total_revenue)}</td>
+                    <td className="px-5 py-4 text-right font-black text-[#059669]">{fmt(m.total_ai_profit)}</td>
                     <td className="px-5 py-4 text-center">
-                      <span className="text-xs font-bold bg-white/5 px-2 py-1 rounded-lg border border-white/10">{m.total_transactions}</span>
+                      <span className="text-xs font-bold bg-gray-100 text-gray-700 px-2 py-1 rounded-lg border border-gray-200">{m.total_transactions}</span>
                     </td>
                     <td className="px-5 py-4 text-center">
-                      <span className={`text-xs font-bold px-2 py-1 rounded-lg border ${m.total_recoveries > 0 ? 'bg-amber-500/10 border-amber-500/25 text-amber-400' : 'bg-white/5 border-white/10 text-gray-500'}`}>
+                      <span className={`text-xs font-bold px-2 py-1 rounded-lg border ${m.total_recoveries > 0 ? 'bg-amber-50 border-amber-200 text-amber-700' : 'bg-gray-50 border-gray-200 text-gray-400'}`}>
                         {m.total_recoveries}
                       </span>
                     </td>
@@ -443,6 +517,18 @@ export default function AdminDashboard() {
         </div>
       </main>
 
+      {/* Footer */}
+      <footer className="bg-white border-t border-[#eaeaec] py-5 px-4 md:px-8 text-center text-xs text-[#94969f] mt-12">
+        <div className="max-w-[1300px] mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-[#282c3f]">RazorCartAI</span>
+            <span>•</span>
+            <span>Razorpay Administrator Governance</span>
+          </div>
+          <p className="text-[11px] text-[#94969f]">Multi-Merchant Settlement & Settlement Assurance</p>
+        </div>
+      </footer>
+
       {/* Modals & Panels */}
       {showOnboard && (
         <OnboardModal
@@ -452,10 +538,11 @@ export default function AdminDashboard() {
       )}
       {selectedMerchant && (
         <>
-          <div className="fixed inset-0 z-30 bg-black/50 backdrop-blur-sm" onClick={() => setSelectedMerchant(null)} />
+          <div className="fixed inset-0 z-30 bg-black/40 backdrop-blur-sm" onClick={() => setSelectedMerchant(null)} />
           <MerchantDrillDown merchant={selectedMerchant} onClose={() => setSelectedMerchant(null)} />
         </>
       )}
     </div>
   );
 }
+
