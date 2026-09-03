@@ -61,6 +61,11 @@ export const api = {
   getCart: (userId = 1) => apiClient.get(`/api/cart?user_id=${userId}`),
   addToCart: (data, userId = 1) =>
     apiClient.post(`/api/cart/add?user_id=${userId}`, data),
+  // Change quantity / size / priority on a line that is already in the bag.
+  // Without this the only way to change a quantity was remove-then-re-add, which
+  // loses the line's position and therefore the ordinal the agent just showed.
+  updateCartItem: (itemId, data, userId = 1) =>
+    apiClient.patch(`/api/cart/item/${itemId}?user_id=${userId}`, data),
   removeFromCart: (itemId, userId = 1) =>
     apiClient.delete(`/api/cart/remove/${itemId}?user_id=${userId}`),
   clearCart: (userId = 1) =>

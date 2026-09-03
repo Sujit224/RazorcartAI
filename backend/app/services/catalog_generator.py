@@ -4,9 +4,10 @@ RazorCartAI 10,000-Product Catalog Generator
 Synthesizes a 10,000-product e-commerce catalog across all 12 departments
 and 95+ subcategories defined in app.services.taxonomy.
 
-Preserves the original 70 seed products as IDs 1–70, then generates
-IDs 71–10000 with realistic pricing, tiered specs, Unsplash imagery,
-FBT cross-sell relationships, and search tags.
+Features:
+- Every single product is linked to a verified Merchant (from 60+ merchants).
+- Every product includes multi-paragraph, rich, detailed descriptions and specs.
+- Accurate Unsplash imagery, dynamic pricing, FBT pairings, and BM25/TF-IDF search tags.
 """
 
 import json
@@ -15,6 +16,7 @@ from typing import List, Dict, Any
 
 from .taxonomy import SUBCATEGORIES, DEPARTMENTS, CITIES, policy_for
 from .seed_data import SEED_PRODUCTS
+from .merchants_data import get_merchant_for_product, MERCHANTS
 
 # ── High-Quality Curated Unsplash Photo IDs by Department / Category ────────
 UNSPLASH_POOLS: Dict[str, List[str]] = {
@@ -98,16 +100,64 @@ def _img(photo_id: str, w: int = 600, h: int = 800) -> str:
     return f"https://images.unsplash.com/photo-{photo_id}?auto=format&fit=crop&w={w}&h={h}&q=80"
 
 
+def _build_rich_description(title: str, brand: str, dept: str, cat: str, meta: Dict[str, Any], merchant_name: str) -> str:
+    """Constructs a comprehensive, multi-paragraph e-commerce product description."""
+    material = meta.get("material", "high-grade engineered materials")
+    color = meta.get("color", "Standard")
+    fit = meta.get("fit", "Regular True-to-Size Fit")
+    care = meta.get("care", "Wipe clean with a soft dry cloth")
+    origin = meta.get("origin", "India")
+    
+    # Custom engineering highlights based on department
+    if dept == "Footwear":
+        highlight = "Built with multi-layer shock absorption, responsive cushioning, and an anti-skid rubber outsole for optimum grip on road, track, and gym surfaces."
+    elif dept == "Electronics":
+        highlight = "Equipped with high-precision acoustic engineering, low-latency Bluetooth connectivity, and ultra-durable battery longevity for all-day seamless performance."
+    elif dept == "Appliances":
+        highlight = "Engineered with smart energy-efficient motors, intuitive touch controls, and heavy-duty thermal protection to elevate modern household workflows."
+    elif dept == "Home & Kitchen":
+        highlight = "Crafted for timeless durability, ergonomic daily handling, and high-heat resistance, seamlessly blending aesthetics with culinary function."
+    elif dept == "Beauty & Personal Care":
+        highlight = "Dermatologically tested, enriched with nourishing bio-actives and vitamins, designed to restore, protect, and revitalize daily wellness."
+    elif dept == "Sports & Fitness":
+        highlight = "Constructed to professional tournament standards with reinforced joints and impact-resistant alloys to support rigorous training sessions."
+    else:
+        highlight = "Tailored with precision stitching, premium breathability, and colorfast dying technology to maintain a crisp, refined look across all occasions."
+
+    desc = (
+        f"**Overview & Design**:\n"
+        f"The {brand} {title} represents best-in-class craftsmanship in {cat}. Designed with premium {material} in a signature {color} finish, it balances ergonomic comfort with contemporary styling.\n\n"
+        f"**Performance & Engineering**:\n"
+        f"{highlight} Every unit undergoes rigorous multi-point quality inspections to guarantee stellar performance.\n\n"
+        f"**Specifications & Fit**:\n"
+        f"- **Material**: {material}\n"
+        f"- **Fit Profile**: {fit}\n"
+        f"- **Care Instructions**: {care}\n"
+        f"- **Country of Origin**: {origin}\n"
+        f"- **Authenticity**: 100% Genuine Guaranteed by {merchant_name}\n"
+        f"- **Warranty**: Covered by standard manufacturer warranty against defects."
+    )
+    return desc
+
+
 def generate_10k_products() -> List[Dict[str, Any]]:
     """
-    Produces exactly 10,000 products:
+    Produces exactly 10,000 products linked to 60+ merchants with rich descriptions:
     - IDs 1..70 from SEED_PRODUCTS (legacy compatibility)
     - IDs 71..10000 generated across all 12 departments and 95+ subcategories.
     """
     products: List[Dict[str, Any]] = []
 
-    # 1. Add legacy 70 products
+    # 1. Add legacy 70 products with merchant links & enriched descriptions
     for p in SEED_PRODUCTS:
+        city = p.get("city", "Bengaluru")
+        merchant = get_merchant_for_product(p["brand"], p["category"], city)
+        meta = p.get("metadata", {})
+        
+        rich_desc = p.get("description", "")
+        if not rich_desc or len(rich_desc) < 250:
+            rich_desc = _build_rich_description(p["title"], p["brand"], "Fashion" if p["category"] in ["Topwear", "Bottomwear", "Dresses"] else p["category"], p["category"], meta, merchant["merchant_name"])
+
         products.append({
             "id": p["id"],
             "title": p["title"],
@@ -121,12 +171,14 @@ def generate_10k_products() -> List[Dict[str, Any]]:
             "rating": float(p["rating"]),
             "review_count": int(p["review_count"]),
             "stock": int(p["stock"]),
-            "city": p["city"],
+            "city": city,
+            "merchant_id": merchant["merchant_id"],
+            "merchant_name": merchant["merchant_name"],
             "image_url": p["image_url"],
-            "description": p["description"],
+            "description": rich_desc,
             "tags": json.dumps(p["tags"]) if isinstance(p["tags"], list) else p["tags"],
             "fbt_product_ids": json.dumps(p["fbt_product_ids"]) if isinstance(p["fbt_product_ids"], list) else p["fbt_product_ids"],
-            "product_meta": json.dumps(p.get("metadata", {})),
+            "product_meta": json.dumps(meta),
             "is_active": True,
         })
 
@@ -186,7 +238,6 @@ def generate_10k_products() -> List[Dict[str, Any]]:
             gender = rng.choice(genders)
 
             # Build realistic title
-            # If descriptor already contains noun (e.g. 'ANC Headphones', 'Air Fryer', 'Running Shoes'), don't repeat it
             noun_in_desc = noun.lower() in descriptor.lower() or any(w in descriptor.lower() for w in noun.lower().split() if len(w) > 3)
             base_name = descriptor if noun_in_desc else f"{descriptor} {noun}"
 
@@ -210,6 +261,10 @@ def generate_10k_products() -> List[Dict[str, Any]]:
             else:
                 title = f"{base_name} — {color}"
 
+            # City & Merchant Association
+            city = rng.choice(CITIES)
+            merchant = get_merchant_for_product(brand, cat, city)
+
             # Image
             photo_id = dept_images[(item_idx + subcat_idx) % len(dept_images)]
             image_url = _img(photo_id)
@@ -221,6 +276,8 @@ def generate_10k_products() -> List[Dict[str, Any]]:
                 "care": care_text,
                 "department": dept,
                 "origin": subcat.get("origin", "India"),
+                "merchant_id": merchant["merchant_id"],
+                "merchant_name": merchant["merchant_name"],
             }
 
             # Tiered specs aligned with price percentile
@@ -238,12 +295,8 @@ def generate_10k_products() -> List[Dict[str, Any]]:
             meta_dict["returnable"] = policy["returnable"]
             meta_dict["return_window"] = policy["window"]
 
-            # Description
-            specs_summary = ", ".join(f"{k}: {v}" for k, v in list(meta_dict.items())[:3] if k not in ["care", "origin", "department"])
-            description = (
-                f"{brand} {title}. Engineered with {meta_dict.get('material', 'premium materials')} for top-tier performance and everyday reliability. "
-                f"Features {specs_summary}. Backed by genuine manufacturer warranty and fast dispatch across India."
-            )
+            # Multi-paragraph detailed description
+            description = _build_rich_description(title, brand, dept, cat, meta_dict, merchant["merchant_name"])
 
             # Tags for TF-IDF & vector retrieval
             title_tokens = [w.lower().strip("(),—") for w in title.split() if len(w) > 2]
@@ -256,9 +309,11 @@ def generate_10k_products() -> List[Dict[str, Any]]:
                 descriptor.lower(),
                 series.lower(),
                 gender.lower(),
+                merchant["merchant_name"].lower(),
+                merchant["merchant_id"].lower(),
             ]))
 
-            # FBT cross-sell IDs (random sample of 2 from same or nearby department)
+            # FBT cross-sell IDs
             fbt_ids = [
                 ((curr_id + 3) % target_count) + 1,
                 ((curr_id + 7) % target_count) + 1
@@ -268,7 +323,6 @@ def generate_10k_products() -> List[Dict[str, Any]]:
             rating = round(rng.triangular(3.8, 5.0, 4.5), 1)
             review_count = int(rng.triangular(15, 1200, 150))
             stock = rng.randint(10, 150)
-            city = rng.choice(CITIES)
 
             products.append({
                 "id": curr_id,
@@ -284,6 +338,8 @@ def generate_10k_products() -> List[Dict[str, Any]]:
                 "review_count": int(review_count),
                 "stock": int(stock),
                 "city": city,
+                "merchant_id": merchant["merchant_id"],
+                "merchant_name": merchant["merchant_name"],
                 "image_url": image_url,
                 "description": description,
                 "tags": json.dumps(tags_list),
@@ -292,5 +348,9 @@ def generate_10k_products() -> List[Dict[str, Any]]:
                 "is_active": True,
             })
             curr_id += 1
+
+    # Guarantee unique sequential IDs from 1 to N
+    for idx, p in enumerate(products):
+        p["id"] = idx + 1
 
     return products

@@ -66,12 +66,18 @@ def audit_logger_node(state: AgentState) -> AgentState:
             payment_status = "DECLINE_RESOLVED"
 
         cart_snapshot = state.get("cart_snapshot") or {}
+        extracted = state.get("extracted_filters") or {}
+        #: Underscore-prefixed keys are internal, and most are noise in the
+        #: ledger -- except these two.  `_pattern` names the grammar rule that
+        #: fired, and `_checkout_downgraded` records that the agent refused to
+        #: start a payment the LLM had proposed.  Both are the reasoning behind a
+        #: money decision, which is the whole point of the row.  `_command` holds
+        #: a dataclass and is dropped so the row stays JSON-serialisable.
+        _KEEP_INTERNAL = ("_pattern", "_checkout_downgraded")
         metadata = {
             "extracted_filters": {
-                # `_command` holds a dataclass; keep the readable pattern name and
-                # drop the object so the ledger row stays JSON-serialisable.
-                k: v for k, v in (state.get("extracted_filters") or {}).items()
-                if not k.startswith("_") or k == "_pattern"
+                k: v for k, v in extracted.items()
+                if not k.startswith("_") or k in _KEEP_INTERNAL
             },
             "suggested_actions": state.get("suggested_actions", []),
             "products_count": len(state.get("products", [])),

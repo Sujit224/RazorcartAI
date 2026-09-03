@@ -292,6 +292,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [showOnboard, setShowOnboard] = useState(false);
   const [selectedMerchant, setSelectedMerchant] = useState(null);
+  const [merchantSearch, setMerchantSearch] = useState('');
 
   useEffect(() => {
     if (!user?.role || user.role !== 'admin') navigate('/admin/login');
@@ -456,24 +457,35 @@ export default function AdminDashboard() {
 
         {/* Merchants Table */}
         <div className="bg-white border border-[#e2e8f0] rounded-2xl shadow-sm overflow-hidden">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between px-6 py-4 border-b border-[#e2e8f0] gap-2 bg-white">
+          <div className="flex flex-col md:flex-row md:items-center justify-between px-6 py-4 border-b border-[#e2e8f0] gap-4 bg-white">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-700">
                 <Users className="w-4 h-4" />
               </div>
-              <h2 className="font-extrabold text-[#0c2340] text-base">Onboarded Merchants</h2>
-              <span className="text-xs bg-emerald-50 text-emerald-700 px-2.5 py-0.5 rounded-full font-bold border border-emerald-200">
-                {merchants.length} merchants
-              </span>
+              <div>
+                <h2 className="font-extrabold text-[#0c2340] text-base">Onboarded Merchants ({merchants.length})</h2>
+                <p className="text-[11px] text-[#5c6f84]">Live platform settlement, recovery rate & AI attribution</p>
+              </div>
             </div>
-            <p className="text-xs text-[#5c6f84] font-semibold">Click a row for drill-down audit →</p>
+
+            {/* Search across 50+ merchants */}
+            <div className="flex items-center gap-3">
+              <input
+                type="text"
+                placeholder="Search merchant, city, brand..."
+                value={merchantSearch}
+                onChange={(e) => setMerchantSearch(e.target.value)}
+                className="px-3.5 py-1.5 bg-[#f8fafc] border border-[#e2e8f0] rounded-xl text-xs text-[#0c2340] placeholder-[#5c6f84] focus:bg-white focus:border-emerald-600 focus:outline-none w-64 transition-all"
+              />
+              <span className="text-xs text-[#5c6f84] font-semibold hidden lg:inline">Click row for drill-down →</span>
+            </div>
           </div>
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto max-h-[600px] overflow-y-auto">
             <table className="w-full text-sm text-left">
-              <thead>
-                <tr className="bg-[#f9fafb] text-[11px] font-extrabold text-[#5c6f84] uppercase tracking-wider border-b border-[#e2e8f0]">
+              <thead className="sticky top-0 bg-[#f9fafb] z-10">
+                <tr className="text-[11px] font-extrabold text-[#5c6f84] uppercase tracking-wider border-b border-[#e2e8f0]">
                   <th className="px-5 py-3.5">Merchant</th>
-                  <th className="px-5 py-3.5">City</th>
+                  <th className="px-5 py-3.5">Hub / City</th>
                   <th className="px-5 py-3.5 text-right">Revenue</th>
                   <th className="px-5 py-3.5 text-right">AI Profit</th>
                   <th className="px-5 py-3.5 text-center">Transactions</th>
@@ -481,7 +493,18 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#e2e8f0]">
-                {merchants.map((m) => (
+                {merchants
+                  .filter((m) => {
+                    if (!merchantSearch) return true;
+                    const q = merchantSearch.toLowerCase();
+                    return (
+                      m.merchant_name?.toLowerCase().includes(q) ||
+                      m.city?.toLowerCase().includes(q) ||
+                      m.email?.toLowerCase().includes(q) ||
+                      m.merchant_id?.toLowerCase().includes(q)
+                    );
+                  })
+                  .map((m) => (
                   <tr
                     key={m.merchant_id}
                     onClick={() => setSelectedMerchant(m)}

@@ -134,9 +134,15 @@ _ADD_BARE = re.compile(r"^\s*(?:add|buy)\b", re.I)
 _VIEW_CART = re.compile(
     r"\b(?:show|view|see|open|display|what(?:'s|\s+is)?\s+in|check|list|whats)\b[^.]*?\b%s\b"
     r"|^\s*(?:my\s+)?%s\s*\??\s*$" % (_CART_NOUN, _CART_NOUN), re.I)
+# Viewing order history needs an actual viewing verb, or the bare noun phrase on
+# its own.  A standalone "my"/"past"/"recent" used to qualify, which made every
+# sentence containing "my ... order" a history request -- "place my order",
+# "cancel my order", "where is my order" all mean something else, and the first
+# of those means *pay*, so misreading it swallows a checkout.
 _VIEW_ORDERS = re.compile(
-    r"\b(?:show|view|see|open|display|what(?:'s|\s+are)?|check|list|whats|my|past|previous|recent)\b"
-    r"[^.]*?\b%s\b" % _ORDER_NOUN, re.I)
+    r"\b(?:show|view|see|open|display|check|list|what(?:'s|\s+are)?|whats)\b[^.]*?\b%s\b"
+    r"|^\s*(?:my\s+|all\s+)?(?:past\s+|previous\s+|recent\s+|last\s+)?%s\s*\??\s*$"
+    % (_ORDER_NOUN, _ORDER_NOUN), re.I)
 
 _OPEN_ITEM = re.compile(
     r"\b(?:open|show|view|see|display|details?\s+(?:of|for)|tell\s+me\s+(?:more\s+)?about"

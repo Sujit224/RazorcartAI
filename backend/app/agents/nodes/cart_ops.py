@@ -772,11 +772,7 @@ def _resolve_cart_then_product(message: str, session_id: str) -> Resolution:
 
 def cart_ops_node(state: AgentState) -> AgentState:
     """Execute one cart/order command against the conversation's focus frame."""
-    intent = state.get("intent", "")
-    session_id = state.get("session_id") or "default"
     user_id = state.get("user_id") or 1
-    message = state.get("user_message", "")
-    parsed: Optional[cmd.ParsedCommand] = (state.get("extracted_filters") or {}).get("_command")
 
     # Cart operations never move money themselves -- payment does.  Leaving these
     # at zero keeps the merchant revenue dashboards honest; the cart value goes
@@ -787,63 +783,81 @@ def cart_ops_node(state: AgentState) -> AgentState:
 
     db = SessionLocal()
     try:
-        if intent == cmd.VIEW_CART:
-            return _show_cart(state, db, user_id)
-        if intent == cmd.VIEW_ORDERS:
-            return _show_orders(state, db, user_id)
-        if intent == cmd.CONFIRM:
-            return _confirm(state, db, user_id)
-        if intent == cmd.DENY:
-            return _deny(state, db, user_id)
-        if intent == cmd.CART_CLEAR:
-            return _clear(state, db, user_id)
-
-        if intent == cmd.CART_ADD:
-            res = _resolve_for_add(message, session_id)
-            if not res.ok:
-                return _ask_which(state, res, "put anything in your bag")
-            if res.item.kind == KIND_ORDER:
-                return _reorder(state, db, user_id, res.item.ref_id, res.reason)
-            if res.item.kind == KIND_CART_ITEM:
-                # "add the 2nd one" with the bag on screen means one more of it.
-                return _update_qty(state, db, user_id, res, "delta", 1)
-            product = db.query(Product).filter(Product.id == res.item.ref_id).first()
-            if product is None:
-                return _ask_which(state, Resolution(reason="that product is no longer "
-                                                            "in the catalog"),
-                                  "put anything in your bag")
-            return _add_product(state, db, user_id, product, 1, res.reason)
-
-        if intent == cmd.CART_UPDATE_QTY:
-            res = _resolve_cart_then_product(message, session_id)
-            if not res.ok:
-                return _ask_which(state, res, "change a quantity")
-            mode = parsed.qty_mode if parsed else "delta"
-            value = parsed.qty_value if parsed and parsed.qty_value is not None else 1
-            return _update_qty(state, db, user_id, res, mode or "delta", value)
-
-        if intent == cmd.CART_REMOVE:
-            if wants_all(message):
-                return _clear(state, db, user_id)
-            res = _resolve_cart_then_product(message, session_id)
-            if not res.ok:
-                return _ask_which(state, res, "remove anything")
-            return _remove(state, db, user_id, res)
-
-        if intent == cmd.OPEN_ITEM:
-            from ..reference import resolve
-
-            res = resolve(message, session_id)
-            if not res.ok:
-                return _ask_which(state, res, "open anything")
-            return _open(state, db, user_id, res)
-
-        # Unreachable via graph routing; defensive so a new intent cannot 500.
-        state["reply"] = "I did not follow that. Could you rephrase?"
-        state["audit_reasoning"] = "cart_ops_node reached with unhandled intent %r." % intent
+        state = _dispatch(state, db, user_id)
+        # Record the resulting bag on *every* cart turn, including the ones that
+        # changed nothing.  A declined row whose cart value equals the previous
+        # row's is the proof that the refusal cost the user nothing; without it
+        # the ledger says "declined" and leaves the reader to take that on trust.
+        if state.get("cart_snapshot") is None:
+            state["cart_snapshot"] = cs.cart_summary(db, user_id)
         return state
     finally:
         db.close()
+
+
+def _dispatch(state: AgentState, db: Session, user_id: int) -> AgentState:
+    """Route one parsed command to its executor.  Separated from the node so the
+    node can attach the post-action cart snapshot to every outcome."""
+    intent = state.get("intent", "")
+    session_id = state.get("session_id") or "default"
+    message = state.get("user_message", "")
+    parsed: Optional[cmd.ParsedCommand] = (state.get("extracted_filters") or {}).get("_command")
+
+    if intent == cmd.VIEW_CART:
+        return _show_cart(state, db, user_id)
+    if intent == cmd.VIEW_ORDERS:
+        return _show_orders(state, db, user_id)
+    if intent == cmd.CONFIRM:
+        return _confirm(state, db, user_id)
+    if intent == cmd.DENY:
+        return _deny(state, db, user_id)
+    if intent == cmd.CART_CLEAR:
+        return _clear(state, db, user_id)
+
+    if intent == cmd.CART_ADD:
+        res = _resolve_for_add(message, session_id)
+        if not res.ok:
+            return _ask_which(state, res, "put anything in your bag")
+        if res.item.kind == KIND_ORDER:
+            return _reorder(state, db, user_id, res.item.ref_id, res.reason)
+        if res.item.kind == KIND_CART_ITEM:
+            # "add the 2nd one" with the bag on screen means one more of it.
+            return _update_qty(state, db, user_id, res, "delta", 1)
+        product = db.query(Product).filter(Product.id == res.item.ref_id).first()
+        if product is None:
+            return _ask_which(state, Resolution(reason="that product is no longer "
+                                                        "in the catalog"),
+                              "put anything in your bag")
+        return _add_product(state, db, user_id, product, 1, res.reason)
+
+    if intent == cmd.CART_UPDATE_QTY:
+        res = _resolve_cart_then_product(message, session_id)
+        if not res.ok:
+            return _ask_which(state, res, "change a quantity")
+        mode = parsed.qty_mode if parsed else "delta"
+        value = parsed.qty_value if parsed and parsed.qty_value is not None else 1
+        return _update_qty(state, db, user_id, res, mode or "delta", value)
+
+    if intent == cmd.CART_REMOVE:
+        if wants_all(message):
+            return _clear(state, db, user_id)
+        res = _resolve_cart_then_product(message, session_id)
+        if not res.ok:
+            return _ask_which(state, res, "remove anything")
+        return _remove(state, db, user_id, res)
+
+    if intent == cmd.OPEN_ITEM:
+        from ..reference import resolve
+
+        res = resolve(message, session_id)
+        if not res.ok:
+            return _ask_which(state, res, "open anything")
+        return _open(state, db, user_id, res)
+
+    # Unreachable via graph routing; defensive so a new intent cannot 500.
+    state["reply"] = "I did not follow that. Could you rephrase?"
+    state["audit_reasoning"] = "cart_ops_node reached with unhandled intent %r." % intent
+    return state
 
 
 def _resolve_for_add(message: str, session_id: str) -> Resolution:

@@ -1,11 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, Send, Bot, Sparkles, Star, ShoppingBag, CreditCard, ShieldAlert, ArrowRight, CheckCircle2, Zap, Maximize2, Minimize2, ExternalLink, MapPin, ArrowUpRight } from 'lucide-react';
+import { X, Send, Bot, Sparkles, Star, ShoppingBag, CreditCard, ShieldAlert, ArrowRight, CheckCircle2, Zap, Maximize2, Minimize2, ExternalLink, MapPin, ArrowUpRight, Minus, Plus, Trash2, PackageCheck, Info, Lock } from 'lucide-react';
 import { useAgent } from '../context/AgentContext';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
 import { MarkdownMessage } from './MarkdownMessage';
+
+const rupees = (n) => `Rs. ${Math.round(n || 0).toLocaleString()}`;
 
 export const AgentCopilotModal = () => {
   const navigate = useNavigate();
@@ -15,12 +17,13 @@ export const AgentCopilotModal = () => {
     messages,
     loading,
     sendMessage,
+    respondToGate,
     triggerDirectCheckout,
     setIsAuditModalOpen
   } = useAgent();
-  const { addToCart } = useCart();
+  const { addToCart, updateQuantity, removeFromCart } = useCart();
   const { currentUser } = useAuth();
-  
+
   const [inputText, setInputText] = useState('');
   const [isFullScreen, setIsFullScreen] = useState(false);
   const messagesEndRef = useRef(null);
@@ -30,6 +33,11 @@ export const AgentCopilotModal = () => {
   }, [messages, loading]);
 
   if (!isAgentOpen) return null;
+
+  // Only the newest message's gate is live. An older bubble's buttons would post
+  // a "yes" against whatever is pending *now*, which is a different action than
+  // the one the user is looking at.
+  const lastIdx = messages.length - 1;
 
   const handleSend = (e) => {
     e.preventDefault();
@@ -129,6 +137,17 @@ export const AgentCopilotModal = () => {
                 {/* Render Text / Markdown formatted message */}
                 <MarkdownMessage content={msg.text} isUser={msg.sender === 'user'} />
 
+                {/* Why the agent thought "the 2nd one" meant what it acted on.
+                    Shown, not merely logged: a misresolved reference is cheap to
+                    correct here and expensive to correct after it has been paid
+                    for. */}
+                {msg.reference_reason && (
+                  <div className="mt-2.5 flex items-start gap-1.5 text-[11px] text-[#5c6f84] font-medium bg-white border border-[#e2e8f0] px-2.5 py-2 rounded-lg">
+                    <Info className="w-3.5 h-3.5 text-[#0066cc] shrink-0 mt-px" />
+                    <span>Resolved as: {msg.reference_reason}</span>
+                  </div>
+                )}
+
                 {/* Embedded Products Carousel in Chat */}
                 {msg.products && msg.products.length > 0 && (
                   <div className="mt-3 pt-3 border-t border-[#e2e8f0] space-y-2.5">
@@ -205,6 +224,180 @@ export const AgentCopilotModal = () => {
                         </div>
                       ))}
                     </div>
+                  </div>
+                )}
+
+                {/* Bag lines, numbered to match the ordinals the agent just used.
+                    Rendered only when the turn was actually about the bag --
+                    every cart turn carries a snapshot for the badge, and drawing
+                    the whole bag under an unrelated reply would be noise. */}
+                {msg.cart_snapshot?.items?.length > 0 &&
+                 ['view_cart', 'cart_add', 'cart_update_qty', 'cart_remove',
+                  'cart_clear', 'confirm', 'deny'].includes(msg.intent) && (
+                  <div className="mt-3 pt-3 border-t border-[#e2e8f0] space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[11px] font-extrabold text-[#5c6f84] uppercase tracking-wider">Your Bag</p>
+                      <span className="text-[11px] font-bold text-[#0c2340]">
+                        {msg.cart_snapshot.line_count} item{msg.cart_snapshot.line_count === 1 ? '' : 's'}
+                        {msg.cart_snapshot.item_count !== msg.cart_snapshot.line_count &&
+                          ` • ${msg.cart_snapshot.item_count} units`}
+                      </span>
+                    </div>
+                    <div className="space-y-2">
+                      {msg.cart_snapshot.items.slice(0, 8).map((row, rIdx) => (
+                        <div
+                          key={row.item_id}
+                          className="bg-white border border-[#e2e8f0] p-2.5 rounded-xl flex items-center gap-2.5"
+                        >
+                          <span className="w-5 h-5 shrink-0 rounded-md bg-[#f0f7ff] text-[#0066cc] text-[10px] font-black flex items-center justify-center">
+                            {rIdx + 1}
+                          </span>
+                          <img
+                            src={row.image_url}
+                            alt={row.title}
+                            onClick={() => handleViewProduct(row.product_id)}
+                            className="w-10 h-12 object-cover rounded-lg bg-slate-50 shrink-0 cursor-pointer"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <div
+                              onClick={() => handleViewProduct(row.product_id)}
+                              className="font-extrabold text-xs text-[#0c2340] hover:text-[#0066cc] truncate cursor-pointer transition-colors"
+                            >
+                              {row.brand} {row.title}
+                            </div>
+                            <div className="text-[11px] text-[#5c6f84] font-semibold">
+                              {rupees(row.price)} × {row.quantity} = <strong className="text-[#0c2340]">{rupees(row.line_total)}</strong>
+                              {row.size && ` • ${row.size}`}
+                            </div>
+                          </div>
+                          {/* Only the newest bubble's controls are live: an older
+                              snapshot's item_id may already be gone from the bag. */}
+                          {idx === lastIdx && (
+                            <div className="flex items-center gap-1 shrink-0">
+                              <button
+                                type="button"
+                                onClick={() => updateQuantity(row.item_id, row.quantity - 1)}
+                                className="p-1.5 border border-[#e2e8f0] rounded-lg text-[#5c6f84] hover:border-[#0066cc] hover:text-[#0066cc] transition-colors cursor-pointer"
+                                title={row.quantity === 1 ? "Remove from bag" : "One fewer"}
+                              >
+                                <Minus className="w-3 h-3" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => updateQuantity(row.item_id, row.quantity + 1)}
+                                className="p-1.5 border border-[#e2e8f0] rounded-lg text-[#5c6f84] hover:border-[#0066cc] hover:text-[#0066cc] transition-colors cursor-pointer"
+                                title="One more"
+                              >
+                                <Plus className="w-3 h-3" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => removeFromCart(row.item_id)}
+                                className="p-1.5 border border-[#e2e8f0] rounded-lg text-[#5c6f84] hover:border-rose-400 hover:text-rose-600 transition-colors cursor-pointer"
+                                title="Remove from bag"
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between text-xs font-bold text-[#0c2340] pt-1">
+                      <span className="text-[#5c6f84]">
+                        Subtotal {rupees(msg.cart_snapshot.subtotal)}
+                        {msg.cart_snapshot.shipping_fee > 0
+                          ? ` + ${rupees(msg.cart_snapshot.shipping_fee)} shipping`
+                          : ' • free shipping'}
+                      </span>
+                      <span className="font-black">{rupees(msg.cart_snapshot.total)}</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Past orders, numbered so "put the 2nd one in cart again" has
+                    something visible to count against. */}
+                {msg.orders_snapshot?.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-[#e2e8f0] space-y-2.5">
+                    <p className="text-[11px] font-extrabold text-[#5c6f84] uppercase tracking-wider">Your Orders</p>
+                    <div className="space-y-2">
+                      {msg.orders_snapshot.map((o, oIdx) => (
+                        <div key={o.order_id} className="bg-white border border-[#e2e8f0] p-3 rounded-xl">
+                          <div className="flex items-center gap-2.5">
+                            <span className="w-5 h-5 shrink-0 rounded-md bg-[#f0f7ff] text-[#0066cc] text-[10px] font-black flex items-center justify-center">
+                              {oIdx + 1}
+                            </span>
+                            <div className="flex-1 min-w-0">
+                              <div className="font-extrabold text-xs text-[#0c2340]">
+                                Order #{o.order_id}
+                                <span className="ml-2 text-[10px] font-bold uppercase tracking-wider text-[#5c6f84]">{o.status}</span>
+                              </div>
+                              <div className="text-[11px] text-[#5c6f84] font-semibold truncate">
+                                {o.items?.map(it => `${it.brand} ${it.title}`.trim()).join(', ') || 'no items'}
+                              </div>
+                            </div>
+                            <div className="text-xs font-black text-[#0c2340] shrink-0">{rupees(o.total_amount)}</div>
+                          </div>
+                          {idx === lastIdx && (
+                            <button
+                              type="button"
+                              onClick={() => sendMessage(`Put order #${o.order_id} in my cart again`)}
+                              className="mt-2 w-full py-1.5 border border-[#e2e8f0] hover:border-[#0066cc] hover:text-[#0066cc] text-[#5c6f84] text-[11px] font-bold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                            >
+                              <PackageCheck className="w-3.5 h-3.5" />
+                              <span>Reorder this</span>
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* The gate. This is what makes a money action *gated* rather
+                    than merely logged: the agent has computed the change and is
+                    holding it, unexecuted, until the user says yes. */}
+                {msg.pending_confirmation && (
+                  <div className="mt-3 bg-amber-50 border border-amber-300 p-3.5 rounded-xl">
+                    <div className="flex items-center gap-1.5 text-xs font-extrabold text-amber-900 mb-1">
+                      <Lock className="w-4 h-4 text-amber-600" />
+                      <span>Waiting for your approval</span>
+                    </div>
+                    <p className="text-xs text-amber-900 font-semibold mb-1">
+                      {msg.pending_confirmation.prompt}
+                    </p>
+                    {msg.pending_confirmation.amount > 0 && (
+                      <p className="text-[11px] text-amber-800 font-medium mb-2.5">
+                        {msg.pending_confirmation.action === 'clear_cart'
+                          ? `Nothing has been removed yet — ${rupees(msg.pending_confirmation.amount)} is still in your bag.`
+                          : `Nothing has been added yet — this would put ${rupees(msg.pending_confirmation.amount)} in your bag.`}
+                      </p>
+                    )}
+                    {idx === lastIdx ? (
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => respondToGate(true)}
+                          disabled={loading}
+                          className="flex-1 py-2 bg-amber-600 hover:bg-amber-700 disabled:opacity-40 text-white font-extrabold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                        >
+                          <CheckCircle2 className="w-3.5 h-3.5" />
+                          <span>Yes, go ahead</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => respondToGate(false)}
+                          disabled={loading}
+                          className="flex-1 py-2 bg-white border border-amber-300 hover:bg-amber-100 disabled:opacity-40 text-amber-900 font-extrabold text-xs rounded-xl transition-colors cursor-pointer"
+                        >
+                          No, cancel
+                        </button>
+                      </div>
+                    ) : (
+                      <p className="text-[11px] text-amber-700 font-bold italic">
+                        This approval request is no longer active.
+                      </p>
+                    )}
                   </div>
                 )}
 

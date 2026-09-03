@@ -258,8 +258,25 @@ export default function ProductDetailPage() {
                 </button>
               </div>
 
+              {/* Seller & Dispatch Info */}
+              <div className="mt-4 p-3 bg-[#f0f7ff] rounded-xl border border-blue-100 flex items-center justify-between text-xs">
+                <div className="flex items-center gap-2">
+                  <div className="w-7 h-7 rounded-lg bg-[#0066cc] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                    🏪
+                  </div>
+                  <div>
+                    <span className="text-gray-500 text-[11px] block">Sold & Dispatched by:</span>
+                    <strong className="text-[#0c2340] font-extrabold">{product.merchant_name || 'RazorCart Official Store'}</strong>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1 text-[#00b386] font-bold text-xs bg-emerald-50 px-2 py-1 rounded-md border border-emerald-200">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#00b386]" />
+                  <span>Verified Merchant • 📍 {product.city || 'Bengaluru'}</span>
+                </div>
+              </div>
+
               {/* Shipping & Delivery Info */}
-              <div className="mt-8 p-4 bg-gray-50 rounded-2xl border border-gray-200/80 space-y-3 text-xs">
+              <div className="mt-6 p-4 bg-gray-50 rounded-2xl border border-gray-200/80 space-y-3 text-xs">
                 <div className="flex items-center gap-3 text-gray-700 font-medium">
                   <Truck className="w-4 h-4 text-[#0066cc]" />
                   <span>Get it delivered in <strong>2-3 Business Days</strong></span>
@@ -272,12 +289,12 @@ export default function ProductDetailPage() {
 
               {/* Product Specifications & Description */}
               <div className="mt-8 pt-6 border-t border-gray-200">
-                <h3 className="text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-2">
-                  Product Details & Features
+                <h3 className="text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-3">
+                  Product Details & Specifications
                 </h3>
-                <p className="text-xs text-gray-600 leading-relaxed font-normal">
+                <div className="text-xs text-gray-700 leading-relaxed font-normal whitespace-pre-line bg-[#f8fafc] p-4 rounded-xl border border-slate-200">
                   {product.description || 'Engineered with premium materials for maximum comfort and durability.'}
-                </p>
+                </div>
               </div>
 
               {/* Frequently Bought Together (FBT) Rail */}

@@ -155,16 +155,32 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
             </div>
           </div>
 
+          {/* Seller & Hub Badge */}
+          <div className="mt-4 p-2.5 bg-[#f0f7ff] rounded-xl border border-blue-100 flex items-center justify-between text-xs">
+            <div className="flex items-center gap-2">
+              <span className="text-base">🏪</span>
+              <div>
+                <span className="text-gray-500 text-[10px] block">Sold by:</span>
+                <strong className="text-[#0c2340] font-bold text-xs">{product.merchant_name || 'RazorCart Official Store'}</strong>
+              </div>
+            </div>
+            <span className="text-[11px] font-bold text-[#00b386] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+              Verified • 📍 {product.city || 'Bengaluru'}
+            </span>
+          </div>
+
           {/* Description */}
           {product.description && (
-            <div className="mt-5 pt-4 border-t border-gray-100">
-              <h3 className="text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-1.5">Product Description</h3>
-              <p className="text-xs text-gray-600 leading-relaxed font-normal">{product.description}</p>
+            <div className="mt-4 pt-4 border-t border-gray-100">
+              <h3 className="text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-2">Product Specifications</h3>
+              <div className="text-xs text-gray-700 leading-relaxed font-normal whitespace-pre-line bg-[#f8fafc] p-3 rounded-xl border border-slate-200 max-h-48 overflow-y-auto">
+                {product.description}
+              </div>
             </div>
           )}
 
           {/* Delivery & Seller Stats */}
-          <div className="mt-5 p-3.5 bg-gray-50 rounded-xl border border-gray-200/80 space-y-2 text-xs">
+          <div className="mt-4 p-3 bg-gray-50 rounded-xl border border-gray-200/80 space-y-1.5 text-xs">
             <div className="flex items-center gap-2 text-gray-700 font-medium">
               <Truck className="w-4 h-4 text-[#0066cc]" />
               <span>Standard Express Shipping: 2-3 Days</span>

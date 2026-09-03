@@ -20,6 +20,8 @@ class Product(Base):
     review_count = Column(Integer, default=50)                   # e.g. 275
     stock = Column(Integer, default=20)
     city = Column(String(100), nullable=False, default="Bengaluru")  # Seller city for fast dispatch
+    merchant_id = Column(String(50), nullable=True, index=True, default="merch_001")
+    merchant_name = Column(String(150), nullable=True, default="RazorCart Official Store")
     image_url = Column(String(500), nullable=False)
     description = Column(Text, nullable=True)
     tags = Column(Text, default="[]")                            # JSON array of search tags
