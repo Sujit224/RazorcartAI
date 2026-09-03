@@ -158,7 +158,7 @@ export const AgentCopilotModal = () => {
                       <span className="text-[10px] text-[#0066cc] font-bold">Say "Compare 1st and 3rd"</span>
                     </div>
 
-                    <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
+                    <div className="space-y-2.5 max-h-[460px] overflow-y-auto pr-1">
                       {msg.products.map((p, pIdx) => {
                         const meta = p.product_meta || {};
                         const proc = meta.processor || '';
@@ -167,30 +167,36 @@ export const AgentCopilotModal = () => {
                           <div
                             key={p.id || pIdx}
                             onClick={() => handleViewProduct(p.id)}
-                            className="bg-white border border-[#e2e8f0] p-3 rounded-xl flex items-center justify-between gap-3 hover:border-[#0066cc] hover:shadow-sm transition-all cursor-pointer group"
+                            className="bg-white border border-[#e2e8f0] p-3 rounded-2xl flex items-center justify-between gap-3.5 hover:border-[#0066cc] hover:shadow-md transition-all cursor-pointer group"
                           >
-                            <div className="relative shrink-0">
-                              <img src={p.image_url} alt={p.title} className="w-13 h-15 object-cover rounded-lg bg-slate-50 group-hover:scale-105 transition-transform" />
-                              <span className="absolute -top-1.5 -left-1.5 bg-[#0c2340] text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-xs">
+                            {/* Fixed Thumbnail Image Container */}
+                            <div className="relative w-16 h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
+                              <img
+                                src={p.image_url}
+                                alt={p.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                              />
+                              <span className="absolute top-1 left-1 bg-[#0c2340]/90 backdrop-blur-xs text-white text-[10px] font-black w-5 h-5 rounded-md flex items-center justify-center shadow-xs">
                                 {pIdx + 1}
                               </span>
                             </div>
 
+                            {/* Details Container */}
                             <div className="flex-1 min-w-0">
-                              <div className="font-extrabold text-xs text-[#0c2340] group-hover:text-[#0066cc] transition-colors truncate">
+                              <div className="font-extrabold text-xs text-[#0c2340] group-hover:text-[#0066cc] transition-colors line-clamp-1">
                                 {p.brand} {p.title}
                               </div>
 
-                              {/* Specs Pill Chips if available */}
+                              {/* Specs Pill Chips */}
                               {(proc || ram) && (
                                 <div className="flex flex-wrap gap-1 mt-1">
                                   {proc && (
-                                    <span className="text-[9px] font-bold bg-[#f0f7ff] text-[#0066cc] px-1.5 py-0.2 rounded border border-blue-100 truncate max-w-[170px]">
+                                    <span className="text-[9px] font-bold bg-[#f0f7ff] text-[#0066cc] px-1.5 py-0.5 rounded-md border border-blue-100 truncate max-w-[170px]">
                                       ⚡ {proc}
                                     </span>
                                   )}
                                   {ram && (
-                                    <span className="text-[9px] font-bold bg-emerald-50 text-emerald-700 px-1.5 py-0.2 rounded border border-emerald-200">
+                                    <span className="text-[9px] font-bold bg-emerald-50 text-emerald-700 px-1.5 py-0.5 rounded-md border border-emerald-200">
                                       💾 {ram}
                                     </span>
                                   )}
@@ -205,6 +211,7 @@ export const AgentCopilotModal = () => {
                               <div className="text-xs font-black text-[#0c2340] mt-0.5">Rs. {Math.round(p.price).toLocaleString()}</div>
                             </div>
 
+                            {/* Action Button */}
                             <div className="flex items-center gap-1.5 shrink-0">
                               <button
                                 type="button"
@@ -212,7 +219,7 @@ export const AgentCopilotModal = () => {
                                   e.stopPropagation();
                                   addToCart(p.id, 1, "Standard");
                                 }}
-                                className="p-2.5 bg-[#0066cc] hover:bg-[#0052a3] text-white rounded-xl text-xs font-bold shadow-sm transition-colors cursor-pointer"
+                                className="p-2.5 bg-[#0066cc] hover:bg-[#0052a3] text-white rounded-xl text-xs font-bold shadow-xs hover:scale-105 transition-all cursor-pointer"
                                 title="Add to Bag"
                               >
                                 <ShoppingBag className="w-4 h-4" />
