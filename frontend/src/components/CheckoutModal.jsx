@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
 
-export const CheckoutModal = () => {
+export const CheckoutModal = ({ isOpen, onClose }) => {
   const {
     isCheckoutModalOpen,
     setIsCheckoutModalOpen,
@@ -19,31 +19,114 @@ export const CheckoutModal = () => {
   const [upiData, setUpiData] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  if (!isCheckoutModalOpen) return null;
+  const shouldShow = isOpen !== undefined ? isOpen : isCheckoutModalOpen;
+  const handleClose = () => {
+    if (onClose) onClose();
+    setIsCheckoutModalOpen(false);
+  };
+
+  if (!shouldShow) return null;
 
   const totalAmount = activeCheckoutData?.amount || cart.total || 3596.0;
 
-  const handlePaySuccess = async () => {
+  const handlePayWithRazorpay = async () => {
     setLoading(true);
-    setPaymentStep('processing');
 
-    setTimeout(async () => {
-      try {
-        await api.confirmPaymentSuccess({
-          user_id: currentUser?.id || 1,
-          amount: totalAmount,
-          order_id: activeCheckoutData?.order_id,
-          payment_id: `pay_test_${Math.random().toString(36).substring(2, 10)}`
+    try {
+      // 1. Create order on backend with Razorpay Test SDK
+      const res = await api.createPaymentOrder({
+        user_id: currentUser?.id || 1,
+        amount: totalAmount,
+        items: cart.items || [],
+        simulate_timeout: false
+      });
+
+      const orderData = res.data;
+      const razorpayOrderId = orderData?.razorpay_order?.id;
+      const keyId = orderData?.key_id;
+      const localOrderId = orderData?.order_id;
+
+      // 2. If Razorpay checkout.js script is loaded on window, open the official Razorpay Checkout popup
+      if (window.Razorpay && keyId && razorpayOrderId) {
+        const options = {
+          key: keyId,
+          amount: Math.round(totalAmount * 100),
+          currency: 'INR',
+          name: 'RazorCartAI Store',
+          description: `Payment for ${cart.items?.length || 1} item(s)`,
+          image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=120&h=120&q=80',
+          order_id: razorpayOrderId,
+          handler: async function (response) {
+            setPaymentStep('processing');
+            try {
+              await api.confirmPaymentSuccess({
+                user_id: currentUser?.id || 1,
+                amount: totalAmount,
+                order_id: localOrderId,
+                payment_id: response.razorpay_payment_id || `pay_${Math.random().toString(36).substring(2, 10)}`,
+                razorpay_order_id: response.razorpay_order_id || razorpayOrderId,
+                razorpay_signature: response.razorpay_signature || ''
+              });
+              setPaymentStep('success');
+              clearCart();
+            } catch (err) {
+              console.error("Payment confirmation error:", err);
+              setPaymentStep('success');
+              clearCart();
+            } finally {
+              setLoading(false);
+            }
+          },
+          prefill: {
+            name: currentUser?.name || 'Priya Sharma',
+            email: currentUser?.email || 'priya@razorcart.ai',
+            contact: '9999999999'
+          },
+          theme: {
+            color: '#FF3F6C'
+          },
+          modal: {
+            ondismiss: function () {
+              setLoading(false);
+              setPaymentStep('gateway');
+            }
+          }
+        };
+
+        const rzp = new window.Razorpay(options);
+        rzp.on('payment.failed', function (response) {
+          console.warn("Razorpay payment failed:", response.error);
+          alert(`Payment Failed: ${response.error?.description || 'Transaction was declined'}`);
+          setLoading(false);
+          setPaymentStep('gateway');
         });
-        setPaymentStep('success');
-        clearCart();
-      } catch (err) {
-        console.error("Payment confirmation error:", err);
-        setPaymentStep('success');
-      } finally {
-        setLoading(false);
+        rzp.open();
+      } else {
+        // Fallback simulation if checkout.js is unavailable
+        setPaymentStep('processing');
+        setTimeout(async () => {
+          try {
+            await api.confirmPaymentSuccess({
+              user_id: currentUser?.id || 1,
+              amount: totalAmount,
+              order_id: localOrderId || activeCheckoutData?.order_id,
+              payment_id: `pay_test_${Math.random().toString(36).substring(2, 10)}`
+            });
+            setPaymentStep('success');
+            clearCart();
+          } catch (err) {
+            console.error("Payment confirmation error:", err);
+            setPaymentStep('success');
+          } finally {
+            setLoading(false);
+          }
+        }, 1200);
       }
-    }, 1200);
+    } catch (err) {
+      console.error("Error initiating payment order:", err);
+      alert("Failed to initialize Razorpay payment order. Please check backend connection.");
+      setLoading(false);
+    }
   };
 
   const handleSimulateTimeout = async () => {
@@ -54,7 +137,7 @@ export const CheckoutModal = () => {
       const res = await api.createPaymentOrder({
         user_id: currentUser?.id || 1,
         amount: totalAmount,
-        items: cart.items,
+        items: cart.items || [],
         simulate_timeout: true
       });
       setUpiData(res.data.fallback);
@@ -98,7 +181,7 @@ export const CheckoutModal = () => {
               <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
                 <div className="flex justify-between items-center text-xs text-gray-600 mb-1">
                   <span>Merchant:</span>
-                  <span className="font-bold text-gray-800">RazorCartAI Official Store</span>
+                  <span className="font-bold text-gray-800">RazorCart Official Store</span>
                 </div>
                 <div className="flex justify-between items-center text-xs text-gray-600 mb-2">
                   <span>Customer:</span>
@@ -115,37 +198,37 @@ export const CheckoutModal = () => {
               {/* Payment Methods */}
               <div className="space-y-2">
                 <p className="text-xs font-extrabold text-gray-500 uppercase tracking-wider">Select Payment Method</p>
-                <div className="p-3 border-2 border-emerald-500 bg-emerald-50/40 rounded-xl flex items-center justify-between cursor-pointer">
+                <div className="p-3 border-2 border-[#ff3f6c] bg-pink-50/30 rounded-xl flex items-center justify-between cursor-pointer">
                   <div className="flex items-center gap-3">
-                    <CreditCard className="w-5 h-5 text-emerald-600" />
+                    <CreditCard className="w-5 h-5 text-[#ff3f6c]" />
                     <div>
-                      <p className="text-xs font-extrabold text-gray-900">Razorpay Direct Test Card / UPI</p>
-                      <p className="text-[11px] text-gray-500">Auto-authorized sandbox simulation</p>
+                      <p className="text-xs font-extrabold text-gray-900">Razorpay Standard Checkout (Popup / UPI / Card)</p>
+                      <p className="text-[11px] text-gray-500">Live Test Sandbox with Cards, UPI, Netbanking</p>
                     </div>
                   </div>
-                  <span className="w-4 h-4 rounded-full border-4 border-emerald-600 bg-white"></span>
+                  <span className="w-4 h-4 rounded-full border-4 border-[#ff3f6c] bg-white"></span>
                 </div>
               </div>
 
               {/* Action Buttons */}
               <div className="space-y-2 pt-2">
                 <button
-                  onClick={handlePaySuccess}
+                  onClick={handlePayWithRazorpay}
                   disabled={loading}
-                  className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-xl shadow-md transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
+                  className="w-full py-3 bg-[#ff3f6c] hover:bg-[#e0355d] text-white font-extrabold text-sm rounded-xl shadow-md transition-colors uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer"
                 >
                   <ShieldCheck className="w-4 h-4" />
-                  <span>PAY RS. {Math.round(totalAmount).toLocaleString()}</span>
+                  <span>{loading ? "INITIALIZING RAZORPAY..." : `PAY RS. ${Math.round(totalAmount).toLocaleString()} WITH RAZORPAY`}</span>
                 </button>
 
-                {/* Hackathon Chaos Button */}
+                {/* Autonomous Chaos / Recovery Demo Button */}
                 <button
                   onClick={handleSimulateTimeout}
                   disabled={loading}
-                  className="w-full py-2 bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-bold text-xs rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                  className="w-full py-2 bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-bold text-xs rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <AlertTriangle className="w-3.5 h-3.5 text-amber-600" />
-                  <span>Simulate Gateway 504 Timeout (Trigger Agentic Recovery)</span>
+                  <span>Simulate Gateway 504 Timeout (Trigger Autonomous Recovery)</span>
                 </button>
               </div>
             </div>
@@ -154,8 +237,8 @@ export const CheckoutModal = () => {
           {paymentStep === 'processing' && (
             <div className="py-12 text-center space-y-4">
               <RefreshCw className="w-10 h-10 text-[#ff3f6c] animate-spin mx-auto" />
-              <p className="text-sm font-extrabold text-[#282c3f]">Contacting Razorpay Banking Switch...</p>
-              <p className="text-xs text-gray-500">Verifying customer rating token & test ledger entry...</p>
+              <p className="text-sm font-extrabold text-[#282c3f]">Connecting to Razorpay Banking Gateway...</p>
+              <p className="text-xs text-gray-500">Verifying authorization and recording to Immutable Ledger...</p>
             </div>
           )}
 
@@ -191,15 +274,31 @@ export const CheckoutModal = () => {
 
               <div className="space-y-2">
                 <button
-                  onClick={handlePaySuccess}
-                  className="w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs rounded-xl shadow transition-colors"
+                  onClick={async () => {
+                    setPaymentStep('processing');
+                    setTimeout(async () => {
+                      try {
+                        await api.confirmPaymentSuccess({
+                          user_id: currentUser?.id || 1,
+                          amount: totalAmount,
+                          order_id: activeCheckoutData?.order_id,
+                          payment_id: `pay_upi_${Math.random().toString(36).substring(2, 10)}`
+                        });
+                        setPaymentStep('success');
+                        clearCart();
+                      } catch (err) {
+                        setPaymentStep('success');
+                      }
+                    }, 1000);
+                  }}
+                  className="w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs rounded-xl shadow transition-colors cursor-pointer"
                 >
                   I Completed Payment on UPI (GPay / PhonePe / Paytm)
                 </button>
                 
                 <button
                   onClick={() => setIsAuditModalOpen(true)}
-                  className="w-full py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs rounded-xl"
+                  className="w-full py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold text-xs rounded-xl cursor-pointer"
                 >
                   View Recovery in Merchant Audit Ledger
                 </button>
@@ -225,19 +324,19 @@ export const CheckoutModal = () => {
               <div className="pt-3 flex gap-2 justify-center">
                 <button
                   onClick={() => {
-                    setIsCheckoutModalOpen(false);
+                    handleClose();
                     setPaymentStep('gateway');
                   }}
-                  className="px-5 py-2.5 bg-[#ff3f6c] hover:bg-[#e62e5b] text-white font-bold text-xs rounded-lg uppercase tracking-wider transition-colors"
+                  className="px-5 py-2.5 bg-[#ff3f6c] hover:bg-[#e62e5b] text-white font-bold text-xs rounded-lg uppercase tracking-wider transition-colors cursor-pointer"
                 >
                   Continue Shopping
                 </button>
                 <button
                   onClick={() => {
-                    setIsCheckoutModalOpen(false);
+                    handleClose();
                     setIsAuditModalOpen(true);
                   }}
-                  className="px-4 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 font-bold text-xs rounded-lg transition-colors"
+                  className="px-4 py-2.5 bg-emerald-50 border border-emerald-300 text-emerald-800 font-bold text-xs rounded-lg transition-colors cursor-pointer"
                 >
                   Inspect Audit Ledger
                 </button>
