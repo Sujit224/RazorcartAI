@@ -301,6 +301,7 @@ def generate_10k_products() -> List[Dict[str, Any]]:
                 "title": title,
                 "brand": brand,
                 "category": cat,
+                "department": dept,
                 "gender": gender,
                 "color": color,
                 "price": float(price),

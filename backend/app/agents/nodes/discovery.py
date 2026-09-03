@@ -216,18 +216,30 @@ def discovery_node(state: AgentState) -> AgentState:
         if brand:
             q = q.filter(Product.brand.ilike(f"%{brand}%"))
 
-        # Dynamic Category / Department Filter (checks category, tags, and title)
-        category = filters.get("category")
-        if category:
-            cat_clean = category.strip().lower()
-            cat_stem = cat_clean.rstrip('s') if len(cat_clean) > 3 else cat_clean
-            q = q.filter(
-                (Product.category.ilike(f"%{cat_clean}%")) |
-                (Product.category.ilike(f"%{cat_stem}%")) |
-                (Product.tags.ilike(f"%{cat_clean}%")) |
-                (Product.tags.ilike(f"%{cat_stem}%")) |
-                (Product.title.ilike(f"%{cat_stem}%"))
-            )
+        # Canonical Category & Department Filter (LLM + Regex Ontology Scoping)
+        from ...services.category_matcher import resolve_category_from_query
+        from sqlalchemy import or_
+
+        extracted_cat = filters.get("category")
+        canon_cat, canon_dept = resolve_category_from_query(raw_query, extracted_cat)
+
+        if canon_cat or canon_dept:
+            cat_conditions = []
+            if canon_cat:
+                cat_clean = canon_cat.strip().lower()
+                cat_stem = cat_clean.rstrip('s')
+                cat_conditions.extend([
+                    Product.category.ilike(f"%{cat_clean}%"),
+                    Product.category.ilike(f"%{cat_stem}%"),
+                    Product.tags.ilike(f"%{cat_clean}%"),
+                    Product.tags.ilike(f"%{cat_stem}%"),
+                ])
+            if canon_dept:
+                cat_conditions.extend([
+                    Product.department.ilike(f"%{canon_dept}%"),
+                ])
+            if cat_conditions:
+                q = q.filter(or_(*cat_conditions))
 
         # Dynamic Gender Filter
         gender = filters.get("gender")

@@ -10,8 +10,9 @@ class Product(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(255), nullable=False, index=True)
     brand = Column(String(100), nullable=False, index=True)
-    category = Column(String(100), nullable=False, index=True)  # Footwear, Topwear, Bottomwear, Dresses, Accessories, Ethnic, Sportswear
-    gender = Column(String(20), nullable=False, index=True)      # Men, Women, Unisex, Kids
+    category = Column(String(100), nullable=False, index=True)  # Smartphones, Footwear, Topwear, Bottomwear, Appliances, etc.
+    department = Column(String(100), nullable=True, index=True, default="Fashion") # Electronics, Fashion, Appliances, Home & Kitchen, Sports
+    gender = Column(String(20), nullable=False, default="Unisex", index=True)      # Men, Women, Unisex, Kids
     color = Column(String(50), nullable=True)
     price = Column(Float, nullable=False)                        # Selling price in INR
     original_price = Column(Float, nullable=False)               # MRP
