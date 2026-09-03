@@ -140,47 +140,19 @@ def _build_rich_description(title: str, brand: str, dept: str, cat: str, meta: D
     return desc
 
 
+from .phone_catalog import generate_5000_mobile_phones
+
 def generate_10k_products() -> List[Dict[str, Any]]:
     """
-    Produces exactly 10,000 products linked to 60+ merchants with rich descriptions:
-    - IDs 1..70 from SEED_PRODUCTS (legacy compatibility)
-    - IDs 71..10000 generated across all 12 departments and 95+ subcategories.
+    Produces exactly 10,000 products:
+    - 5,000 Flagship & Pro Mobile Phones across top brands (Samsung, Apple, Nokia, OnePlus, Google, Xiaomi, Asus ROG)
+    - 5,000 Lifestyle, Fashion, Appliances, and Electronics items.
     """
     products: List[Dict[str, Any]] = []
 
-    # 1. Add legacy 70 products with merchant links & enriched descriptions
-    for p in SEED_PRODUCTS:
-        city = p.get("city", "Bengaluru")
-        merchant = get_merchant_for_product(p["brand"], p["category"], city)
-        meta = p.get("metadata", {})
-        
-        rich_desc = p.get("description", "")
-        if not rich_desc or len(rich_desc) < 250:
-            rich_desc = _build_rich_description(p["title"], p["brand"], "Fashion" if p["category"] in ["Topwear", "Bottomwear", "Dresses"] else p["category"], p["category"], meta, merchant["merchant_name"])
-
-        products.append({
-            "id": p["id"],
-            "title": p["title"],
-            "brand": p["brand"],
-            "category": p["category"],
-            "gender": p["gender"],
-            "color": p["color"],
-            "price": float(p["price"]),
-            "original_price": float(p["original_price"]),
-            "discount_pct": int(p["discount_pct"]),
-            "rating": float(p["rating"]),
-            "review_count": int(p["review_count"]),
-            "stock": int(p["stock"]),
-            "city": city,
-            "merchant_id": merchant["merchant_id"],
-            "merchant_name": merchant["merchant_name"],
-            "image_url": p["image_url"],
-            "description": rich_desc,
-            "tags": json.dumps(p["tags"]) if isinstance(p["tags"], list) else p["tags"],
-            "fbt_product_ids": json.dumps(p["fbt_product_ids"]) if isinstance(p["fbt_product_ids"], list) else p["fbt_product_ids"],
-            "product_meta": json.dumps(meta),
-            "is_active": True,
-        })
+    # 1. Ingest 5,000 Flagship & Pro Mobile Phones
+    phone_products = generate_5000_mobile_phones()
+    products.extend(phone_products)
 
     # 2. Generate remaining (10000 - 70 = 9930) products
     target_count = 10000

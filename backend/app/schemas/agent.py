@@ -10,6 +10,8 @@ class AgentChatRequest(BaseModel):
     current_cart_ids: Optional[List[int]] = []
     simulation_flag: Optional[str] = None  # None, "SIMULATE_TIMEOUT", "SIMULATE_INSUFFICIENT_FUNDS"
     merchant_id: Optional[str] = None      # tags audit entries to the correct merchant
+    chat_history: Optional[List[Dict[str, Any]]] = []
+    previous_products: Optional[List[Dict[str, Any]]] = []
 
 class AgentChatResponse(BaseModel):
     reply: str

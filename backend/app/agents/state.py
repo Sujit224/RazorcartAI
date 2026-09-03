@@ -8,6 +8,8 @@ class AgentState(TypedDict):
     current_cart_ids: List[int]
     simulation_flag: Optional[str] # "SIMULATE_TIMEOUT", "SIMULATE_INSUFFICIENT_FUNDS", None
     merchant_id: Optional[str]      # used to tag all audit ledger entries to the correct merchant
+    chat_history: Optional[List[Dict[str, Any]]] # full conversation memory
+    previous_products: Optional[List[Dict[str, Any]]] # candidate items from previous turn for comparison / ordinal lookup
 
     # Extracted by Router Node
     intent: str # discovery, fbt_upsell, checkout, recovery_timeout, recovery_funds, general,

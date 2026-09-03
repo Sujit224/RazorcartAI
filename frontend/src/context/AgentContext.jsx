@@ -44,17 +44,23 @@ export const AgentProvider = ({ children }) => {
     setLoading(true);
 
     try {
-      const cartIds = cart.items.map(it => it.product_id);
+      const lastAgentMsg = [...messages].reverse().find(m => m.sender === 'agent' && m.products?.length > 0);
+      const prevProducts = lastAgentMsg ? lastAgentMsg.products : [];
+
+      const historyFormatted = messages.slice(-10).map(m => ({
+        role: m.sender === 'user' ? 'user' : 'assistant',
+        content: m.text
+      }));
+
       const res = await api.agentChat({
         message: messageText,
         user_id: currentUser?.id || 1,
         user_city: currentUser?.city || "Bengaluru",
-        // Stable per-user session id: the server keys the conversation's focus
-        // frame off this, so changing it between turns would make "the 2nd one"
-        // unresolvable.
         session_id: `sess_${currentUser?.id || 1}`,
         current_cart_ids: cartIds,
-        simulation_flag: simulationFlag
+        simulation_flag: simulationFlag,
+        chat_history: historyFormatted,
+        previous_products: prevProducts
       });
 
       const data = res.data;

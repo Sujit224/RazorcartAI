@@ -148,44 +148,79 @@ export const AgentCopilotModal = () => {
                   </div>
                 )}
 
-                {/* Embedded Products Carousel in Chat */}
+                {/* Embedded Products Grid / Carousel in Chat with Full Variety */}
                 {msg.products && msg.products.length > 0 && (
-                  <div className="mt-3 pt-3 border-t border-[#e2e8f0] space-y-2.5">
-                    <p className="text-[11px] font-extrabold text-[#5c6f84] uppercase tracking-wider">Top Rated Recommendations</p>
-                    <div className="space-y-2">
-                      {msg.products.slice(0, 3).map((p) => (
-                        <div
-                          key={p.id}
-                          onClick={() => handleViewProduct(p.id)}
-                          className="bg-white border border-[#e2e8f0] p-3 rounded-xl flex items-center justify-between gap-3 hover:border-[#0066cc] hover:shadow-sm transition-all cursor-pointer group"
-                        >
-                          <img src={p.image_url} alt={p.title} className="w-12 h-14 object-cover rounded-lg bg-slate-50 group-hover:scale-105 transition-transform shrink-0" />
-                          <div className="flex-1 min-w-0">
-                            <div className="font-extrabold text-xs text-[#0c2340] group-hover:text-[#0066cc] transition-colors truncate">
-                              {p.brand} {p.title}
+                  <div className="mt-3.5 pt-3 border-t border-[#e2e8f0] space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <p className="text-[11px] font-extrabold text-[#5c6f84] uppercase tracking-wider">
+                        Curated Matches ({msg.products.length} Items Available)
+                      </p>
+                      <span className="text-[10px] text-[#0066cc] font-bold">Say "Compare 1st and 3rd"</span>
+                    </div>
+
+                    <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
+                      {msg.products.map((p, pIdx) => {
+                        const meta = p.product_meta || {};
+                        const proc = meta.processor || '';
+                        const ram = meta.ram || '';
+                        return (
+                          <div
+                            key={p.id || pIdx}
+                            onClick={() => handleViewProduct(p.id)}
+                            className="bg-white border border-[#e2e8f0] p-3 rounded-xl flex items-center justify-between gap-3 hover:border-[#0066cc] hover:shadow-sm transition-all cursor-pointer group"
+                          >
+                            <div className="relative shrink-0">
+                              <img src={p.image_url} alt={p.title} className="w-13 h-15 object-cover rounded-lg bg-slate-50 group-hover:scale-105 transition-transform" />
+                              <span className="absolute -top-1.5 -left-1.5 bg-[#0c2340] text-white text-[10px] font-black w-5 h-5 rounded-full flex items-center justify-center shadow-xs">
+                                {pIdx + 1}
+                              </span>
                             </div>
-                            <div className="flex items-center gap-1.5 text-[11px] text-emerald-700 font-bold mt-0.5">
-                              <span>★ {p.rating}</span>
-                              <span className="text-[#5c6f84] font-normal">({p.review_count} reviews)</span>
-                              {p.is_local_seller && <span className="text-[10px] text-emerald-600 font-bold">• Fast {p.city}</span>}
+
+                            <div className="flex-1 min-w-0">
+                              <div className="font-extrabold text-xs text-[#0c2340] group-hover:text-[#0066cc] transition-colors truncate">
+                                {p.brand} {p.title}
+                              </div>
+
+                              {/* Specs Pill Chips if available */}
+                              {(proc || ram) && (
+                                <div className="flex flex-wrap gap-1 mt-1">
+                                  {proc && (
+                                    <span className="text-[9px] font-bold bg-[#f0f7ff] text-[#0066cc] px-1.5 py-0.2 rounded border border-blue-100 truncate max-w-[170px]">
+                                      ⚡ {proc}
+                                    </span>
+                                  )}
+                                  {ram && (
+                                    <span className="text-[9px] font-bold bg-emerald-50 text-emerald-700 px-1.5 py-0.2 rounded border border-emerald-200">
+                                      💾 {ram}
+                                    </span>
+                                  )}
+                                </div>
+                              )}
+
+                              <div className="flex items-center gap-1.5 text-[11px] text-emerald-700 font-bold mt-1">
+                                <span>★ {p.rating}</span>
+                                <span className="text-[#5c6f84] font-normal">({p.review_count} reviews)</span>
+                                {p.is_local_seller && <span className="text-[10px] text-emerald-600 font-bold">• Fast {p.city}</span>}
+                              </div>
+                              <div className="text-xs font-black text-[#0c2340] mt-0.5">Rs. {Math.round(p.price).toLocaleString()}</div>
                             </div>
-                            <div className="text-xs font-black text-[#0c2340] mt-0.5">Rs. {Math.round(p.price).toLocaleString()}</div>
+
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  addToCart(p.id, 1, "Standard");
+                                }}
+                                className="p-2.5 bg-[#0066cc] hover:bg-[#0052a3] text-white rounded-xl text-xs font-bold shadow-sm transition-colors cursor-pointer"
+                                title="Add to Bag"
+                              >
+                                <ShoppingBag className="w-4 h-4" />
+                              </button>
+                            </div>
                           </div>
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                addToCart(p.id, 1, "UK 8");
-                              }}
-                              className="p-2.5 bg-[#0066cc] hover:bg-[#0052a3] text-white rounded-xl text-xs font-bold shadow-sm transition-colors cursor-pointer"
-                              title="Add to Bag"
-                            >
-                              <ShoppingBag className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 )}
