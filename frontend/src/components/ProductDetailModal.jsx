@@ -7,6 +7,7 @@ import {
   Truck, ShieldCheck, Heart, MessageSquare, Plus, ArrowRight
 } from 'lucide-react';
 import { ProductReviewsModal } from './ProductReviewsModal';
+import { MarkdownMessage } from './MarkdownMessage';
 
 export function ProductDetailModal({ product, isOpen, onClose }) {
   const { addToCart } = useCart();
@@ -17,9 +18,10 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
   const [reviews, setReviews] = useState([]);
   const [fbtProducts, setFbtProducts] = useState([]);
 
-  const sizes = product?.category === 'Footwear'
+  const isFashion = product?.department === 'Fashion' || ['Footwear', 'Topwear', 'Bottomwear', 'Dresses', 'Ethnic Wear'].includes(product?.category);
+  const sizes = isFashion ? (product?.category === 'Footwear'
     ? ['UK 6', 'UK 7', 'UK 8', 'UK 9', 'UK 10']
-    : ['S', 'M', 'L', 'XL', 'XXL'];
+    : ['S', 'M', 'L', 'XL', 'XXL']) : [];
 
   useEffect(() => {
     if (isOpen && product?.id) {
@@ -132,28 +134,30 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
             </div>
           )}
 
-          {/* Size Selection */}
-          <div className="mt-5">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-extrabold uppercase tracking-wider text-gray-700">Select Size</span>
-              <span className="text-xs text-[#0066cc] font-bold cursor-pointer hover:underline">Size Chart</span>
+          {/* Size Selector */}
+          {sizes.length > 0 && (
+            <div className="mt-4">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-extrabold uppercase tracking-wider text-gray-700">Select Size</span>
+                <span className="text-xs text-[#0066cc] font-bold cursor-pointer hover:underline">Size Chart</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {sizes.map((sz) => (
+                  <button
+                    key={sz}
+                    onClick={() => setSelectedSize(sz)}
+                    className={`px-4 py-2 rounded-lg text-xs font-bold transition-all border ${
+                      selectedSize === sz
+                        ? 'border-[#0066cc] text-[#0066cc] bg-[#f0f7ff]/50 shadow-sm'
+                        : 'border-gray-200 text-gray-700 hover:border-gray-400'
+                    }`}
+                  >
+                    {sz}
+                  </button>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {sizes.map((sz) => (
-                <button
-                  key={sz}
-                  onClick={() => setSelectedSize(sz)}
-                  className={`w-12 h-12 rounded-xl text-xs font-bold transition-all border ${
-                    selectedSize === sz
-                      ? 'border-[#0066cc] text-[#0066cc] bg-[#f0f7ff]/50 shadow-sm font-extrabold scale-105'
-                      : 'border-gray-200 text-gray-700 hover:border-gray-400'
-                  }`}
-                >
-                  {sz}
-                </button>
-              ))}
-            </div>
-          </div>
+          )}
 
           {/* Seller & Hub Badge */}
           <div className="mt-4 p-2.5 bg-[#f0f7ff] rounded-xl border border-blue-100 flex items-center justify-between text-xs">
@@ -173,8 +177,8 @@ export function ProductDetailModal({ product, isOpen, onClose }) {
           {product.description && (
             <div className="mt-4 pt-4 border-t border-gray-100">
               <h3 className="text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-2">Product Specifications</h3>
-              <div className="text-xs text-gray-700 leading-relaxed font-normal whitespace-pre-line bg-[#f8fafc] p-3 rounded-xl border border-slate-200 max-h-48 overflow-y-auto">
-                {product.description}
+              <div className="bg-[#f8fafc] p-3 rounded-xl border border-slate-200 max-h-64 overflow-y-auto">
+                <MarkdownMessage content={product.description} />
               </div>
             </div>
           )}

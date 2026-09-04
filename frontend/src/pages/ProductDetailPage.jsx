@@ -10,6 +10,7 @@ import { AgenticChatbotLauncher } from '../components/AgenticChatbotLauncher';
 import { AgentCopilotModal } from '../components/AgentCopilotModal';
 import { CartDrawer } from '../components/CartDrawer';
 import { CheckoutModal } from '../components/CheckoutModal';
+import { MarkdownMessage } from '../components/MarkdownMessage';
 import { ProductReviewsModal } from '../components/ProductReviewsModal';
 import {
   Star, ShoppingBag, Bot, Zap, ArrowLeft, CheckCircle2,
@@ -97,9 +98,10 @@ export default function ProductDetailPage() {
     );
   }
 
-  const sizes = product.category === 'Footwear'
+  const isFashion = product.department === 'Fashion' || ['Footwear', 'Topwear', 'Bottomwear', 'Dresses', 'Ethnic Wear'].includes(product.category);
+  const sizes = isFashion ? (product.category === 'Footwear'
     ? ['UK 6', 'UK 7', 'UK 8', 'UK 9', 'UK 10']
-    : ['S', 'M', 'L', 'XL', 'XXL'];
+    : ['S', 'M', 'L', 'XL', 'XXL']) : [];
 
   const int = (val) => Math.round(Number(val || 0));
 
@@ -157,6 +159,10 @@ export default function ProductDetailPage() {
                 src={product.image_url}
                 alt={product.title}
                 className="w-full max-h-[420px] object-contain object-center rounded-lg hover:scale-105 transition-transform duration-300"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&h=800&q=80";
+                }}
               />
 
               {/* Express Delivery Badge */}
@@ -211,38 +217,40 @@ export default function ProductDetailPage() {
               {addedNotice && (
                 <div className="mt-4 p-3 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-xs font-extrabold flex items-center gap-2 animate-fade-in">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                  <span>Added to Bag (Size: {selectedSize})</span>
+                  <span>Added to Bag {sizes.length > 0 ? `(Size: ${selectedSize})` : ''}</span>
                 </div>
               )}
 
               {/* Size Selector */}
-              <div className="mt-6">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-extrabold uppercase tracking-wider text-gray-700">Select Size</span>
-                  <span className="text-xs text-[#0066cc] font-bold cursor-pointer hover:underline">Size Chart</span>
+              {sizes.length > 0 && (
+                <div className="mt-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-extrabold uppercase tracking-wider text-gray-700">Select Size</span>
+                    <span className="text-xs text-[#0066cc] font-bold cursor-pointer hover:underline">Size Chart</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2.5">
+                    {sizes.map((sz) => (
+                      <button
+                        key={sz}
+                        onClick={() => setSelectedSize(sz)}
+                        className={`w-14 h-14 rounded-xl text-xs font-bold transition-all border ${
+                          selectedSize === sz
+                            ? 'border-[#0066cc] text-[#0066cc] bg-[#f0f7ff]/50 shadow-sm font-extrabold scale-105'
+                            : 'border-gray-200 text-gray-700 hover:border-gray-400'
+                        }`}
+                      >
+                        {sz}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <div className="flex flex-wrap gap-2.5">
-                  {sizes.map((sz) => (
-                    <button
-                      key={sz}
-                      onClick={() => setSelectedSize(sz)}
-                      className={`w-14 h-14 rounded-xl text-xs font-bold transition-all border ${
-                        selectedSize === sz
-                          ? 'border-[#0066cc] text-[#0066cc] bg-[#f0f7ff]/50 shadow-sm font-extrabold scale-105'
-                          : 'border-gray-200 text-gray-700 hover:border-gray-400'
-                      }`}
-                    >
-                      {sz}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              )}
 
               {/* Main Action Buttons */}
-              <div className="mt-8 flex items-center gap-4">
+              <div className="mt-8 flex items-center gap-3">
                 <button
                   onClick={handleAdd}
-                  className="flex-1 py-4 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
+                  className="px-8 py-3.5 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 transition-all hover:scale-[1.01]"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   <span>Add to Bag</span>
@@ -250,7 +258,7 @@ export default function ProductDetailPage() {
 
                 <button
                   onClick={handleAskAgent}
-                  className="px-5 py-4 rounded-xl bg-gray-900 hover:bg-black text-white font-extrabold text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 transition-all"
+                  className="px-5 py-3.5 rounded-xl bg-gray-900 hover:bg-black text-white font-extrabold text-xs uppercase tracking-wider shadow-md flex items-center justify-center gap-2 transition-all"
                   title="Ask AI Copilot about fit, performance & reviews"
                 >
                   <Bot className="w-4 h-4 text-[#0066cc]" />
@@ -292,8 +300,10 @@ export default function ProductDetailPage() {
                 <h3 className="text-xs font-extrabold uppercase tracking-wider text-gray-700 mb-3">
                   Product Details & Specifications
                 </h3>
-                <div className="text-xs text-gray-700 leading-relaxed font-normal whitespace-pre-line bg-[#f8fafc] p-4 rounded-xl border border-slate-200">
-                  {product.description || 'Engineered with premium materials for maximum comfort and durability.'}
+                <div className="bg-[#f8fafc] p-4 rounded-xl border border-slate-200 max-h-[480px] overflow-y-auto">
+                  <MarkdownMessage
+                    content={product.description || 'Engineered with premium materials for maximum comfort and durability.'}
+                  />
                 </div>
               </div>
 
