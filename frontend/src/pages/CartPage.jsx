@@ -8,10 +8,11 @@ import { CustomerSidebar } from '../components/CustomerSidebar';
 import { AgenticChatbotLauncher } from '../components/AgenticChatbotLauncher';
 import { AgentCopilotModal } from '../components/AgentCopilotModal';
 import { CheckoutModal } from '../components/CheckoutModal';
+import { MerchantNegotiatorModal } from '../components/MerchantNegotiatorModal';
 import {
   ShoppingBag, Trash2, ArrowRight, ShieldCheck, MapPin, Zap,
   Plus, CheckCircle2, ArrowLeft, Bot, Sparkles, AlertCircle,
-  Percent, ChevronDown, ChevronUp, Loader2, Award
+  Percent, ChevronDown, ChevronUp, Loader2, Award, MessageSquare
 } from 'lucide-react';
 import { api } from '../services/api';
 
@@ -23,12 +24,11 @@ export default function CartPage() {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isNegotiatorOpen, setIsNegotiatorOpen] = useState(false);
 
   // AI Discount Negotiator State
-  const [isNegotiating, setIsNegotiating] = useState(false);
   const [discountData, setDiscountData] = useState(null);
   const [showAuditReasoning, setShowAuditReasoning] = useState(false);
-  const [negotiateStatus, setNegotiateStatus] = useState(null); // 'success', 'zero_discount', 'error'
 
   const cartItems = cart?.items || [];
   const subtotal = cart?.subtotal || 0;
@@ -294,8 +294,8 @@ export default function CartPage() {
                       <Sparkles className="w-4 h-4 text-blue-400" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-black tracking-wide uppercase text-white">AI Checkout Negotiator</h4>
-                      <p className="text-[10px] text-blue-200">LightGBM Real-time Profit & Margin Optimizer</p>
+                      <h4 className="text-xs font-black tracking-wide uppercase text-white">Merchant Price Negotiator</h4>
+                      <p className="text-[10px] text-blue-200">Interactive AI Margin & Discount Optimization</p>
                     </div>
                   </div>
                   <span className="text-[10px] bg-blue-500/20 text-blue-300 font-extrabold px-2 py-0.5 rounded-full border border-blue-400/20">
@@ -306,37 +306,27 @@ export default function CartPage() {
                 {!discountData ? (
                   <div className="space-y-3">
                     <p className="text-xs text-gray-300 leading-relaxed">
-                      Allow our automated agent to query merchant guardrails and find the profit-maximizing checkout discount for your cart.
+                      Chat directly with the seller's automated AI agent to propose your budget, request bulk discounts, and lock in the best authorized price.
                     </p>
                     <button
-                      onClick={handleNegotiateDiscount}
-                      disabled={isNegotiating}
-                      className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
+                      onClick={() => setIsNegotiatorOpen(true)}
+                      className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer hover:shadow-lg active:scale-98"
                     >
-                      {isNegotiating ? (
-                        <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
-                          <span>Evaluating Guardrails...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Percent className="w-4 h-4 text-blue-300" />
-                          <span>Negotiate Best Price with AI</span>
-                        </>
-                      )}
+                      <MessageSquare className="w-4 h-4 text-blue-200" />
+                      <span>Chat & Negotiate with Merchant AI</span>
                     </button>
                   </div>
                 ) : (
                   <div className="space-y-3 animate-fade-in">
-                    {negotiateStatus === 'success' ? (
+                    {discountPct > 0 ? (
                       <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 flex items-start gap-2.5">
                         <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
                         <div className="flex-1">
                           <p className="text-xs font-black text-emerald-300">
-                            ✨ {discountPct}% Exclusive AI Discount Authorized!
+                            {discountPct}% AI Negotiated Discount Active!
                           </p>
                           <p className="text-[11px] text-emerald-200 mt-0.5">
-                            You saved <strong>Rs. {int(negotiatedDiscountAmount)}</strong> on this checkout.
+                            You saved <strong>Rs. {int(negotiatedDiscountAmount)}</strong>. Applied directly to checkout.
                           </p>
                         </div>
                       </div>
@@ -345,63 +335,22 @@ export default function CartPage() {
                         <Award className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
                         <div className="flex-1">
                           <p className="text-xs font-black text-amber-300">
-                            Direct Seller Minimum Price Guaranteed
+                            Direct Seller Floor Price Confirmed
                           </p>
                           <p className="text-[11px] text-amber-200 mt-0.5">
-                            This catalog is already priced at zero seller markup with free express delivery.
+                            Items are already at minimum manufacturer pricing.
                           </p>
                         </div>
                       </div>
                     )}
 
-                    {/* Observability Toggle */}
                     <button
-                      onClick={() => setShowAuditReasoning(!showAuditReasoning)}
-                      className="w-full py-1.5 px-3 bg-white/10 hover:bg-white/15 text-blue-200 text-[11px] font-bold rounded-lg border border-white/10 flex items-center justify-between transition-colors cursor-pointer"
+                      onClick={() => setIsNegotiatorOpen(true)}
+                      className="w-full py-2 px-3 bg-white/10 hover:bg-white/15 text-blue-200 text-xs font-bold rounded-lg border border-white/10 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
-                      <span>Merchant Mathematical Observability</span>
-                      {showAuditReasoning ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span>Chat Again / Renegotiate</span>
                     </button>
-
-                    {/* Observability Breakdown Table */}
-                    {showAuditReasoning && (
-                      <div className="bg-black/40 rounded-xl p-3 border border-white/10 space-y-2.5 text-[10px] animate-fade-in font-mono">
-                        <div className="flex justify-between text-gray-400 border-b border-white/10 pb-1">
-                          <span>Engine: {discountData.engine_reasoning?.model_type || "LightGBM"}</span>
-                          <span>Max Cap: {discountData.max_authorized_discount}%</span>
-                        </div>
-
-                        {/* Active Guardrails Notes */}
-                        {discountData.engine_reasoning?.guardrails_enforced?.guardrail_notes?.length > 0 && (
-                          <div className="bg-blue-950/40 p-2 rounded-lg border border-blue-500/20 space-y-1">
-                            <span className="text-blue-300 font-bold block uppercase tracking-wider text-[9px]">Enforced Merchant Policies:</span>
-                            {discountData.engine_reasoning.guardrails_enforced.guardrail_notes.map((note, idx) => (
-                              <p key={idx} className="text-blue-200/90 text-[10px] leading-tight">
-                                • {note}
-                              </p>
-                            ))}
-                          </div>
-                        )}
-
-                        <div className="divide-y divide-white/5">
-                          <div className="grid grid-cols-3 text-gray-400 py-1 font-bold">
-                            <span>Tier</span>
-                            <span>Conv. Rate</span>
-                            <span className="text-right">Exp. Profit</span>
-                          </div>
-                          {discountData.engine_reasoning?.evaluated_tiers?.map((t, idx) => (
-                            <div
-                              key={idx}
-                              className={`grid grid-cols-3 py-1 ${t.discount_pct === discountPct ? 'text-emerald-400 font-bold bg-emerald-500/10 px-1 rounded' : 'text-gray-300'}`}
-                            >
-                              <span>{t.discount_pct}%</span>
-                              <span>{(t.conversion_probability * 100).toFixed(1)}%</span>
-                              <span className="text-right">Rs. {Math.round(t.expected_profit_inr)}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
                   </div>
                 )}
               </div>
@@ -484,6 +433,16 @@ export default function CartPage() {
       <CustomerSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <AgenticChatbotLauncher />
       <AgentCopilotModal />
+      <MerchantNegotiatorModal
+        isOpen={isNegotiatorOpen}
+        onClose={() => setIsNegotiatorOpen(false)}
+        cart={cart}
+        activeDiscount={discountData}
+        onApplyDiscount={(data) => {
+          setDiscountData(data);
+          setIsCheckoutOpen(true);
+        }}
+      />
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}

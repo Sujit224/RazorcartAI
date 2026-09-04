@@ -108,21 +108,43 @@ export const AgentCopilotModal = () => {
 
         {/* Chat Messages Container */}
         <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-white">
-          {messages.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`flex flex-col ${msg.sender === 'user' ? 'items-end' : 'items-start'}`}
-            >
-              {/* Message Bubble */}
+          {messages.map((msg, idx) => {
+            const isUser = msg.sender === 'user';
+            const userInitial = currentUser?.name ? currentUser.name.trim().charAt(0).toUpperCase() : 'U';
+
+            return (
               <div
-                className={`max-w-[88%] p-4 rounded-lg text-xs md:text-sm leading-relaxed shadow-sm ${
-                  msg.sender === 'user'
-                    ? 'bg-[#0047fb] text-white rounded-tr-none font-normal'
-                    : 'bg-white border border-[#e2e8f0] text-[#0c2340] rounded-tl-none font-normal'
-                }`}
+                key={idx}
+                className={`flex items-start gap-2.5 ${isUser ? 'flex-row-reverse self-end' : 'flex-row self-start'} max-w-[92%]`}
               >
-                {/* Render Text / Markdown formatted message */}
-                <MarkdownMessage content={msg.text} isUser={msg.sender === 'user'} />
+                {/* Avatar Icon */}
+                {isUser ? (
+                  <div
+                    className="w-7 h-7 rounded-full bg-[#0047fb] text-white font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 shadow-xs select-none"
+                    title={currentUser?.name || "User"}
+                  >
+                    {userInitial}
+                  </div>
+                ) : (
+                  <div
+                    className="w-7 h-7 rounded-full bg-[#f0f7ff] border border-[#bfdbfe] flex items-center justify-center shrink-0 mt-0.5 shadow-xs select-none"
+                    title="ZORA"
+                  >
+                    <Bot className="w-3.5 h-3.5 text-[#0066cc]" />
+                  </div>
+                )}
+
+                {/* Message Bubble Container */}
+                <div className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} flex-1 min-w-0`}>
+                  <div
+                    className={`p-4 rounded-lg text-xs md:text-sm leading-relaxed shadow-sm w-full ${
+                      isUser
+                        ? 'bg-[#eef5ff] border border-[#bfdbfe] text-[#0c2340] rounded-tr-none font-normal'
+                        : 'bg-white border border-[#e2e8f0] text-[#0c2340] rounded-tl-none font-normal'
+                    }`}
+                  >
+                    {/* Render Text / Markdown formatted message */}
+                    <MarkdownMessage content={msg.text} isUser={isUser} />
 
                 {/* Why the agent thought "the 2nd one" meant what it acted on.
                     Shown, not merely logged: a misresolved reference is cheap to
@@ -508,23 +530,24 @@ export const AgentCopilotModal = () => {
 
               </div>
 
-              {/* Enhanced Prompt Action Chips */}
-              {msg.suggested_actions && msg.suggested_actions.length > 0 && (
-                <div className="flex flex-wrap gap-2 mt-2.5 max-w-[92%]">
-                  {msg.suggested_actions.map((act, aIdx) => (
-                    <button
-                      key={aIdx}
-                      onClick={() => handleActionClick(act)}
-                      className="text-xs font-semibold bg-white hover:bg-[#eff6ff] text-[#0c2340] hover:text-[#0047fb] border border-[#e2e8f0] hover:border-[#0047fb] px-3.5 py-2 rounded-lg transition-all shadow-sm flex items-center gap-1.5 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
-                    >
-                      <span>{act}</span>
-                      <ArrowUpRight className="w-3.5 h-3.5 text-[#5c6f84] group-hover:text-[#0066cc]" />
-                    </button>
-                  ))}
+                  {/* Enhanced Prompt Action Chips */}
+                  {msg.suggested_actions && msg.suggested_actions.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-3 max-w-[95%]">
+                      {msg.suggested_actions.map((act, aIdx) => (
+                        <button
+                          key={aIdx}
+                          onClick={() => handleActionClick(act)}
+                          className="text-xs md:text-sm font-semibold text-[#0066cc] bg-white hover:bg-[#f0f7ff] border-2 border-[#0066cc] px-4 py-1.5 rounded-full transition-all cursor-pointer shadow-xs hover:shadow-sm active:scale-95"
+                        >
+                          <span>{act}</span>
+                        </button>
+                      ))}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
+              </div>
+            );
+          })}
 
           {loading && (
             <div className="flex items-center gap-2 text-xs font-bold text-[#5c6f84] bg-[#f8fafc] p-3 rounded-2xl w-fit border border-[#e2e8f0] shadow-xs animate-pulse">

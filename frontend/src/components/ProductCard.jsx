@@ -38,6 +38,10 @@ export const ProductCard = ({ product }) => {
           alt={product.title}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300"
           loading="lazy"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&h=800&q=80";
+          }}
         />
 
         {/* Authentic Rating & Review Badge */}

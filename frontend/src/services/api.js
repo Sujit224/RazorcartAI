@@ -79,6 +79,8 @@ export const api = {
 
   calculateOptimalDiscount: (data) =>
     apiClient.post('/calculate_optimal_discount', data),
+  negotiateDiscountChat: (data) =>
+    apiClient.post('/api/discount/negotiate_chat', data),
   createPaymentOrder: (data) => apiClient.post('/api/payment/create-order', data),
   confirmPaymentSuccess: (data) =>
     apiClient.post('/api/payment/confirm-success', data),
@@ -100,6 +102,8 @@ export const api = {
     apiClient.get('/api/merchant/customers'),
   getMerchantCustomerDetails: (userId) =>
     apiClient.get(`/api/merchant/customers/${userId}`),
+  getProductDiscountGuardrails: (productId) =>
+    apiClient.get(`/api/discount/guardrails/${productId}`),
 
   // ─── Admin Portal ─────────────────────────────────────────────────────────
 

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Search, User as UserIcon, Heart, ShoppingBag, Bot, MapPin, Sparkles,
-  LogOut, LogIn, ArrowRight, Headphones, ChevronDown, Check, ShieldCheck, Zap
+  LogOut, LogIn, ArrowRight, Headphones, ChevronDown, Check, ShieldCheck, Zap,
+  Smartphone, Watch, Utensils, Scissors, Shirt, Layers, Package, Footprints
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -42,18 +43,18 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
     { name: "Chennai", state: "Tamil Nadu" },
   ];
 
-  // Original E-Commerce Bar Headings & Titles with Razorpay-style interactive dropdowns
+  // Original E-Commerce Bar Headings with Razorpay-style interactive rich dropdowns
   const navCategories = [
     {
       label: "MEN",
       cat: "MEN",
       dropdown: {
-        title: "MEN'S COLLECTION",
+        title: "MEN'S ESSENTIALS",
         subcategories: [
-          { name: "Running & Sports Shoes", query: "Show top rated men's running shoes" },
-          { name: "Casual Sneakers & Loafers", query: "Show men's white sneakers" },
-          { name: "T-Shirts & Polos", query: "Show men's cotton t-shirts" },
-          { name: "Jackets & Activewear", query: "Show men's jackets and activewear" },
+          { name: "Running & Sports Shoes", desc: "Engineered Cushioning & Grip", icon: Zap, query: "Show top rated men's running shoes" },
+          { name: "Casual Sneakers & Loafers", desc: "Premium Daily Footwear", icon: Footprints, isNew: true, query: "Show men's white sneakers" },
+          { name: "T-Shirts & Polos", desc: "100% Breathable Combed Cotton", icon: Shirt, query: "Show men's cotton t-shirts" },
+          { name: "Jackets & Activewear", desc: "Lightweight Thermal Layers", icon: Layers, query: "Show men's jackets and activewear" },
         ]
       }
     },
@@ -63,10 +64,10 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
       dropdown: {
         title: "WOMEN'S COLLECTION",
         subcategories: [
-          { name: "Dresses & Western Wear", query: "Show women's western dresses" },
-          { name: "Ethnic Wear & Kurtas", query: "Show women's ethnic kurtas" },
-          { name: "Footwear & Heels", query: "Show women's footwear and sandals" },
-          { name: "Handbags & Accessories", query: "Show women's designer handbags" },
+          { name: "Dresses & Western Wear", desc: "Contemporary & Party Silhouettes", icon: Sparkles, isNew: true, query: "Show women's western dresses" },
+          { name: "Ethnic Wear & Kurtas", desc: "Handcrafted Traditional Silks", icon: Heart, query: "Show women's ethnic kurtas" },
+          { name: "Footwear & Heels", desc: "Designer Pumps & Comfort Soles", icon: ShoppingBag, query: "Show women's footwear and sandals" },
+          { name: "Handbags & Accessories", desc: "Luxury Totes & Crossbody Bags", icon: Package, query: "Show women's designer handbags" },
         ]
       }
     },
@@ -74,11 +75,11 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
       label: "ELECTRONICS",
       cat: "ELECTRONICS",
       dropdown: {
-        title: "ELECTRONICS & AUDIO",
+        title: "FLAGSHIP ELECTRONICS",
         subcategories: [
-          { name: "Wireless Earbuds & Headphones", query: "Show noise cancelling wireless headphones" },
-          { name: "Smartwatches & Fitness Bands", query: "Show smartwatches with health tracking" },
-          { name: "Smart Speakers & Tech", query: "Show smart speakers and home audio" },
+          { name: "Smartphones & 5G", desc: "Snapdragon 8 Gen 3 & 120Hz OLED", icon: Smartphone, isNew: true, query: "Show 5G flagship smartphones" },
+          { name: "Wireless Earbuds & Audio", desc: "Active Noise Cancellation & Hi-Fi", icon: Headphones, query: "Show noise cancelling wireless headphones" },
+          { name: "Smartwatches & Bands", desc: "AMOLED Displays & Health Tracking", icon: Watch, query: "Show smartwatches with health tracking" },
         ]
       }
     },
@@ -88,8 +89,9 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
       dropdown: {
         title: "HOME APPLIANCES",
         subcategories: [
-          { name: "Kitchen Appliances", query: "Show smart kitchen appliances and air fryers" },
-          { name: "Personal Grooming", query: "Show trimmers and hair stylers" },
+          { name: "Kitchen Appliances", desc: "Smart Air Fryers & Multi-Cookers", icon: Utensils, isNew: true, query: "Show smart kitchen appliances and air fryers" },
+          { name: "Personal Grooming", desc: "Cordless Trimmers & Styling Kits", icon: Scissors, query: "Show trimmers and hair stylers" },
+          { name: "Home Comfort & Tech", desc: "Smart Air Purifiers & Robot Vacuums", icon: Zap, query: "Show smart home appliances" },
         ]
       }
     },
@@ -173,25 +175,47 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
                     )}
                   </button>
 
-                  {/* Razorpay-style Hover Dropdown */}
+                  {/* Razorpay-style Rich Hover Dropdown */}
                   {isOpen && item.dropdown && (
-                    <div className="absolute left-0 top-full -mt-1 w-64 bg-white border border-[#e2e8f0] rounded-2xl shadow-2xl p-3.5 z-50 animate-fade-in text-left">
-                      <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-wider px-2 py-1">
+                    <div className="absolute left-0 top-full -mt-1 w-80 bg-white border border-[#e2e8f0] rounded-2xl shadow-2xl p-3 z-50 animate-fade-in text-left">
+                      <p className="text-[11px] font-bold text-[#94a3b8] uppercase tracking-wider px-3 pt-1.5 pb-2">
                         {item.dropdown.title}
                       </p>
-                      <div className="space-y-1 mt-1">
-                        {item.dropdown.subcategories.map((sub, sIdx) => (
-                          <div
-                            key={sIdx}
-                            onClick={() => handleSubcategoryClick(sub)}
-                            className="p-2 rounded-xl hover:bg-[#f0f7ff] cursor-pointer transition-colors group flex items-center justify-between"
-                          >
-                            <span className="text-xs font-bold text-[#0c2340] group-hover:text-[#0b72e7] transition-colors">
-                              {sub.name}
-                            </span>
-                            <ArrowRight className="w-3 h-3 text-slate-300 group-hover:text-[#0b72e7] transition-colors" />
-                          </div>
-                        ))}
+                      <div className="space-y-1">
+                        {item.dropdown.subcategories.map((sub, sIdx) => {
+                          const SubIcon = sub.icon || Zap;
+                          return (
+                            <div
+                              key={sIdx}
+                              onClick={() => handleSubcategoryClick(sub)}
+                              className="p-2.5 rounded-xl hover:bg-[#f0f7ff] cursor-pointer transition-colors group flex items-start gap-3.5"
+                            >
+                              {/* Blue Circle Icon Badge */}
+                              <div className="w-9 h-9 rounded-full bg-[#1859f5] flex items-center justify-center text-white shrink-0 shadow-xs group-hover:scale-105 transition-transform mt-0.5">
+                                <SubIcon className="w-4 h-4 text-white" />
+                              </div>
+
+                              {/* Title & Tagline */}
+                              <div className="flex-1 min-w-0">
+                                <div className="flex items-center gap-1.5">
+                                  <span className="text-[13px] font-bold text-[#0c2340] group-hover:text-[#1859f5] transition-colors leading-tight">
+                                    {sub.name}
+                                  </span>
+                                  {sub.isNew && (
+                                    <span className="text-[9px] font-black uppercase text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200">
+                                      NEW
+                                    </span>
+                                  )}
+                                </div>
+                                {sub.desc && (
+                                  <p className="text-[11px] text-[#5c6f84] mt-0.5 leading-snug truncate group-hover:text-[#334155]">
+                                    {sub.desc}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -306,35 +330,50 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
               </button>
 
               {showProfileMenu && (
-                <div className="absolute right-0 top-full mt-1 w-64 bg-white border border-[#e2e8f0] rounded-2xl shadow-2xl p-4 z-50 animate-fade-in text-left">
-                  <div className="border-b border-[#e2e8f0] pb-2.5 mb-2.5">
-                    <p className="text-xs font-bold text-[#0c2340]">{currentUser.name}</p>
-                    <p className="text-[11px] text-slate-500">{currentUser.email}</p>
-                    <p className="text-[11px] text-[#00b386] font-bold mt-0.5">📍 Hub: {currentUser.city}</p>
-                  </div>
+                <div className="absolute right-0 top-full mt-1.5 w-72 bg-white border border-[#e2e8f0] rounded-2xl shadow-2xl p-3 z-50 animate-fade-in text-left">
+                  <p className="text-[11px] font-bold text-[#94a3b8] uppercase tracking-wider px-2 pt-1 pb-2">
+                    ACCOUNT DETAILS
+                  </p>
 
-                  <div className="grid grid-cols-2 gap-1.5 mb-2.5">
-                    <button
-                      onClick={() => { setShowProfileMenu(false); navigate('/merchant/dashboard'); }}
-                      className="p-2 rounded-xl bg-[#f0f7ff] text-[#0b72e7] hover:bg-blue-100 text-left transition-colors cursor-pointer text-xs font-bold"
-                    >
-                      🏪 Merchant
-                    </button>
-                    <button
-                      onClick={() => { setShowProfileMenu(false); navigate('/admin/dashboard'); }}
-                      className="p-2 rounded-xl bg-emerald-50 text-emerald-800 hover:bg-emerald-100 text-left transition-colors cursor-pointer text-xs font-bold"
-                    >
-                      🛡️ Admin
-                    </button>
-                  </div>
-
-                  <button
-                    onClick={() => { logout(); setShowProfileMenu(false); navigate('/'); }}
-                    className="w-full py-1.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-xs font-bold transition-colors cursor-pointer flex items-center justify-center gap-1.5"
+                  <div 
+                    onClick={() => { setShowProfileMenu(false); navigate('/profile'); }}
+                    className="p-2.5 rounded-xl hover:bg-[#f0f7ff] cursor-pointer transition-colors group flex items-start gap-3 border border-transparent hover:border-[#bfdbfe]"
                   >
-                    <LogOut className="w-3.5 h-3.5" />
-                    <span>Sign Out</span>
-                  </button>
+                    {/* Blue Circle User Avatar */}
+                    <div className="w-9 h-9 rounded-full bg-[#1859f5] flex items-center justify-center text-white font-bold text-sm shrink-0 shadow-xs group-hover:scale-105 transition-transform mt-0.5">
+                      {currentUser.name?.charAt(0) || 'U'}
+                    </div>
+
+                    {/* Details */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[13px] font-bold text-[#0c2340] group-hover:text-[#1859f5] transition-colors leading-tight truncate">
+                          {currentUser.name}
+                        </span>
+                        <span className="text-[9px] font-bold uppercase text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200 shrink-0">
+                          ACTIVE
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-[#5c6f84] mt-0.5 leading-snug truncate">
+                        {currentUser.email}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="border-t border-[#e2e8f0] my-2" />
+
+                  <div
+                    onClick={() => { logout(); setShowProfileMenu(false); navigate('/'); }}
+                    className="p-2 rounded-xl hover:bg-rose-50 cursor-pointer transition-colors group flex items-center gap-3 text-red-600"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-rose-100 flex items-center justify-center text-red-600 shrink-0 group-hover:bg-rose-200 transition-colors">
+                      <LogOut className="w-4 h-4" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-xs font-bold block leading-tight">Sign Out</span>
+                      <span className="text-[10px] text-rose-500/80">End your current session</span>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>

@@ -41,3 +41,24 @@ class OptimalDiscountResponse(BaseModel):
     max_authorized_discount: float
     expected_conversion_probability: float
     engine_reasoning: Dict[str, Any] = Field(..., description="Tier-by-tier mathematical profit maximization breakdown")
+
+class NegotiateChatRequest(BaseModel):
+    user_id: Optional[int] = 1
+    user_message: str = Field(..., description="User's negotiation prompt or proposal")
+    cart_value: float = Field(..., description="Cart value in INR")
+    item_count: int = Field(default=1, description="Item count")
+    categories: List[str] = Field(default_factory=list)
+    product_titles: List[str] = Field(default_factory=list)
+    product_ids: List[int] = Field(default_factory=list)
+    customer_loyalty_tier: str = Field(default="Gold")
+    is_new_customer: Optional[bool] = False
+    chat_history: List[Dict[str, str]] = Field(default_factory=list)
+
+class NegotiateChatResponse(BaseModel):
+    reply: str
+    discount_pct: float
+    discount_amount: float
+    original_total: float
+    new_total: float
+    can_apply: bool
+    reasoning: Optional[str] = None

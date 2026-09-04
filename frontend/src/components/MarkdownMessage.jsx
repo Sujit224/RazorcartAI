@@ -12,22 +12,22 @@ export const MarkdownMessage = ({ content, isUser = false }) => {
   const cleanContent = stripEmojis(content);
 
   return (
-    <div className={`prose-sm max-w-none text-xs md:text-sm leading-relaxed ${isUser ? 'text-white' : 'text-[#0c2340]'}`}>
+    <div className="prose-sm max-w-none text-xs md:text-sm leading-relaxed text-[#0c2340]">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
           p: ({ children }) => (
-            <p className={`mb-2 last:mb-0 leading-relaxed font-normal ${isUser ? 'text-white' : 'text-[#0c2340]'}`}>
+            <p className="mb-2 last:mb-0 leading-relaxed font-normal text-[#0c2340]">
               {children}
             </p>
           ),
           strong: ({ children }) => (
-            <strong className={`font-extrabold ${isUser ? 'text-white' : 'text-[#0c2340]'}`}>
+            <strong className="font-extrabold text-[#0c2340]">
               {children}
             </strong>
           ),
           em: ({ children }) => (
-            <em className={`italic ${isUser ? 'text-white/90' : 'text-[#5c6f84]'}`}>
+            <em className="italic text-[#5c6f84]">
               {children}
             </em>
           ),
@@ -42,31 +42,27 @@ export const MarkdownMessage = ({ content, isUser = false }) => {
             </ul>
           ),
           li: ({ children }) => (
-            <li className={`leading-relaxed pl-1 ${isUser ? 'text-white' : 'text-[#0c2340]'}`}>
+            <li className="leading-relaxed pl-1 text-[#0c2340]">
               {children}
             </li>
           ),
           h1: ({ children }) => (
-            <h1 className={`text-base font-extrabold my-2 pb-1 border-b ${isUser ? 'text-white border-white/20' : 'text-[#0c2340] border-[#e2e8f0]'}`}>
+            <h1 className="text-base font-extrabold my-2 pb-1 border-b text-[#0c2340] border-[#e2e8f0]">
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className={`text-sm font-extrabold my-2 ${isUser ? 'text-white' : 'text-[#0c2340]'}`}>
+            <h2 className="text-sm font-extrabold my-2 text-[#0c2340]">
               {children}
             </h2>
           ),
           h3: ({ children }) => (
-            <h3 className={`text-xs font-bold uppercase tracking-wider my-1.5 ${isUser ? 'text-white' : 'text-[#5c6f84]'}`}>
+            <h3 className="text-xs font-bold uppercase tracking-wider my-1.5 text-[#5c6f84]">
               {children}
             </h3>
           ),
           blockquote: ({ children }) => (
-            <blockquote className={`my-2 pl-3 border-l-2 py-0.5 rounded-r ${
-              isUser
-                ? 'border-white/40 bg-white/10 text-white'
-                : 'border-[#0066cc] bg-[#f0f7ff] text-[#5c6f84]'
-            }`}>
+            <blockquote className="my-2 pl-3 border-l-2 py-0.5 rounded-r border-[#0066cc] bg-[#f0f7ff] text-[#5c6f84]">
               {children}
             </blockquote>
           ),
@@ -74,11 +70,7 @@ export const MarkdownMessage = ({ content, isUser = false }) => {
             if (inline) {
               return (
                 <code
-                  className={`px-1.5 py-0.5 rounded text-[11px] font-mono font-bold ${
-                    isUser
-                      ? 'bg-white/20 text-white'
-                      : 'bg-slate-100 text-[#0066cc] border border-[#e2e8f0]'
-                  }`}
+                  className="px-1.5 py-0.5 rounded text-[11px] font-mono font-bold bg-slate-100 text-[#0066cc] border border-[#e2e8f0]"
                   {...props}
                 >
                   {children}
@@ -86,11 +78,7 @@ export const MarkdownMessage = ({ content, isUser = false }) => {
               );
             }
             return (
-              <pre className={`p-3 my-2 rounded-xl text-xs font-mono overflow-x-auto ${
-                isUser
-                  ? 'bg-black/30 text-white border border-white/10'
-                  : 'bg-[#0c2340] text-emerald-300 border border-slate-800'
-              }`}>
+              <pre className="p-3 my-2 rounded-xl text-xs font-mono overflow-x-auto bg-[#0c2340] text-emerald-300 border border-slate-800">
                 <code>{children}</code>
               </pre>
             );
@@ -103,7 +91,7 @@ export const MarkdownMessage = ({ content, isUser = false }) => {
             </div>
           ),
           thead: ({ children }) => (
-            <thead className={isUser ? 'bg-white/10 text-white' : 'bg-[#f8fafc] text-[#5c6f84] font-bold uppercase text-[10px]'}>
+            <thead className="bg-[#f8fafc] text-[#5c6f84] font-bold uppercase text-[10px]">
               {children}
             </thead>
           ),
@@ -113,7 +101,7 @@ export const MarkdownMessage = ({ content, isUser = false }) => {
             </tbody>
           ),
           tr: ({ children }) => (
-            <tr className={isUser ? 'hover:bg-white/5' : 'hover:bg-[#f8fafc]'}>
+            <tr className="hover:bg-[#f8fafc]">
               {children}
             </tr>
           ),
@@ -128,16 +116,14 @@ export const MarkdownMessage = ({ content, isUser = false }) => {
             </td>
           ),
           hr: () => (
-            <hr className={`my-2.5 ${isUser ? 'border-white/20' : 'border-[#e2e8f0]'}`} />
+            <hr className="my-2.5 border-[#e2e8f0]" />
           ),
           a: ({ href, children }) => (
             <a
               href={href}
               target="_blank"
               rel="noopener noreferrer"
-              className={`underline font-bold hover:opacity-80 transition-opacity ${
-                isUser ? 'text-white' : 'text-[#0066cc]'
-              }`}
+              className="underline font-bold hover:opacity-80 transition-opacity text-[#0066cc]"
             >
               {children}
             </a>
