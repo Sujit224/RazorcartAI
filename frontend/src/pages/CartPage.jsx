@@ -45,16 +45,22 @@ export default function CartPage() {
     setNegotiateStatus(null);
     try {
       const categories = [...new Set(cartItems.map(i => i.product?.category).filter(Boolean))];
+      const productTitles = cartItems.map(i => i.product?.title).filter(Boolean);
+      const productIds = cartItems.map(i => i.product?.id || i.product_id).filter(Boolean);
+
       const res = await api.calculateOptimalDiscount({
         user_id: currentUser?.id || 1,
         cart_value: subtotal,
         item_count: cartItems.length,
         categories: categories.length > 0 ? categories : ["General"],
-        customer_loyalty_tier: "Gold",
+        product_titles: productTitles,
+        product_ids: productIds,
+        customer_loyalty_tier: currentUser?.loyalty_tier || "Gold",
         historical_conversion_rate: 0.45,
-        merchant_margin_rate: 0.30,
+        merchant_margin_rate: 0.35,
         competitor_price_ratio: 1.05,
-        merchant_min_margin_threshold: 0.10
+        merchant_min_margin_threshold: 0.10,
+        is_new_customer: currentUser?.id ? false : true
       });
 
       setDiscountData(res.data);
@@ -359,11 +365,24 @@ export default function CartPage() {
 
                     {/* Observability Breakdown Table */}
                     {showAuditReasoning && (
-                      <div className="bg-black/40 rounded-xl p-3 border border-white/10 space-y-2 text-[10px] animate-fade-in font-mono">
+                      <div className="bg-black/40 rounded-xl p-3 border border-white/10 space-y-2.5 text-[10px] animate-fade-in font-mono">
                         <div className="flex justify-between text-gray-400 border-b border-white/10 pb-1">
                           <span>Engine: {discountData.engine_reasoning?.model_type || "LightGBM"}</span>
                           <span>Max Cap: {discountData.max_authorized_discount}%</span>
                         </div>
+
+                        {/* Active Guardrails Notes */}
+                        {discountData.engine_reasoning?.guardrails_enforced?.guardrail_notes?.length > 0 && (
+                          <div className="bg-blue-950/40 p-2 rounded-lg border border-blue-500/20 space-y-1">
+                            <span className="text-blue-300 font-bold block uppercase tracking-wider text-[9px]">Enforced Merchant Policies:</span>
+                            {discountData.engine_reasoning.guardrails_enforced.guardrail_notes.map((note, idx) => (
+                              <p key={idx} className="text-blue-200/90 text-[10px] leading-tight">
+                                • {note}
+                              </p>
+                            ))}
+                          </div>
+                        )}
+
                         <div className="divide-y divide-white/5">
                           <div className="grid grid-cols-3 text-gray-400 py-1 font-bold">
                             <span>Tier</span>

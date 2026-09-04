@@ -12,6 +12,12 @@ class CheckoutContext(BaseModel):
     competitor_price_ratio: float = Field(default=1.05, description="Our Price / Competitor Price")
     merchant_min_margin_threshold: float = Field(default=0.10, description="Minimum acceptable margin after discount")
 
+    # Guardrail contextual triggers
+    product_ids: List[int] = Field(default_factory=list, description="IDs of products in cart for individual product guardrail lookup")
+    product_titles: List[str] = Field(default_factory=list, description="Product titles in cart")
+    is_new_customer: Optional[bool] = Field(default=None, description="True if new visitor with minimal prior actions")
+    user_action_count: int = Field(default=1, description="Number of actions (clicks, searches, views) by user in this session")
+
     # Exact LightGBM 15-feature telemetry fields (with defaults for non-telemetry requests)
     target_item_view_count: int = Field(default=3, description="Views on the target item")
     target_item_dwell_seconds: float = Field(default=120.0, description="Time spent browsing target item")
