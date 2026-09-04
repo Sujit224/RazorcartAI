@@ -1264,6 +1264,114 @@ export default function MerchantDashboard() {
                   </div>
 
                   {/* ───────────────────────────────────────────────────────────── */}
+                  {/* CUSTOMER INSIGHTS & AI RECOMMENDATIONS                        */}
+                  {/* ───────────────────────────────────────────────────────────── */}
+                  <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 shadow-sm space-y-5">
+                    <div className="flex items-center gap-2 border-b border-[#e2e8f0] pb-3">
+                      <Bot className="w-5 h-5 text-[#2963FF]" />
+                      <h3 className="font-extrabold text-base text-[#0C1A2E]">
+                        Customer AI Profile & FBT Recommendations
+                      </h3>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Insights */}
+                      <div className="bg-[#f9fafb] border border-[#e2e8f0] rounded-2xl p-4">
+                        <h4 className="text-xs font-extrabold text-[#5c6f84] uppercase tracking-wider mb-3">Extracted Preferences</h4>
+                        {Object.keys(customerDetails?.customer?.preferences || {}).length > 0 ? (
+                          <div className="space-y-2">
+                            {Object.entries(customerDetails.customer.preferences).map(([k, v]) => (
+                              <div key={k} className="flex justify-between items-center text-xs">
+                                <span className="capitalize text-[#5c6f84]">{k}:</span>
+                                <span className="font-bold text-[#0C1A2E] bg-white px-2 py-0.5 rounded border border-[#e2e8f0]">{v}</span>
+                              </div>
+                            ))}
+                            <div className="mt-3 p-2 bg-blue-50 border border-blue-200 text-blue-800 rounded-lg text-[10px] font-semibold flex items-start gap-1.5">
+                              <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                              <span>Used by Autonomous Agents to personalize FBT Recommendations & Search Rankings.</span>
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="text-xs text-[#94969f] italic">No specific preferences extracted yet.</p>
+                        )}
+                      </div>
+
+                      {/* Recommendations */}
+                      <div>
+                        <h4 className="text-xs font-extrabold text-[#5c6f84] uppercase tracking-wider mb-3">Predicted Interests (FBT Pool)</h4>
+                        {customerDetails?.customer?.recommendations?.length > 0 ? (
+                          <div className="grid grid-cols-2 gap-3">
+                            {customerDetails.customer.recommendations.map(rec => (
+                              <div key={rec.id} className="bg-white border border-[#e2e8f0] rounded-xl p-2 flex items-center gap-2">
+                                <img src={rec.image_url} alt={rec.title} className="w-10 h-10 object-cover rounded-lg border border-[#e2e8f0]" />
+                                <div className="min-w-0">
+                                  <p className="text-[10px] font-bold text-[#0C1A2E] truncate">{rec.title}</p>
+                                  <p className="text-[10px] font-semibold text-[#27AE60]">{fmt(rec.price)}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        ) : (
+                          <p className="text-xs text-[#94969f] italic">Not enough data to predict.</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ───────────────────────────────────────────────────────────── */}
+                  {/* ACTIVE CART & PRODUCT DWELLS                                  */}
+                  {/* ───────────────────────────────────────────────────────────── */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Active Cart */}
+                    <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 shadow-sm space-y-3 flex flex-col">
+                      <div className="flex items-center gap-2 text-sm font-extrabold text-[#0C1A2E]">
+                        <ShoppingBag className="w-4 h-4 text-[#2963FF]" />
+                        <span>Active Cart Items ({customerDetails?.customer?.cart_items?.length || 0})</span>
+                      </div>
+                      <div className="flex-1 bg-[#f9fafb] border border-[#e2e8f0] rounded-xl p-3 overflow-y-auto max-h-[250px] space-y-2">
+                        {customerDetails?.customer?.cart_items?.length > 0 ? (
+                          customerDetails.customer.cart_items.map(ci => (
+                            <div key={ci.id} className="bg-white border border-[#e2e8f0] p-2 rounded-lg flex items-center gap-3">
+                              <img src={ci.image_url} alt={ci.title} className="w-10 h-10 object-cover rounded-md border border-[#e2e8f0]" />
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-bold text-[#0C1A2E] truncate">{ci.title}</p>
+                                <p className="text-[10px] text-[#5c6f84]">Qty: {ci.quantity} • {ci.size}</p>
+                              </div>
+                              <span className="font-bold text-xs text-[#0C1A2E]">{fmt(ci.price * ci.quantity)}</span>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-xs text-[#94969f] text-center italic py-4">Cart is currently empty.</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Product Dwells */}
+                    <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 shadow-sm space-y-3 flex flex-col">
+                      <div className="flex items-center gap-2 text-sm font-extrabold text-[#0C1A2E]">
+                        <Eye className="w-4 h-4 text-[#2963FF]" />
+                        <span>Recent Product Dwells</span>
+                      </div>
+                      <div className="flex-1 bg-[#f9fafb] border border-[#e2e8f0] rounded-xl p-3 overflow-y-auto max-h-[250px] space-y-2">
+                        {customerDetails?.customer?.viewed_products?.length > 0 ? (
+                          customerDetails.customer.viewed_products.map(vp => (
+                            <div key={vp.id} className="bg-white border border-[#e2e8f0] p-2 rounded-lg flex items-center gap-3">
+                              <img src={vp.image_url} alt={vp.title} className="w-10 h-10 object-cover rounded-md border border-[#e2e8f0]" />
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-bold text-[#0C1A2E] truncate">{vp.title}</p>
+                                <p className="text-[10px] text-[#5c6f84]">{vp.brand}</p>
+                              </div>
+                              <span className="text-[10px] font-semibold text-[#2963FF] bg-[#eef1f8] px-2 py-0.5 rounded border border-blue-200">Viewed</span>
+                            </div>
+                          ))
+                        ) : (
+                          <p className="text-xs text-[#94969f] text-center italic py-4">No recent product views.</p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ───────────────────────────────────────────────────────────── */}
                   {/* COMPLETED ORDERS FOR THIS CUSTOMER                            */}
                   {/* ───────────────────────────────────────────────────────────── */}
                   {customerDetails?.orders?.length > 0 && (
