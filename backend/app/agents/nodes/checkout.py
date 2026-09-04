@@ -57,10 +57,10 @@ def checkout_node(state: AgentState) -> AgentState:
         if optimal_disc_pct > 0:
             discount_applied_amount = (total_amount * optimal_disc_pct) / 100.0
             discounted_total = max(0.0, total_amount - discount_applied_amount)
-            discount_note = f"\n\n✨ **AI Negotiator Applied {optimal_disc_pct}% Discount:** You saved **Rs. {int(discount_applied_amount):,}**."
+            discount_note = f"\n\n**AI Negotiator Applied {optimal_disc_pct}% Discount:** You saved **Rs. {int(discount_applied_amount):,}**."
             total_amount = discounted_total
         elif any(w in user_msg for w in ["discount", "coupon", "offer", "deal", "cheap", "less"]):
-            discount_note = "\n\n🛡️ *Merchant Guardrails Note: Cart items are already at direct manufacturer floor price with zero markup.*"
+            discount_note = "\n\n*Merchant Guardrails Note: Cart items are already at direct manufacturer floor price with zero markup.*"
 
         # Generate Razorpay Order via SDK
         order_payload = razorpay_service.create_order(amount=total_amount)

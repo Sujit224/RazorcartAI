@@ -30,7 +30,7 @@ def recovery_node(state: AgentState) -> AgentState:
             }
             state["profit_impact"] = amount # Prevented lost sale
             state["reply"] = (
-                f"⚠️ **Payment Gateway Delay Detected (HTTP 504 Timeout)**.\n\n"
+                f"**Payment Gateway Delay Detected (HTTP 504 Timeout)**.\n\n"
                 f"Don't worry! I have **held your cart price for 15 minutes** and generated an instant **Dynamic UPI QR Code**. "
                 f"You can scan and pay seamlessly via GPay, PhonePe, or Paytm without losing your order."
             )
@@ -95,7 +95,7 @@ def recovery_node(state: AgentState) -> AgentState:
                 state["profit_impact"] = new_total
 
                 state["reply"] = (
-                    f"💳 **Card Declined / Budget Limit Exceeded**.\n\n"
+                    f"**Card Declined / Budget Limit Exceeded**.\n\n"
                     f"To help you stay within budget while securing your primary order, I can remove the accessory "
                     f"**{prunable['product'].brand} {prunable['product'].title}** (Rs. {int(prunable['product'].price)}).\n\n"
                     f"This reduces your checkout total from **Rs. {int(original_total):,}** to **Rs. {int(new_total):,}**. "

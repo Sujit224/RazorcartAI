@@ -60,7 +60,7 @@ def _build_generic_comparison_response(products: List[Dict[str, Any]]) -> str:
             f"- **Price**: Rs. {int(p['price']):,} ({p.get('discount_pct', 0)}% OFF MRP Rs. {int(p.get('original_price', p['price'])):,})\n"
             f"- **Rating**: {p.get('rating', 4.5)}/5.0 ({p.get('review_count', 0)} verified reviews)\n"
             f"- **Category**: {p.get('category', 'General')}\n"
-            f"- **Merchant**: {p.get('merchant_name', 'Verified Seller')} (📍 {p.get('city', 'India')})\n"
+            f"- **Merchant**: {p.get('merchant_name', 'Verified Seller')} ({p.get('city', 'India')})\n"
             f"{meta_bullets}\n\n"
             f"**Description**: {p.get('description', '')}"
         )
@@ -112,11 +112,11 @@ def _build_generic_comparison_response(products: List[Dict[str, Any]]) -> str:
     takeaways_md = "\n".join(takeaways)
 
     return (
-        f"### 📊 Side-by-Side Comparison & Glimpse\n\n"
+        f"### Side-by-Side Comparison & Glimpse\n\n"
         f"{table_md}\n\n"
-        f"#### 🔍 Key Differentiators:\n"
+        f"#### Key Differentiators:\n"
         f"{takeaways_md}\n\n"
-        f"💡 **Recommendation**: If prioritizing top performance & maximum specifications, option **1** is the top pick. For optimal budget efficiency, compare the price differences above."
+        f"**Recommendation**: If prioritizing top performance & maximum specifications, option **1** is the top pick. For optimal budget efficiency, compare the price differences above."
     )
 
 def discovery_node(state: AgentState) -> AgentState:
@@ -219,8 +219,20 @@ def discovery_node(state: AgentState) -> AgentState:
 
     db = SessionLocal()
     try:
-        # Perform Vector Search across entire catalog
-        vector_results = vector_store.search(query, top_k=100)
+        # Canonical Category & Department Filter (LLM + Regex Ontology Scoping)
+        extracted_cat = filters.get("category")
+        extracted_dept = filters.get("department")
+        canon_cat, canon_dept = resolve_category_from_query(raw_query, extracted_cat or extracted_dept)
+        category = canon_cat or extracted_cat
+        department = canon_dept or extracted_dept
+
+        # Perform Partitioned Vector Search
+        vector_results = vector_store.search(
+            query, 
+            top_k=100, 
+            category=canon_cat, 
+            department=canon_dept
+        )
         semantic_scores = {pid: score for pid, score in vector_results}
 
         # Build Dynamic SQL Query based on extracted generic filters
@@ -230,11 +242,6 @@ def discovery_node(state: AgentState) -> AgentState:
         brand = filters.get("brand")
         if brand:
             q = q.filter(Product.brand.ilike(f"%{brand}%"))
-
-        # Canonical Category & Department Filter (LLM + Regex Ontology Scoping)
-        extracted_cat = filters.get("category")
-        canon_cat, canon_dept = resolve_category_from_query(raw_query, extracted_cat)
-        category = canon_cat or extracted_cat
 
         if canon_cat or canon_dept:
             cat_conditions = []
@@ -376,19 +383,19 @@ def discovery_node(state: AgentState) -> AgentState:
 
         if formatted_products:
             top = formatted_products[0]
-            local_str = f"⚡ Express dispatch available from {top['city']}." if top["is_local_seller"] else ""
+            local_str = f"Express dispatch available from {top['city']}." if top["is_local_seller"] else ""
             if is_relaxed_fallback:
                 reply_msg = (
                     f"I couldn't find exact items within that specific budget range, but here are the **top-rated {category or 'closest'} alternatives** from our catalog:\n\n"
-                    f"🌟 **Top Recommendation**: **{top['brand']} {top['title']}** at **Rs. {int(top['price']):,}** "
-                    f"(Rated **★ {top['rating']}** across {top['review_count']} reviews). {local_str}"
+                    f"**Top Recommendation**: **{top['brand']} {top['title']}** at **Rs. {int(top['price']):,}** "
+                    f"(Rated **{top['rating']}** across {top['review_count']} reviews). {local_str}"
                 )
             else:
                 price_context = f" between Rs. {int(min_price):,} - Rs. {int(max_price):,}" if (min_price and max_price) else (f" under Rs. {int(max_price):,}" if max_price else "")
                 reply_msg = (
                     f"I found **{len(formatted_products)} top-rated results** matching your query{price_context}.\n\n"
-                    f"🌟 **Top Pick**: **{top['brand']} {top['title']}** "
-                    f"at **Rs. {int(top['price']):,}** (Rated **★ {top['rating']}** across {top['review_count']} verified reviews). {local_str}\n\n"
+                    f"**Top Pick**: **{top['brand']} {top['title']}** "
+                    f"at **Rs. {int(top['price']):,}** (Rated **{top['rating']}** across {top['review_count']} verified reviews). {local_str}\n\n"
                     f"Ask me to *\"Compare 1st and 3rd\"*, refine by brand, budget, or specifications."
                 )
             audit_reasoning = f"Evaluated {len(matched_products)} candidates across quality, rating weights, and vector relevance. Top pick: {top['brand']} {top['title']}."

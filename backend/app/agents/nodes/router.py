@@ -9,9 +9,10 @@ from ..reference import get_pending
 ROUTER_SYSTEM_PROMPT = """You are RazorCartAI's Master Intent & Attribute Extraction Engine.
 Analyze the user's shopping message (and conversation history) and output a clean JSON object with this EXACT structure:
 {
-  "intent": "discovery" | "fbt_upsell" | "checkout" | "recovery_timeout" | "recovery_funds" | "general",
+  "intent": "discovery" | "fbt_upsell" | "checkout" | "recovery_timeout" | "recovery_funds" | "view_cart" | "view_orders" | "cart_add" | "cart_update_qty" | "cart_remove" | "cart_clear" | "open_item" | "confirm" | "deny" | "general",
   "filters": {
     "brand": string | null,
+    "department": "Electronics" | "Fashion" | "Appliances" | "Home & Kitchen" | "Beauty & Personal Care" | "Sports & Fitness" | null,
     "gender": "Men" | "Women" | "Unisex" | null,
     "category": string | null,
     "color": string | null,
@@ -21,12 +22,13 @@ Analyze the user's shopping message (and conversation history) and output a clea
     "spec_keywords": ["attribute1", "attribute2", ...]
   },
   "search_query": "concise semantic search terms without filler or price words",
-  "conversational_reply": "friendly summary of what you are searching for"
+  "conversational_reply": "friendly summary of what you are searching for (STRICT RULE: DO NOT INCLUDE ANY EMOJIS)"
 }
 
 Extraction guidelines across ALL product domains (Electronics, Fashion, Home, Kitchen, Appliances, Footwear, Sports):
 - "brand": Extract explicit brand names (e.g. Nike, Apple, Samsung, Puma, Adidas, Nokia, Dyson, Philips, OnePlus, Sony, Levi's, etc.) or null.
-- "category": Extract product category/department if mentioned or implied (e.g. Footwear, Electronics, Topwear, Bottomwear, Appliances, Home, Kitchen, Beauty, etc.) or null.
+- "department": Extract the main department if mentioned or implied (Electronics, Fashion, Appliances, Home & Kitchen, Beauty & Personal Care, Sports & Fitness) or null.
+- "category": Extract product sub-category if mentioned or implied (e.g. Footwear, Smartphones, Laptops, Topwear, Bottomwear, etc.) or null.
 - "color": Extract color name or null.
 - "min_price": Extract numeric minimum price for ranges like "between 30000 - 50000" (min: 30000, max: 50000), "from 20k to 40k", "above 15000", etc.
 - "max_price": Extract numeric maximum price if user mentions "under 50000", "below 4000", "within 2k", etc.
@@ -36,6 +38,11 @@ Extraction guidelines across ALL product domains (Electronics, Fashion, Home, Ki
 
 Intent rules:
 - "checkout" means ONLY that the user explicitly wants to pay for items in their bag: "checkout", "pay now", "place order".
+- "view_orders" means the user wants to see their past or recent orders.
+- "view_cart" means the user wants to see what is currently in their bag/cart.
+- "cart_add", "cart_remove", "cart_clear", "cart_update_qty" for managing items in the bag.
+- "open_item" to view details of a specific item.
+- "confirm" / "deny" for answering yes/no to pending requests.
 - Searching or browsing is ALWAYS "discovery".
 
 Do not return anything outside the JSON.
@@ -72,17 +79,18 @@ def router_node(state: AgentState) -> AgentState:
         return state
 
     # 1. Deterministic Grammar for Cart & Orders
-    command = parse_command(msg, has_pending=bool(get_pending(session_id)))
-    if command is not None:
-        state["intent"] = command.intent
-        state["search_query"] = msg
-        state["extracted_filters"] = {
-            "_command": command,
-            "_pattern": command.pattern,
-            **command.slots,
-        }
-        print(f"[Router Node] deterministic match: {command.intent} via {command.pattern}")
-        return state
+    # User requested to use LLM directly instead of RegEx, so we bypass parse_command for intent.
+    # command = parse_command(msg, has_pending=bool(get_pending(session_id)))
+    # if command is not None:
+    #     state["intent"] = command.intent
+    #     state["search_query"] = msg
+    #     state["extracted_filters"] = {
+    #         "_command": command,
+    #         "_pattern": command.pattern,
+    #         **command.slots,
+    #     }
+    #     print(f"[Router Node] deterministic match: {command.intent} via {command.pattern}")
+    #     return state
 
     # 2. General LLM Extraction
     # Format context from recent conversation turns

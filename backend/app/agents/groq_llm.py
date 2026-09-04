@@ -1,8 +1,10 @@
+
 import os
 import json
 from typing import Optional, Dict, Any, List
 from groq import Groq
 from ..config import settings
+from ..services.category_matcher import resolve_category_from_query
 
 class GroqLLMClient:
     def __init__(self):
@@ -63,15 +65,7 @@ class GroqLLMClient:
         elif "men" in msg or "man" in msg or "boys" in msg:
             gender = "Men"
 
-        category = None
-        if any(w in msg for w in ["shoe", "shoes", "sneaker", "sneakers", "footwear", "runners"]):
-            category = "Footwear"
-        elif any(w in msg for w in ["shirt", "t-shirt", "tee", "top", "jacket"]):
-            category = "Topwear"
-        elif any(w in msg for w in ["jean", "jeans", "pants", "trousers"]):
-            category = "Bottomwear"
-        elif any(w in msg for w in ["sock", "socks", "kit", "bag"]):
-            category = "Accessories"
+        category, department = resolve_category_from_query(msg)
 
         color = None
         for c in ["pink", "coral", "white", "black", "lime", "blue", "navy"]:
@@ -93,6 +87,7 @@ class GroqLLMClient:
                     "brand": brand,
                     "gender": gender,
                     "category": category,
+                    "department": department,
                     "color": color,
                     "max_price": max_price,
                     "min_rating": 4.0 if "good" in msg or "best" in msg or "rated" in msg else None

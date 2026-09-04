@@ -22,6 +22,8 @@ logger = logging.getLogger(__name__)
 _SHARED_PRODUCT_IDS = []
 _SHARED_PRODUCT_DOCS = []
 _SHARED_PRODUCT_TITLES = []
+_SHARED_PRODUCT_CATEGORIES = []
+_SHARED_PRODUCT_DEPARTMENTS = []
 _SHARED_INVERTED_INDEX = defaultdict(list)
 _SHARED_IDF = {}
 _SHARED_DOC_NORMS = []
@@ -49,11 +51,14 @@ class CatalogVectorStore:
 
     def __init__(self):
         global _SHARED_PRODUCT_IDS, _SHARED_PRODUCT_DOCS, _SHARED_PRODUCT_TITLES
+        global _SHARED_PRODUCT_CATEGORIES, _SHARED_PRODUCT_DEPARTMENTS
         global _SHARED_INVERTED_INDEX, _SHARED_IDF, _SHARED_DOC_NORMS
 
         self.product_ids: List[int] = list(_SHARED_PRODUCT_IDS)
         self.product_docs: List[str] = list(_SHARED_PRODUCT_DOCS)
         self.product_titles: List[str] = list(_SHARED_PRODUCT_TITLES)
+        self.product_categories: List[str] = list(_SHARED_PRODUCT_CATEGORIES)
+        self.product_departments: List[str] = list(_SHARED_PRODUCT_DEPARTMENTS)
         self._inverted_index: Dict[str, List[Tuple[int, float]]] = _SHARED_INVERTED_INDEX
         self._idf: Dict[str, float] = _SHARED_IDF
         self._doc_norms: List[float] = list(_SHARED_DOC_NORMS)
@@ -63,11 +68,14 @@ class CatalogVectorStore:
     def build_index(self, products: List[Any]) -> None:
         """Index all products from DB."""
         global _SHARED_PRODUCT_IDS, _SHARED_PRODUCT_DOCS, _SHARED_PRODUCT_TITLES
+        global _SHARED_PRODUCT_CATEGORIES, _SHARED_PRODUCT_DEPARTMENTS
         global _SHARED_INVERTED_INDEX, _SHARED_IDF, _SHARED_DOC_NORMS
 
         self.product_ids = []
         self.product_docs = []
         self.product_titles = []
+        self.product_categories = []
+        self.product_departments = []
 
         for p in products:
             try:
@@ -87,6 +95,8 @@ class CatalogVectorStore:
                 self.product_ids.append(p.id)
                 self.product_titles.append(title_line)
                 self.product_docs.append(doc)
+                self.product_categories.append((p.category or "").strip().lower())
+                self.product_departments.append((p.department or "").strip().lower())
             except Exception as e:
                 logger.warning("[Vector Store] Skipping doc for product %s: %s", getattr(p, 'id', None), e)
 
@@ -127,6 +137,8 @@ class CatalogVectorStore:
         _SHARED_PRODUCT_IDS = list(self.product_ids)
         _SHARED_PRODUCT_DOCS = list(self.product_docs)
         _SHARED_PRODUCT_TITLES = list(self.product_titles)
+        _SHARED_PRODUCT_CATEGORIES = list(self.product_categories)
+        _SHARED_PRODUCT_DEPARTMENTS = list(self.product_departments)
         _SHARED_INVERTED_INDEX = self._inverted_index
         _SHARED_IDF = self._idf
         _SHARED_DOC_NORMS = list(self._doc_norms)
@@ -137,6 +149,7 @@ class CatalogVectorStore:
     def _ensure_fitted(self) -> None:
         """Lazily build index from DB if not already fitted or if DB size changed."""
         global _SHARED_PRODUCT_IDS, _SHARED_PRODUCT_DOCS, _SHARED_PRODUCT_TITLES
+        global _SHARED_PRODUCT_CATEGORIES, _SHARED_PRODUCT_DEPARTMENTS
         global _SHARED_INVERTED_INDEX, _SHARED_IDF, _SHARED_DOC_NORMS
 
         if not self.is_fitted or len(self.product_ids) < 500:
@@ -144,6 +157,8 @@ class CatalogVectorStore:
                 self.product_ids = list(_SHARED_PRODUCT_IDS)
                 self.product_docs = list(_SHARED_PRODUCT_DOCS)
                 self.product_titles = list(_SHARED_PRODUCT_TITLES)
+                self.product_categories = list(_SHARED_PRODUCT_CATEGORIES)
+                self.product_departments = list(_SHARED_PRODUCT_DEPARTMENTS)
                 self._inverted_index = _SHARED_INVERTED_INDEX
                 self._idf = _SHARED_IDF
                 self._doc_norms = list(_SHARED_DOC_NORMS)
@@ -165,9 +180,10 @@ class CatalogVectorStore:
             except Exception as e:
                 logger.error("[Vector Store] Auto-fit failed: %s", e, exc_info=True)
 
-    def search(self, query: str, top_k: int = 25) -> List[Tuple[int, float]]:
+    def search(self, query: str, top_k: int = 25, category: str = None, department: str = None) -> List[Tuple[int, float]]:
         """
         Returns [(product_id, score), …] sorted descending.
+
         Matching products receive high scores (0.4 - 1.0).
         Non-matching products receive 0.0.
         """
@@ -201,10 +217,20 @@ class CatalogVectorStore:
                 scores[doc_idx] += q_w * doc_w
 
         # Normalize cosine similarity & apply title / brand boost
+        # Pre-process requested categories
+        cat_filter = category.strip().lower() if category else None
+        dept_filter = department.strip().lower() if department else None
+
         results = []
         for doc_idx in range(N):
             raw_score = scores[doc_idx]
             if raw_score <= 0.0:
+                continue
+
+            # Apply Category & Department Partitioning BEFORE final score calc
+            if cat_filter and cat_filter not in self.product_categories[doc_idx]:
+                continue
+            if dept_filter and dept_filter not in self.product_departments[doc_idx]:
                 continue
 
             cos_sim = raw_score / (q_norm * self._doc_norms[doc_idx])
