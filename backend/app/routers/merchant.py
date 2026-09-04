@@ -9,8 +9,10 @@ from ..models.audit_ledger import AuditLedger
 from ..models.user import User
 from ..models.product import Product
 from ..models.order import Order
+from ..models.cart import CartItem
 from ..routers.auth import require_merchant
 from ..services.vector_store import vector_store
+from ..services.personalization import get_zero_query_feed
 
 
 router = APIRouter(prefix="/api/merchant", tags=["Merchant Portal"])
@@ -605,6 +607,34 @@ def get_merchant_customer_details(
             "items": items,
         })
 
+    # Customer cart items
+    cart_items = db.query(CartItem).filter(CartItem.user_id == user_id).all()
+    formatted_cart = []
+    for c in cart_items:
+        p = db.query(Product).filter(Product.id == c.product_id).first()
+        if p:
+            formatted_cart.append({
+                "id": c.id,
+                "product_id": p.id,
+                "title": p.title,
+                "price": p.price,
+                "quantity": c.quantity,
+                "size": c.size,
+                "image_url": p.image_url,
+                "added_at": c.added_at.isoformat() if c.added_at else None
+            })
+
+    # AI Recommendations based on user profile
+    recommendations = get_zero_query_feed(db, customer, limit=4)
+
+    # Customer Preferences
+    preferences = {}
+    if customer.preferences:
+        try:
+            preferences = json.loads(customer.preferences) if isinstance(customer.preferences, str) else customer.preferences
+        except Exception:
+            preferences = {}
+
     return {
         "customer": {
             "id": customer.id,
@@ -615,6 +645,9 @@ def get_merchant_customer_details(
             "created_at": customer.created_at.isoformat() if customer.created_at else None,
             "search_keywords": search_keywords,
             "viewed_products": viewed_products,
+            "preferences": preferences,
+            "cart_items": formatted_cart,
+            "recommendations": recommendations,
         },
         "metrics": {
             "total_spend": round(total_spend, 2),
