@@ -10,8 +10,10 @@ import { AgentCopilotModal } from '../components/AgentCopilotModal';
 import { CheckoutModal } from '../components/CheckoutModal';
 import {
   ShoppingBag, Trash2, ArrowRight, ShieldCheck, MapPin, Zap,
-  Plus, CheckCircle2, ArrowLeft, Bot, Sparkles, AlertCircle
+  Plus, CheckCircle2, ArrowLeft, Bot, Sparkles, AlertCircle,
+  Percent, ChevronDown, ChevronUp, Loader2, Award
 } from 'lucide-react';
+import { api } from '../services/api';
 
 export default function CartPage() {
   const navigate = useNavigate();
@@ -22,15 +24,56 @@ export default function CartPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
+  // AI Discount Negotiator State
+  const [isNegotiating, setIsNegotiating] = useState(false);
+  const [discountData, setDiscountData] = useState(null);
+  const [showAuditReasoning, setShowAuditReasoning] = useState(false);
+  const [negotiateStatus, setNegotiateStatus] = useState(null); // 'success', 'zero_discount', 'error'
+
   const cartItems = cart?.items || [];
   const subtotal = cart?.subtotal || 0;
-  const total = cart?.total || subtotal;
+  
+  const discountPct = discountData?.optimal_discount_offered || 0;
+  const negotiatedDiscountAmount = (subtotal * discountPct) / 100.0;
+  const total = Math.max(0, (cart?.total || subtotal) - negotiatedDiscountAmount);
 
   const int = (val) => Math.round(Number(val || 0));
 
+  const handleNegotiateDiscount = async () => {
+    if (cartItems.length === 0) return;
+    setIsNegotiating(true);
+    setNegotiateStatus(null);
+    try {
+      const categories = [...new Set(cartItems.map(i => i.product?.category).filter(Boolean))];
+      const res = await api.calculateOptimalDiscount({
+        user_id: currentUser?.id || 1,
+        cart_value: subtotal,
+        item_count: cartItems.length,
+        categories: categories.length > 0 ? categories : ["General"],
+        customer_loyalty_tier: "Gold",
+        historical_conversion_rate: 0.45,
+        merchant_margin_rate: 0.30,
+        competitor_price_ratio: 1.05,
+        merchant_min_margin_threshold: 0.10
+      });
+
+      setDiscountData(res.data);
+      if (res.data.optimal_discount_offered > 0) {
+        setNegotiateStatus('success');
+      } else {
+        setNegotiateStatus('zero_discount');
+      }
+    } catch (err) {
+      console.error("Discount negotiation error:", err);
+      setNegotiateStatus('error');
+    } finally {
+      setIsNegotiating(false);
+    }
+  };
+
   const handleAskAgentForCart = () => {
     setIsAgentOpen(true);
-    sendMessage("Can you review my cart items, suggest any upselling accessories or discounts, and ensure optimal checkout?");
+    sendMessage("Can you review my cart items, negotiate any available discounts with the merchant engine, and assist with checkout?");
   };
 
   return (
@@ -234,9 +277,117 @@ export default function CartPage() {
 
             </div>
 
-            {/* Right Column: Price Details & Checkout Button */}
+            {/* Right Column: Price Details & AI Negotiator & Checkout Button */}
             <div className="lg:col-span-5 space-y-6">
               
+              {/* AI Smart Negotiator Card */}
+              <div className="bg-gradient-to-br from-[#0c2340] to-[#1a365d] text-white rounded-2xl p-5 shadow-lg border border-blue-900/40 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <div className="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-400/30 flex items-center justify-center">
+                      <Sparkles className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <div>
+                      <h4 className="text-xs font-black tracking-wide uppercase text-white">AI Checkout Negotiator</h4>
+                      <p className="text-[10px] text-blue-200">LightGBM Real-time Profit & Margin Optimizer</p>
+                    </div>
+                  </div>
+                  <span className="text-[10px] bg-blue-500/20 text-blue-300 font-extrabold px-2 py-0.5 rounded-full border border-blue-400/20">
+                    Live Guardrails
+                  </span>
+                </div>
+
+                {!discountData ? (
+                  <div className="space-y-3">
+                    <p className="text-xs text-gray-300 leading-relaxed">
+                      Allow our automated agent to query merchant guardrails and find the profit-maximizing checkout discount for your cart.
+                    </p>
+                    <button
+                      onClick={handleNegotiateDiscount}
+                      disabled={isNegotiating}
+                      className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
+                    >
+                      {isNegotiating ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Evaluating Guardrails...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Percent className="w-4 h-4 text-blue-300" />
+                          <span>Negotiate Best Price with AI</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-3 animate-fade-in">
+                    {negotiateStatus === 'success' ? (
+                      <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 flex items-start gap-2.5">
+                        <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                          <p className="text-xs font-black text-emerald-300">
+                            ✨ {discountPct}% Exclusive AI Discount Authorized!
+                          </p>
+                          <p className="text-[11px] text-emerald-200 mt-0.5">
+                            You saved <strong>Rs. {int(negotiatedDiscountAmount)}</strong> on this checkout.
+                          </p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 flex items-start gap-2.5">
+                        <Award className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+                        <div className="flex-1">
+                          <p className="text-xs font-black text-amber-300">
+                            Direct Seller Minimum Price Guaranteed
+                          </p>
+                          <p className="text-[11px] text-amber-200 mt-0.5">
+                            This catalog is already priced at zero seller markup with free express delivery.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Observability Toggle */}
+                    <button
+                      onClick={() => setShowAuditReasoning(!showAuditReasoning)}
+                      className="w-full py-1.5 px-3 bg-white/10 hover:bg-white/15 text-blue-200 text-[11px] font-bold rounded-lg border border-white/10 flex items-center justify-between transition-colors cursor-pointer"
+                    >
+                      <span>Merchant Mathematical Observability</span>
+                      {showAuditReasoning ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                    </button>
+
+                    {/* Observability Breakdown Table */}
+                    {showAuditReasoning && (
+                      <div className="bg-black/40 rounded-xl p-3 border border-white/10 space-y-2 text-[10px] animate-fade-in font-mono">
+                        <div className="flex justify-between text-gray-400 border-b border-white/10 pb-1">
+                          <span>Engine: {discountData.engine_reasoning?.model_type || "LightGBM"}</span>
+                          <span>Max Cap: {discountData.max_authorized_discount}%</span>
+                        </div>
+                        <div className="divide-y divide-white/5">
+                          <div className="grid grid-cols-3 text-gray-400 py-1 font-bold">
+                            <span>Tier</span>
+                            <span>Conv. Rate</span>
+                            <span className="text-right">Exp. Profit</span>
+                          </div>
+                          {discountData.engine_reasoning?.evaluated_tiers?.map((t, idx) => (
+                            <div
+                              key={idx}
+                              className={`grid grid-cols-3 py-1 ${t.discount_pct === discountPct ? 'text-emerald-400 font-bold bg-emerald-500/10 px-1 rounded' : 'text-gray-300'}`}
+                            >
+                              <span>{t.discount_pct}%</span>
+                              <span>{(t.conversion_probability * 100).toFixed(1)}%</span>
+                              <span className="text-right">Rs. {Math.round(t.expected_profit_inr)}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Price Details Card */}
               <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4 sticky top-24">
                 <h3 className="text-xs font-extrabold uppercase tracking-wider text-gray-500 pb-3 border-b border-gray-100">
                   Price Details ({cartItems.length} Items)
@@ -253,6 +404,16 @@ export default function CartPage() {
                     <span className="font-bold text-emerald-600">- Rs. {int((cart.subtotal * 1.15) - subtotal)}</span>
                   </div>
 
+                  {discountPct > 0 && (
+                    <div className="flex items-center justify-between text-emerald-700 bg-emerald-50 p-2 rounded-lg border border-emerald-200 font-bold">
+                      <span className="flex items-center gap-1">
+                        <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                        AI Negotiated ({discountPct}%):
+                      </span>
+                      <span>- Rs. {int(negotiatedDiscountAmount)}</span>
+                    </div>
+                  )}
+
                   <div className="flex items-center justify-between">
                     <span>Convenience / Shipping Fee:</span>
                     <span className="font-extrabold text-emerald-600 uppercase">FREE</span>
@@ -267,9 +428,9 @@ export default function CartPage() {
                 {/* Main Checkout Button */}
                 <button
                   onClick={() => setIsCheckoutOpen(true)}
-                  className="w-full py-4 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-colors"
+                  className="w-full py-4 rounded-xl bg-[#0066cc] hover:bg-[#0052a3] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg flex items-center justify-center gap-2 transition-colors cursor-pointer"
                 >
-                  <span>Proceed to Checkout</span>
+                  <span>Proceed to Checkout (Rs. {int(total)})</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
 
@@ -304,7 +465,12 @@ export default function CartPage() {
       <CustomerSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <AgenticChatbotLauncher />
       <AgentCopilotModal />
-      <CheckoutModal isOpen={isCheckoutOpen} onClose={() => setIsCheckoutOpen(false)} />
+      <CheckoutModal
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        customAmount={total}
+        discountData={discountData}
+      />
     </div>
   );
 }

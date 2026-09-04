@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { X, CreditCard, ShieldCheck, CheckCircle2, QrCode, AlertTriangle, Clock, RefreshCw, Zap } from 'lucide-react';
+import { X, CreditCard, ShieldCheck, CheckCircle2, QrCode, AlertTriangle, Clock, RefreshCw, Zap, Sparkles } from 'lucide-react';
 import { useAgent } from '../context/AgentContext';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
 
-export const CheckoutModal = ({ isOpen, onClose }) => {
+export const CheckoutModal = ({ isOpen, onClose, customAmount, discountData }) => {
   const {
     isCheckoutModalOpen,
     setIsCheckoutModalOpen,
@@ -27,7 +27,7 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
 
   if (!shouldShow) return null;
 
-  const totalAmount = activeCheckoutData?.amount || cart.total || 3596.0;
+  const totalAmount = customAmount !== undefined ? customAmount : (activeCheckoutData?.amount || cart.total || 3596.0);
 
   const handlePayWithRazorpay = async () => {
     setLoading(true);
@@ -184,6 +184,15 @@ export const CheckoutModal = ({ isOpen, onClose }) => {
                   <span>Customer:</span>
                   <span className="font-semibold text-gray-800">{currentUser?.name} ({currentUser?.city})</span>
                 </div>
+                {discountData?.optimal_discount_offered > 0 && (
+                  <div className="flex justify-between items-center text-xs text-emerald-700 bg-emerald-50 px-2 py-1 rounded border border-emerald-200 mb-2 font-bold">
+                    <span className="flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                      AI Smart Perk Applied:
+                    </span>
+                    <span>{discountData.optimal_discount_offered}% Off</span>
+                  </div>
+                )}
                 <div className="pt-2 border-t border-gray-200 flex justify-between items-center">
                   <span className="text-sm font-extrabold text-[#0c2340]">Total Payable:</span>
                   <span className="text-lg font-black text-[#0066cc]">

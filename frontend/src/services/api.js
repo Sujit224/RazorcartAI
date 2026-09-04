@@ -75,8 +75,10 @@ export const api = {
 
   agentChat: (data) => apiClient.post('/api/agent/chat', data),
 
-  // ─── Customer: Payments ───────────────────────────────────────────────────
+  // ─── Customer: Payments & Discounts ───────────────────────────────────────
 
+  calculateOptimalDiscount: (data) =>
+    apiClient.post('/calculate_optimal_discount', data),
   createPaymentOrder: (data) => apiClient.post('/api/payment/create-order', data),
   confirmPaymentSuccess: (data) =>
     apiClient.post('/api/payment/confirm-success', data),

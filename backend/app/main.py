@@ -9,7 +9,7 @@ from .database import engine, Base, SessionLocal
 from .models import User, Product, CartItem, Order, AuditLedger
 from .services.seed_data import seed_database
 from .routers import auth, products, cart, agent, payment, audit
-from .routers import merchant, admin, reviews, orders
+from .routers import merchant, admin, reviews, orders, discount
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent
 STATIC_DIR = BACKEND_DIR / "static"
@@ -60,6 +60,7 @@ app.include_router(orders.router)
 app.include_router(cart.router)
 app.include_router(agent.router)
 app.include_router(payment.router)
+app.include_router(discount.router)
 
 # Merchant Portal APIs (role-guarded)
 app.include_router(merchant.router)
