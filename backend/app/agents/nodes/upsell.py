@@ -3,6 +3,7 @@ from ..state import AgentState
 from ..reference import KIND_PRODUCT, FocusItem, set_focus, set_last_ref
 from ...database import SessionLocal
 from ...models.product import Product
+from ...services.fbt_engine import get_dynamic_fbts
 
 def upsell_node(state: AgentState) -> AgentState:
     """Recommends Frequently Bought Together complementary products at catalog pricing."""
@@ -22,35 +23,11 @@ def upsell_node(state: AgentState) -> AgentState:
         if target_id:
             parent = db.query(Product).filter(Product.id == target_id).first()
             if parent:
-                fbt_ids = json.loads(parent.fbt_product_ids or "[]")
-                if not fbt_ids:
-                    # Fallback to accessories like socks and cleaning kit
-                    fbt_ids = [9, 10]
-
-                complementary_prods = db.query(Product).filter(Product.id.in_(fbt_ids)).all()
-                for cp in complementary_prods:
-                    fbt_items.append({
-                        "id": cp.id,
-                        "title": cp.title,
-                        "brand": cp.brand,
-                        "category": cp.category,
-                        "gender": cp.gender,
-                        "color": cp.color,
-                        "price": cp.price,
-                        "original_price": cp.original_price,
-                        "discount_pct": cp.discount_pct,
-                        "rating": cp.rating,
-                        "review_count": cp.review_count,
-                        "stock": cp.stock,
-                        "city": cp.city,
-                        "image_url": cp.image_url,
-                        "description": cp.description,
-                        "tags": json.loads(cp.tags) if isinstance(cp.tags, str) else cp.tags,
-                        "fbt_product_ids": json.loads(cp.fbt_product_ids) if isinstance(cp.fbt_product_ids, str) else cp.fbt_product_ids,
-                        "is_active": cp.is_active,
-                        "created_at": str(cp.created_at),
-                        "rating_review_badge": f"★ {cp.rating} ({cp.review_count}+ reviews)"
-                    })
+                fbt_items = get_dynamic_fbts(db, parent, state.get("user_id") or 1, limit=3)
+                
+                # Add badges to formatted items for agent reference
+                for item in fbt_items:
+                    item["rating_review_badge"] = f"★ {item['rating']} ({item['review_count']}+ reviews)"
 
         state["fbt_products"] = fbt_items
 

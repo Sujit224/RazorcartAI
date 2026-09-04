@@ -8,7 +8,8 @@ from ..models.product import Product
 from ..schemas.cart import CartItemCreate, CartItemUpdate, CartSummaryResponse, CartItemResponse
 from ..services import cart_service as cs
 from ..services.cart_service import CartError
-from .products import format_product_dict
+from .products import format_product
+from app.services.fbt_engine import get_dynamic_fbts
 
 router = APIRouter(prefix="/api/cart", tags=["Cart"])
 
@@ -19,7 +20,7 @@ def get_user_cart(user_id: int = 1, db: Session = Depends(get_db)):
     rows = cs.cart_rows(db, user_id)
 
     items_response = []
-    all_fbt_ids = set()
+    all_fbts = []
     for item, prod in rows:
         items_response.append({
             "id": item.id,
@@ -28,20 +29,17 @@ def get_user_cart(user_id: int = 1, db: Session = Depends(get_db)):
             "quantity": item.quantity,
             "size": item.size,
             "priority": item.priority,
-            "product": format_product_dict(prod)
+            "product": format_product(prod, user_id, db)
         })
-        fbt_list = json.loads(prod.fbt_product_ids or "[]")
-        for fid in fbt_list:
-            all_fbt_ids.add(fid)
+        # Generate FBTs dynamically for each product in the cart
+        fbt_list = get_dynamic_fbts(db, prod, user_id, limit=3)
+        for fbt in fbt_list:
+            if fbt["id"] not in [f["id"] for f in all_fbts]:
+                all_fbts.append(fbt)
 
     # Exclude items already in cart from FBT recommendations
     existing_pids = {item.product_id for item, _ in rows}
-    candidate_fbt_ids = [fid for fid in all_fbt_ids if fid not in existing_pids]
-
-    fbt_products = []
-    if candidate_fbt_ids:
-        prods = db.query(Product).filter(Product.id.in_(candidate_fbt_ids[:3])).all()
-        fbt_products = [format_product_dict(p) for p in prods]
+    fbt_products = [f for f in all_fbts if f["id"] not in existing_pids][:3]
 
     subtotal = sum(p.price * i.quantity for i, p in rows)
     shipping = cs.shipping_for(subtotal)

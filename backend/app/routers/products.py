@@ -9,10 +9,11 @@ from ..schemas.product import ProductResponse
 from ..services.ranking import rank_products
 from ..services.vector_store import vector_store
 from ..services.personalization import get_zero_query_feed
+from app.services.fbt_engine import get_dynamic_fbts
 
 router = APIRouter(prefix="/api/products", tags=["Products"])
 
-def format_product_dict(p: Product, score: float = 0.0, is_local: bool = False, badge: Optional[str] = None) -> dict:
+def format_product(p: Product, current_user_id: int, db: Session, score: float = 0.0, is_local: bool = False, badge: Optional[str] = None) -> dict:
     return {
         "id": p.id,
         "title": p.title,
@@ -30,7 +31,7 @@ def format_product_dict(p: Product, score: float = 0.0, is_local: bool = False, 
         "image_url": p.image_url,
         "description": p.description,
         "tags": json.loads(p.tags) if isinstance(p.tags, str) else (p.tags or []),
-        "fbt_product_ids": json.loads(p.fbt_product_ids) if isinstance(p.fbt_product_ids, str) else (p.fbt_product_ids or []),
+        "fbt_products": get_dynamic_fbts(db, p, current_user_id, limit=2),
         "is_active": p.is_active,
         "created_at": p.created_at,
         "ranking_score": round(score, 3) if score else None,
@@ -51,7 +52,8 @@ def get_products(
     user_city: Optional[str] = "Bengaluru",
     limit: int = Query(default=60, ge=1, le=250),
     offset: int = Query(default=0, ge=0),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user_id: int = 1
 ):
     semantic_scores = {}
     has_query = bool(query and query.strip())
@@ -111,8 +113,10 @@ def get_products(
         has_query=has_query
     )
 
-    return [format_product_dict(
+    return [format_product(
         item["product"],
+        current_user_id,
+        db,
         score=item["final_score"],
         is_local=item["is_local_seller"],
         badge=item["rating_review_badge"]
@@ -127,13 +131,13 @@ def get_personalized_feed(user_id: int = 1, db: Session = Depends(get_db)):
     
     if not user:
         products = db.query(Product).limit(10).all()
-        return [format_product_dict(p) for p in products]
+        return [format_product(p, user_id, db) for p in products]
 
     feed = get_zero_query_feed(db, user, limit=8)
     return feed
 
 @router.get("/{product_id}", response_model=ProductResponse)
-def get_product_details(product_id: int, user_id: Optional[int] = None, db: Session = Depends(get_db)):
+def get_product_details(product_id: int, user_id: Optional[int] = 1, db: Session = Depends(get_db)):
     prod = db.query(Product).filter(Product.id == product_id).first()
     if not prod:
         raise HTTPException(status_code=404, detail="Product not found")
@@ -151,4 +155,4 @@ def get_product_details(product_id: int, user_id: Optional[int] = None, db: Sess
             except Exception:
                 pass
 
-    return format_product_dict(prod)
+    return format_product(prod, user_id, db)

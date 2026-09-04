@@ -19,5 +19,6 @@ class User(Base):
     # Customer-specific fields
     search_history = Column(Text, default="[]")         # JSON array of search strings
     viewed_product_ids = Column(Text, default="[]")     # JSON array of product IDs
+    preferences = Column(Text, default="{}")            # JSON dict for AI extracted preferences (e.g. {"color": "black"})
 
     created_at = Column(DateTime, default=datetime.utcnow)

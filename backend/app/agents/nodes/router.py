@@ -5,6 +5,8 @@ from ..state import AgentState
 from ..groq_llm import groq_llm
 from ..commands import parse_command
 from ..reference import get_pending
+from ...database import SessionLocal
+from ...models.user import User
 
 ROUTER_SYSTEM_PROMPT = """You are RazorCartAI's Master Intent & Attribute Extraction Engine.
 Analyze the user's shopping message (and conversation history) and output a clean JSON object with this EXACT structure:
@@ -117,6 +119,23 @@ def router_node(state: AgentState) -> AgentState:
         state["intent"] = "discovery"
         state["extracted_filters"] = {}
         state["search_query"] = msg
+
+    # Save extracted color taste to User preferences for FBT personalization
+    extracted_color = state["extracted_filters"].get("color")
+    if extracted_color and state.get("user_id"):
+        try:
+            db = SessionLocal()
+            user = db.query(User).filter(User.id == state["user_id"]).first()
+            if user:
+                prefs = {}
+                if user.preferences:
+                    prefs = json.loads(user.preferences)
+                prefs["color"] = extracted_color.lower()
+                user.preferences = json.dumps(prefs)
+                db.commit()
+            db.close()
+        except Exception as e:
+            print(f"[Router Node] Error saving user preferences: {e}")
 
     # Guard the money intent
     if state["intent"] == "checkout" and not _PAY_VERB.search(msg):
