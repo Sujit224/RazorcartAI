@@ -140,28 +140,19 @@ def _build_rich_description(title: str, brand: str, dept: str, cat: str, meta: D
     return desc
 
 
-from .phone_catalog import generate_5000_mobile_phones
-
 def generate_10k_products() -> List[Dict[str, Any]]:
     """
-    Produces exactly 10,000 products:
-    - 5,000 Flagship & Pro Mobile Phones across top brands (Samsung, Apple, Nokia, OnePlus, Google, Xiaomi, Asus ROG)
-    - 5,000 Lifestyle, Fashion, Appliances, and Electronics items.
+    Produces exactly 10,000 products across all general E-commerce departments:
+    - Lifestyle, Fashion, Appliances, Electronics, Home & Kitchen, etc.
     """
     products: List[Dict[str, Any]] = []
 
-    # 1. Ingest 5,000 Flagship & Pro Mobile Phones
-    phone_products = generate_5000_mobile_phones()
-    products.extend(phone_products)
-
-    # 2. Generate remaining (10000 - 70 = 9930) products
     target_count = 10000
-    needed = target_count - len(products)
     n_subcats = len(SUBCATEGORIES)
-    base_per_subcat = needed // n_subcats
-    remainder = needed % n_subcats
+    base_per_subcat = target_count // n_subcats
+    remainder = target_count % n_subcats
 
-    curr_id = len(products) + 1
+    curr_id = 1
     rng = random.Random(42)  # Deterministic seed for reproducible data
 
     for subcat_idx, subcat in enumerate(SUBCATEGORIES):
@@ -285,11 +276,8 @@ def generate_10k_products() -> List[Dict[str, Any]]:
                 merchant["merchant_id"].lower(),
             ]))
 
-            # FBT cross-sell IDs
-            fbt_ids = [
-                ((curr_id + 3) % target_count) + 1,
-                ((curr_id + 7) % target_count) + 1
-            ]
+            # FBT cross-sell IDs - will be populated dynamically after all products are built
+            fbt_ids = []
 
             # Rating & reviews
             rating = round(rng.triangular(3.8, 5.0, 4.5), 1)
@@ -325,5 +313,20 @@ def generate_10k_products() -> List[Dict[str, Any]]:
     # Guarantee unique sequential IDs from 1 to N
     for idx, p in enumerate(products):
         p["id"] = idx + 1
+
+    # Intelligent FBT assignment by department
+    from collections import defaultdict
+    dept_to_ids = defaultdict(list)
+    for p in products:
+        dept_to_ids[p["department"]].append(p["id"])
+
+    for p in products:
+        dept = p["department"]
+        pool = dept_to_ids[dept]
+        if len(pool) >= 3:
+            fbt = rng.sample([pid for pid in pool if pid != p["id"]], 2)
+        else:
+            fbt = [((p["id"] + 15) % target_count) + 1, ((p["id"] + 27) % target_count) + 1]
+        p["fbt_product_ids"] = json.dumps(fbt)
 
     return products
