@@ -70,7 +70,7 @@ export const ProductCard = ({ product }) => {
           <button
             onClick={handleAskAgent}
             className="px-3 py-2 bg-[#f8fafc] hover:bg-[#f0f7ff] text-[#0c2340] border border-[#e2e8f0] text-xs font-semibold rounded-xl flex items-center justify-center transition-colors cursor-pointer"
-            title="Ask RAY about customer reviews & fit"
+            title="Ask ZORA about customer reviews & fit"
           >
             <Bot className="w-3.5 h-3.5 text-[#0066cc]" />
           </button>
@@ -79,7 +79,7 @@ export const ProductCard = ({ product }) => {
 
       {/* Product Details Section */}
       <div className="pt-3.5 px-3.5 space-y-1">
-        <h3 className="font-extrabold text-sm text-[#0c2340] tracking-tight leading-tight">
+        <h3 className="font-extrabold text-sm text-[#0047fb] tracking-tight leading-tight">
           {product.brand}
         </h3>
 
@@ -97,7 +97,7 @@ export const ProductCard = ({ product }) => {
               <span className="text-xs text-slate-400 line-through">
                 Rs. {int(product.original_price)}
               </span>
-              <span className="text-xs font-extrabold text-[#00b386] tracking-tight">
+              <span className="text-xs font-extrabold text-[#0047fb] tracking-tight">
                 ({product.discount_pct}% OFF)
               </span>
             </>

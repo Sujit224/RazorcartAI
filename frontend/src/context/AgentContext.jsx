@@ -18,10 +18,12 @@ export const AgentProvider = ({ children }) => {
   const [messages, setMessages] = useState([
     {
       sender: 'agent',
-      text: "👋 Hi! I'm **RazorCart Agentic Copilot**. Ask me to find high-rated running shoes, show your bag, reorder a past purchase, or checkout — and say things like *\"open the first one\"* or *\"increase the quantity\"* and I will know what you mean.",
+      text: "Hi! I'm **ZORA, your RazorCart Agentic Copilot**. Ask me to find high-rated running shoes, show your bag, reorder a past purchase, or checkout — and say things like *\"open the first one\"* or *\"increase the quantity\"* and I will know what you mean.",
       intent: 'general',
       products: [],
       fbt_products: [],
+      cart_snapshot: null,
+      orders_snapshot: [],
       suggested_actions: [
         "Show me my cart",
         "What are my past orders",

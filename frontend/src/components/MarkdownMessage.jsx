@@ -2,8 +2,14 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
+const stripEmojis = (str) => {
+  if (typeof str !== 'string') return str;
+  return str.replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F900}-\u{1F9FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}]/gu, '');
+};
+
 export const MarkdownMessage = ({ content, isUser = false }) => {
   if (!content) return null;
+  const cleanContent = stripEmojis(content);
 
   return (
     <div className={`prose-sm max-w-none text-xs md:text-sm leading-relaxed ${isUser ? 'text-white' : 'text-[#0c2340]'}`}>
@@ -138,7 +144,7 @@ export const MarkdownMessage = ({ content, isUser = false }) => {
           ),
         }}
       >
-        {content}
+        {cleanContent}
       </ReactMarkdown>
     </div>
   );

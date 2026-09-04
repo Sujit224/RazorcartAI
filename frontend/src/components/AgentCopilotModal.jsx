@@ -32,7 +32,14 @@ export const AgentCopilotModal = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, loading]);
 
-  if (!isAgentOpen) return null;
+  useEffect(() => {
+    if (isAgentOpen && !currentUser) {
+      setIsAgentOpen(false);
+      navigate('/login');
+    }
+  }, [isAgentOpen, currentUser, navigate, setIsAgentOpen]);
+
+  if (!isAgentOpen || !currentUser) return null;
 
   // Only the newest message's gate is live. An older bubble's buttons would post
   // a "yes" against whatever is pending *now*, which is a different action than
@@ -68,29 +75,12 @@ export const AgentCopilotModal = () => {
       <div className={`w-full ${isFullScreen ? 'max-w-full' : 'max-w-lg'} bg-white h-full shadow-2xl flex flex-col transition-all duration-300`}>
         
         {/* Copilot Header */}
-        <div className="p-4.5 bg-white text-[#0c2340] flex items-center justify-between border-b border-[#e2e8f0]">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-[#0066cc] flex items-center justify-center shadow-sm">
-              <Bot className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h3 className="font-extrabold text-base tracking-tight text-[#0c2340]">Razorcart AI Copilot</h3>
-                <span className="text-[10px] font-bold bg-[#f0f7ff] border border-[#0066cc]/20 text-[#0066cc] px-2 py-0.5 rounded-md uppercase tracking-wider">
-                  RAY
-                </span>
-              </div>
-              <p className="text-xs text-[#5c6f84] font-medium">Autonomous Commerce • Bounded & Explainable</p>
-            </div>
+        <div className="p-4 bg-white text-[#0c2340] flex items-center justify-between border-b border-[#e2e8f0]">
+          <div>
+            <h3 className="font-extrabold text-base tracking-tight text-[#0c2340]">ZORA</h3>
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => setIsAuditModalOpen(true)}
-              className="text-xs font-bold text-[#00b386] bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl hover:bg-emerald-100 transition-colors cursor-pointer"
-            >
-              Audit Trail
-            </button>
             <button
               onClick={() => setIsFullScreen(!isFullScreen)}
               className="p-2 text-[#5c6f84] hover:text-[#0c2340] rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
@@ -114,9 +104,6 @@ export const AgentCopilotModal = () => {
             <MapPin className="w-3.5 h-3.5 text-[#0066cc]" />
             <span>Shopping as <strong className="text-[#0c2340] font-bold">{currentUser?.name}</strong> in <strong className="text-[#0066cc] font-bold">{currentUser?.city}</strong></span>
           </div>
-          <span className="text-[10px] bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold px-2 py-0.5 rounded-md">
-            Rating-Aware Engine
-          </span>
         </div>
 
         {/* Chat Messages Container */}
@@ -128,10 +115,10 @@ export const AgentCopilotModal = () => {
             >
               {/* Message Bubble */}
               <div
-                className={`max-w-[88%] p-4 rounded-2xl text-xs md:text-sm leading-relaxed shadow-xs ${
+                className={`max-w-[88%] p-4 rounded-lg text-xs md:text-sm leading-relaxed shadow-sm ${
                   msg.sender === 'user'
-                    ? 'bg-[#0066cc] text-white rounded-tr-none font-medium'
-                    : 'bg-[#f8fafc] border border-[#e2e8f0] text-[#0c2340] rounded-tl-none'
+                    ? 'bg-[#0047fb] text-white rounded-tr-none font-normal'
+                    : 'bg-white border border-[#e2e8f0] text-[#0c2340] rounded-tl-none font-normal'
                 }`}
               >
                 {/* Render Text / Markdown formatted message */}
@@ -167,7 +154,7 @@ export const AgentCopilotModal = () => {
                           <div
                             key={p.id || pIdx}
                             onClick={() => handleViewProduct(p.id)}
-                            className="bg-white border border-[#e2e8f0] p-3 rounded-2xl flex items-center justify-between gap-3.5 hover:border-[#0066cc] hover:shadow-md transition-all cursor-pointer group"
+                            className="bg-white border border-[#e2e8f0] p-3 rounded-lg flex items-center justify-between gap-3.5 hover:border-[#0047fb] hover:shadow-sm transition-all cursor-pointer group"
                           >
                             {/* Fixed Thumbnail Image Container */}
                             <div className="relative w-16 h-20 rounded-xl overflow-hidden bg-slate-100 shrink-0 border border-slate-200">
@@ -183,7 +170,7 @@ export const AgentCopilotModal = () => {
 
                             {/* Details Container */}
                             <div className="flex-1 min-w-0">
-                              <div className="font-extrabold text-xs text-[#0c2340] group-hover:text-[#0066cc] transition-colors line-clamp-1">
+                              <div className="font-semibold text-xs text-[#0c2340] group-hover:text-[#0047fb] transition-colors line-clamp-1">
                                 {p.brand} {p.title}
                               </div>
 
@@ -244,7 +231,7 @@ export const AgentCopilotModal = () => {
                         <div
                           key={cp.id}
                           onClick={() => handleViewProduct(cp.id)}
-                          className="bg-white p-2.5 rounded-xl border border-[#e2e8f0] hover:border-[#0066cc] flex items-center justify-between gap-2 cursor-pointer transition-all group"
+                          className="bg-white p-2.5 rounded-lg border border-[#e2e8f0] hover:border-[#0047fb] flex items-center justify-between gap-2 cursor-pointer transition-all group shadow-sm"
                         >
                           <img src={cp.image_url} alt={cp.title} className="w-10 h-10 object-cover rounded-lg group-hover:scale-105 transition-transform shrink-0" />
                           <div className="flex-1 min-w-0">
@@ -289,7 +276,7 @@ export const AgentCopilotModal = () => {
                       {msg.cart_snapshot.items.slice(0, 8).map((row, rIdx) => (
                         <div
                           key={row.item_id}
-                          className="bg-white border border-[#e2e8f0] p-2.5 rounded-xl flex items-center gap-2.5"
+                          className="bg-white border border-[#e2e8f0] p-2.5 rounded-lg flex items-center gap-2.5 shadow-sm"
                         >
                           <span className="w-5 h-5 shrink-0 rounded-md bg-[#f0f7ff] text-[#0066cc] text-[10px] font-black flex items-center justify-center">
                             {rIdx + 1}
@@ -528,7 +515,7 @@ export const AgentCopilotModal = () => {
                     <button
                       key={aIdx}
                       onClick={() => handleActionClick(act)}
-                      className="text-xs font-bold bg-white hover:bg-[#f0f7ff] text-[#0c2340] hover:text-[#0066cc] border border-[#e2e8f0] hover:border-[#0066cc] px-3.5 py-2 rounded-xl transition-all shadow-xs flex items-center gap-1.5 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
+                      className="text-xs font-semibold bg-white hover:bg-[#eff6ff] text-[#0c2340] hover:text-[#0047fb] border border-[#e2e8f0] hover:border-[#0047fb] px-3.5 py-2 rounded-lg transition-all shadow-sm flex items-center gap-1.5 cursor-pointer transform hover:-translate-y-0.5 active:translate-y-0"
                     >
                       <span>{act}</span>
                       <ArrowUpRight className="w-3.5 h-3.5 text-[#5c6f84] group-hover:text-[#0066cc]" />

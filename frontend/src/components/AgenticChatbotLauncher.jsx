@@ -27,15 +27,15 @@ export const AgenticChatbotLauncher = () => {
         <Sparkles className="w-3.5 h-3.5 text-[#00b386]" />
       </button>
 
-      {/* Razorpay 'Ask RAY' Widget Button */}
+      {/* Razorpay 'Ask ZORA' Widget Button */}
       <button
         onClick={() => setIsAgentOpen(true)}
         className="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-emerald-50/50 text-[#0c2340] border-2 border-[#00b386] rounded-xl shadow-lg transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer font-extrabold text-sm"
-        title="Ask Agentic AI Copilot (RAY)"
-        aria-label="Ask RAY"
+        title="Ask Agentic AI Copilot (ZORA)"
+        aria-label="Ask ZORA"
       >
         <span className="w-4 h-4 text-[#00b386] flex items-center justify-center font-black text-base">✤</span>
-        <span className="tracking-tight">Ask RAY</span>
+        <span className="tracking-tight">Ask ZORA</span>
       </button>
 
     </div>

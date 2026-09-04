@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, CreditCard, ShieldCheck, CheckCircle2, QrCode, AlertTriangle, Clock, RefreshCw, Zap, Sparkles } from 'lucide-react';
 import { useAgent } from '../context/AgentContext';
 import { useCart } from '../context/CartContext';
@@ -18,6 +19,7 @@ export const CheckoutModal = ({ isOpen, onClose, customAmount, discountData }) =
   const [paymentStep, setPaymentStep] = useState('gateway'); // gateway, processing, success, timeout_recovery
   const [upiData, setUpiData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const shouldShow = isOpen !== undefined ? isOpen : isCheckoutModalOpen;
   const handleClose = () => {
@@ -25,7 +27,14 @@ export const CheckoutModal = ({ isOpen, onClose, customAmount, discountData }) =
     setIsCheckoutModalOpen(false);
   };
 
-  if (!shouldShow) return null;
+  useEffect(() => {
+    if (shouldShow && !currentUser) {
+      handleClose();
+      navigate('/login');
+    }
+  }, [shouldShow, currentUser, navigate]);
+
+  if (!shouldShow || !currentUser) return null;
 
   const totalAmount = customAmount !== undefined ? customAmount : (activeCheckoutData?.amount || cart.total || 3596.0);
 
