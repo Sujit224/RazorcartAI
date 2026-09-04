@@ -37,9 +37,25 @@ export default function ProfilePage() {
 
   const cities = ['Bengaluru', 'Mumbai', 'Delhi', 'Hyderabad', 'Chennai'];
 
+  const [recommendations, setRecommendations] = useState([]);
+  const [loadingRecommendations, setLoadingRecommendations] = useState(false);
+
   useEffect(() => {
     fetchOrders();
+    fetchRecommendations();
   }, [currentUser?.id]);
+
+  const fetchRecommendations = async () => {
+    setLoadingRecommendations(true);
+    try {
+      const res = await api.getPersonalizedFeed(currentUser?.id || 1);
+      setRecommendations(res.data.slice(0, 4) || []);
+    } catch (err) {
+      console.error('Failed to fetch recommendations:', err);
+    } finally {
+      setLoadingRecommendations(false);
+    }
+  };
 
   const fetchOrders = async () => {
     setLoadingOrders(true);
@@ -304,6 +320,49 @@ export default function ProfilePage() {
                       <p className="text-xs text-[#94969f] mt-1 font-normal">Proceed to secure checkout</p>
                     </div>
                   </div>
+                </div>
+
+                {/* ───────────────────────────────────────────────────────────── */}
+                {/* RECOMMENDED FOR YOU (BASED ON INTERESTS)                      */}
+                {/* ───────────────────────────────────────────────────────────── */}
+                <div className="bg-white border border-[#e2e8f0] p-6 mt-6">
+                  <div className="flex items-center justify-between mb-4 border-b border-[#e2e8f0] pb-3">
+                    <h3 className="font-bold text-lg text-[#0c2340] flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-[#2963FF]" />
+                      Recommended for You
+                    </h3>
+                    <span className="text-[11px] font-semibold text-[#5c6f84] uppercase tracking-wider bg-gray-50 px-2 py-1 rounded border border-gray-200">
+                      Based on your FBT Profile
+                    </span>
+                  </div>
+
+                  {loadingRecommendations ? (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="w-8 h-8 border-3 border-[#2963FF] border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  ) : recommendations.length > 0 ? (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {recommendations.map(rec => (
+                        <div key={rec.id} onClick={() => navigate(`/product/${rec.id}`)} className="group cursor-pointer">
+                          <div className="relative aspect-square overflow-hidden rounded-lg bg-gray-100 border border-[#e2e8f0] mb-3">
+                            <img src={rec.image_url} alt={rec.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-xs text-[#0c2340] line-clamp-1 group-hover:text-[#0066cc] transition-colors">{rec.title}</h4>
+                            <p className="text-[11px] text-[#94969f] mb-1">{rec.brand}</p>
+                            <div className="flex items-center gap-2 text-xs">
+                              <span className="font-bold text-[#0c2340]">₹{rec.price}</span>
+                              {rec.original_price > rec.price && (
+                                <span className="text-gray-400 line-through">₹{rec.original_price}</span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500 py-4 italic">More activity needed for personalized recommendations.</p>
+                  )}
                 </div>
 
               </div>
