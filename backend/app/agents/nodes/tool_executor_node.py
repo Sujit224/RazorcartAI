@@ -103,6 +103,7 @@ def tool_executor_node(state: AgentState) -> dict:
                     "department": args.get("department"),
                     "category": args.get("category"),
                     "color": args.get("color"),
+                    "min_price": args.get("min_price"),
                     "max_price": args.get("max_price"),
                     "min_rating": args.get("min_rating")
                 }

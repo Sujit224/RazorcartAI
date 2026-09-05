@@ -24,11 +24,12 @@ class RecommendProductsInput(BaseModel):
     department: Optional[str] = Field(None, description="Department like Electronics, Fashion, etc.")
     category: Optional[str] = Field(None, description="Sub-category like Footwear, Smartphones.")
     color: Optional[str] = Field(None, description="Color of the product.")
+    min_price: Optional[float] = Field(None, description="Minimum price filter (e.g. 'above 1000', 'from 500').")
     max_price: Optional[float] = Field(None, description="Maximum price user is willing to pay.")
     min_rating: Optional[float] = Field(None, description="Minimum rating.")
 
 @tool("recommend_products", args_schema=RecommendProductsInput)
-def recommend_products(query: str, brand: Optional[str] = None, department: Optional[str] = None, category: Optional[str] = None, color: Optional[str] = None, max_price: Optional[float] = None, min_rating: Optional[float] = None) -> str:
+def recommend_products(query: str, brand: Optional[str] = None, department: Optional[str] = None, category: Optional[str] = None, color: Optional[str] = None, min_price: Optional[float] = None, max_price: Optional[float] = None, min_rating: Optional[float] = None) -> str:
     """Search and recommend products based on user filters and preferences."""
     pass
 
