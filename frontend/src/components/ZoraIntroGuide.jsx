@@ -6,7 +6,7 @@ const GLYPHS = ['Z', 'O', 'R', 'A', 'X', '7', '9', 'C', 'A', 'R', 'T', '⚡', '�
 
 export const ZoraIntroGuide = () => {
   const { isAgentOpen, setIsAgentOpen, setAgentMode } = useAgent();
-  const [stage, setStage] = useState('center_stage'); // 'center_stage' | 'morphing' | 'swooping' | 'spotlight' | 'dismissed'
+  const [stage, setStage] = useState('idle'); // 'idle' -> 'center_stage' (at 3s) -> 'swooping' -> 'spotlight' -> 'dismissed'
   const [displayText, setDisplayText] = useState('Razorcart');
   const [isZoraText, setIsZoraText] = useState(false);
   const [beamPos, setBeamPos] = useState({ startX: 0, startY: 0, endX: 0, endY: 0 });
@@ -30,8 +30,12 @@ export const ZoraIntroGuide = () => {
     window.addEventListener('resize', updateCoords);
 
     // ── Timeline:
-    // 0.4s: Start letter scramble in center
+    // 1. Website opens normally for 3 seconds.
+    // 2. At 3.0s: A white transparent backdrop takes over the screen.
     const t1 = setTimeout(() => {
+      setStage('center_stage');
+      
+      // Start letter scramble into ZORA inside the backdrop
       let iter = 0;
       const maxIter = 14;
       const interval = setInterval(() => {
@@ -47,23 +51,23 @@ export const ZoraIntroGuide = () => {
           setDisplayText('ZORA');
           setIsZoraText(true);
         }
-      }, 70);
-    }, 400);
+      }, 75);
+    }, 3000);
 
-    // 2.6s: Dismiss full screen white backdrop and swoop down to bot icon
+    // 3. At 6.2s (after ~3.2s of center stage): Dissolve backdrop and swoop down to bot icon
     const t2 = setTimeout(() => {
       setStage('swooping');
-    }, 2600);
+    }, 6200);
 
-    // 4.2s: Land at the bot icon and open the spotlight callout
+    // 4. At 7.8s: Land at the bot icon and open the spotlight callout
     const t3 = setTimeout(() => {
       setStage('spotlight');
-    }, 4200);
+    }, 7800);
 
-    // 16s: Auto-dismiss callout if untouched
+    // 5. At 20s: Auto-dismiss callout if untouched
     const t4 = setTimeout(() => {
       setStage(s => s === 'spotlight' ? 'dismissed' : s);
-    }, 16000);
+    }, 20000);
 
     return () => {
       clearTimeout(t1);

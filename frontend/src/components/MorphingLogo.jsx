@@ -9,10 +9,10 @@ export const MorphingLogo = ({ onMorphTrigger }) => {
   const [isShuffling, setIsShuffling] = useState(false);
 
   useEffect(() => {
-    // Start morph sequence after initial page render (600ms)
+    // Start morph sequence in sync with the 3s intro overlay
     const startTimer = setTimeout(() => {
       triggerMorph();
-    }, 600);
+    }, 3000);
 
     return () => clearTimeout(startTimer);
   }, []);
