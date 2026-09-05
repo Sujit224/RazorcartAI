@@ -662,3 +662,105 @@ def get_merchant_customer_details(
         "action_history": [_audit_to_dict(e) for e in ledger_entries],
         "orders": formatted_orders,
     }
+
+
+# ─────────────────────────────────────────────
+# AI Campaign & Audience Targeting
+# ─────────────────────────────────────────────
+from pydantic import BaseModel
+from ..services.campaign_agent import campaign_agent
+from ..models.campaign import Campaign
+
+class ProposeCampaignRequest(BaseModel):
+    prompt: str
+
+@router.post("/campaigns/propose")
+def propose_campaign(
+    req: ProposeCampaignRequest,
+    current_user: User = Depends(require_merchant),
+    db: Session = Depends(get_db)
+):
+    """Generates an AI Campaign proposal including products, users (dwellers vs explorers) and strategy."""
+    proposal = campaign_agent.propose_campaign(req.prompt, current_user.merchant_id, db)
+    return {"message": "Campaign Proposed", "proposal": proposal}
+
+
+class LaunchCampaignRequest(BaseModel):
+    title: str
+    prompt: str
+    strategy_summary: str
+    target_products: list
+    segments: dict
+    offers: dict
+
+@router.post("/campaigns/launch")
+def launch_campaign(
+    req: LaunchCampaignRequest,
+    current_user: User = Depends(require_merchant),
+    db: Session = Depends(get_db)
+):
+    """Saves the proposed campaign to the database and sets it active."""
+    new_campaign = Campaign(
+        merchant_id=current_user.merchant_id,
+        title=req.title,
+        prompt=req.prompt,
+        strategy_summary=req.strategy_summary,
+        target_products_json=json.dumps(req.target_products),
+        target_segments_json=json.dumps(req.segments),
+        personalized_offers_json=json.dumps(req.offers),
+        status="active"
+    )
+    db.add(new_campaign)
+    db.commit()
+    db.refresh(new_campaign)
+    return {"message": "Campaign Launched successfully", "campaign_id": new_campaign.id}
+
+
+@router.get("/campaigns")
+def list_campaigns(
+    current_user: User = Depends(require_merchant),
+    db: Session = Depends(get_db)
+):
+    """List active and past campaigns for the merchant."""
+    campaigns = db.query(Campaign).filter(Campaign.merchant_id == current_user.merchant_id).order_by(Campaign.created_at.desc()).all()
+    results = []
+    for c in campaigns:
+        try:
+            target_products = json.loads(c.target_products_json)
+        except: target_products = []
+        try:
+            segments = json.loads(c.target_segments_json)
+        except: segments = {}
+        try:
+            offers = json.loads(c.personalized_offers_json)
+        except: offers = {}
+
+        results.append({
+            "id": c.id,
+            "title": c.title,
+            "prompt": c.prompt,
+            "strategy_summary": c.strategy_summary,
+            "status": c.status,
+            "created_at": c.created_at.isoformat() if c.created_at else None,
+            "target_products": target_products,
+            "segments": segments,
+            "offers": offers,
+        })
+    return {"campaigns": results}
+
+
+@router.delete("/campaigns/{campaign_id}")
+def delete_campaign(
+    campaign_id: int,
+    current_user: User = Depends(require_merchant),
+    db: Session = Depends(get_db)
+):
+    """Cancel or deactivate a campaign."""
+    campaign = db.query(Campaign).filter(Campaign.id == campaign_id, Campaign.merchant_id == current_user.merchant_id).first()
+    if not campaign:
+        raise HTTPException(status_code=404, detail="Campaign not found.")
+    
+    campaign.status = "cancelled"
+    db.commit()
+    return {"message": f"Campaign {campaign_id} cancelled."}
+

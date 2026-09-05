@@ -156,3 +156,41 @@ def get_product_details(product_id: int, user_id: Optional[int] = 1, db: Session
                 pass
 
     return format_product(prod, user_id, db)
+
+
+@router.get("/campaign-offers/active")
+def get_campaign_offers(user_id: int = 1, db: Session = Depends(get_db)):
+    """Fetch active AI campaigns tailored for the current customer."""
+    from ..models.campaign import Campaign
+    active_campaigns = db.query(Campaign).filter(Campaign.status == "active").all()
+    offers = []
+    
+    for c in active_campaigns:
+        try:
+            segments = json.loads(c.target_segments_json)
+            dwellers = [u["id"] for u in segments.get("dwellers", [])]
+            explorers = [u["id"] for u in segments.get("explorers", [])]
+            
+            campaign_offers = json.loads(c.personalized_offers_json)
+            products = json.loads(c.target_products_json)
+            
+            if user_id in dwellers:
+                offers.append({
+                    "campaign_id": c.id,
+                    "title": c.title,
+                    "pitch": campaign_offers.get("dwellers_pitch", "Have a second look with a better price"),
+                    "cohort": "dwellers",
+                    "products": products
+                })
+            elif user_id in explorers:
+                offers.append({
+                    "campaign_id": c.id,
+                    "title": c.title,
+                    "pitch": campaign_offers.get("explorers_pitch", "Lightning deals in products of your interest"),
+                    "cohort": "explorers",
+                    "products": products
+                })
+        except Exception:
+            pass
+            
+    return {"offers": offers}
