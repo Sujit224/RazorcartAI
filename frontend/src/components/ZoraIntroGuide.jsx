@@ -220,46 +220,47 @@ export const ZoraIntroGuide = () => {
 
       {/* ── Phase 3: Spotlight Callout at the Chatbot Icon ── */}
       {stage === 'spotlight' && (
-        <div className="fixed bottom-22 right-6 sm:right-8 z-45 max-w-sm w-[90vw] pointer-events-auto animate-fade-in">
-          <div className="relative bg-white/95 backdrop-blur-md p-4 rounded-2xl shadow-2xl border-2 border-[#00b386] text-[#0c2340] overflow-hidden group">
-            {/* Top glowing bar */}
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#0066cc] via-[#00b386] to-[#00f0ff]" />
+        <div className="fixed bottom-22 right-4 sm:right-8 z-50 max-w-[390px] w-[calc(100vw-32px)] pointer-events-auto animate-fade-in">
+          <div className="relative bg-white p-5 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.18)] border-2 border-[#00b386] text-[#0c2340]">
+            {/* Top glowing gradient bar */}
+            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066cc] via-[#00b386] to-[#00f0ff] rounded-t-2xl" />
 
             {/* Dismiss button */}
             <button
               onClick={() => setStage('dismissed')}
-              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 p-1 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+              className="absolute top-3.5 right-3.5 text-gray-400 hover:text-gray-700 p-1.5 rounded-full hover:bg-gray-100 transition-colors cursor-pointer z-10"
               title="Dismiss"
+              aria-label="Dismiss guide"
             >
-              <X className="w-3.5 h-3.5" />
+              <X className="w-4 h-4" />
             </button>
 
             {/* Content */}
-            <div className="flex items-start gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#00b386] to-[#0066cc] text-white flex items-center justify-center shrink-0 shadow-md">
-                <Sparkles className="w-5 h-5 animate-spin-slow" />
+            <div className="flex items-start gap-3.5 pt-1">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#00b386] to-[#0066cc] text-white flex items-center justify-center shrink-0 shadow-md">
+                <Sparkles className="w-6 h-6 animate-pulse" />
               </div>
 
               <div className="flex-1 pr-4">
-                <div className="flex items-center gap-1.5 mb-1">
-                  <span className="text-[11px] font-black uppercase tracking-wider text-[#00b386] bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-[#00b386] bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
                     Agentic Copilot
                   </span>
-                  <span className="text-[11px] font-bold text-gray-500">ZORA is ready</span>
+                  <span className="text-[11px] font-bold text-gray-400">Ready</span>
                 </div>
 
-                <h4 className="text-sm font-extrabold text-[#0c2340] leading-snug">
-                  Experience the best of Razorcart in Agentic Mode!
+                <h4 className="text-[15px] font-extrabold text-[#0c2340] leading-snug">
+                  Experience Razorcart in Agentic Mode!
                 </h4>
 
-                <p className="text-xs text-gray-600 mt-1 leading-relaxed">
-                  Search 10,000+ items, compare specs, negotiate pricing & 1-click checkout with ZORA.
+                <p className="text-xs text-gray-600 mt-1.5 leading-relaxed">
+                  Search 10,000+ items, compare specs, negotiate discounts & 1-click checkout with ZORA.
                 </p>
 
-                <div className="mt-3 flex items-center gap-2">
+                <div className="mt-3.5 flex items-center gap-2">
                   <button
                     onClick={() => { setAgentMode('standard'); setIsAgentOpen(true); setStage('dismissed'); }}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#00b386] hover:bg-[#009970] text-white text-xs font-black py-2 px-3 rounded-lg shadow-sm transition-all transform active:scale-95 cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#00b386] hover:bg-[#009970] text-white text-xs font-black py-2.5 px-3.5 rounded-xl shadow-sm transition-all transform active:scale-95 cursor-pointer"
                   >
                     <span>Launch ZORA</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -267,7 +268,7 @@ export const ZoraIntroGuide = () => {
 
                   <button
                     onClick={() => { setAgentMode('voice'); setIsAgentOpen(true); setStage('dismissed'); }}
-                    className="flex items-center justify-center gap-1 bg-[#f0f7ff] hover:bg-[#e0efff] text-[#0066cc] text-xs font-bold py-2 px-2.5 rounded-lg border border-blue-200 transition-all cursor-pointer"
+                    className="flex items-center justify-center gap-1.5 bg-[#f0f7ff] hover:bg-[#e0efff] text-[#0066cc] text-xs font-extrabold py-2.5 px-3 rounded-xl border border-blue-200 transition-all active:scale-95 cursor-pointer"
                     title="Voice Shopping Mode"
                   >
                     <span>🎙️ Voice</span>
@@ -276,8 +277,8 @@ export const ZoraIntroGuide = () => {
               </div>
             </div>
 
-            {/* Arrow down to the Launcher */}
-            <div className="absolute -bottom-2 right-12 w-4 h-4 bg-white border-b-2 border-r-2 border-[#00b386] transform rotate-45" />
+            {/* Solid Pointer Arrow pointing down to the Ask ZORA launcher */}
+            <div className="absolute -bottom-2.5 right-14 w-5 h-5 bg-white border-b-2 border-r-2 border-[#00b386] transform rotate-45 z-20" />
           </div>
         </div>
       )}
