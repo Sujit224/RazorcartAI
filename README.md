@@ -1,4 +1,4 @@
-﻿<div align="center">
+﻿<div>
 
 #  RazorCartAI
 ### *Agentic AI E-Commerce Platform*
