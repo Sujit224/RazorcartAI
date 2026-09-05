@@ -115,6 +115,15 @@ Below is a step-by-step visual demonstration of the complete agentic customer jo
 
 ---
 
+### 11. AI Merchant Negotiator Connected to LightGBM Model for Bulk Payment Discounts
+
+![11. AI Merchant Negotiator Bulk Discount](docs/screenshots/11_ai_merchant_negotiator_bulk.png)
+
+- **Feature Overview**: Conversational AI Price Negotiator connected directly to the deterministic LightGBM model and seller margin guardrails for bulk order volume discounts.
+- **How It Works**: When a buyer inquires about a bulk/wholesale discount, the AI Negotiator asks for quantity validation (minimum 5 units required). Once the user specifies a bulk volume (e.g., **20 units**), the negotiator validates the order, calculates margin guardrails with the LightGBM engine, and authorizes a tiered volume discount (e.g., **22.0% OFF** saving **Rs. 35,991**), dynamically updating the cart total and enabling 1-click checkout.
+
+---
+
 ##  System Architecture
 
 ```mermaid
