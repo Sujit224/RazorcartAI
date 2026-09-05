@@ -3,7 +3,7 @@ import { Sparkles } from 'lucide-react';
 import { useAgent } from '../context/AgentContext';
 
 export const AgenticChatbotLauncher = () => {
-  const { isAgentOpen, setIsAgentOpen } = useAgent();
+  const { isAgentOpen, setIsAgentOpen, setAgentMode } = useAgent();
 
   if (isAgentOpen) return null;
 
@@ -27,9 +27,19 @@ export const AgenticChatbotLauncher = () => {
         <Sparkles className="w-3.5 h-3.5 text-[#00b386]" />
       </button>
 
+      {/* Voice Mode Button */}
+      <button
+        onClick={() => { setAgentMode('voice'); setIsAgentOpen(true); }}
+        className="flex items-center justify-center w-11 h-11 bg-white hover:bg-[#f0f7ff] text-[#0066cc] border-2 border-[#0066cc] rounded-xl shadow-lg transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer"
+        title="Voice Shopping Mode"
+        aria-label="ZORA Voice"
+      >
+        <span className="text-xl">🎙️</span>
+      </button>
+
       {/* Razorpay 'Ask ZORA' Widget Button */}
       <button
-        onClick={() => setIsAgentOpen(true)}
+        onClick={() => { setAgentMode('standard'); setIsAgentOpen(true); }}
         className="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-emerald-50/50 text-[#0c2340] border-2 border-[#00b386] rounded-xl shadow-lg transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer font-extrabold text-sm"
         title="Ask Agentic AI Copilot (ZORA)"
         aria-label="Ask ZORA"

@@ -304,7 +304,30 @@ def _show_orders(state: AgentState, db: Session, user_id: int) -> AgentState:
 def _add_product(
     state: AgentState, db: Session, user_id: int, product: Product,
     quantity: int, reason: str, size: Optional[str] = None,
+    *, confirmed: bool = False,
 ) -> AgentState:
+    if state.get("voice_mode") and not confirmed:
+        amount = product.price * quantity
+        set_pending(state["session_id"], {
+            "action": "cart_add", "product_id": product.id, "quantity": quantity, "reason": reason, "size": size
+        })
+        state["pending_confirmation"] = {
+            "action": "cart_add", "amount": amount,
+            "line_count": 1,
+            "prompt": f"I found {product.title} for {_rupees(product.price)}. Are you sure you want to put this in your cart?",
+            "id": product.id,
+            "title": product.title,
+            "price": product.price,
+            "image_url": product.image_url,
+            "brand": product.brand,
+            "action_verb": "Add to Bag"
+        }
+        state["reply"] = state["pending_confirmation"]["prompt"]
+        state["suggested_actions"] = ["Yes, add it", "No, cancel"]
+        state["audit_reasoning"] = f"Voice mode: cart add held for explicit user confirmation. Reference resolved by: {reason}."
+        state["reference_reason"] = reason
+        return state
+
     try:
         line, created, granted = cs.add_line(db, user_id, product, quantity, size)
     except CartError as exc:
@@ -486,6 +509,7 @@ def _reorder(
 def _update_qty(
     state: AgentState, db: Session, user_id: int, res: Resolution,
     qty_mode: str, qty_value: int,
+    *, confirmed: bool = False,
 ) -> AgentState:
     item = res.item
     line, product = None, None
@@ -504,7 +528,7 @@ def _update_qty(
             if product is not None and qty_value > 0:
                 return _add_product(state, db, user_id, product,
                                     qty_value if qty_mode == "set" else max(qty_value, 1),
-                                    res.reason)
+                                    res.reason, confirmed=confirmed)
 
     if line is None or product is None:
         state["reply"] = ("**%s** is not in your bag, so there is no quantity to "
@@ -517,6 +541,28 @@ def _update_qty(
 
     before = line.quantity
     target = qty_value if qty_mode == "set" else before + qty_value
+
+    if state.get("voice_mode") and not confirmed:
+        amount = product.price * target
+        set_pending(state["session_id"], {
+            "action": "cart_update_qty", "product_id": product.id, "target": target, "reason": res.reason
+        })
+        state["pending_confirmation"] = {
+            "action": "cart_update_qty", "amount": amount,
+            "line_count": 1,
+            "prompt": f"Are you sure you want to change the quantity of {product.title} to {target}?",
+            "id": product.id,
+            "title": product.title,
+            "price": product.price,
+            "image_url": product.image_url,
+            "brand": product.brand,
+            "action_verb": "Update Quantity"
+        }
+        state["reply"] = state["pending_confirmation"]["prompt"]
+        state["suggested_actions"] = ["Yes, update it", "No, cancel"]
+        state["audit_reasoning"] = f"Voice mode: cart qty update held for explicit user confirmation. Reference resolved by: {res.reason}."
+        state["reference_reason"] = res.reason
+        return state
 
     try:
         applied, note = cs.set_quantity(db, line, product, target)
@@ -562,7 +608,7 @@ def _update_qty(
     return state
 
 
-def _remove(state: AgentState, db: Session, user_id: int, res: Resolution) -> AgentState:
+def _remove(state: AgentState, db: Session, user_id: int, res: Resolution, *, confirmed: bool = False) -> AgentState:
     item = res.item
     rows = {i.id: (i, p) for i, p in cs.cart_rows(db, user_id)}
 
@@ -580,6 +626,27 @@ def _remove(state: AgentState, db: Session, user_id: int, res: Resolution) -> Ag
         state["suggested_actions"] = ["Show me my cart"]
         state["reference_reason"] = res.reason
         return _refused(state, "that item is not in the cart")
+
+    if state.get("voice_mode") and not confirmed:
+        set_pending(state["session_id"], {
+            "action": "cart_remove", "product_id": product.id, "reason": res.reason
+        })
+        state["pending_confirmation"] = {
+            "action": "cart_remove", "amount": 0.0,
+            "line_count": 1,
+            "prompt": f"Are you sure you want to remove {product.title} from your cart?",
+            "id": product.id,
+            "title": product.title,
+            "price": product.price,
+            "image_url": product.image_url,
+            "brand": product.brand,
+            "action_verb": "Remove from Bag"
+        }
+        state["reply"] = state["pending_confirmation"]["prompt"]
+        state["suggested_actions"] = ["Yes, remove it", "No, keep it"]
+        state["audit_reasoning"] = f"Voice mode: cart remove held for explicit user confirmation. Reference resolved by: {res.reason}."
+        state["reference_reason"] = res.reason
+        return state
 
     short = "%s %s" % (product.brand, product.title)
     removed_qty = line.quantity
@@ -621,14 +688,16 @@ def _clear(state: AgentState, db: Session, user_id: int,
 
     # Always gated: emptying a bag is not recoverable from the agent's side.
     if not confirmed:
+        prompt = "Empty your bag - %s, %s?" % (_bag_size(summary["line_count"], summary["item_count"]), _rupees(summary["total"]))
+        if state.get("voice_mode"):
+            prompt = f"Are you sure you want to empty your bag? It has {summary['line_count']} items worth {_rupees(summary['total'])}."
+            
         set_pending(state["session_id"], {"action": "clear_cart",
                                           "amount": summary["total"]})
         state["pending_confirmation"] = {
             "action": "clear_cart", "amount": summary["total"],
             "line_count": summary["line_count"],
-            "prompt": "Empty your bag - %s, %s?"
-                      % (_bag_size(summary["line_count"], summary["item_count"]),
-                         _rupees(summary["total"])),
+            "prompt": prompt,
         }
         state["reply"] = (
             "That would empty your bag - **%s** worth **%s** - and I cannot undo "
@@ -725,6 +794,16 @@ def _confirm(state: AgentState, db: Session, user_id: int) -> AgentState:
                         "user confirmed the gated reorder (%s)"
                         % pending.get("reason", "reference resolved earlier"),
                         confirmed=True)
+    if action == "cart_add":
+        product = db.query(Product).filter(Product.id == pending["product_id"]).first()
+        if not product: return _refused(state, "product no longer available")
+        return _add_product(state, db, user_id, product, pending["quantity"], pending["reason"], pending.get("size"), confirmed=True)
+    if action == "cart_update_qty":
+        res = Resolution(item=FocusItem(1, KIND_PRODUCT, pending["product_id"], pending["reason"], {}), reason=pending["reason"])
+        return _update_qty(state, db, user_id, res, "set", pending["target"], confirmed=True)
+    if action == "cart_remove":
+        res = Resolution(item=FocusItem(1, KIND_PRODUCT, pending["product_id"], pending["reason"], {}), reason=pending["reason"])
+        return _remove(state, db, user_id, res, confirmed=True)
     if action == "clear_cart":
         return _clear(state, db, user_id, confirmed=True)
 

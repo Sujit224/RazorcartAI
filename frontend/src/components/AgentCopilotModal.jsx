@@ -5,6 +5,7 @@ import { useAgent } from '../context/AgentContext';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
+import { ZoraVoiceView } from './ZoraVoiceView';
 import { MarkdownMessage } from './MarkdownMessage';
 
 const rupees = (n) => `Rs. ${Math.round(n || 0).toLocaleString()}`;
@@ -19,7 +20,10 @@ export const AgentCopilotModal = () => {
     sendMessage,
     respondToGate,
     triggerDirectCheckout,
-    setIsAuditModalOpen
+    setIsAuditModalOpen,
+    agentMode,
+    setAgentMode,
+    toggleVoiceMode
   } = useAgent();
   const { addToCart, updateQuantity, removeFromCart } = useCart();
   const { currentUser } = useAuth();
@@ -80,6 +84,23 @@ export const AgentCopilotModal = () => {
             <h3 className="font-extrabold text-base tracking-tight text-[#0c2340]">ZORA</h3>
           </div>
 
+          {/* Mode Selector Tab */}
+          <div className="flex bg-[#f8fafc] p-1 rounded-xl border border-[#e2e8f0]">
+             <button
+               onClick={() => setAgentMode('standard')}
+               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${agentMode === 'standard' ? 'bg-white text-[#0066cc] shadow-sm' : 'text-[#5c6f84] hover:text-[#0c2340]'}`}
+             >
+               Chat
+             </button>
+             <button
+               onClick={() => setAgentMode('voice')}
+               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 ${agentMode === 'voice' ? 'bg-[#0066cc] text-white shadow-sm' : 'text-[#5c6f84] hover:text-[#0c2340]'}`}
+             >
+               <span className="w-3.5 h-3.5 flex items-center justify-center">🎙️</span>
+               Voice
+             </button>
+          </div>
+
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsFullScreen(!isFullScreen)}
@@ -106,8 +127,12 @@ export const AgentCopilotModal = () => {
           </div>
         </div>
 
-        {/* Chat Messages Container */}
-        <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-white">
+        {agentMode === 'voice' ? (
+          <ZoraVoiceView />
+        ) : (
+          <>
+            {/* Chat Messages Container */}
+            <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-white">
           {messages.map((msg, idx) => {
             const isUser = msg.sender === 'user';
             const userInitial = currentUser?.name ? currentUser.name.trim().charAt(0).toUpperCase() : 'U';
@@ -576,6 +601,8 @@ export const AgentCopilotModal = () => {
             <Send className="w-4 h-4" />
           </button>
         </form>
+        </>
+        )}
 
       </div>
     </div>

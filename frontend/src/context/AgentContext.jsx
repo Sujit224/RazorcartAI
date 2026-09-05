@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import { useAuth } from './AuthContext';
@@ -37,6 +37,111 @@ export const AgentProvider = ({ children }) => {
   const [isAuditModalOpen, setIsAuditModalOpen] = useState(false);
   const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 
+  const [agentMode, setAgentMode] = useState('standard');
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [speechTranscript, setSpeechTranscript] = useState('');
+  const [voiceError, setVoiceError] = useState(null);
+
+  const recognitionRef = useRef(null);
+  const synthRef = useRef(window.speechSynthesis);
+  const isSpeakingRef = useRef(false);
+
+  useEffect(() => {
+    isSpeakingRef.current = isSpeaking;
+  }, [isSpeaking]);
+
+  // Use a ref for sendMessage so the speech event handlers always call the latest version
+  const sendMessageRef = useRef(null);
+
+  useEffect(() => {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      setVoiceError('Web Speech API is not supported in this browser.');
+      return;
+    }
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    recognitionRef.current = new SpeechRecognition();
+    recognitionRef.current.continuous = true;
+    recognitionRef.current.interimResults = true;
+    recognitionRef.current.lang = 'en-IN';
+
+    recognitionRef.current.onstart = () => {
+      setIsListening(true);
+      setVoiceError(null);
+    };
+
+    recognitionRef.current.onresult = (event) => {
+      let interim = '';
+      let final = '';
+      for (let i = event.resultIndex; i < event.results.length; ++i) {
+        if (event.results[i].isFinal) {
+          final += event.results[i][0].transcript;
+        } else {
+          interim += event.results[i][0].transcript;
+        }
+      }
+      setSpeechTranscript(final || interim);
+      
+      if (final) {
+        setSpeechTranscript('');
+        if (sendMessageRef.current) sendMessageRef.current(final);
+      }
+    };
+
+    recognitionRef.current.onerror = (event) => {
+      if (event.error !== 'no-speech') {
+        setVoiceError(event.error);
+      }
+    };
+
+    recognitionRef.current.onend = () => {
+      if (agentMode === 'voice' && !isSpeakingRef.current) {
+         try { recognitionRef.current.start(); } catch(e){}
+      } else {
+         setIsListening(false);
+      }
+    };
+  }, [agentMode]);
+
+  useEffect(() => {
+    if (agentMode === 'voice') {
+      try { recognitionRef.current?.start(); } catch(e){}
+    } else {
+      recognitionRef.current?.stop();
+      synthRef.current?.cancel();
+      setIsSpeaking(false);
+    }
+  }, [agentMode]);
+
+  useEffect(() => {
+    if (agentMode === 'voice' && messages.length > 0) {
+      const lastMsg = messages[messages.length - 1];
+      if (lastMsg.sender === 'agent' && lastMsg.text) {
+        let textToSpeak = lastMsg.text.replace(/\*\*/g, '').replace(/\*/g, '');
+        if (lastMsg.pending_confirmation && lastMsg.pending_confirmation.prompt) {
+           textToSpeak = lastMsg.pending_confirmation.prompt;
+        }
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.onstart = () => {
+          setIsSpeaking(true);
+          recognitionRef.current?.stop();
+        };
+        utterance.onend = () => {
+          setIsSpeaking(false);
+          if (agentMode === 'voice') {
+            try { recognitionRef.current?.start(); } catch(e){}
+          }
+        };
+        synthRef.current?.cancel();
+        synthRef.current?.speak(utterance);
+      }
+    }
+  }, [messages, agentMode]);
+
+  const toggleVoiceMode = () => {
+    setAgentMode(prev => prev === 'standard' ? 'voice' : 'standard');
+  };
+
   const sendMessage = async (messageText, simulationFlag = null) => {
     if (!messageText.trim()) return;
 
@@ -63,7 +168,8 @@ export const AgentProvider = ({ children }) => {
         current_cart_ids: cartIds,
         simulation_flag: simulationFlag,
         chat_history: historyFormatted,
-        previous_products: prevProducts
+        previous_products: prevProducts,
+        voice_mode: agentMode === 'voice'
       });
 
       const data = res.data;
@@ -136,6 +242,10 @@ export const AgentProvider = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    sendMessageRef.current = sendMessage;
+  }, [sendMessage]);
+
   /**
    * Answer a gated action.
    *
@@ -168,7 +278,14 @@ export const AgentProvider = ({ children }) => {
       setIsAuditModalOpen,
       isCheckoutModalOpen,
       setIsCheckoutModalOpen,
-      triggerDirectCheckout
+      triggerDirectCheckout,
+      agentMode,
+      setAgentMode,
+      toggleVoiceMode,
+      isListening,
+      isSpeaking,
+      speechTranscript,
+      voiceError
     }}>
       {children}
     </AgentContext.Provider>

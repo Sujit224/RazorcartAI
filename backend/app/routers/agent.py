@@ -44,6 +44,7 @@ def agent_chat(req: AgentChatRequest, db: Session = Depends(get_db)):
         "merchant_id": merchant_id,
         "chat_history": req.chat_history or [],
         "previous_products": req.previous_products or [],
+        "voice_mode": req.voice_mode or False,
         "intent": "discovery",
         "extracted_filters": {},
         "search_query": req.message,
