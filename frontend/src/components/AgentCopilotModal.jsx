@@ -65,6 +65,9 @@ export const AgentCopilotModal = () => {
       sendMessage("Gateway Timeout 504 occurred", "SIMULATE_TIMEOUT");
     } else if (actionText.includes("Decline (Chaos") || actionText.includes("Insufficient Funds")) {
       sendMessage("Card declined insufficient funds", "SIMULATE_INSUFFICIENT_FUNDS");
+    } else if (actionText === "Negotiate Bulk Order") {
+      setIsAgentOpen(false);
+      navigate('/negotiate');
     } else {
       sendMessage(actionText);
     }

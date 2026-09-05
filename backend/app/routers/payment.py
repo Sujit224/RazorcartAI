@@ -96,12 +96,14 @@ def create_payment_order(req: PaymentCreateRequest, db: Session = Depends(get_db
 def confirm_payment_success(data: Dict[str, Any], db: Session = Depends(get_db)):
     order_id = data.get("order_id")
     payment_id = data.get("payment_id", f"pay_{uuid.uuid4().hex[:10]}")
+    payment_method = data.get("payment_method", "razorpay_gateway")
     
     if order_id:
         order = db.query(Order).filter(Order.id == order_id).first()
         if order:
             order.status = "success"
             order.razorpay_payment_id = payment_id
+            order.payment_method = payment_method
             db.commit()
 
     # Log success to ledger
@@ -110,13 +112,43 @@ def confirm_payment_success(data: Dict[str, Any], db: Session = Depends(get_db))
         action_type="PAYMENT_CAPTURED",
         user_id=data.get("user_id", 1),
         input_query="Payment Authorized",
-        decision_reasoning=f"Payment {payment_id} successfully captured. Order marked confirmed.",
+        decision_reasoning=f"Payment {payment_id} successfully captured via {payment_method}. Order marked confirmed.",
         rating_review_impact="Transaction finalized seamlessly.",
         payment_status="SUCCESS",
-        money_amount=data.get("amount", 3596.0),
-        profit_impact=data.get("amount", 3596.0),
-        metadata_json=json.dumps(data)
+        money_amount=data.get("amount", 0),
+        profit_impact=data.get("amount", 0),
+        metadata_json=json.dumps({"order_id": order_id, "payment_id": payment_id})
     ))
     db.commit()
 
-    return {"message": "Payment verified and recorded in Audit Ledger successfully"}
+    return {"status": "success", "payment_id": payment_id}
+
+@router.get("/methods/{user_id}")
+def get_user_payment_methods(user_id: int, db: Session = Depends(get_db)):
+    """Returns the top 2 payment methods used by the user, or cold start defaults."""
+    from sqlalchemy import func
+    
+    # Query for the most frequent payment methods for this user on successful orders
+    method_counts = (
+        db.query(Order.payment_method, func.count(Order.payment_method).label("count"))
+        .filter(Order.user_id == user_id, Order.status == "success", Order.payment_method != "razorpay_gateway")
+        .group_by(Order.payment_method)
+        .order_by(func.count(Order.payment_method).desc())
+        .limit(2)
+        .all()
+    )
+
+    popular_defaults = ["UPI (GPay, PhonePe, Paytm)", "Credit / Debit Card", "Netbanking"]
+    
+    if method_counts:
+        top_methods = [m.payment_method for m in method_counts]
+        # Fill in the rest from popular defaults if we have less than 2
+        for default in popular_defaults:
+            if len(top_methods) >= 2:
+                break
+            if default not in top_methods:
+                top_methods.append(default)
+        return {"methods": top_methods}
+    else:
+        # Cold start
+        return {"methods": popular_defaults[:2]}

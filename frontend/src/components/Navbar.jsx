@@ -12,15 +12,11 @@ import { useAgent } from '../context/AgentContext';
 import { MorphingLogo } from './MorphingLogo';
 
 export const RazorpayLogo = ({ className = "w-7 h-7" }) => (
-  <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+  <svg viewBox="10 0 80 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
     {/* Razorpay Brand Monogram Slash Mark */}
     <path
       d="M32 20L10 95H34L48 50H78L88 20H32Z"
       fill="#0B72E7"
-    />
-    <path
-      d="M52 50L30 100H56L68 62H96L108 30H76L68 50H52Z"
-      fill="#0052CC"
     />
   </svg>
 );

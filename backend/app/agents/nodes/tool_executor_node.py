@@ -78,8 +78,8 @@ def tool_executor_node(state: AgentState) -> dict:
         args = tool_call["args"]
         tool_id = tool_call["id"]
         
-        print(f"\n🔧 TOOL CALL: {name}")
-        print(f"📦 ARGS: {json.dumps(args, indent=2)}")
+        print(f"\n[TOOL CALL]: {name}")
+        print(f"[ARGS]: {json.dumps(args, indent=2)}")
         
         result_content = "Tool executed successfully."
         
@@ -222,12 +222,12 @@ def tool_executor_node(state: AgentState) -> dict:
                 
         except Exception as e:
             result_content = f"Error: {str(e)}"
-            print(f"❌ ERROR in tool {name}: {e}")
+            print(f"[ERROR in tool {name}]: {e}")
         finally:
             if 'db' in locals():
                 db.close()
                 
-        print(f"📤 TOOL OUTPUT: {result_content}")
+        print(f"[TOOL OUTPUT]: {result_content}")
         tool_messages.append(ToolMessage(content=result_content, tool_call_id=tool_id))
         
     state_updates = state.copy()

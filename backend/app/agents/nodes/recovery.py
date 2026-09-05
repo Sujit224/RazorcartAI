@@ -1,8 +1,10 @@
 import uuid
+from sqlalchemy import func
 from ..state import AgentState
 from ...database import SessionLocal
 from ...models.cart import CartItem
 from ...models.product import Product
+from ...models.order import Order
 from ...services.razorpay_service import razorpay_service
 
 def recovery_node(state: AgentState) -> AgentState:
@@ -17,6 +19,21 @@ def recovery_node(state: AgentState) -> AgentState:
     
     db = SessionLocal()
     try:
+        # Fetch user's preferred payment methods
+        top_methods = []
+        if user_id:
+            method_counts = (
+                db.query(Order.payment_method, func.count(Order.payment_method).label("count"))
+                .filter(Order.user_id == user_id, Order.status == "success", Order.payment_method != "razorpay_gateway")
+                .group_by(Order.payment_method)
+                .order_by(func.count(Order.payment_method).desc())
+                .limit(2)
+                .all()
+            )
+            top_methods = [m.payment_method for m in method_counts]
+        if not top_methods:
+            top_methods = ["UPI (GPay, PhonePe, Paytm)", "Credit / Debit Card"]
+
         if intent == "recovery_timeout":
             # Pillar 8: Graceful Timeout Recovery with Dynamic UPI & Price Lock
             mock_order_id = f"order_rec_{uuid.uuid4().hex[:8]}"
@@ -31,18 +48,18 @@ def recovery_node(state: AgentState) -> AgentState:
             state["profit_impact"] = amount # Prevented lost sale
             state["reply"] = (
                 f"**Payment Gateway Delay Detected (HTTP 504 Timeout)**.\n\n"
-                f"Don't worry! I have **held your cart price for 15 minutes** and generated an instant **Dynamic UPI QR Code**. "
-                f"You can scan and pay seamlessly via GPay, PhonePe, or Paytm without losing your order."
+                f"Don't worry! I have **held your cart price for 15 minutes**. "
+                f"I noticed your most frequent payment method is **{top_methods[0]}**. Would you like to try that again, or scan the dynamic UPI QR Code below?"
             )
             state["audit_reasoning"] = (
                 f"Payment timeout intercepted. Protected transaction of Rs. {amount} by auto-generating "
-                f"dynamic UPI QR ({upi_payload['vpa']}) and applying 15-minute price lock guarantee."
+                f"dynamic UPI QR ({upi_payload['vpa']}) and suggesting preferred method {top_methods[0]}."
             )
             state["rating_review_impact"] = "High customer satisfaction protection policy triggered."
             state["suggested_actions"] = [
+                f"Retry with {top_methods[0]}",
                 "Scan UPI QR to Pay",
-                "Hold Cart for 15 Minutes",
-                "Retry with NetBanking"
+                "Explore more options"
             ]
 
         elif intent == "recovery_funds":

@@ -13,6 +13,6 @@ class Order(Base):
     status = Column(String(50), default="pending") # pending, success, failed, recovered_upi, price_held
     razorpay_order_id = Column(String(100), nullable=True)
     razorpay_payment_id = Column(String(100), nullable=True)
-    payment_method = Column(String(50), default="razorpay_gateway") # razorpay_gateway, upi_qr, price_lock
+    payment_method = Column(String(100), default="razorpay_gateway")
     recovery_type = Column(String(100), nullable=True) # e.g. "timeout_recovered_upi", "cart_negotiated_pruned"
     created_at = Column(DateTime, default=datetime.utcnow)

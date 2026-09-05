@@ -1,11 +1,19 @@
 from langgraph.graph import StateGraph, END
 from .state import AgentState
+from .nodes.router import router_node
 from .nodes.agent_node import agent_node
 from .nodes.tool_executor_node import tool_executor_node
 from .nodes.audit_logger import audit_logger_node
 from .nodes.checkout import checkout_node
 from .nodes.recovery import recovery_node
 from .nodes.upsell import upsell_node
+
+def route_after_router(state: AgentState) -> str:
+    """Route based on the extracted intent."""
+    intent = state.get("intent")
+    if intent in ["recovery_timeout", "recovery_funds"]:
+        return "recovery_node"
+    return "agent_node"
 
 def route_after_agent(state: AgentState) -> str:
     """Route based on whether the agent invoked tools."""
@@ -21,8 +29,6 @@ def route_after_tools(state: AgentState) -> str:
         return "checkout_node"
     elif intent == "fbt_upsell":
         return "upsell_node"
-    elif intent in ["recovery_timeout", "recovery_funds"]:
-        return "recovery_node"
     return "audit_logger_node"
 
 def build_agent_graph():
@@ -30,6 +36,7 @@ def build_agent_graph():
     workflow = StateGraph(AgentState)
 
     # Register Nodes
+    workflow.add_node("router_node", router_node)
     workflow.add_node("agent_node", agent_node)
     workflow.add_node("tool_executor_node", tool_executor_node)
     workflow.add_node("checkout_node", checkout_node)
@@ -38,7 +45,17 @@ def build_agent_graph():
     workflow.add_node("audit_logger_node", audit_logger_node)
 
     # Entrypoint
-    workflow.set_entry_point("agent_node")
+    workflow.set_entry_point("router_node")
+
+    # Conditional Branching from Router
+    workflow.add_conditional_edges(
+        "router_node",
+        route_after_router,
+        {
+            "recovery_node": "recovery_node",
+            "agent_node": "agent_node"
+        }
+    )
 
     # Conditional Branching from Agent
     workflow.add_conditional_edges(

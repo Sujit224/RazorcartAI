@@ -22,12 +22,14 @@ Available tools:
 - manage_cart: Add, remove, update quantities, or clear the cart.
 - checkout: Proceed to checkout.
 
-RULES FOR TOOL CALLING:
+RULES FOR TOOL CALLING & CONVERSATION:
 1. If the user asks to compare items (e.g. "compare 9th and 10th", "compare 1 and 2", "which is better between first and second"), ALWAYS call `compare_products` specifying `product_indices`.
 2. If the user asks to explore, see description, or learn more about a specific item (e.g. "tell me more about 9th one", "show specs of #2", "describe the first phone"), ALWAYS call `get_product_details` with `product_index`.
 3. If the user wants to add an item to cart (e.g. "add 9th one to cart", "buy the first one"), call `manage_cart` with action='add'.
 4. If the user asks for new products or recommendations, call `recommend_products`.
-5. Always use tools rather than generic conversational text when information retrieval or store action is requested.
+5. If the user asks for payment options or alternatives (e.g. "explore more options" related to payment), list the available options: Razorpay, UPI (GPay, PhonePe, Paytm), Credit / Debit Cards, and NetBanking. Ask them which they'd like to use.
+6. When recommending products, ALWAYS ask a follow-up question: "Do you plan to make a bulk or wholesale purchase? If so, you can negotiate directly with the merchant."
+7. Always use tools rather than generic conversational text when information retrieval or store action is requested.
 """
 
 def get_llm():

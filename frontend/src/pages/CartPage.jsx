@@ -8,7 +8,6 @@ import { CustomerSidebar } from '../components/CustomerSidebar';
 import { AgenticChatbotLauncher } from '../components/AgenticChatbotLauncher';
 import { AgentCopilotModal } from '../components/AgentCopilotModal';
 import { CheckoutModal } from '../components/CheckoutModal';
-import { MerchantNegotiatorModal } from '../components/MerchantNegotiatorModal';
 import {
   ShoppingBag, Trash2, ArrowRight, ShieldCheck, MapPin, Zap,
   Plus, CheckCircle2, ArrowLeft, Bot, Sparkles, AlertCircle,
@@ -24,7 +23,6 @@ export default function CartPage() {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
-  const [isNegotiatorOpen, setIsNegotiatorOpen] = useState(false);
 
   // AI Discount Negotiator State
   const [discountData, setDiscountData] = useState(null);
@@ -263,19 +261,19 @@ export default function CartPage() {
               )}
 
               {/* AI Copilot Cart Advisory Banner */}
-              <div className="p-4 bg-gray-900 text-white rounded-2xl flex items-center justify-between gap-4 shadow-md">
+              <div className="p-4 bg-white rounded-2xl flex items-center justify-between gap-4 border border-gray-100 shadow-sm">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#0066cc] flex items-center justify-center shrink-0">
-                    <Bot className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0">
+                    <Bot className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-extrabold text-white">Ask AI Copilot about Cart Optimization</h4>
-                    <p className="text-[11px] text-gray-400">Negotiate prices or ask for failure recovery advice.</p>
+                    <h4 className="text-xs font-extrabold text-gray-900">Ask AI Copilot about Cart Optimization</h4>
+                    <p className="text-[11px] text-gray-500">Negotiate prices or ask for failure recovery advice.</p>
                   </div>
                 </div>
                 <button
                   onClick={handleAskAgentForCart}
-                  className="px-3.5 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-extrabold rounded-xl border border-white/20 transition-all shrink-0"
+                  className="px-3.5 py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs font-extrabold rounded-xl transition-all shrink-0"
                 >
                   Ask AI
                 </button>
@@ -286,75 +284,6 @@ export default function CartPage() {
             {/* Right Column: Price Details & AI Negotiator & Checkout Button */}
             <div className="lg:col-span-5 space-y-6">
               
-              {/* AI Smart Negotiator Card */}
-              <div className="bg-gradient-to-br from-[#0c2340] to-[#1a365d] text-white rounded-2xl p-5 shadow-lg border border-blue-900/40 space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-lg bg-blue-500/20 border border-blue-400/30 flex items-center justify-center">
-                      <Sparkles className="w-4 h-4 text-blue-400" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-black tracking-wide uppercase text-white">Merchant Price Negotiator</h4>
-                      <p className="text-[10px] text-blue-200">Interactive AI Margin & Discount Optimization</p>
-                    </div>
-                  </div>
-                  <span className="text-[10px] bg-blue-500/20 text-blue-300 font-extrabold px-2 py-0.5 rounded-full border border-blue-400/20">
-                    Live Guardrails
-                  </span>
-                </div>
-
-                {!discountData ? (
-                  <div className="space-y-3">
-                    <p className="text-xs text-gray-300 leading-relaxed">
-                      Chat directly with the seller's automated AI agent to propose your budget, request bulk discounts, and lock in the best authorized price.
-                    </p>
-                    <button
-                      onClick={() => setIsNegotiatorOpen(true)}
-                      className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-xs uppercase tracking-wider rounded-xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer hover:shadow-lg active:scale-98"
-                    >
-                      <MessageSquare className="w-4 h-4 text-blue-200" />
-                      <span>Chat & Negotiate with Merchant AI</span>
-                    </button>
-                  </div>
-                ) : (
-                  <div className="space-y-3 animate-fade-in">
-                    {discountPct > 0 ? (
-                      <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3 flex items-start gap-2.5">
-                        <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0 mt-0.5" />
-                        <div className="flex-1">
-                          <p className="text-xs font-black text-emerald-300">
-                            {discountPct}% AI Negotiated Discount Active!
-                          </p>
-                          <p className="text-[11px] text-emerald-200 mt-0.5">
-                            You saved <strong>Rs. {int(negotiatedDiscountAmount)}</strong>. Applied directly to checkout.
-                          </p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 flex items-start gap-2.5">
-                        <Award className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
-                        <div className="flex-1">
-                          <p className="text-xs font-black text-amber-300">
-                            Direct Seller Floor Price Confirmed
-                          </p>
-                          <p className="text-[11px] text-amber-200 mt-0.5">
-                            Items are already at minimum manufacturer pricing.
-                          </p>
-                        </div>
-                      </div>
-                    )}
-
-                    <button
-                      onClick={() => setIsNegotiatorOpen(true)}
-                      className="w-full py-2 px-3 bg-white/10 hover:bg-white/15 text-blue-200 text-xs font-bold rounded-lg border border-white/10 flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
-                    >
-                      <MessageSquare className="w-3.5 h-3.5" />
-                      <span>Chat Again / Renegotiate</span>
-                    </button>
-                  </div>
-                )}
-              </div>
-
               {/* Price Details Card */}
               <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-6 space-y-4 sticky top-24">
                 <h3 className="text-xs font-extrabold uppercase tracking-wider text-gray-500 pb-3 border-b border-gray-100">
@@ -433,16 +362,6 @@ export default function CartPage() {
       <CustomerSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
       <AgenticChatbotLauncher />
       <AgentCopilotModal />
-      <MerchantNegotiatorModal
-        isOpen={isNegotiatorOpen}
-        onClose={() => setIsNegotiatorOpen(false)}
-        cart={cart}
-        activeDiscount={discountData}
-        onApplyDiscount={(data) => {
-          setDiscountData(data);
-          setIsCheckoutOpen(true);
-        }}
-      />
       <CheckoutModal
         isOpen={isCheckoutOpen}
         onClose={() => setIsCheckoutOpen(false)}

@@ -313,8 +313,17 @@ def discovery_node(state: AgentState) -> AgentState:
             if category:
                 cat_clean = category.strip().lower().rstrip('s')
                 fallback_q = fallback_q.filter((Product.category.ilike(f"%{cat_clean}%")) | (Product.tags.ilike(f"%{cat_clean}%")))
-            elif brand:
+            
+            # Retain hard constraints
+            if brand:
                 fallback_q = fallback_q.filter(Product.brand.ilike(f"%{brand}%"))
+            if min_price:
+                fallback_q = fallback_q.filter(Product.price >= float(min_price))
+            if max_price:
+                fallback_q = fallback_q.filter(Product.price <= float(max_price))
+            if gender:
+                fallback_q = fallback_q.filter(Product.gender.in_([gender, "Unisex"]))
+                
             matched_products = fallback_q.limit(12).all()
             if matched_products:
                 is_relaxed_fallback = True
@@ -388,7 +397,8 @@ def discovery_node(state: AgentState) -> AgentState:
                 reply_msg = (
                     f"I couldn't find exact items within that specific budget range, but here are the **top-rated {category or 'closest'} alternatives** from our catalog:\n\n"
                     f"**Top Recommendation**: **{top['brand']} {top['title']}** at **Rs. {int(top['price']):,}** "
-                    f"(Rated **{top['rating']}** across {top['review_count']} reviews). {local_str}"
+                    f"(Rated **{top['rating']}** across {top['review_count']} reviews). {local_str}\n\n"
+                    f"💡 *Would you like to make a bulk/wholesale purchase? Click **Negotiate Bulk Order** below to negotiate directly with the merchant!*"
                 )
             else:
                 price_context = f" between Rs. {int(min_price):,} - Rs. {int(max_price):,}" if (min_price and max_price) else (f" under Rs. {int(max_price):,}" if max_price else "")
@@ -396,11 +406,12 @@ def discovery_node(state: AgentState) -> AgentState:
                     f"I found **{len(formatted_products)} top-rated results** matching your query{price_context}.\n\n"
                     f"**Top Pick**: **{top['brand']} {top['title']}** "
                     f"at **Rs. {int(top['price']):,}** (Rated **{top['rating']}** across {top['review_count']} verified reviews). {local_str}\n\n"
-                    f"Ask me to *\"Compare 1st and 3rd\"*, refine by brand, budget, or specifications."
+                    f"💡 *Would you like to make a bulk or wholesale purchase? If so, click **Negotiate Bulk Order** below to negotiate directly with the merchant!*"
                 )
             audit_reasoning = f"Evaluated {len(matched_products)} candidates across quality, rating weights, and vector relevance. Top pick: {top['brand']} {top['title']}."
             rating_impact = f"Weighted {top['rating']}★ rating & {top['review_count']} reviews with quality ranking influence."
             suggested_actions = [
+                "Negotiate Bulk Order",
                 "Compare 1st and 2nd",
                 "Show under ₹10,000",
                 "Show highest rated",

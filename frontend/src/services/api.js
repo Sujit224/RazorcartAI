@@ -81,9 +81,15 @@ export const api = {
     apiClient.post('/calculate_optimal_discount', data),
   negotiateDiscountChat: (data) =>
     apiClient.post('/api/discount/negotiate_chat', data),
+  
+  // ─── Customer: Checkout & Payments ────────────────────────────────────────
+  
   createPaymentOrder: (data) => apiClient.post('/api/payment/create-order', data),
   confirmPaymentSuccess: (data) =>
     apiClient.post('/api/payment/confirm-success', data),
+
+  getUserPaymentMethods: (userId) =>
+    apiClient.get(`/api/payment/methods/${userId}`),
 
   // ─── Merchant Portal ──────────────────────────────────────────────────────
 

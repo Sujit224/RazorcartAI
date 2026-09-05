@@ -26,6 +26,7 @@ import CartPage from './pages/CartPage';
 import ProfilePage from './pages/ProfilePage';
 import { AgenticChatbotLauncher } from './components/AgenticChatbotLauncher';
 import { ZoraIntroGuide } from './components/ZoraIntroGuide';
+import NegotiatePage from './pages/NegotiatePage';
 
 // ─── Customer Storefront ────────────────────────────────────────────────────
 function CustomerStorefront() {
@@ -90,6 +91,7 @@ export default function App() {
               <Route path="/store" element={<CustomerStorefront />} />
               <Route path="/product/:id" element={<ProductDetailPage />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/negotiate" element={<NegotiatePage />} />
               <Route path="/profile" element={<ProfilePage />} />
 
               {/* Shared login / signup page — role tabs inside */}
