@@ -115,4 +115,12 @@ export const api = {
     apiClient.get(`/api/admin/merchants/${merchantId}/stats`),
   getMerchantTransactionsAdmin: (merchantId, page = 1) =>
     apiClient.get(`/api/admin/merchants/${merchantId}/transactions?page=${page}`),
+
+  // ─── AI Campaigns ─────────────────────────────────────────────────────────
+
+  proposeCampaign: (data) => apiClient.post('/api/merchant/campaigns/propose', data),
+  launchCampaign: (data) => apiClient.post('/api/merchant/campaigns/launch', data),
+  getMerchantCampaigns: () => apiClient.get('/api/merchant/campaigns'),
+  deleteCampaign: (campaignId) => apiClient.delete(`/api/merchant/campaigns/${campaignId}`),
+  getActiveCampaignOffers: (userId = 1) => apiClient.get(`/api/products/campaign-offers/active?user_id=${userId}`),
 };

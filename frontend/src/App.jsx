@@ -14,6 +14,7 @@ import { CartDrawer } from './components/CartDrawer';
 import { CheckoutModal } from './components/CheckoutModal';
 import { DemoChaosPanel } from './components/DemoChaosPanel';
 import { CustomerSidebar } from './components/CustomerSidebar';
+import { CampaignBanner } from './components/CampaignBanner';
 
 // Portals & Pages
 import LoginPage from './pages/LoginPage';
@@ -44,6 +45,7 @@ function CustomerStorefront() {
       />
 
       <div className="flex-1 max-w-[1400px] w-full mx-auto px-4 md:px-8 py-6">
+        <CampaignBanner />
         {!searchQuery && selectedCategory === 'ALL' && <HeroBanner />}
         {!searchQuery && <PersonalizedFeed />}
         <ProductGrid selectedCategory={selectedCategory} searchQuery={searchQuery} />
