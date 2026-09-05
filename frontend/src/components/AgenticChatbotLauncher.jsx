@@ -37,16 +37,19 @@ export const AgenticChatbotLauncher = () => {
         <span className="text-xl">🎙️</span>
       </button>
 
-      {/* Razorpay 'Ask ZORA' Widget Button */}
-      <button
-        onClick={() => { setAgentMode('standard'); setIsAgentOpen(true); }}
-        className="flex items-center gap-2 px-4 py-2.5 bg-white hover:bg-emerald-50/50 text-[#0c2340] border-2 border-[#00b386] rounded-xl shadow-lg transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer font-extrabold text-sm"
-        title="Ask Agentic AI Copilot (ZORA)"
-        aria-label="Ask ZORA"
-      >
-        <span className="w-4 h-4 text-[#00b386] flex items-center justify-center font-black text-base">✤</span>
-        <span className="tracking-tight">Ask ZORA</span>
-      </button>
+      {/* Razorpay 'Ask ZORA' Widget Button with Radiant Glow */}
+      <div className="relative flex items-center">
+        <span className="animate-ping absolute -inset-1 rounded-xl bg-emerald-400 opacity-30 pointer-events-none" />
+        <button
+          onClick={() => { setAgentMode('standard'); setIsAgentOpen(true); }}
+          className="relative flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-white via-white to-emerald-50/40 hover:to-emerald-100/50 text-[#0c2340] border-2 border-[#00b386] rounded-xl shadow-lg hover:shadow-emerald-500/20 transition-all duration-200 transform hover:scale-105 active:scale-95 cursor-pointer font-extrabold text-sm"
+          title="Ask Agentic AI Copilot (ZORA)"
+          aria-label="Ask ZORA"
+        >
+          <span className="w-4 h-4 text-[#00b386] flex items-center justify-center font-black text-base animate-pulse">✤</span>
+          <span className="tracking-tight font-extrabold bg-gradient-to-r from-[#0c2340] to-[#00b386] bg-clip-text text-transparent">Ask ZORA</span>
+        </button>
+      </div>
 
     </div>
   );

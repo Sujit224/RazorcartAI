@@ -24,6 +24,7 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import ProfilePage from './pages/ProfilePage';
 import { AgenticChatbotLauncher } from './components/AgenticChatbotLauncher';
+import { ZoraIntroGuide } from './components/ZoraIntroGuide';
 
 // ─── Customer Storefront ────────────────────────────────────────────────────
 function CustomerStorefront() {
@@ -65,6 +66,7 @@ function CustomerStorefront() {
 
       {/* Agentic Overlays & Floating Launcher */}
       <CustomerSidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <ZoraIntroGuide />
       <AgenticChatbotLauncher />
       <AgentCopilotModal />
       <CartDrawer />

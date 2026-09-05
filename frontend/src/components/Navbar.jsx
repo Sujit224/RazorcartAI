@@ -8,6 +8,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
 import { useAgent } from '../context/AgentContext';
+import { MorphingLogo } from './MorphingLogo';
 
 export const RazorpayLogo = ({ className = "w-7 h-7" }) => (
   <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
@@ -124,21 +125,14 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
         {/* ── Left: Razorcart AI Brand Logo & Category Headings ── */}
         <div className="flex items-center gap-6 lg:gap-8">
           
-          {/* Razorcart AI Brand Logo with Razorpay Slash Monogram */}
+          {/* Razorcart AI Brand Logo with Razorpay Slash Monogram & Morphing Text */}
           <div 
             onClick={() => { setSelectedCategory("ALL"); onSearch(""); navigate('/'); }}
             className="flex items-center gap-2 cursor-pointer group select-none py-1 shrink-0"
-            title="Razorcart AI"
+            title="Razorcart AI • Powered by ZORA"
           >
             <RazorpayLogo className="w-7 h-7" />
-            <div className="flex items-baseline font-sans">
-              <span className="font-extrabold text-[22px] tracking-tight text-[#0b72e7] italic group-hover:text-[#0052cc] transition-colors">
-                Razorcart
-              </span>
-              <span className="font-extrabold text-base text-[#0c2340] ml-1 tracking-tight">
-                AI
-              </span>
-            </div>
+            <MorphingLogo />
           </div>
 
           {/* Navigation Category Tabs (Original Headings) with Razorpay Blue Underline & Dropdowns */}
