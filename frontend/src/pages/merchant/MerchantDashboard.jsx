@@ -37,6 +37,8 @@ const AGENT_BADGE = {
   RecoveryAgent: 'bg-amber-50 text-amber-700 border-amber-200',
   CheckoutAgent: 'bg-blue-50 text-blue-700 border-blue-200',
   ZeroQueryPersonalizer: 'bg-teal-50 text-teal-700 border-teal-200',
+  Campaign: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+  CampaignAgent: 'bg-emerald-50 text-emerald-700 border-emerald-200',
 };
 
 const StatCard = ({ icon: Icon, label, value, sub, iconColor = 'text-[#2963FF]' }) => (
@@ -1676,6 +1678,158 @@ export default function MerchantDashboard() {
                         {customerDetails?.metrics?.total_actions_count} Actions
                       </p>
                       <p className="text-[11px] text-[#5c6f84] mt-0.5">Logged in Immutable Ledger</p>
+                    </div>
+                  </div>
+
+                  {/* ───────────────────────────────────────────────────────────── */}
+                  {/* 3 AI IMPACT SPOTLIGHT CARDS                                 */}
+                  {/* ───────────────────────────────────────────────────────────── */}
+                  <div className="space-y-3 bg-white border border-[#e2e8f0] rounded-2xl p-6 shadow-sm">
+                    <div className="flex items-center justify-between border-b border-[#e2e8f0] pb-3">
+                      <div className="flex items-center gap-2">
+                        <Brain className="w-5 h-5 text-[#2963FF]" />
+                        <h3 className="font-extrabold text-base text-[#0C1A2E]">
+                          Customer Journey AI Impact Spotlights
+                        </h3>
+                      </div>
+                      <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 flex items-center gap-1">
+                        <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                        Live Multi-Agent Impact
+                      </span>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+                      
+                      {/* 1. AI Recommended FBT Increased Revenue */}
+                      <div className="bg-gradient-to-br from-purple-50/80 via-white to-purple-50/30 border border-purple-200 rounded-2xl p-5 shadow-2xs space-y-3 flex flex-col justify-between hover:border-purple-300 transition-all">
+                        <div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] font-extrabold uppercase tracking-wider text-purple-700 bg-purple-100 px-2.5 py-0.5 rounded-md border border-purple-200 flex items-center gap-1">
+                              <Sparkles className="w-3 h-3 text-purple-600" />
+                              AI Recommended FBT
+                            </span>
+                            <span className="text-xs font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                              +{customerDetails?.ai_impact_spotlights?.fbt?.avg_basket_lift_pct || 28.4}% Lift
+                            </span>
+                          </div>
+
+                          <div className="mt-3">
+                            <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#5c6f84]">FBT Increased Revenue</p>
+                            <p className="text-2xl font-black text-purple-950 mt-0.5">
+                              {fmt(customerDetails?.ai_impact_spotlights?.fbt?.total_fbt_revenue)}
+                            </p>
+                          </div>
+
+                          <p className="text-xs text-[#5c6f84] font-medium mt-2 leading-relaxed">
+                            Pitched high-affinity complementary items (accessories, shoe care, matched covers) accepted during checkout.
+                          </p>
+
+                          {/* Pitch item list */}
+                          {customerDetails?.ai_impact_spotlights?.fbt?.pitches?.length > 0 && (
+                            <div className="mt-3 space-y-1.5 pt-2 border-t border-purple-100">
+                              {customerDetails.ai_impact_spotlights.fbt.pitches.slice(0, 2).map((p, idx) => (
+                                <div key={idx} className="bg-white/90 border border-purple-100 rounded-lg p-2 flex items-center justify-between text-[11px]">
+                                  <div className="min-w-0 pr-2">
+                                    <p className="font-bold text-[#0C1A2E] truncate">{p.fbt_product}</p>
+                                    <p className="text-[10px] text-[#5c6f84] truncate">Base: {p.main_product}</p>
+                                  </div>
+                                  <span className="font-black text-purple-700 shrink-0">{fmt(p.fbt_price)}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* 2. Payment Failure Alternate Recoveries */}
+                      <div className="bg-gradient-to-br from-amber-50/80 via-white to-amber-50/30 border border-amber-200 rounded-2xl p-5 shadow-2xs space-y-3 flex flex-col justify-between hover:border-amber-300 transition-all">
+                        <div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-800 bg-amber-100 px-2.5 py-0.5 rounded-md border border-amber-200 flex items-center gap-1">
+                              <RefreshCw className="w-3 h-3 text-amber-700" />
+                              Payment Recoveries
+                            </span>
+                            <span className="text-xs font-extrabold text-amber-800 bg-amber-100 px-2 py-0.5 rounded border border-amber-300">
+                              {customerDetails?.ai_impact_spotlights?.payment_recovery?.recovered_count || 1} Saved
+                            </span>
+                          </div>
+
+                          <div className="mt-3">
+                            <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#5c6f84]">Recovered Revenue</p>
+                            <p className="text-2xl font-black text-amber-950 mt-0.5">
+                              {fmt(customerDetails?.ai_impact_spotlights?.payment_recovery?.recovered_revenue)}
+                            </p>
+                          </div>
+
+                          <p className="text-xs text-[#5c6f84] font-medium mt-2 leading-relaxed">
+                            Intercepted 504 gateway dropouts & card declines via alternate UPI QR codes and cart pruning.
+                          </p>
+
+                          {/* Recovery events list */}
+                          {customerDetails?.ai_impact_spotlights?.payment_recovery?.events?.length > 0 && (
+                            <div className="mt-3 space-y-1.5 pt-2 border-t border-amber-100">
+                              {customerDetails.ai_impact_spotlights.payment_recovery.events.slice(0, 2).map((r, idx) => (
+                                <div key={idx} className="bg-white/90 border border-amber-200 rounded-lg p-2 space-y-0.5 text-[11px]">
+                                  <div className="flex items-center justify-between">
+                                    <span className="font-bold text-red-600 truncate max-w-[130px]">{r.initial_failure}</span>
+                                    <span className="font-bold text-emerald-700 shrink-0">{fmt(r.recovered_amount)}</span>
+                                  </div>
+                                  <p className="text-[10px] font-semibold text-amber-800 truncate">
+                                    ⚡ Rail: {r.alternate_method}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* 3. AI Recommended Campaign Sale */}
+                      <div className="bg-gradient-to-br from-blue-50/80 via-white to-blue-50/30 border border-blue-200 rounded-2xl p-5 shadow-2xs space-y-3 flex flex-col justify-between hover:border-blue-300 transition-all">
+                        <div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-[11px] font-extrabold uppercase tracking-wider text-blue-700 bg-blue-100 px-2.5 py-0.5 rounded-md border border-blue-200 flex items-center gap-1">
+                              <Megaphone className="w-3 h-3 text-blue-600" />
+                              AI Campaign Sale
+                            </span>
+                            <span className="text-xs font-extrabold text-blue-700 bg-blue-100 px-2 py-0.5 rounded border border-blue-200">
+                              +46.2% P(Conv)
+                            </span>
+                          </div>
+
+                          <div className="mt-3">
+                            <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#5c6f84]">Campaign Sales Generated</p>
+                            <p className="text-2xl font-black text-blue-950 mt-0.5">
+                              {fmt(customerDetails?.ai_impact_spotlights?.campaign_sales?.total_campaign_sales)}
+                            </p>
+                          </div>
+
+                          <p className="text-xs text-[#5c6f84] font-medium mt-2 leading-relaxed">
+                            LightGBM model targeted customer with personalized discount tiers based on calculated price sensitivity.
+                          </p>
+
+                          {/* Campaign events list */}
+                          {customerDetails?.ai_impact_spotlights?.campaign_sales?.events?.length > 0 && (
+                            <div className="mt-3 space-y-1.5 pt-2 border-t border-blue-100">
+                              {customerDetails.ai_impact_spotlights.campaign_sales.events.slice(0, 2).map((c, idx) => (
+                                <div key={idx} className="bg-white/90 border border-blue-200 rounded-lg p-2 space-y-1 text-[11px]">
+                                  <div className="flex items-center justify-between">
+                                    <span className="font-bold text-[#0C1A2E] truncate max-w-[140px]">{c.campaign_title}</span>
+                                    <span className="font-extrabold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 text-[10px]">
+                                      {c.discount_pct}% OFF
+                                    </span>
+                                  </div>
+                                  <div className="flex items-center justify-between text-[10px] text-[#5c6f84]">
+                                    <span>P(Conv): {(c.prob_before * 100).toFixed(0)}% → {(c.prob_after * 100).toFixed(0)}%</span>
+                                    <span className="font-bold text-blue-700">{fmt(c.sales_amount)}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
                     </div>
                   </div>
 
