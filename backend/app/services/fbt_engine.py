@@ -30,17 +30,23 @@ def get_dynamic_fbts(db: Session, product: Product, user_id: int, limit: int = 2
     
     # 1. Determine target categories for FBT
     target_categories = FBT_CATEGORY_MAPPING.get(product.category)
-    
-    query = db.query(Product).filter(Product.id != product.id)
-    
+    candidate_products = []
     if target_categories:
-        query = query.filter(Product.category.in_(target_categories))
+        for cat in target_categories:
+            cat_prods = (
+                db.query(Product)
+                .filter(Product.id != product.id, Product.category == cat)
+                .limit(400)
+                .all()
+            )
+            candidate_products.extend(cat_prods)
     else:
-        # Fallback to the same department if no explicit cross-sell mapping exists
-        query = query.filter(Product.department == product.department)
-
-    # We fetch a larger pool to score in memory
-    candidate_products = query.limit(100).all()
+        candidate_products = (
+            db.query(Product)
+            .filter(Product.id != product.id, Product.department == product.department)
+            .limit(100)
+            .all()
+        )
 
     if not candidate_products:
         return []
@@ -80,11 +86,50 @@ def get_dynamic_fbts(db: Session, product: Product, user_id: int, limit: int = 2
             
         scored_candidates.append((score, cp))
         
-    # 4. Sort by score descending and pick top `limit`
+    # 4. For Smartphones, ensure a diverse blend across screen guards, cases, and phone stands
+    if product.category == "Smartphones":
+        screen_guards = []
+        cases = []
+        stands = []
+        other_accessories = []
+        
+        for score, cp in scored_candidates:
+            title_lower = (cp.title or "").lower()
+            
+            if any(k in title_lower for k in ["glass", "screen", "guard", "protector", "shield"]):
+                screen_guards.append((score, cp))
+            elif any(k in title_lower for k in ["case", "cover", "armor", "magsafe"]):
+                cases.append((score, cp))
+            elif any(k in title_lower for k in ["stand", "holder", "mount", "dock"]):
+                stands.append((score, cp))
+            else:
+                other_accessories.append((score, cp))
+                
+        selected_fbts = []
+        if screen_guards:
+            top_screens = [cp for _, cp in screen_guards[:5]]
+            selected_fbts.append(random.choice(top_screens))
+        if cases:
+            top_cases = [cp for _, cp in cases[:5]]
+            selected_fbts.append(random.choice(top_cases))
+        if stands and len(selected_fbts) < limit:
+            top_stands = [cp for _, cp in stands[:5]]
+            selected_fbts.append(random.choice(top_stands))
+        if other_accessories and len(selected_fbts) < limit:
+            top_others = [cp for _, cp in other_accessories[:5]]
+            selected_fbts.append(random.choice(top_others))
+            
+        # Fill any remaining slots up to limit
+        for score, cp in scored_candidates:
+            if len(selected_fbts) >= limit:
+                break
+            if cp not in selected_fbts:
+                selected_fbts.append(cp)
+                
+        return [format_product_dict(p) for p in selected_fbts[:limit]]
+
+    # General category scoring for non-smartphones
     scored_candidates.sort(key=lambda x: x[0], reverse=True)
-    
-    # Add a tiny bit of random jitter so it doesn't always show the exact same 2 items forever
-    # Take the top N (e.g. top 6) and pick a random sample of `limit`
     top_pool = [cp for _, cp in scored_candidates[:max(limit * 3, 6)]]
     
     try:
