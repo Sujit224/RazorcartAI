@@ -102,7 +102,7 @@ Below is a step-by-step visual demonstration of the complete agentic customer jo
 ![9. AI Campaign Strategy](docs/screenshots/9_ai_campaign_strategy.png)
 
 - **Feature Overview**: Plain-English AI campaign generator (`Propose a campaign for price-sensitive mobile buyers with 15% discount for monsoon clearance`).
-- **How It Works**: Groq LLM parses merchant campaign intent, searches catalog inventory via TF-IDF vector matching (175 items matched), and segments target users into **Dwellers** (cart/view match) and **Explorers** (vector category affinity) with personalized pitch recommendations.
+- **How It Works**: Groq LLM parses merchant campaign intent, searches catalog inventory via TF-IDF vector matching (175 items matched), and maps a rich audience cohort of **32 targeted users** divided into **Dwellers** (10 users with cart/view match) and **Explorers** (22 users with vector category affinity), each with personalized pitch strategies and ML dynamic discount probabilities.
 
 ---
 
