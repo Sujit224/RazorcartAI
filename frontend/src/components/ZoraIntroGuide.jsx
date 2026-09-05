@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, ArrowRight, X, Bot, Zap, Sparkle } from 'lucide-react';
+import { ArrowRight, X, Bot, Mic } from 'lucide-react';
 import { useAgent } from '../context/AgentContext';
 
-const GLYPHS = ['Z', 'O', 'R', 'A', 'X', '7', '9', 'C', 'A', 'R', 'T', '⚡', '✨', '✦'];
+const GLYPHS = ['Z', 'O', 'R', 'A', 'X', '8', '3', 'C', 'A', 'R', 'T', 'N', 'E', 'T', 'I', 'O'];
 
 export const ZoraIntroGuide = () => {
   const { isAgentOpen, setIsAgentOpen, setAgentMode } = useAgent();
@@ -17,7 +17,7 @@ export const ZoraIntroGuide = () => {
       return;
     }
 
-    // Set initial positions
+    // Set initial coordinates
     const updateCoords = () => {
       setBeamPos({
         startX: window.innerWidth / 2,
@@ -30,8 +30,8 @@ export const ZoraIntroGuide = () => {
     window.addEventListener('resize', updateCoords);
 
     // ── Timeline:
-    // 1. Website opens normally for 3 seconds.
-    // 2. At 3.0s: A white transparent backdrop takes over the screen.
+    // 1. Website opens normally for 3.0 seconds.
+    // 2. At 3.0s: Clean translucent white backdrop appears.
     const t1 = setTimeout(() => {
       setStage('center_stage');
       
@@ -54,7 +54,7 @@ export const ZoraIntroGuide = () => {
       }, 75);
     }, 3000);
 
-    // 3. At 6.2s (after ~3.2s of center stage): Dissolve backdrop and swoop down to bot icon
+    // 3. At 6.2s: Dissolve backdrop and swoop down to bot icon
     const t2 = setTimeout(() => {
       setStage('swooping');
     }, 6200);
@@ -89,17 +89,14 @@ export const ZoraIntroGuide = () => {
 
   return (
     <>
-      {/* ── Phase 1: Full-Screen White Backdrop with Central Shuffle ── */}
+      {/* ── Phase 1: Clean Full-Screen White Backdrop with Central Shuffle ── */}
       {(stage === 'center_stage' || stage === 'morphing') && (
-        <div className="fixed inset-0 z-50 bg-white/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 text-center select-none transition-all duration-700 animate-fade-in">
+        <div className="fixed inset-0 z-50 bg-white/95 backdrop-blur-md flex flex-col items-center justify-center p-6 text-center select-none transition-all duration-700 animate-fade-in">
           
-          {/* Subtle Ambient Radial Glow */}
-          <div className="absolute w-[500px] h-[500px] bg-gradient-to-tr from-emerald-100/50 via-blue-100/40 to-cyan-100/50 rounded-full blur-3xl pointer-events-none -z-10" />
-
           {/* Skip button */}
           <button
             onClick={() => setStage('spotlight')}
-            className="absolute top-6 right-6 text-xs font-bold text-gray-400 hover:text-gray-700 px-3 py-1.5 rounded-full border border-gray-200 hover:bg-gray-50 transition-all cursor-pointer"
+            className="absolute top-6 right-6 text-xs font-semibold text-gray-500 hover:text-gray-900 px-3.5 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 transition-all cursor-pointer"
           >
             Skip Intro ✕
           </button>
@@ -107,107 +104,78 @@ export const ZoraIntroGuide = () => {
           {/* Central Logo & Shuffle */}
           <div className="flex flex-col items-center justify-center gap-4 max-w-md">
             
-            {/* Slash Icon Mark */}
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#0B72E7] to-[#0052CC] p-3 shadow-xl flex items-center justify-center transform hover:scale-105 transition-transform duration-300">
+            {/* Professional Brand Slash Monogram */}
+            <div className="w-16 h-16 rounded-xl bg-[#0066cc] p-3.5 shadow-lg flex items-center justify-center">
               <svg viewBox="0 0 120 120" fill="none" className="w-full h-full">
                 <path d="M32 20L10 95H34L48 50H78L88 20H32Z" fill="white" />
-                <path d="M52 50L30 100H56L68 62H96L108 30H76L68 50H52Z" fill="#80BFFF" />
+                <path d="M52 50L30 100H56L68 62H96L108 30H76L68 50H52Z" fill="#99ccff" />
               </svg>
             </div>
 
-            {/* Scrambling Text Title */}
-            <div className="flex items-baseline justify-center gap-2 mt-2">
+            {/* Clean Monospace / Sans Shuffling Text */}
+            <div className="flex items-baseline justify-center gap-2 mt-1">
               <h1 
-                className={`text-5xl md:text-6xl font-black italic tracking-tight transition-all duration-300 ${
+                className={`text-5xl md:text-6xl font-extrabold italic tracking-tight transition-all duration-300 ${
                   isZoraText
-                    ? "bg-gradient-to-r from-[#00b386] via-[#0066cc] to-[#00d2ff] bg-clip-text text-transparent filter drop-shadow-[0_0_20px_rgba(0,179,134,0.35)] scale-110"
-                    : "text-[#0b72e7]"
+                    ? "text-[#0066cc]"
+                    : "text-[#0c2340]"
                 }`}
               >
                 {displayText}
               </h1>
 
               {isZoraText ? (
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-black tracking-widest text-[#00b386] bg-emerald-50 rounded-lg border border-emerald-300 animate-bounce shadow-xs">
-                  <Sparkles className="w-3.5 h-3.5 text-[#00b386]" />
+                <span className="inline-flex items-center px-2 py-0.5 text-xs font-bold tracking-wider text-[#0066cc] bg-blue-50 rounded border border-blue-200">
                   COPILOT
                 </span>
               ) : (
-                <span className="text-2xl font-black text-[#0c2340]">
+                <span className="text-2xl font-extrabold text-[#0c2340]">
                   AI
                 </span>
               )}
             </div>
 
             {/* Subtext description */}
-            <p className="text-sm md:text-base font-semibold text-gray-600 mt-2 max-w-sm leading-relaxed transition-opacity duration-500">
+            <p className="text-sm font-medium text-gray-600 mt-2 max-w-sm leading-relaxed">
               {isZoraText ? (
-                <span className="text-[#0c2340] font-bold">
-                  Meet <strong className="text-[#00b386] font-extrabold">ZORA</strong> — Experience the best of Razorcart in <span className="text-[#0066cc] font-extrabold">Agentic Mode</span>.
+                <span>
+                  Meet <strong className="text-[#0c2340] font-bold">ZORA</strong> — Experience Razorcart in <strong className="text-[#0066cc] font-bold">Agentic Mode</strong>.
                 </span>
               ) : (
                 <span>Initializing Razorcart Multi-Agent Commerce Engine...</span>
               )}
             </p>
 
-            {/* Animated Loading Dots */}
-            <div className="flex items-center gap-2 mt-4">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#00b386] animate-pulse" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#0066cc] animate-pulse delay-150" />
-              <span className="w-2.5 h-2.5 rounded-full bg-[#00d2ff] animate-pulse delay-300" />
+            {/* Clean Loading Indicator */}
+            <div className="flex items-center gap-2 mt-3">
+              <span className="w-2 h-2 rounded-full bg-[#0066cc] animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-[#0066cc] animate-pulse delay-150" />
+              <span className="w-2 h-2 rounded-full bg-[#0066cc] animate-pulse delay-300" />
             </div>
 
           </div>
         </div>
       )}
 
-      {/* ── Phase 2: Starlight Energy Beam Directed to Bot Icon ── */}
+      {/* ── Phase 2: Clean Trajectory Beam to Bot Icon ── */}
       {stage === 'swooping' && (
         <div className="fixed inset-0 pointer-events-none z-45 overflow-hidden">
           <svg className="w-full h-full absolute inset-0">
-            <defs>
-              <linearGradient id="introBeamGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#0066cc" stopOpacity="0.2" />
-                <stop offset="50%" stopColor="#00b386" stopOpacity="0.9" />
-                <stop offset="100%" stopColor="#00f0ff" stopOpacity="1" />
-              </linearGradient>
-              <filter id="introGlow" x="-30%" y="-30%" width="160%" height="160%">
-                <feGaussianBlur stdDeviation="8" result="blur" />
-                <feMerge>
-                  <feMergeNode in="blur" />
-                  <feMergeNode in="SourceGraphic" />
-                </feMerge>
-              </filter>
-            </defs>
-
-            {/* Glowing Motion Path */}
+            {/* Guide Trail */}
             <path
               d={pathD}
               fill="none"
-              stroke="url(#introBeamGrad)"
-              strokeWidth="3.5"
-              strokeDasharray="8 8"
-              className="opacity-60 animate-pulse"
+              stroke="#0066cc"
+              strokeWidth="2.5"
+              strokeDasharray="6 6"
+              className="opacity-40 animate-pulse"
             />
 
-            {/* Glowing Leading Orb */}
-            <circle r="9" fill="#00f0ff" filter="url(#introGlow)">
+            {/* Leading Orb */}
+            <circle r="6" fill="#0066cc">
               <animateMotion
                 path={pathD}
                 dur="1.4s"
-                fill="freeze"
-                repeatCount="1"
-                keyPoints="0;1"
-                keyTimes="0;1"
-              />
-            </circle>
-
-            {/* Particle Trail */}
-            <circle r="5" fill="#00b386" filter="url(#introGlow)">
-              <animateMotion
-                path={pathD}
-                dur="1.4s"
-                begin="0.1s"
                 fill="freeze"
                 repeatCount="1"
                 keyPoints="0;1"
@@ -218,17 +186,15 @@ export const ZoraIntroGuide = () => {
         </div>
       )}
 
-      {/* ── Phase 3: Spotlight Callout at the Chatbot Icon ── */}
+      {/* ── Phase 3: Professional Spotlight Callout at the Chatbot Icon ── */}
       {stage === 'spotlight' && (
         <div className="fixed bottom-22 right-4 sm:right-8 z-50 max-w-[390px] w-[calc(100vw-32px)] pointer-events-auto animate-fade-in">
-          <div className="relative bg-white p-5 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.18)] border-2 border-[#00b386] text-[#0c2340]">
-            {/* Top glowing gradient bar */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0066cc] via-[#00b386] to-[#00f0ff] rounded-t-2xl" />
+          <div className="relative bg-white p-5 rounded-xl shadow-xl border border-[#cbd5e1] text-[#0c2340]">
 
             {/* Dismiss button */}
             <button
               onClick={() => setStage('dismissed')}
-              className="absolute top-3.5 right-3.5 text-gray-400 hover:text-gray-700 p-1.5 rounded-full hover:bg-gray-100 transition-colors cursor-pointer z-10"
+              className="absolute top-3.5 right-3.5 text-gray-400 hover:text-gray-700 p-1 rounded-md hover:bg-gray-100 transition-colors cursor-pointer"
               title="Dismiss"
               aria-label="Dismiss guide"
             >
@@ -236,31 +202,31 @@ export const ZoraIntroGuide = () => {
             </button>
 
             {/* Content */}
-            <div className="flex items-start gap-3.5 pt-1">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#00b386] to-[#0066cc] text-white flex items-center justify-center shrink-0 shadow-md">
-                <Sparkles className="w-6 h-6 animate-pulse" />
+            <div className="flex items-start gap-3.5">
+              <div className="w-10 h-10 rounded-lg bg-[#0c2340] text-white flex items-center justify-center shrink-0">
+                <Bot className="w-5 h-5 text-white" />
               </div>
 
-              <div className="flex-1 pr-4">
-                <div className="flex items-center gap-1.5 mb-1.5">
-                  <span className="text-[11px] font-black uppercase tracking-wider text-[#00b386] bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+              <div className="flex-1 pr-3">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-[#0066cc] bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
                     Agentic Copilot
                   </span>
-                  <span className="text-[11px] font-bold text-gray-400">Ready</span>
+                  <span className="text-[11px] font-semibold text-gray-400">Ready</span>
                 </div>
 
-                <h4 className="text-[15px] font-extrabold text-[#0c2340] leading-snug">
-                  Experience Razorcart in Agentic Mode!
+                <h4 className="text-[15px] font-bold text-[#0c2340] leading-snug">
+                  Experience Razorcart in Agentic Mode
                 </h4>
 
-                <p className="text-xs text-gray-600 mt-1.5 leading-relaxed">
-                  Search 10,000+ items, compare specs, negotiate discounts & 1-click checkout with ZORA.
+                <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                  Search 10,000+ items, compare specs, negotiate discounts and checkout directly with ZORA.
                 </p>
 
                 <div className="mt-3.5 flex items-center gap-2">
                   <button
                     onClick={() => { setAgentMode('standard'); setIsAgentOpen(true); setStage('dismissed'); }}
-                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#00b386] hover:bg-[#009970] text-white text-xs font-black py-2.5 px-3.5 rounded-xl shadow-sm transition-all transform active:scale-95 cursor-pointer"
+                    className="flex-1 flex items-center justify-center gap-1.5 bg-[#0066cc] hover:bg-[#0052cc] text-white text-xs font-bold py-2.5 px-3.5 rounded-lg transition-all active:scale-95 cursor-pointer"
                   >
                     <span>Launch ZORA</span>
                     <ArrowRight className="w-3.5 h-3.5" />
@@ -268,17 +234,18 @@ export const ZoraIntroGuide = () => {
 
                   <button
                     onClick={() => { setAgentMode('voice'); setIsAgentOpen(true); setStage('dismissed'); }}
-                    className="flex items-center justify-center gap-1.5 bg-[#f0f7ff] hover:bg-[#e0efff] text-[#0066cc] text-xs font-extrabold py-2.5 px-3 rounded-xl border border-blue-200 transition-all active:scale-95 cursor-pointer"
+                    className="flex items-center justify-center gap-1.5 bg-gray-50 hover:bg-gray-100 text-[#0c2340] text-xs font-bold py-2.5 px-3 rounded-lg border border-gray-300 transition-all active:scale-95 cursor-pointer"
                     title="Voice Shopping Mode"
                   >
-                    <span>🎙️ Voice</span>
+                    <Mic className="w-3.5 h-3.5 text-[#0066cc]" />
+                    <span>Voice</span>
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* Solid Pointer Arrow pointing down to the Ask ZORA launcher */}
-            <div className="absolute -bottom-2.5 right-14 w-5 h-5 bg-white border-b-2 border-r-2 border-[#00b386] transform rotate-45 z-20" />
+            {/* Clean Solid Pointer Arrow pointing down to the Ask ZORA launcher */}
+            <div className="absolute -bottom-2 right-14 w-4 h-4 bg-white border-b border-r border-[#cbd5e1] transform rotate-45 z-20" />
           </div>
         </div>
       )}

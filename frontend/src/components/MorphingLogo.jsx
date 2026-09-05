@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Sparkles } from 'lucide-react';
 
-const GLYPHS = ['Z', 'O', 'R', 'A', 'X', '7', '9', 'C', 'A', 'R', 'T', '⚡', '✨'];
+const GLYPHS = ['Z', 'O', 'R', 'A', 'X', '8', '3', 'C', 'A', 'R', 'T', 'N', 'E', 'T'];
 
 export const MorphingLogo = ({ onMorphTrigger }) => {
   const [displayText, setDisplayText] = useState('Razorcart');
@@ -26,13 +26,11 @@ export const MorphingLogo = ({ onMorphTrigger }) => {
     // Step 1: Scramble letters
     let iterations = 0;
     const maxIterations = 14;
-    const target = 'Z O R A';
 
     const interval = setInterval(() => {
       iterations++;
       
       if (iterations < maxIterations) {
-        // Scramble intermediate frame
         const scrambled = Array(6)
           .fill(0)
           .map(() => GLYPHS[Math.floor(Math.random() * GLYPHS.length)])
@@ -84,7 +82,7 @@ export const MorphingLogo = ({ onMorphTrigger }) => {
       <span 
         className={`font-black text-[22px] tracking-tight italic transition-all duration-300 select-none ${
           isZora 
-            ? "text-transparent bg-clip-text bg-gradient-to-r from-[#00b386] via-[#0066cc] to-[#00d2ff] scale-105 filter drop-shadow-[0_0_8px_rgba(0,179,134,0.4)]" 
+            ? "text-[#0066cc]" 
             : "text-[#0b72e7] group-hover:text-[#0052cc]"
         }`}
       >
@@ -93,9 +91,8 @@ export const MorphingLogo = ({ onMorphTrigger }) => {
 
       {/* Suffix / Badge */}
       {isZora ? (
-        <span className="inline-flex items-center gap-0.5 ml-1.5 px-1.5 py-0.5 text-[10px] font-black tracking-widest text-[#00b386] bg-emerald-50 rounded-md border border-emerald-300 animate-pulse shadow-xs">
-          <Sparkles className="w-2.5 h-2.5 text-[#00b386]" />
-          AGENTIC
+        <span className="inline-flex items-center ml-1.5 px-1.5 py-0.5 text-[10px] font-bold tracking-widest text-[#0066cc] bg-blue-50 rounded border border-blue-200">
+          COPILOT
         </span>
       ) : (
         <span className="font-extrabold text-base text-[#0c2340] ml-1 tracking-tight">
