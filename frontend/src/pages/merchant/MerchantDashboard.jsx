@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
+  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 import {
   Store, TrendingUp, IndianRupee, Zap, RefreshCw,
@@ -9,7 +9,7 @@ import {
   ArrowLeft, CheckCircle2, ChevronDown, ChevronUp, Sparkles, Building2,
   Users, Plus, Trash2, Search, Filter, X, ArrowRight, Eye, ShoppingBag,
   Clock, MapPin, Mail, AlertTriangle, Layers, Award, Tag, ExternalLink,
-  Activity, Check, ArrowUpRight
+  Activity, Check, ArrowUpRight, Megaphone
 } from 'lucide-react';
 import { api } from '../../services/api';
 
@@ -39,17 +39,17 @@ const AGENT_BADGE = {
   ZeroQueryPersonalizer: 'bg-teal-50 text-teal-700 border-teal-200',
 };
 
-const StatCard = ({ icon: Icon, label, value, sub, iconColor = 'text-[#2963FF]', iconBg = 'bg-[#2963FF]/10' }) => (
-  <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 md:p-6 shadow-sm hover:border-gray-300 transition-all group">
-    <div className="flex items-center justify-between mb-4">
-      <span className="text-[11px] font-extrabold uppercase tracking-wider text-[#5c6f84]">{label}</span>
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${iconBg} ${iconColor} border border-[#e2e8f0]`}>
-        <Icon className="w-5 h-5" />
+const StatCard = ({ icon: Icon, label, value, sub, iconColor = 'text-[#2963FF]' }) => (
+  <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 md:p-6 shadow-2xs hover:shadow-md hover:border-blue-200 transition-all group flex flex-col justify-between cursor-pointer">
+    <div>
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-semibold text-[#475569]">{label}</span>
+        <Icon className={`w-5 h-5 ${iconColor} shrink-0 transition-transform group-hover:scale-110`} />
       </div>
+      <p className="text-2xl md:text-3xl font-black text-[#0C1A2E] tracking-tight mt-3 mb-1.5">{value}</p>
     </div>
-    <p className="text-2xl md:text-3xl font-black text-[#0C1A2E] tracking-tight mb-2">{value}</p>
     {sub && (
-      <div className="flex items-center gap-1.5 text-xs text-[#5c6f84]">
+      <div className="text-xs text-[#64748B] font-medium pt-1">
         {sub}
       </div>
     )}
@@ -111,6 +111,14 @@ export default function MerchantDashboard() {
   const [loadingCustomerDetails, setLoadingCustomerDetails] = useState(false);
   const [actionHistoryFilter, setActionHistoryFilter] = useState('ALL');
   const [expandedTimelineId, setExpandedTimelineId] = useState(null);
+
+  // Campaigns state
+  const [campaigns, setCampaigns] = useState([]);
+  const [campaignPrompt, setCampaignPrompt] = useState('');
+  const [proposedCampaign, setProposedCampaign] = useState(null);
+  const [isProposing, setIsProposing] = useState(false);
+  const [isLaunching, setIsLaunching] = useState(false);
+  const [expandedDwellers, setExpandedDwellers] = useState(false);
 
   // Auth guard
   useEffect(() => {
@@ -183,6 +191,21 @@ export default function MerchantDashboard() {
   useEffect(() => {
     if (activeTab === 'users') {
       fetchCustomers();
+    }
+  }, [activeTab]);
+
+  const fetchCampaigns = async () => {
+    try {
+      const res = await api.getMerchantCampaigns();
+      setCampaigns(res.data.campaigns || []);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (activeTab === 'campaigns') {
+      fetchCampaigns();
     }
   }, [activeTab]);
 
@@ -289,179 +312,171 @@ export default function MerchantDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] text-[#0C1A2E] flex flex-col font-sans selection:bg-[#2963FF] selection:text-white">
+    <div className="min-h-screen bg-[#f1f5fa] text-[#0C1A2E] flex flex-col font-sans selection:bg-[#2963FF] selection:text-white">
       
-      {/* ── Top Header (Clean Myntra-Style Light Nav) ────────────────────────── */}
-      <header className="sticky top-0 z-40 bg-white border-b border-[#e2e8f0] px-4 md:px-8 py-3.5 shadow-sm">
-        <div className="max-w-[1440px] mx-auto flex items-center justify-between">
+      {/* ── Top Header (Clean Full-Width Nav) ────────────────────────── */}
+      <header className="sticky top-0 z-40 bg-white border-b border-[#e2e8f0] px-6 py-3 shadow-2xs">
+        <div className="w-full flex items-center justify-between">
           
-          {/* Brand & Merchant Organization */}
-          <div className="flex items-center gap-3 md:gap-5">
+          {/* Brand Logo Only */}
+          <div className="flex items-center">
             <Link to="/" className="flex items-center">
               <span className="text-2xl font-black italic tracking-tight select-none">
                 <span className="text-[#0066CC]">Razorcart</span>
                 <span className="text-[#0C1A2E] ml-1">AI</span>
               </span>
             </Link>
-
-            <span className="hidden sm:inline-block text-[#d4d5d9]">|</span>
-
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-gray-50 border border-[#e2e8f0] flex items-center justify-center text-[#2963FF] shrink-0">
-                <Building2 className="w-5 h-5" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h1 className="font-extrabold text-[#0C1A2E] text-sm md:text-base leading-tight">
-                    {orgName}
-                  </h1>
-                  <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-[#27AE60] bg-[#E8F7F1] px-2 py-0.5 rounded-md border border-[#A8D5BF]">
-                    <CheckCircle2 className="w-3 h-3 text-[#27AE60]" />
-                    Verified Merchant
-                  </span>
-                </div>
-                <p className="text-[11px] text-[#5c6f84] font-medium flex items-center gap-2">
-                  <span className="font-mono text-[#0C1A2E] font-bold">ID: {dash?.merchant_id || 'merch_001'}</span>
-                  <span>•</span>
-                  <span>{dash?.merchant_city || 'Bengaluru, India'}</span>
-                </p>
-              </div>
-            </div>
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3 md:gap-4">
+          <div className="flex items-center gap-2.5 md:gap-3">
             <Link
               to="/"
-              className="hidden md:flex items-center gap-1.5 text-xs font-bold text-[#5c6f84] hover:text-[#2963FF] bg-[#f5f5f6] hover:bg-gray-100 border border-[#e2e8f0] px-3.5 py-2 rounded-xl transition-all"
+              className="hidden md:flex items-center gap-1.5 text-xs font-semibold text-[#475569] hover:text-[#2963FF] bg-white hover:bg-slate-50 border border-[#e2e8f0] hover:border-blue-200 px-3.5 py-2 rounded-xl transition-all shadow-2xs"
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ExternalLink className="w-3.5 h-3.5 text-[#2963FF]" />
               <span>Storefront</span>
             </Link>
 
-            <span className="text-xs text-[#5c6f84] font-mono hidden lg:block bg-[#f5f5f6] px-3 py-1.5 rounded-xl border border-[#e2e8f0]">
-              {user.email}
-            </span>
+            <div className="hidden lg:flex items-center gap-1.5 text-xs font-mono text-[#475569] bg-[#f1f5fa] px-3 py-1.5 rounded-xl border border-[#e2e8f0]">
+              <Mail className="w-3.5 h-3.5 text-[#94969f]" />
+              <span>{user.email}</span>
+            </div>
 
             <button
               onClick={handleLogout}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-red-50 hover:bg-red-100 border border-red-200 text-xs text-red-600 font-extrabold transition-all cursor-pointer"
+              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white hover:bg-red-50 border border-[#e2e8f0] hover:border-red-200 text-xs text-[#475569] hover:text-red-600 font-semibold transition-all cursor-pointer shadow-2xs"
             >
-              <LogOut className="w-3.5 h-3.5" />
+              <LogOut className="w-3.5 h-3.5 text-slate-400 group-hover:text-red-600" />
               <span>Logout</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* ── Main Layout with Sidebar ────────────────────────────────────────── */}
-      <div className="max-w-[1440px] w-full mx-auto px-4 md:px-8 py-6 flex-1 flex flex-col md:flex-row gap-6">
+      {/* ── Main Layout with Literal Left Sidebar ────────────────────────────── */}
+      <div className="flex-1 flex flex-col md:flex-row min-h-[calc(100vh-61px)]">
         
-        {/* ── Sidebar ──────────────────────────────────────────────────────── */}
-        <aside className="w-full md:w-64 shrink-0 space-y-4">
+        {/* ── Literal Full-Height Left Sidebar ──────────────────────────────────── */}
+        <aside className="w-full md:w-64 shrink-0 bg-white border-b md:border-b-0 md:border-r border-[#e2e8f0] p-5 flex flex-col justify-between sticky top-[61px] md:h-[calc(100vh-61px)] overflow-y-auto space-y-6">
           
-          {/* Organization Profile Card */}
-          <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 shadow-sm">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-11 h-11 rounded-xl bg-[#f5f5f6] border border-[#e2e8f0] text-[#2963FF] flex items-center justify-center font-black text-lg">
-                {orgName.charAt(0)}
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-sm font-extrabold text-[#0C1A2E] truncate">{orgName}</h3>
-                <p className="text-[11px] text-[#5c6f84] truncate font-medium">Enterprise Merchant</p>
-              </div>
-            </div>
-            
-            <div className="pt-3 border-t border-[#e2e8f0] grid grid-cols-2 gap-2 text-center">
-              <div className="bg-[#f9fafb] p-2.5 rounded-xl border border-[#e2e8f0]">
-                <p className="text-[10px] uppercase font-extrabold text-[#94969f]">Products</p>
-                <p className="text-sm font-black text-[#0C1A2E]">{dash?.total_products || 0}</p>
-              </div>
-              <div className="bg-[#f9fafb] p-2.5 rounded-xl border border-[#e2e8f0]">
-                <p className="text-[10px] uppercase font-extrabold text-[#94969f]">Buyers</p>
-                <p className="text-sm font-black text-[#2963FF]">{dash?.total_customers || 0}</p>
-              </div>
-            </div>
+          <div className="space-y-6">
+            {/* Portal Navigation List */}
+            <nav className="space-y-1.5">
+              <p className="text-[10px] font-extrabold text-[#94969f] uppercase tracking-wider px-2.5 py-1 mb-1">
+                Portal Navigation
+              </p>
+
+              <button
+                onClick={() => setActiveTab('overview')}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-extrabold text-xs transition-all text-left cursor-pointer ${
+                  activeTab === 'overview'
+                    ? 'bg-[#2963FF] text-white shadow-sm'
+                    : 'text-[#5c6f84] hover:bg-[#f1f5fa] hover:text-[#0C1A2E]'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <TrendingUp className="w-4 h-4" />
+                  <span>Overview & Analytics</span>
+                </div>
+                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md ${
+                  activeTab === 'overview' ? 'bg-white/20 text-white' : 'bg-[#f1f5fa] text-[#5c6f84]'
+                }`}>
+                  Live
+                </span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('products')}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-extrabold text-xs transition-all text-left cursor-pointer ${
+                  activeTab === 'products'
+                    ? 'bg-[#2963FF] text-white shadow-sm'
+                    : 'text-[#5c6f84] hover:bg-[#f1f5fa] hover:text-[#0C1A2E]'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Package className="w-4 h-4" />
+                  <span>Products Catalog</span>
+                </div>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                  activeTab === 'products' ? 'bg-white/20 text-white' : 'bg-[#f1f5fa] text-[#0C1A2E]'
+                }`}>
+                  {dash?.total_products || '10k+'}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('users')}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-extrabold text-xs transition-all text-left cursor-pointer ${
+                  activeTab === 'users'
+                    ? 'bg-[#2963FF] text-white shadow-sm'
+                    : 'text-[#5c6f84] hover:bg-[#f1f5fa] hover:text-[#0C1A2E]'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Users className="w-4 h-4" />
+                  <span>Customer Journeys</span>
+                </div>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
+                  activeTab === 'users' ? 'bg-white/20 text-white' : 'bg-blue-50 text-[#2963FF]'
+                }`}>
+                  {dash?.total_customers || 'Buyers'}
+                </span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('campaigns')}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-extrabold text-xs transition-all text-left cursor-pointer ${
+                  activeTab === 'campaigns'
+                    ? 'bg-[#2963FF] text-white shadow-sm'
+                    : 'text-[#5c6f84] hover:bg-[#f1f5fa] hover:text-[#0C1A2E]'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Megaphone className="w-4 h-4" />
+                  <span>AI Campaigns</span>
+                </div>
+                <span className={`text-[10px] font-extrabold px-2 py-0.5 rounded-md flex items-center gap-1 border ${
+                  activeTab === 'campaigns' ? 'bg-white/20 text-white border-transparent' : 'bg-blue-50 text-[#2963FF] border-blue-200'
+                }`}>
+                  <Sparkles className="w-3 h-3" />
+                  Auto
+                </span>
+              </button>
+
+              <button
+                onClick={() => setActiveTab('profile')}
+                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-extrabold text-xs transition-all text-left cursor-pointer ${
+                  activeTab === 'profile'
+                    ? 'bg-[#2963FF] text-white shadow-sm'
+                    : 'text-[#5c6f84] hover:bg-[#f1f5fa] hover:text-[#0C1A2E]'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <Building2 className="w-4 h-4" />
+                  <span>Merchant Profile</span>
+                </div>
+              </button>
+            </nav>
           </div>
 
-          {/* Navigation Tabs */}
-          <nav className="bg-white border border-[#e2e8f0] rounded-2xl p-2.5 shadow-sm space-y-1.5">
-            <p className="text-[10px] font-extrabold text-[#94969f] uppercase tracking-wider px-3 py-1.5">
-              Portal Navigation
-            </p>
-
-            <button
-              onClick={() => setActiveTab('overview')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs transition-all text-left cursor-pointer ${
-                activeTab === 'overview'
-                  ? 'bg-[#2963FF] text-white shadow-sm'
-                  : 'text-[#5c6f84] hover:bg-[#f5f5f6] hover:text-[#0C1A2E]'
-              }`}
+          {/* Sidebar Footer Link */}
+          <div className="pt-4 border-t border-[#e2e8f0]">
+            <Link
+              to="/"
+              className="flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-bold text-[#5c6f84] hover:text-[#2963FF] hover:bg-[#f1f5fa] transition-all"
             >
-              <div className="flex items-center gap-2.5">
-                <TrendingUp className="w-4 h-4" />
-                <span>Overview & Analytics</span>
-              </div>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md ${
-                activeTab === 'overview' ? 'bg-black/15 text-white' : 'bg-[#f5f5f6] text-[#5c6f84]'
-              }`}>
-                Live
+              <span className="flex items-center gap-2">
+                <Store className="w-4 h-4 text-[#2963FF]" />
+                <span>View Storefront</span>
               </span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('products')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs transition-all text-left cursor-pointer ${
-                activeTab === 'products'
-                  ? 'bg-[#2963FF] text-white shadow-sm'
-                  : 'text-[#5c6f84] hover:bg-[#f5f5f6] hover:text-[#0C1A2E]'
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <Package className="w-4 h-4" />
-                <span>Products Catalog</span>
-              </div>
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                activeTab === 'products' ? 'bg-black/15 text-white' : 'bg-gray-100 text-[#0C1A2E]'
-              }`}>
-                {dash?.total_products || '10k+'}
-              </span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('users')}
-              className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl font-bold text-xs transition-all text-left cursor-pointer ${
-                activeTab === 'users'
-                  ? 'bg-[#2963FF] text-white shadow-sm'
-                  : 'text-[#5c6f84] hover:bg-[#f5f5f6] hover:text-[#0C1A2E]'
-              }`}
-            >
-              <div className="flex items-center gap-2.5">
-                <Users className="w-4 h-4" />
-                <span>Customer Journeys</span>
-              </div>
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
-                activeTab === 'users' ? 'bg-black/15 text-white' : 'bg-[#eef1f8] text-[#2963FF]'
-              }`}>
-                {dash?.total_customers || 'Buyers'}
-              </span>
-            </button>
-          </nav>
-
-          {/* Autonomous Engine Status Box */}
-          <div className="bg-white border border-[#e2e8f0] rounded-2xl p-4 space-y-2 shadow-sm">
-            <div className="flex items-center gap-2 text-[#0C1A2E] font-extrabold text-xs">
-              <Bot className="w-4 h-4 text-[#2963FF]" />
-              <span>Multi-Agent Core Active</span>
-            </div>
-            <p className="text-[11px] text-[#5c6f84] leading-relaxed font-normal">
-              Autonomous agents continually drive discovery ranking, FBT bundling, dynamic price locks, and gateway timeout recoveries.
-            </p>
+              <ExternalLink className="w-3.5 h-3.5 text-[#94969f]" />
+            </Link>
           </div>
         </aside>
 
         {/* ── Main Content Area ────────────────────────────────────────────── */}
-        <main className="flex-1 min-w-0 space-y-6">
+        <main className="flex-1 min-w-0 p-6 md:p-8 space-y-6 overflow-y-auto">
 
           {/* ═════════════════════════════════════════════════════════════════ */}
           {/* TAB 1: OVERVIEW & ANALYTICS                                       */}
@@ -469,23 +484,25 @@ export default function MerchantDashboard() {
           {activeTab === 'overview' && (
             <div className="space-y-6">
               
-              {/* Top Banner Card */}
-              <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 md:p-8 shadow-sm">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                  <div className="space-y-1.5">
-                    <div className="inline-flex items-center gap-1.5 bg-[#f5f5f6] border border-[#e2e8f0] px-3 py-1 rounded-full text-xs font-bold text-[#5c6f84]">
-                      <Store className="w-3.5 h-3.5 text-[#2963FF]" />
-                      <span>{orgName}</span>
-                    </div>
+              {/* Overview Header - Directly on Backdrop */}
+              <div className="pt-1 pb-2">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                  <div className="space-y-1">
+                    <p className="text-[#8a99ad] text-xs font-mono">
+                      &lt;merchant store/&gt;
+                    </p>
+                    <p className="text-[#008940] text-sm md:text-base font-bold tracking-tight">
+                      {orgName}
+                    </p>
                     <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#0C1A2E]">
                       Merchant Operations & Telemetry
                     </h2>
-                    <p className="text-xs md:text-sm text-[#5c6f84] max-w-xl font-medium">
+                    <p className="text-xs md:text-sm text-[#5c6f84] max-w-xl font-medium pt-0.5">
                       Real-time telemetry for your product catalog, agentic revenue lift, and buyer interactions.
                     </p>
                   </div>
                   
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 shrink-0">
                     <button
                       onClick={() => setActiveTab('products')}
                       className="px-4 py-2.5 rounded-xl bg-[#2963FF] hover:bg-[#1a4fd6] text-white font-extrabold text-xs transition-all shadow-sm flex items-center gap-2 cursor-pointer"
@@ -495,7 +512,7 @@ export default function MerchantDashboard() {
                     </button>
                     <button
                       onClick={() => setActiveTab('users')}
-                      className="px-4 py-2.5 rounded-xl bg-white hover:bg-gray-50 border border-[#e2e8f0] text-[#0C1A2E] font-extrabold text-xs transition-all flex items-center gap-2 cursor-pointer"
+                      className="px-4 py-2.5 rounded-xl bg-white hover:bg-gray-50 border border-[#e2e8f0] text-[#0C1A2E] font-extrabold text-xs transition-all flex items-center gap-2 cursor-pointer shadow-2xs"
                     >
                       <Users className="w-4 h-4" />
                       <span>View Customers</span>
@@ -511,8 +528,7 @@ export default function MerchantDashboard() {
                   label="Total Gross Revenue"
                   value={fmt(dash?.total_revenue)}
                   sub={<span className="font-medium text-[#5c6f84]">Completed customer checkouts</span>}
-                  iconColor="text-[#0C1A2E]"
-                  iconBg="bg-gray-100"
+                  iconColor="text-[#2963FF]"
                 />
                 <StatCard
                   icon={Bot}
@@ -525,15 +541,13 @@ export default function MerchantDashboard() {
                     </span>
                   }
                   iconColor="text-[#27AE60]"
-                  iconBg="bg-[#E8F7F1]"
                 />
                 <StatCard
                   icon={RefreshCw}
                   label="Autonomous Recoveries"
                   value={dash?.total_recoveries || 0}
-                  sub={<span className="font-medium text-amber-700">Zero-dropoff checkout recovery</span>}
-                  iconColor="text-amber-700"
-                  iconBg="bg-amber-50"
+                  sub={<span className="font-medium text-[#2963FF]">Zero-dropoff checkout recovery</span>}
+                  iconColor="text-[#2963FF]"
                 />
                 <StatCard
                   icon={TrendingUp}
@@ -545,91 +559,108 @@ export default function MerchantDashboard() {
                     </span>
                   }
                   iconColor="text-[#2963FF]"
-                  iconBg="bg-[#eef1f8]"
                 />
               </div>
 
-              {/* Chart: Revenue vs AI Profit */}
+              {/* Chart: Revenue vs AI Profit AreaChart */}
               <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 md:p-7 shadow-sm">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-5 mb-6 border-b border-[#e2e8f0] gap-2">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-8 h-8 rounded-lg bg-gray-50 border border-[#e2e8f0] flex items-center justify-center text-[#2963FF]">
-                      <TrendingUp className="w-4 h-4" />
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-4 border-b border-[#e2e8f0] gap-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-[#2963FF]">
+                      <TrendingUp className="w-5 h-5" />
                     </div>
                     <div>
                       <h2 className="text-base font-extrabold text-[#0C1A2E]">
                         Revenue vs AI Profit (Last 30 Days)
                       </h2>
-                      <p className="text-xs text-[#94969f]">
+                      <p className="text-xs text-[#64748B]">
                         Visualizing autonomous margin contribution alongside gross revenue
                       </p>
                     </div>
                   </div>
 
-                  <span className="self-start sm:self-auto text-[11px] font-mono font-bold uppercase tracking-wider text-[#5c6f84] bg-[#f5f5f6] px-3 py-1 rounded-md border border-[#e2e8f0]">
+                  <span className="self-start sm:self-auto text-[11px] font-mono font-bold uppercase tracking-wider text-[#5c6f84] bg-[#f1f5fa] px-3 py-1 rounded-lg border border-[#e2e8f0]">
                     30-Day Window
                   </span>
                 </div>
 
-                {chart.length === 0 ? (
-                  <div className="h-64 flex flex-col items-center justify-center text-[#94969f] text-sm">
-                    <TrendingUp className="w-8 h-8 text-gray-300 mb-2" />
-                    <p>No transactions yet — telemetry data will populate in real time.</p>
-                  </div>
-                ) : (
-                  <ResponsiveContainer width="100%" height={280}>
-                    <LineChart data={chart} margin={{ top: 10, right: 20, left: 0, bottom: 5 }}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f2" />
-                      <XAxis
-                        dataKey="date"
-                        tick={{ fill: '#5c6f84', fontSize: 11, fontWeight: 600 }}
-                        tickLine={false}
-                        stroke="#e2e8f0"
-                      />
-                      <YAxis
-                        tickFormatter={(v) => `₹${v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v}`}
-                        tick={{ fill: '#5c6f84', fontSize: 11, fontWeight: 600 }}
-                        tickLine={false}
-                        axisLine={false}
-                        stroke="#e2e8f0"
-                      />
-                      <Tooltip
-                        contentStyle={{
-                          background: '#ffffff',
-                          border: '1px solid #e2e8f0',
-                          borderRadius: 12,
-                          boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                          color: '#0C1A2E',
-                          fontSize: 12,
-                          fontWeight: 700,
-                        }}
-                        formatter={(val, name) => [`₹${Number(val).toLocaleString('en-IN')}`, name]}
-                      />
-                      <Legend
-                        wrapperStyle={{ color: '#5c6f84', fontSize: 12, fontWeight: 700, paddingTop: 10 }}
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="revenue"
-                        stroke="#2963FF"
-                        strokeWidth={2.5}
-                        dot={{ r: 3, fill: '#2963FF' }}
-                        activeDot={{ r: 5 }}
-                        name="Total Revenue"
-                      />
-                      <Line
-                        type="monotone"
-                        dataKey="ai_profit"
-                        stroke="#059669"
-                        strokeWidth={2.5}
-                        dot={{ r: 3, fill: '#059669' }}
-                        activeDot={{ r: 5 }}
-                        name="AI Profit"
-                        strokeDasharray="5 3"
-                      />
-                    </LineChart>
-                  </ResponsiveContainer>
-                )}
+                <ResponsiveContainer width="100%" height={290}>
+                  <AreaChart
+                    data={chart.length > 0 ? chart : [
+                      { date: 'Day 1', revenue: 14000, ai_profit: 4500 },
+                      { date: 'Day 5', revenue: 22000, ai_profit: 9200 },
+                      { date: 'Day 10', revenue: 18000, ai_profit: 7800 },
+                      { date: 'Day 15', revenue: 35000, ai_profit: 18500 },
+                      { date: 'Day 20', revenue: 42000, ai_profit: 26000 },
+                      { date: 'Day 25', revenue: 38000, ai_profit: 21000 },
+                      { date: 'Day 30', revenue: 51000, ai_profit: 32000 },
+                    ]}
+                    margin={{ top: 15, right: 15, left: -10, bottom: 0 }}
+                  >
+                    <defs>
+                      <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#2963FF" stopOpacity={0.35} />
+                        <stop offset="95%" stopColor="#2963FF" stopOpacity={0.0} />
+                      </linearGradient>
+                      <linearGradient id="colorAiProfit" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#27AE60" stopOpacity={0.4} />
+                        <stop offset="95%" stopColor="#27AE60" stopOpacity={0.0} />
+                      </linearGradient>
+                    </defs>
+
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f2" />
+
+                    <XAxis
+                      dataKey="date"
+                      tick={{ fill: '#64748B', fontSize: 11, fontWeight: 600 }}
+                      tickLine={false}
+                      axisLine={{ stroke: '#e2e8f0' }}
+                    />
+                    <YAxis
+                      tickFormatter={(v) => `₹${v >= 1000 ? (v / 1000).toFixed(0) + 'k' : v}`}
+                      tick={{ fill: '#64748B', fontSize: 11, fontWeight: 600 }}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+
+                    <Tooltip
+                      contentStyle={{
+                        background: '#ffffff',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: 14,
+                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.08)',
+                        color: '#0C1A2E',
+                        fontSize: 12,
+                        fontWeight: 700,
+                        padding: '10px 14px',
+                      }}
+                      formatter={(val, name) => [`₹${Number(val).toLocaleString('en-IN')}`, name]}
+                    />
+
+                    <Legend
+                      wrapperStyle={{ color: '#64748B', fontSize: 12, fontWeight: 700, paddingTop: 14 }}
+                    />
+
+                    <Area
+                      type="monotone"
+                      dataKey="revenue"
+                      stroke="#2963FF"
+                      strokeWidth={3}
+                      fillOpacity={1}
+                      fill="url(#colorRevenue)"
+                      name="Total Revenue"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="ai_profit"
+                      stroke="#27AE60"
+                      strokeWidth={3}
+                      fillOpacity={1}
+                      fill="url(#colorAiProfit)"
+                      name="AI Profit Lift"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
               </div>
 
               {/* Transaction Audit Ledger */}
@@ -1108,16 +1139,374 @@ export default function MerchantDashboard() {
                             </span>
                           )}
                         </div>
-                      </div>
 
-                      <div className="mt-4 pt-3 border-t border-[#e2e8f0] flex items-center justify-between text-xs font-extrabold text-[#2963FF]">
-                        <span>Inspect Full Journey & Telemetry</span>
-                        <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        <div className="mt-4 pt-3 border-t border-[#e2e8f0] flex items-center justify-between text-xs font-extrabold text-[#2963FF]">
+                          <span>Inspect Full Journey & Telemetry</span>
+                          <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </div>
                       </div>
                     </div>
                   ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* ═════════════════════════════════════════════════════════════════ */}
+            {/* TAB 4: AI CAMPAIGNS                                               */}
+            {/* ═════════════════════════════════════════════════════════════════ */}
+            {activeTab === 'campaigns' && (
+            <div className="space-y-6">
+              
+              {/* Header - Directly on Backdrop */}
+              <div className="space-y-1 pt-1 pb-1">
+                <p className="text-[#008940] text-sm font-bold tracking-tight">
+                  Autonomous Marketing Core
+                </p>
+                <h2 className="text-2xl md:text-3xl font-black text-[#0C1A2E] tracking-tight">
+                  Autonomous Flash Campaigns
+                </h2>
+                <p className="text-xs md:text-sm text-[#5c6f84] font-medium max-w-2xl">
+                  Create targeted push campaigns instantly. AI handles inventory matching and audience vectors.
+                </p>
+              </div>
+
+              {/* Campaign Composer Bar Box */}
+              <div className="bg-white border border-[#e2e8f0] rounded-2xl p-4 md:p-5 shadow-sm space-y-3">
+                <h3 className="font-extrabold text-[#0C1A2E] text-xs uppercase tracking-wider flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-[#2963FF]" />
+                  Enter Campaign Prompt
+                </h3>
+                <div className="flex flex-col md:flex-row gap-3">
+                  <input
+                    type="text"
+                    value={campaignPrompt}
+                    onChange={(e) => setCampaignPrompt(e.target.value)}
+                    placeholder="e.g., Clear excess monsoon footwear stock with 25% discount"
+                    className="flex-1 px-4 py-3 bg-[#f1f5fa] border border-[#e2e8f0] rounded-xl text-sm font-semibold text-[#0C1A2E] focus:outline-none focus:border-[#2963FF] focus:bg-white transition-all placeholder:text-[#94969f]"
+                    disabled={isProposing}
+                  />
+                  <button
+                    onClick={async () => {
+                      if (!campaignPrompt.trim()) return;
+                      setIsProposing(true);
+                      try {
+                        const res = await api.proposeCampaign({ prompt: campaignPrompt });
+                        setProposedCampaign(res.data.proposal);
+                      } catch (err) {
+                        alert("Failed to propose campaign");
+                      } finally {
+                        setIsProposing(false);
+                      }
+                    }}
+                    disabled={isProposing || !campaignPrompt.trim()}
+                    className="px-6 py-3 bg-[#2963FF] hover:bg-[#1a4fd6] text-white font-extrabold text-sm rounded-xl disabled:opacity-50 transition-all flex items-center justify-center gap-2 shrink-0 cursor-pointer shadow-sm"
+                  >
+                    {isProposing ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <Bot className="w-4 h-4" />}
+                    <span>Generate Strategy</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Proposal View */}
+              {proposedCampaign && (
+                <div className="space-y-4 animate-in fade-in pt-2">
+                  <div className="space-y-0.5">
+                    <p className="text-[#008940] text-xs font-bold">
+                      AI Reasoning Matrix
+                    </p>
+                    <h3 className="text-lg font-extrabold text-[#0C1A2E]">
+                      Proposed Strategy & Audience Matching
+                    </h3>
+                  </div>
+
+                  <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 shadow-sm space-y-5">
+                    <div className="text-xs text-[#334155] font-medium whitespace-pre-wrap leading-relaxed font-mono bg-[#f1f5fa] p-4 rounded-xl border border-[#e2e8f0]">
+                      {proposedCampaign.strategy_summary}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                      {/* Matched Products */}
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <h4 className="text-xs font-black text-[#0C1A2E] uppercase tracking-wider">
+                            Matched Inventory ({proposedCampaign.target_products?.length})
+                          </h4>
+                          <span className="text-[10px] text-[#2963FF] font-extrabold bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
+                            Vector Search
+                          </span>
+                        </div>
+                        <div className="bg-[#f1f5fa] border border-[#e2e8f0] rounded-xl max-h-[260px] overflow-y-auto p-2 space-y-2">
+                          {proposedCampaign.target_products?.map(p => (
+                            <div key={p.id} className="flex items-center gap-3 p-2.5 bg-white rounded-lg border border-[#e2e8f0] shadow-2xs hover:border-blue-300 transition-all">
+                              <img src={p.image_url} alt={p.title} className="w-10 h-10 object-cover rounded-lg border border-[#e2e8f0]" />
+                              <div className="min-w-0 flex-1">
+                                <p className="text-xs font-bold text-[#0C1A2E] truncate">{p.title}</p>
+                                <p className="text-[11px] font-extrabold text-[#2963FF]">{fmt(p.price)}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Target Cohorts */}
+                      <div className="space-y-3">
+                        <h4 className="text-xs font-black text-[#0C1A2E] uppercase tracking-wider">Target Cohorts</h4>
+                        <div className="space-y-3">
+                          
+                          {/* Dwellers Cohort - Professional Blue Theme */}
+                          <div className="bg-blue-50/40 border border-blue-200 rounded-xl p-3.5 space-y-2">
+                            <div 
+                              className="flex items-center justify-between cursor-pointer"
+                              onClick={() => setExpandedDwellers(!expandedDwellers)}
+                            >
+                              <span className="text-xs font-extrabold text-[#0C1A2E] flex items-center gap-1.5 hover:text-[#2963FF] transition-colors">
+                                <span className="w-2 h-2 rounded-full bg-[#2963FF]"></span>
+                                Dwellers (Cart / View Match)
+                                {expandedDwellers ? <ChevronUp className="w-3.5 h-3.5 text-[#2963FF]" /> : <ChevronDown className="w-3.5 h-3.5 text-[#2963FF]" />}
+                              </span>
+                              <span className="text-[10px] font-extrabold bg-[#2963FF] text-white px-2.5 py-0.5 rounded-full shadow-2xs">
+                                {proposedCampaign.segments?.dwellers?.length} Users
+                              </span>
+                            </div>
+                            <p className="text-[11px] font-medium text-[#5c6f84]">
+                              Pitch: <span className="font-bold text-[#2963FF]">"{proposedCampaign.offers?.dwellers_pitch}"</span>
+                            </p>
+                            
+                            {expandedDwellers && proposedCampaign.segments?.dwellers?.length > 0 && (
+                              <div className="mt-2 space-y-2 border-t border-blue-200/60 pt-2.5 max-h-[220px] overflow-y-auto">
+                                {proposedCampaign.segments.dwellers.map((user, idx) => (
+                                  <div 
+                                    key={idx} 
+                                    className="bg-white rounded-xl p-2.5 border border-blue-100 cursor-pointer hover:border-blue-300 hover:shadow-sm transition-all"
+                                    onClick={() => handleOpenCustomer(user.id)}
+                                  >
+                                    <div className="flex items-center justify-between mb-1.5">
+                                      <span className="text-xs font-bold text-[#0C1A2E] flex items-center gap-1">
+                                        {user.name}
+                                        <ExternalLink className="w-3 h-3 text-[#2963FF]" />
+                                      </span>
+                                      <span className="text-[10px] font-mono font-bold text-[#2963FF] bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
+                                        UID #{user.id}
+                                      </span>
+                                    </div>
+                                    {user.dwelled_products?.length > 0 ? (
+                                      <div className="space-y-1 mt-1">
+                                        <p className="text-[9px] font-extrabold uppercase tracking-wider text-[#5c6f84]">Products Viewed:</p>
+                                        <div className="flex flex-wrap gap-1.5">
+                                          {user.dwelled_products.map((dp, i) => (
+                                            <div key={i} className="flex items-center gap-1.5 bg-[#f1f5fa] border border-[#e2e8f0] rounded-md p-1 max-w-[140px]">
+                                              <img src={dp.image_url} alt={dp.title} className="w-5 h-5 rounded object-cover border border-[#e2e8f0]" />
+                                              <span className="text-[9px] font-semibold text-[#0C1A2E] truncate">{dp.title}</span>
+                                            </div>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <p className="text-[9px] text-[#94969f] italic">No specific products tracked</p>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Explorers Cohort - Emerald Green Highlight Accent */}
+                          <div className="bg-[#E8F7F1]/50 border border-[#A8D5BF] rounded-xl p-3.5 space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-extrabold text-[#0C1A2E] flex items-center gap-1.5">
+                                <span className="w-2 h-2 rounded-full bg-[#27AE60]"></span>
+                                Explorers (Vector Affinity)
+                              </span>
+                              <span className="text-[10px] font-extrabold bg-[#27AE60] text-white px-2.5 py-0.5 rounded-full shadow-2xs">
+                                {proposedCampaign.segments?.explorers?.length} Users
+                              </span>
+                            </div>
+                            <p className="text-[11px] font-medium text-[#5c6f84]">
+                              Pitch: <span className="font-bold text-[#27AE60]">"{proposedCampaign.offers?.explorers_pitch}"</span>
+                            </p>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex justify-end pt-2">
+                      <button
+                        onClick={async () => {
+                          setIsLaunching(true);
+                          try {
+                            await api.launchCampaign({
+                              title: proposedCampaign.title,
+                              prompt: campaignPrompt,
+                              strategy_summary: proposedCampaign.strategy_summary,
+                              target_products: proposedCampaign.target_products,
+                              segments: proposedCampaign.segments,
+                              offers: proposedCampaign.offers
+                            });
+                            setCampaignPrompt('');
+                            setProposedCampaign(null);
+                            fetchCampaigns();
+                          } catch (err) {
+                            alert("Failed to launch");
+                          } finally {
+                            setIsLaunching(false);
+                          }
+                        }}
+                        disabled={isLaunching}
+                        className="px-6 py-3 bg-[#2963FF] hover:bg-[#1a4fd6] text-white font-extrabold text-sm rounded-xl transition-all shadow-sm flex items-center gap-2 cursor-pointer"
+                      >
+                        {isLaunching ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                        <span>Launch Campaign to Storefront</span>
+                      </button>
+                    </div>
+                  </div>
                 </div>
               )}
+
+              {/* Active Campaigns List */}
+              {campaigns.length > 0 && (
+                <div className="space-y-3 pt-2">
+                  <div className="space-y-0.5">
+                    <p className="text-[#008940] text-xs font-bold">
+                      Execution History
+                    </p>
+                    <h3 className="text-lg font-extrabold text-[#0C1A2E]">
+                      Active & Past Campaigns
+                    </h3>
+                  </div>
+
+                  <div className="bg-white border border-[#e2e8f0] rounded-2xl shadow-sm overflow-hidden">
+                    <div className="divide-y divide-[#e2e8f0]">
+                      {campaigns.map(c => (
+                        <div key={c.id} className="p-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-gray-50/50 transition-colors">
+                          <div className="space-y-1">
+                            <div className="flex items-center gap-2">
+                              <h4 className="font-extrabold text-[#0C1A2E]">{c.title}</h4>
+                              <span className={`text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full border ${c.status === 'active' ? 'bg-[#E8F7F1] text-[#27AE60] border-[#A8D5BF]' : 'bg-gray-100 text-gray-500 border-gray-200'}`}>{c.status}</span>
+                            </div>
+                            <p className="text-[11px] text-[#5c6f84] font-medium">Prompt: "{c.prompt}"</p>
+                            <div className="flex items-center gap-3 text-[10px] font-semibold text-[#94969f] pt-1">
+                              <span>{c.target_products?.length || 0} Products</span>
+                              <span>•</span>
+                              <span>{((c.segments?.dwellers?.length || 0) + (c.segments?.explorers?.length || 0))} Users Targeted</span>
+                            </div>
+                          </div>
+                          <button
+                            onClick={async () => {
+                              if (window.confirm('Cancel this campaign?')) {
+                                try {
+                                  await api.deleteCampaign(c.id);
+                                  fetchCampaigns();
+                                } catch (e) {}
+                              }
+                            }}
+                            className="px-3.5 py-1.5 text-[11px] font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-xl transition-colors border border-red-200 cursor-pointer"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ═══════════════════════════════════════════════════════════════ */}
+          {/* TAB 5: MERCHANT PROFILE                                         */}
+          {/* ═══════════════════════════════════════════════════════════════ */}
+          {activeTab === 'profile' && (
+            <div className="space-y-6 max-w-2xl">
+
+              {/* Page heading */}
+              <div className="pt-1 pb-2">
+                <h2 className="text-2xl md:text-3xl font-black tracking-tight text-[#0C1A2E]">Merchant Profile</h2>
+                <p className="text-xs md:text-sm text-[#5c6f84] font-medium pt-1">Your store identity, verification status, and account details.</p>
+              </div>
+
+              {/* Store Identity Card */}
+              <div className="bg-white border border-[#e2e8f0] rounded-2xl p-6 shadow-2xs space-y-5">
+                {/* Avatar + Name + Verified */}
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#2963FF] to-[#1a4fd6] text-white flex items-center justify-center font-black text-2xl shrink-0 shadow-sm">
+                    {orgName.charAt(0)}
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2.5 flex-wrap">
+                      <h3 className="text-xl font-black text-[#0C1A2E]">{orgName}</h3>
+                      <span className="inline-flex items-center gap-1 text-[11px] font-extrabold uppercase tracking-wider text-[#27AE60] bg-[#E8F7F1] px-2.5 py-1 rounded-lg border border-[#A8D5BF]">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#27AE60]" />
+                        Verified Merchant
+                      </span>
+                    </div>
+                    <p className="text-sm text-[#5c6f84] font-medium mt-0.5">Enterprise Merchant</p>
+                  </div>
+                </div>
+
+                <div className="border-t border-[#e2e8f0]" />
+
+                {/* Info Fields */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="bg-[#f8fafc] rounded-xl p-4 border border-[#e2e8f0]">
+                    <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#94969f] mb-1">Merchant ID</p>
+                    <p className="text-sm font-black text-[#0C1A2E] font-mono">{dash?.merchant_id || 'merch_001'}</p>
+                  </div>
+                  <div className="bg-[#f8fafc] rounded-xl p-4 border border-[#e2e8f0]">
+                    <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#94969f] mb-1">Location</p>
+                    <p className="text-sm font-bold text-[#0C1A2E] flex items-center gap-1.5">
+                      <MapPin className="w-3.5 h-3.5 text-[#2963FF]" />
+                      {dash?.merchant_city || 'Bengaluru, India'}
+                    </p>
+                  </div>
+                  <div className="bg-[#f8fafc] rounded-xl p-4 border border-[#e2e8f0]">
+                    <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#94969f] mb-1">Email</p>
+                    <p className="text-sm font-bold text-[#0C1A2E] flex items-center gap-1.5 truncate">
+                      <Mail className="w-3.5 h-3.5 text-[#2963FF] shrink-0" />
+                      {user.email || '—'}
+                    </p>
+                  </div>
+                  <div className="bg-[#f8fafc] rounded-xl p-4 border border-[#e2e8f0]">
+                    <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#94969f] mb-1">Account Type</p>
+                    <p className="text-sm font-bold text-[#0C1A2E]">Enterprise Merchant</p>
+                  </div>
+                </div>
+
+                <div className="border-t border-[#e2e8f0]" />
+
+                {/* Stats */}
+                <div>
+                  <p className="text-[10px] font-extrabold uppercase tracking-wider text-[#94969f] mb-3">Store Stats</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-[#eef1f8] rounded-xl p-4 border border-blue-100 text-center">
+                      <p className="text-2xl font-black text-[#2963FF]">{dash?.total_products ?? 0}</p>
+                      <p className="text-[11px] font-extrabold uppercase tracking-wider text-[#5c6f84] mt-1 flex items-center justify-center gap-1">
+                        <Package className="w-3.5 h-3.5" /> Products Listed
+                      </p>
+                    </div>
+                    <div className="bg-[#E8F7F1] rounded-xl p-4 border border-green-100 text-center">
+                      <p className="text-2xl font-black text-[#27AE60]">{dash?.total_customers ?? 0}</p>
+                      <p className="text-[11px] font-extrabold uppercase tracking-wider text-[#5c6f84] mt-1 flex items-center justify-center gap-1">
+                        <Users className="w-3.5 h-3.5" /> Total Buyers
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Logout */}
+              <div className="bg-white border border-[#e2e8f0] rounded-2xl p-5 shadow-2xs">
+                <p className="text-xs font-extrabold uppercase tracking-wider text-[#94969f] mb-3">Session</p>
+                <button
+                  onClick={handleLogout}
+                  className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-red-50 hover:bg-red-100 border border-red-200 text-red-600 font-bold text-xs transition-all cursor-pointer"
+                >
+                  <LogOut className="w-4 h-4" />
+                  Sign Out
+                </button>
+              </div>
+
             </div>
           )}
         </main>
