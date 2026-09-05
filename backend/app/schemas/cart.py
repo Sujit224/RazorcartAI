@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from .product import ProductResponse
 
 class CartItemCreate(BaseModel):
@@ -31,4 +31,4 @@ class CartSummaryResponse(BaseModel):
     shipping_fee: float = 0.0
     total: float
     item_count: int
-    fbt_recommendations: List[ProductResponse] = []
+    fbt_recommendations: List[Dict[str, Any]] = []

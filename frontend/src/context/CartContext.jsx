@@ -31,10 +31,10 @@ export const CartProvider = ({ children }) => {
   const [notice, setNotice] = useState(null);
 
   const fetchCart = async () => {
-    if (!currentUser?.id) return;
+    const userId = currentUser?.id || 1;
     try {
       setLoading(true);
-      const res = await api.getCart(currentUser.id);
+      const res = await api.getCart(userId);
       setCart(res.data);
     } catch (err) {
       console.warn("Failed to load cart:", err);

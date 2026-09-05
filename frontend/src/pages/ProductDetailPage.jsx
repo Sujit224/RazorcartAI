@@ -106,7 +106,7 @@ export default function ProductDetailPage() {
   const int = (val) => Math.round(Number(val || 0));
 
   const handleAdd = () => {
-    addToCart(product.id, 1, selectedSize);
+    addToCart(product.id, 1, sizes.length > 0 ? selectedSize : 'Standard');
     setAddedNotice(true);
     setTimeout(() => setAddedNotice(false), 2500);
   };
