@@ -3,7 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import {
   Search, User as UserIcon, Heart, ShoppingBag, Bot, MapPin, Sparkles,
   LogOut, LogIn, ArrowRight, Headphones, ChevronDown, Check, ShieldCheck, Zap,
-  Smartphone, Watch, Utensils, Scissors, Shirt, Layers, Package, Footprints
+  Smartphone, Watch, Utensils, Scissors, Shirt, Layers, Package, Footprints,
+  LayoutDashboard
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
@@ -291,6 +292,18 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
               </div>
             )}
           </div>
+
+          {/* ── Merchant: Back to Dashboard Button ── */}
+          {currentUser?.role === 'merchant' && (
+            <button
+              onClick={() => navigate('/merchant/dashboard')}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0b72e7] hover:bg-[#0052cc] text-white font-bold text-xs transition-all shadow-sm cursor-pointer shrink-0"
+              title="Go back to Merchant Dashboard"
+            >
+              <LayoutDashboard className="w-3.5 h-3.5" />
+              <span>Merchant Dashboard</span>
+            </button>
+          )}
 
           {/* Shopping Bag Icon with Active Counter */}
           <button
