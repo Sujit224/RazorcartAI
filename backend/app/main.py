@@ -7,7 +7,6 @@ from contextlib import asynccontextmanager
 from .config import settings
 from .database import engine, Base, SessionLocal
 from .models import User, Product, CartItem, Order, AuditLedger
-from .services.seed_data import seed_database
 from .routers import auth, products, cart, agent, payment, audit
 from .routers import merchant, admin, reviews, orders, discount
 
@@ -21,11 +20,6 @@ async def lifespan(app: FastAPI):
     if os.environ.get("RESET_DB", "false").lower() == "true":
         Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
-    db = SessionLocal()
-    try:
-        seed_database(db)
-    finally:
-        db.close()
     yield
 
 app = FastAPI(

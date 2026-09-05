@@ -23,9 +23,6 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-*.db
-*.sqlite3
-backend/razorcart.db
 backend/.env
 
 # Node & Frontend
