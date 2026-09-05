@@ -70,6 +70,51 @@ Below is a step-by-step visual demonstration of the complete agentic customer jo
 
 ---
 
+### 6. Alternate Payment Recommendation & Failed Payment Recovery
+
+![6. Alternate Payment Recovery](docs/screenshots/6_alternate_payment_fallback.png)
+
+- **Feature Overview**: Autonomous payment failure handling that actively recommends alternate payment rails when a transaction fails.
+- **How It Works**: When a gateway failure occurs, RazorCartAI intercepts the failure event without losing cart state, presenting 1-click fallback payment options (`upi_qr`, `UPI (GPay, PhonePe, Paytm)`) with `Try Again` triggers to maximize checkout conversion.
+
+---
+
+### 7. AI Profit vs Gross Revenue Analytics Graph
+
+![7. AI Profit Graph](docs/screenshots/7_ai_profit_graph.png)
+
+- **Feature Overview**: Real-time interactive AreaChart visualization in the Merchant Dashboard tracking **Revenue vs AI Profit (Last 30 Days)**.
+- **How It Works**: Isolates and visualizes the exact margin dollars generated autonomously by AI recovery flows, dynamic LightGBM discount optimization, and smart FBT upselling alongside gross store revenue.
+
+---
+
+### 8. Immutable Merchant Audit Ledger & AI Uplift Tracking
+
+![8. Merchant Audit Ledger](docs/screenshots/8_audit_ledger.png)
+
+- **Feature Overview**: Complete audit log recording every user transaction, conversational step, and financial action taken by the AI engine.
+- **How It Works**: Displays granular trace entries (`SEARCH_RANKED`, `TIMEOUT_UPI_FALLBACK`, `PAYMENT_INITIATED`, `CART_VIEWED`) with timestamped user IDs, order amounts, and verified AI profit uplift tags (`+₹878 AI`, `+₹32,011 AI`), guaranteeing complete financial auditability.
+
+---
+
+### 9. AI Campaign Strategy & Audience Matching
+
+![9. AI Campaign Strategy](docs/screenshots/9_ai_campaign_strategy.png)
+
+- **Feature Overview**: Plain-English AI campaign generator (`Propose a campaign for price-sensitive mobile buyers with 15% discount for monsoon clearance`).
+- **How It Works**: Groq LLM parses merchant campaign intent, searches catalog inventory via TF-IDF vector matching (175 items matched), and segments target users into **Dwellers** (cart/view match) and **Explorers** (vector category affinity) with personalized pitch recommendations.
+
+---
+
+### 10. ML Dynamic Pricing & LightGBM Probabilities Reasoning
+
+![10. LightGBM Probabilities Matrix](docs/screenshots/10_lightgbm_probabilities.png)
+
+- **Feature Overview**: Deterministic machine learning dynamic discount optimizer powered by a trained LightGBM model (`dynamic_pricing_lgbm.pkl`).
+- **How It Works**: Evaluates 15 behavioral features across candidate discount tiers ($0\%, 5\%, 10\%, 15\%, 20\%, 25\%$). Displays an evaluation matrix showing predicted conversion probability ($P(\text{Conv})$), effective margin, and expected profit ($\mathbb{E}[\text{Profit}]$ in INR) to authorize the optimal discount tier ($25\%\text{ OFF}$, $+1.3\%\text{ net uplift}$).
+
+---
+
 ##  System Architecture
 
 ```mermaid
