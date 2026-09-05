@@ -91,6 +91,7 @@ def cart_summary(db: Session, user_id: int) -> Dict[str, Any]:
     return {
         "items": [
             {
+                "id": i.id,
                 "item_id": i.id,
                 "product_id": p.id,
                 "title": p.title,

@@ -45,6 +45,56 @@ export const AgentProvider = ({ children }) => {
 
   const recognitionRef = useRef(null);
 
+  // Sync live cart state into the latest cart_snapshot in chat messages
+  useEffect(() => {
+    if (!cart) return;
+    setMessages(prevMsgs => {
+      const lastCartIdx = prevMsgs.reduce((acc, m, idx) => (m.cart_snapshot ? idx : acc), -1);
+      if (lastCartIdx === -1) return prevMsgs;
+
+      const items = (cart.items || []).map(i => {
+        const prod = i.product || {};
+        const price = prod.price || i.price || 0;
+        const quantity = i.quantity || 1;
+        return {
+          id: i.id || i.item_id,
+          item_id: i.id || i.item_id,
+          product_id: i.product_id || prod.id,
+          title: prod.title || i.title || '',
+          brand: prod.brand || i.brand || '',
+          price: price,
+          quantity: quantity,
+          size: i.size || null,
+          line_total: Math.round(price * quantity * 100) / 100,
+          image_url: prod.image_url || i.image_url || '',
+          rating: prod.rating || i.rating || 0,
+          review_count: prod.review_count || i.review_count || 0,
+          stock: prod.stock || i.stock || 0
+        };
+      });
+
+      const subtotal = cart.subtotal || items.reduce((s, it) => s + it.line_total, 0);
+      const shipping_fee = cart.shipping_fee || 0;
+      const total = cart.total || (subtotal + shipping_fee);
+
+      const updatedSnapshot = {
+        items,
+        subtotal: Math.round(subtotal * 100) / 100,
+        shipping_fee: shipping_fee,
+        total: Math.round(total * 100) / 100,
+        item_count: cart.item_count || items.reduce((s, it) => s + it.quantity, 0),
+        line_count: items.length
+      };
+
+      const updatedMsgs = [...prevMsgs];
+      updatedMsgs[lastCartIdx] = {
+        ...updatedMsgs[lastCartIdx],
+        cart_snapshot: updatedSnapshot
+      };
+      return updatedMsgs;
+    });
+  }, [cart]);
+
   useEffect(() => {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
       setVoiceError('Web Speech API is not supported in this browser.');

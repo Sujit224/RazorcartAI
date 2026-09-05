@@ -1,4 +1,4 @@
-﻿<div>
+<div>
 
 #  RazorCartAI
 ### *Agentic AI E-Commerce Platform*
@@ -18,6 +18,55 @@
 ##  Hackathon Track — AI Growth & Agentic Commerce
 
 RazorCartAI is a **production-grade agentic commerce system** where a LangGraph multi-agent orchestration engine drives the entire customer journey — from zero-query personalized discovery, through conversational cart negotiation, to autonomous payment failure recovery — with every financial action logged to an immutable Merchant Audit Ledger.
+
+---
+
+##  End-to-End Customer Experience Walkthrough
+
+Below is a step-by-step visual demonstration of the complete agentic customer journey powered by ZORA Copilot and RazorCartAI:
+
+### 1. Search for Products (Natural Language & Typo-Tolerant Vector Search)
+
+![1. Search for Products](docs/screenshots/1_search_products.png)
+
+- **Feature Overview**: ZORA Copilot supports natural language queries with automatic typo tolerance (e.g. `qualcom` → `Qualcomm`, `snapdraogon` → `Snapdragon`) and dynamic price range extraction (`under 20000 - 50000`).
+- **How It Works**: The request is processed via TF-IDF vector retrieval and multi-factor ranking (semantic similarity, rating/review score, and merchant proximity boost). Results display seller city dispatch tags (`Fast from Bengaluru`) and verified review metrics.
+
+---
+
+### 2. Side-by-Side Product Comparison
+
+![2. Compare Between Recommended Products](docs/screenshots/2_compare_products.png)
+
+- **Feature Overview**: Users can compare shortlisted items using natural ordinal references (e.g., *"Compare 1st and 2nd"*).
+- **How It Works**: ZORA extracts specifications, prices, ratings, and merchant details from the active focus list, rendering an inline side-by-side comparison table. It highlights key differentiators (RAM, storage, price difference) and provides a tailored AI buying recommendation.
+
+---
+
+### 3. Natural Language Add to Cart & Live Bag Snapshot
+
+![3. Add to Cart & Live Bag Snapshot](docs/screenshots/3_add_to_cart.png)
+
+- **Feature Overview**: Users add items directly to their cart using conversational commands (e.g., *"Add the first one to my bag"*).
+- **How It Works**: A deterministic command parser maps ordinal references (`first one`) to the target product ID, executing cart addition in zero LLM tokens. The copilot renders a real-time **Bag Snapshot** message bubble with quantity adjustors (`-`, `+`) and item deletion (`🗑️`) controls sync'd live with the backend database.
+
+---
+
+### 4. Frequently Bought Together (FBT) Recommendations & Checkout
+
+![4. Frequently Bought Together & Checkout](docs/screenshots/4_fbt_and_checkout.png)
+
+- **Feature Overview**: During checkout, RazorCartAI's dynamic graph recommendation engine suggests complementary accessories (e.g., tempered glass, bumper cases, foldable phone holders) tailored to the cart items.
+- **How It Works**: Displays calculated basket revenue uplift (`+28.4% Basket Lift`). Users can click `+ Pair Item` to add accessories with 1-click, instantly updating the checkout total before initiating payment.
+
+---
+
+### 5. Razorpay Standard Payment Gateway Integration
+
+![5. Razorpay Payment Gateway](docs/screenshots/5_razorpay_payment.png)
+
+- **Feature Overview**: Embedded integration with the Razorpay Payment Gateway SDK for secure transaction processing.
+- **How It Works**: Launches the Razorpay checkout overlay pre-populated with merchant details, customer contact info, and total order payable (₹104,292.45). Supports Credit/Debit Cards, Netbanking, UPI, and Wallet payment options with full transaction verification and audit logging.
 
 ---
 

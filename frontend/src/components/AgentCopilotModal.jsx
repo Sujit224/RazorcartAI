@@ -59,6 +59,7 @@ export const AgentCopilotModal = () => {
   // a "yes" against whatever is pending *now*, which is a different action than
   // the one the user is looking at.
   const lastIdx = messages.length - 1;
+  const lastCartMsgIdx = messages.reduce((last, m, idx) => (m.cart_snapshot ? idx : last), -1);
 
   const handleSend = (e) => {
     e.preventDefault();
@@ -382,13 +383,22 @@ export const AgentCopilotModal = () => {
                               {row.size && ` • ${row.size}`}
                             </div>
                           </div>
-                          {/* Only the newest bubble's controls are live: an older
+                          {/* Only the newest cart snapshot's controls are live: an older
                               snapshot's item_id may already be gone from the bag. */}
-                          {idx === lastIdx && (
+                          {idx === lastCartMsgIdx && (
                             <div className="flex items-center gap-1 shrink-0">
                               <button
                                 type="button"
-                                onClick={() => updateQuantity(row.item_id, row.quantity - 1)}
+                                onClick={async () => {
+                                  const targetId = row.item_id || row.id;
+                                  if (targetId) {
+                                    if (row.quantity <= 1) {
+                                      await removeFromCart(targetId);
+                                    } else {
+                                      await updateQuantity(targetId, row.quantity - 1);
+                                    }
+                                  }
+                                }}
                                 className="p-1.5 border border-[#e2e8f0] rounded-lg text-[#5c6f84] hover:border-[#0066cc] hover:text-[#0066cc] transition-colors cursor-pointer"
                                 title={row.quantity === 1 ? "Remove from bag" : "One fewer"}
                               >
@@ -396,7 +406,12 @@ export const AgentCopilotModal = () => {
                               </button>
                               <button
                                 type="button"
-                                onClick={() => updateQuantity(row.item_id, row.quantity + 1)}
+                                onClick={async () => {
+                                  const targetId = row.item_id || row.id;
+                                  if (targetId) {
+                                    await updateQuantity(targetId, row.quantity + 1);
+                                  }
+                                }}
                                 className="p-1.5 border border-[#e2e8f0] rounded-lg text-[#5c6f84] hover:border-[#0066cc] hover:text-[#0066cc] transition-colors cursor-pointer"
                                 title="One more"
                               >
@@ -404,7 +419,12 @@ export const AgentCopilotModal = () => {
                               </button>
                               <button
                                 type="button"
-                                onClick={() => removeFromCart(row.item_id)}
+                                onClick={async () => {
+                                  const targetId = row.item_id || row.id;
+                                  if (targetId) {
+                                    await removeFromCart(targetId);
+                                  }
+                                }}
                                 className="p-1.5 border border-[#e2e8f0] rounded-lg text-[#5c6f84] hover:border-rose-400 hover:text-rose-600 transition-colors cursor-pointer"
                                 title="Remove from bag"
                               >
