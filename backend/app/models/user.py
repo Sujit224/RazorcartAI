@@ -20,5 +20,6 @@ class User(Base):
     search_history = Column(Text, default="[]")         # JSON array of search strings
     viewed_product_ids = Column(Text, default="[]")     # JSON array of product IDs
     preferences = Column(Text, default="{}")            # JSON dict for AI extracted preferences (e.g. {"color": "black"})
+    vector_embedding = Column(Text, nullable=True)      # JSON array of floats for embedding based on dwells/views
 
     created_at = Column(DateTime, default=datetime.utcnow)
