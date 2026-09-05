@@ -1,51 +1,67 @@
 import React from 'react';
-import { Bot, Mic, Sparkles } from 'lucide-react';
+import { Bot, Mic, MessageSquare } from 'lucide-react';
 import { useAgent } from '../context/AgentContext';
 
 export const AgenticChatbotLauncher = () => {
-  const { isAgentOpen, setIsAgentOpen, toggleMic } = useAgent();
+  const { isAgentOpen, setIsAgentOpen, agentMode, setAgentMode, toggleMic, isListening } = useAgent();
 
   if (isAgentOpen) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 z-40 flex items-center gap-2.5 animate-fade-in group">
+    <div className="fixed bottom-6 right-6 z-40 flex items-center bg-white/95 backdrop-blur-md border border-[#cbd5e1] rounded-full p-1.5 shadow-xl hover:shadow-2xl transition-all duration-300 gap-2 group animate-fade-in">
       
-      {/* Experience in Agentic Mode Pill */}
-      <button
-        onClick={() => setIsAgentOpen(true)}
-        className="hidden sm:flex items-center gap-2 pl-3.5 pr-3 py-2 bg-white hover:bg-slate-50 text-[#0c2340] rounded-lg shadow-md border border-[#cbd5e1] transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
-      >
-        <span className="flex h-2 w-2 relative">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#0066cc] opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#0066cc]" />
-        </span>
-        
-        <span className="text-xs font-bold tracking-tight text-[#0c2340]">
-          Agentic Mode
-        </span>
+      {/* Mode Segmented Toggle Pill (Voice vs Chat) */}
+      <div className="flex items-center bg-[#f1f5f9] rounded-full p-1 border border-[#e2e8f0]">
+        <button
+          type="button"
+          onClick={() => setAgentMode('standard')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer ${
+            agentMode === 'standard'
+              ? 'bg-white text-[#0066cc] font-extrabold shadow-sm'
+              : 'text-[#5c6f84] hover:text-[#0c2340] font-semibold'
+          }`}
+          title="Chat Mode (Text Copilot)"
+          aria-label="Chat Mode"
+        >
+          <MessageSquare className="w-3.5 h-3.5" />
+          <span>Chat</span>
+        </button>
 
-        <Bot className="w-3.5 h-3.5 text-[#0066cc]" />
-      </button>
+        <button
+          type="button"
+          onClick={() => setAgentMode('voice')}
+          className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs transition-all duration-200 cursor-pointer ${
+            agentMode === 'voice'
+              ? 'bg-white text-[#0066cc] font-extrabold shadow-sm'
+              : 'text-[#5c6f84] hover:text-[#0c2340] font-semibold'
+          }`}
+          title="Voice Mode (Microphone Input)"
+          aria-label="Voice Mode"
+        >
+          <Mic className={`w-3.5 h-3.5 ${agentMode === 'voice' && isListening ? 'text-red-500 animate-pulse' : ''}`} />
+          <span>Voice</span>
+        </button>
+      </div>
 
-      {/* Mic Input Launcher Button */}
+      {/* Single Launcher Action Button */}
       <button
-        onClick={() => { setIsAgentOpen(true); toggleMic(); }}
-        className="flex items-center justify-center w-10 h-10 bg-white hover:bg-[#f0f7ff] text-[#0066cc] border border-[#cbd5e1] hover:border-[#0066cc] rounded-lg shadow-md transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
-        title="Speak to ZORA using Microphone"
-        aria-label="ZORA Voice Input"
+        type="button"
+        onClick={() => {
+          setIsAgentOpen(true);
+          if (agentMode === 'voice' && !isListening) {
+            toggleMic();
+          }
+        }}
+        className="flex items-center gap-2 px-4 py-2 bg-[#0066cc] hover:bg-[#0052cc] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
+        title={agentMode === 'voice' ? "Speak to ZORA Copilot" : "Ask ZORA AI Copilot"}
+        aria-label="Ask ZORA Launcher"
       >
-        <Mic className="w-4 h-4 text-[#0066cc]" />
-      </button>
-
-      {/* Ask ZORA Widget Button */}
-      <button
-        onClick={() => { setAgentMode('standard'); setIsAgentOpen(true); }}
-        className="flex items-center gap-2 px-4 py-2 bg-[#0066cc] hover:bg-[#0052cc] text-white rounded-lg shadow-md transition-all transform hover:scale-105 active:scale-95 cursor-pointer font-bold text-sm"
-        title="Ask Agentic AI Copilot (ZORA)"
-        aria-label="Ask ZORA"
-      >
-        <Bot className="w-4 h-4 text-white" />
-        <span className="tracking-tight font-bold">Ask ZORA</span>
+        {agentMode === 'voice' ? (
+          <Mic className="w-4 h-4 text-white animate-pulse" />
+        ) : (
+          <Bot className="w-4 h-4 text-white" />
+        )}
+        <span className="tracking-tight font-extrabold">Ask ZORA</span>
       </button>
 
     </div>

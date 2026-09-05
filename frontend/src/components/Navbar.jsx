@@ -93,6 +93,32 @@ export const Navbar = ({ onSearch, searchQuery, setSearchQuery, selectedCategory
         ]
       }
     },
+    {
+      label: "BOOKS",
+      cat: "Books",
+      dropdown: {
+        title: "BOOKS & GENRES",
+        subcategories: [
+          { name: "Sci-Fi & Cyberpunk", desc: "Dune, Foundation, Neuromancer & Cyberpunk", icon: Sparkles, query: "Show Sci-Fi and Cyberpunk books" },
+          { name: "Fantasy & Epic Sagas", desc: "Tolkien, Game of Thrones & Sanderson Classics", icon: Package, query: "Show Fantasy epic saga books" },
+          { name: "Business, Finance & AI", desc: "Psychology of Money, AI & Technology", icon: Zap, isNew: true, query: "Show Business and Technology books" },
+          { name: "Fiction, Mystery & Classics", desc: "Agatha Christie, Murakami & Classics", icon: Heart, query: "Show Fiction and Mystery books" },
+        ]
+      }
+    },
+    {
+      label: "FURNITURE",
+      cat: "Home & Furniture",
+      dropdown: {
+        title: "FURNITURE & FURNISHINGS",
+        subcategories: [
+          { name: "Sofas & Couches", desc: "Velvet Recliners & Sectional Sofas", icon: Layers, isNew: true, query: "Show sofas and couches" },
+          { name: "Desks & Office Chairs", desc: "Ergonomic Mesh Chairs & Study Tables", icon: Zap, query: "Show study desks and ergonomic office chairs" },
+          { name: "Tables & Dining Sets", desc: "Solid Teak & Marble Top Dining Tables", icon: Utensils, query: "Show dining tables and coffee tables" },
+          { name: "Covers, Curtains & Cushion Pads", desc: "Sofa Covers, Pillow Covers & Drapes", icon: Package, query: "Show sofa covers pillow covers and curtains" }
+        ]
+      }
+    },
   ];
 
   const handleSearchSubmit = (e) => {

@@ -6,7 +6,7 @@ class ProductBase(BaseModel):
     title: str
     brand: str
     category: str
-    gender: str
+    gender: Optional[str] = "Unisex"
     color: Optional[str] = None
     price: float
     original_price: float
@@ -25,8 +25,8 @@ class ProductCreate(ProductBase):
 
 class ProductResponse(ProductBase):
     id: int
-    is_active: bool
-    created_at: datetime
+    is_active: Optional[bool] = True
+    created_at: Optional[datetime] = None
     ranking_score: Optional[float] = None
     is_local_seller: Optional[bool] = False
     rating_review_badge: Optional[str] = None

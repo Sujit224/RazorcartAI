@@ -128,6 +128,76 @@ CATEGORY_ONTOLOGY: Dict[str, Tuple[str, str]] = {
     "treadmill": ("Sports", "Sports & Fitness"),
     "gym": ("Sports", "Sports & Fitness"),
     "sportswear": ("Sportswear", "Sports & Fitness"),
+
+    # ── Books & Genres ──────────────────────────────────────────────────────
+    "book": ("Books", "Books"),
+    "books": ("Books", "Books"),
+    "novel": ("Fiction & Literature", "Books"),
+    "novels": ("Fiction & Literature", "Books"),
+    "sci-fi": ("Sci-Fi & Cyberpunk", "Books"),
+    "scifi": ("Sci-Fi & Cyberpunk", "Books"),
+    "science fiction": ("Sci-Fi & Cyberpunk", "Books"),
+    "cyberpunk": ("Sci-Fi & Cyberpunk", "Books"),
+    "fantasy": ("Fantasy & Epic Saga", "Books"),
+    "fiction": ("Fiction & Literature", "Books"),
+    "literature": ("Fiction & Literature", "Books"),
+    "mystery": ("Mystery & Thriller", "Books"),
+    "thriller": ("Mystery & Thriller", "Books"),
+    "biography": ("History & Biography", "Books"),
+    "history": ("History & Biography", "Books"),
+    "business": ("Business & Finance", "Books"),
+    "finance": ("Business & Finance", "Books"),
+    "investing": ("Business & Finance", "Books"),
+    "technology": ("Technology & AI", "Books"),
+    "tech": ("Technology & AI", "Books"),
+    "self-help": ("Self-Help & Personal Development", "Books"),
+    "self help": ("Self-Help & Personal Development", "Books"),
+    "philosophy": ("Philosophy & Ethics", "Books"),
+    "stoicism": ("Philosophy & Ethics", "Books"),
+    "manga": ("Graphic Novels & Manga", "Books"),
+    "comics": ("Graphic Novels & Manga", "Books"),
+    "graphic novel": ("Graphic Novels & Manga", "Books"),
+    "graphic novels": ("Graphic Novels & Manga", "Books"),
+
+    # ── Furniture & Furnishings ──────────────────────────────────────────────
+    "furniture": ("Furniture", "Home & Furniture"),
+    "sofa": ("Sofas & Couches", "Home & Furniture"),
+    "sofas": ("Sofas & Couches", "Home & Furniture"),
+    "couch": ("Sofas & Couches", "Home & Furniture"),
+    "couches": ("Sofas & Couches", "Home & Furniture"),
+    "desk": ("Desks & Study", "Home & Furniture"),
+    "desks": ("Desks & Study", "Home & Furniture"),
+    "study table": ("Desks & Study", "Home & Furniture"),
+    "chair": ("Chairs & Recliners", "Home & Furniture"),
+    "chairs": ("Chairs & Recliners", "Home & Furniture"),
+    "recliner": ("Chairs & Recliners", "Home & Furniture"),
+    "recliners": ("Chairs & Recliners", "Home & Furniture"),
+    "table": ("Tables & Dining", "Home & Furniture"),
+    "tables": ("Tables & Dining", "Home & Furniture"),
+    "dining": ("Tables & Dining", "Home & Furniture"),
+    "dining table": ("Tables & Dining", "Home & Furniture"),
+    "bed": ("Beds & Wardrobes", "Home & Furniture"),
+    "beds": ("Beds & Wardrobes", "Home & Furniture"),
+    "wardrobe": ("Beds & Wardrobes", "Home & Furniture"),
+    "wardrobes": ("Beds & Wardrobes", "Home & Furniture"),
+    # Furnishings & FBT items
+    "sofa cover": ("Sofa Covers & Slipcovers", "Home & Furnishings"),
+    "sofa covers": ("Sofa Covers & Slipcovers", "Home & Furnishings"),
+    "pillow cover": ("Pillow & Cushion Covers", "Home & Furnishings"),
+    "pillow covers": ("Pillow & Cushion Covers", "Home & Furnishings"),
+    "cushion cover": ("Pillow & Cushion Covers", "Home & Furnishings"),
+    "cushion covers": ("Pillow & Cushion Covers", "Home & Furnishings"),
+    "curtain": ("Curtains & Drapes", "Home & Furnishings"),
+    "curtains": ("Curtains & Drapes", "Home & Furnishings"),
+    "drapes": ("Curtains & Drapes", "Home & Furnishings"),
+    "table runner": ("Table Runners & Placemats", "Home & Furnishings"),
+    "table runners": ("Table Runners & Placemats", "Home & Furnishings"),
+    "placemat": ("Table Runners & Placemats", "Home & Furnishings"),
+    "placemats": ("Table Runners & Placemats", "Home & Furnishings"),
+    "desk mat": ("Desk Mats & Organizers", "Home & Furnishings"),
+    "desk mats": ("Desk Mats & Organizers", "Home & Furnishings"),
+    "chair pad": ("Chair Cushion Pads", "Home & Furnishings"),
+    "chair pads": ("Chair Cushion Pads", "Home & Furnishings"),
 }
 
 def resolve_category_from_query(
@@ -159,7 +229,7 @@ def resolve_category_from_query(
             return CATEGORY_ONTOLOGY[stem]
 
         # Department direct match
-        for dept in ["Electronics", "Fashion", "Appliances", "Home & Kitchen", "Beauty & Personal Care", "Sports & Fitness"]:
+        for dept in ["Electronics", "Fashion", "Appliances", "Home & Kitchen", "Beauty & Personal Care", "Sports & Fitness", "Books", "Home & Furniture", "Home & Furnishings"]:
             if dept.lower() in llm_clean:
                 return (llm_extracted_category, dept)
 

@@ -14,7 +14,7 @@ Analyze the user's shopping message AND conversation history to output a clean J
   "intent": "discovery" | "fbt_upsell" | "checkout" | "recovery_timeout" | "recovery_funds" | "view_cart" | "view_orders" | "cart_add" | "cart_update_qty" | "cart_remove" | "cart_clear" | "open_item" | "confirm" | "deny" | "general",
   "filters": {
     "brand": string | null,
-    "department": "Electronics" | "Fashion" | "Appliances" | "Home & Kitchen" | "Beauty & Personal Care" | "Sports & Fitness" | null,
+    "department": "Electronics" | "Fashion" | "Appliances" | "Home & Kitchen" | "Beauty & Personal Care" | "Sports & Fitness" | "Books" | "Home & Furniture" | "Home & Furnishings" | null,
     "gender": "Men" | "Women" | "Unisex" | null,
     "category": string | null,
     "color": string | null,
@@ -27,10 +27,10 @@ Analyze the user's shopping message AND conversation history to output a clean J
   "conversational_reply": "friendly summary of what you are searching for (STRICT RULE: DO NOT INCLUDE ANY EMOJIS)"
 }
 
-Extraction guidelines across ALL product domains (Electronics, Fashion, Home, Kitchen, Appliances, Footwear, Sports):
-- "brand": Extract explicit brand names (e.g. Nike, Apple, Samsung, Puma, Adidas, Nokia, Dyson, Philips, OnePlus, Sony, Levi's, etc.) or null.
-- "department": Extract the main department if mentioned or implied (Electronics, Fashion, Appliances, Home & Kitchen, Beauty & Personal Care, Sports & Fitness) or null.
-- "category": Extract product sub-category if mentioned or implied (e.g. Footwear, Smartphones, Laptops, Topwear, Bottomwear, etc.) or null.
+Extraction guidelines across ALL product domains (Electronics, Fashion, Home, Kitchen, Appliances, Books, Furniture, Footwear, Sports):
+- "brand": Extract explicit brand names or book authors (e.g. Nike, Apple, Samsung, Urban Ladder, IKEA, Pepperfry, Isaac Asimov, J.K. Rowling, etc.) or null.
+- "department": Extract the main department if mentioned or implied (Electronics, Fashion, Appliances, Home & Kitchen, Books, Home & Furniture, Home & Furnishings) or null.
+- "category": Extract product sub-category if mentioned or implied (e.g. Sofas & Couches, Desks & Study, Chairs & Recliners, Tables & Dining, Sofa Covers, Pillow Covers, Curtains, Desk Mats, Chair Cushion Pads, Table Runners) or null.
 - "color": Extract color name or null.
 - "min_price": Extract numeric minimum price for ranges like "between 30000 - 50000" (min: 30000, max: 50000), "from 20k to 40k", "above 15000", etc.
 - "max_price": Extract numeric maximum price if user mentions "under 50000", "below 4000", "within 2k", etc.

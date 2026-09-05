@@ -17,6 +17,12 @@ FBT_CATEGORY_MAPPING = {
     "Dresses": ["Accessories", "Footwear"],
     "Ethnic Wear": ["Accessories", "Footwear"],
     "Gaming": ["Monitors", "Headphones & Earbuds"],
+    # Furniture & Furnishings FBT Mappings
+    "Sofas & Couches": ["Sofa Covers & Slipcovers", "Pillow & Cushion Covers", "Curtains & Drapes"],
+    "Desks & Study": ["Desk Mats & Organizers", "Chair Cushion Pads", "Curtains & Drapes"],
+    "Chairs & Recliners": ["Chair Cushion Pads", "Desk Mats & Organizers", "Pillow & Cushion Covers"],
+    "Tables & Dining": ["Table Runners & Placemats", "Curtains & Drapes", "Pillow & Cushion Covers"],
+    "Beds & Wardrobes": ["Pillow & Cushion Covers", "Curtains & Drapes", "Sofa Covers & Slipcovers"],
 }
 
 def get_dynamic_fbts(db: Session, product: Product, user_id: int, limit: int = 2) -> List[Dict[str, Any]]:
@@ -141,13 +147,14 @@ def get_dynamic_fbts(db: Session, product: Product, user_id: int, limit: int = 2
 
 
 def format_product_dict(p: Product) -> Dict[str, Any]:
-    # Returns the dictionary representation used by the frontend
+    # Returns the dictionary representation used by the frontend and API schemas
     return {
         "id": p.id,
         "title": p.title,
         "brand": p.brand,
         "category": p.category,
-        "department": p.department,
+        "department": getattr(p, "department", "General"),
+        "gender": getattr(p, "gender", "Unisex") or "Unisex",
         "price": p.price,
         "original_price": p.original_price,
         "discount_pct": p.discount_pct,
@@ -156,4 +163,8 @@ def format_product_dict(p: Product) -> Dict[str, Any]:
         "image_url": p.image_url,
         "city": p.city,
         "color": p.color,
+        "description": getattr(p, "description", "") or "",
+        "is_active": getattr(p, "is_active", True),
+        "created_at": getattr(p, "created_at", None),
+        "rating_review_badge": f"★ {p.rating} ({p.review_count}+ reviews)"
     }

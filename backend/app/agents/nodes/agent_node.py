@@ -16,7 +16,7 @@ Interpret the user's intent from the full conversational context and invoke the 
 Available tools:
 - view_cart: View items currently in the cart.
 - get_latest_orders: Retrieve recent order history.
-- recommend_products: Search/discover products by semantic query, brand, department, category, max price, rating.
+- recommend_products: Search/discover products by semantic query, brand or author, department (e.g. Books, Electronics, Fashion), category or genre (e.g. Sci-Fi, Fantasy, Business & Finance, Technology, Fiction, Mystery), max price, rating.
 - get_product_details: Explore full specifications, detailed description, merchant info, and features of a specific product (by 1-based list index like 1, 2, 9, 10 or product ID/name).
 - compare_products: Compare 2 or more products side-by-side by list indices (e.g. product_indices=[9, 10]), product IDs, or names.
 - manage_cart: Add, remove, update quantities, or clear the cart.

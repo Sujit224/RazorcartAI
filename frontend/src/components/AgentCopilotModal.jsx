@@ -109,6 +109,35 @@ export const AgentCopilotModal = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            {/* Mode Segmented Toggle (Chat vs Voice) */}
+            <div className="flex items-center bg-[#f1f5f9] rounded-lg p-0.5 border border-[#e2e8f0]">
+              <button
+                type="button"
+                onClick={() => setAgentMode('standard')}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
+                  agentMode === 'standard' ? 'bg-white text-[#0066cc] shadow-xs' : 'text-[#5c6f84] hover:text-[#0c2340]'
+                }`}
+                title="Switch to Text Chat"
+              >
+                <Bot className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Chat</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setAgentMode('voice');
+                  if (!isListening) toggleMic();
+                }}
+                className={`flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
+                  agentMode === 'voice' ? 'bg-white text-[#0066cc] shadow-xs' : 'text-[#5c6f84] hover:text-[#0c2340]'
+                }`}
+                title="Switch to Voice Mode"
+              >
+                <Mic className={`w-3.5 h-3.5 ${agentMode === 'voice' && isListening ? 'text-red-500 animate-pulse' : ''}`} />
+                <span className="hidden sm:inline">Voice</span>
+              </button>
+            </div>
+
             <button
               onClick={() => setIsFullScreen(!isFullScreen)}
               className="p-2 text-[#5c6f84] hover:text-[#0c2340] rounded-xl hover:bg-slate-100 transition-colors cursor-pointer"
@@ -134,7 +163,11 @@ export const AgentCopilotModal = () => {
           </div>
         </div>
 
-        {/* Chat Messages Container */}
+        {agentMode === 'voice' ? (
+          <ZoraVoiceView />
+        ) : (
+          <>
+            {/* Chat Messages Container */}
         <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-white">
           {messages.map((msg, idx) => {
             const isUser = msg.sender === 'user';
@@ -639,6 +672,8 @@ export const AgentCopilotModal = () => {
             </button>
           </div>
         </form>
+        </>
+        )}
 
       </div>
     </div>

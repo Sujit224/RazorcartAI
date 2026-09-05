@@ -23,7 +23,7 @@ export const ProductGrid = ({ selectedCategory, searchQuery }) => {
     try {
       setLoading(true);
       const isGenderCat = ["MEN", "WOMEN"].includes(selectedCategory);
-      const isDeptCat = ["ELECTRONICS", "APPLIANCES", "HOME & KITCHEN", "BEAUTY & PERSONAL CARE"].includes(selectedCategory);
+      const isDeptCat = ["ELECTRONICS", "APPLIANCES", "HOME & KITCHEN", "BEAUTY & PERSONAL CARE", "BOOKS", "Books", "HOME & FURNITURE", "Home & Furniture", "Home & Furnishings"].includes(selectedCategory);
 
       const params = {
         category: (!isGenderCat && !isDeptCat && selectedCategory !== "ALL") ? selectedCategory : undefined,
