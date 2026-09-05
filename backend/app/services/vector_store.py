@@ -29,8 +29,23 @@ _SHARED_IDF = {}
 _SHARED_DOC_NORMS = []
 
 
+TYPO_MAP = {
+    "qualcom": "qualcomm",
+    "qualcomn": "qualcomm",
+    "qualcomms": "qualcomm",
+    "snapdraogon": "snapdragon",
+    "snapdragonn": "snapdragon",
+    "snapdragun": "snapdragon",
+    "snapdargon": "snapdragon",
+    "snapdragons": "snapdragon",
+    "samsoong": "samsung",
+    "oneplus": "oneplus",
+    "iqoo": "iqoo",
+}
+
+
 def _tokenize(text: str) -> List[str]:
-    """Tokenize and normalize text into clean words with plural support."""
+    """Tokenize and normalize text into clean words with plural and typo support."""
     cleaned = ""
     for ch in text.lower():
         if ch.isalnum() or ch in [" ", "-", "_"]:
@@ -40,9 +55,12 @@ def _tokenize(text: str) -> List[str]:
     raw_tokens = [w for w in cleaned.split() if len(w) > 1]
     tokens = []
     for w in raw_tokens:
-        tokens.append(w)
-        if len(w) > 3 and w.endswith("s") and not w.endswith("ss"):
-            tokens.append(w[:-1])
+        w_norm = TYPO_MAP.get(w, w)
+        tokens.append(w_norm)
+        if w != w_norm:
+            tokens.append(w)
+        if len(w_norm) > 3 and w_norm.endswith("s") and not w_norm.endswith("ss"):
+            tokens.append(w_norm[:-1])
     return tokens
 
 

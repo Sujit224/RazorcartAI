@@ -190,19 +190,25 @@ def discovery_node(state: AgentState) -> AgentState:
     max_price = filters.get("max_price")
 
     if not min_price and not max_price:
-        range_match = re.search(r'(?:between|from)?\s*(?:rs\.?|inr|₹)?\s*(\d+)\s*(?:-|to|and)\s*(?:rs\.?|inr|₹)?\s*(\d+)', msg_lower)
+        def _parse_val(s: str) -> float:
+            s = s.strip().lower()
+            if s.endswith("k"):
+                return float(s[:-1]) * 1000.0
+            return float(s)
+
+        range_match = re.search(r'(?:between|from|under|below|within|around)?\s*(?:rs\.?|inr|₹)?\s*(\d+k?)\s*(?:-|to|and)\s*(?:rs\.?|inr|₹)?\s*(\d+k?)', msg_lower)
         if range_match:
-            val1 = float(range_match.group(1))
-            val2 = float(range_match.group(2))
+            val1 = _parse_val(range_match.group(1))
+            val2 = _parse_val(range_match.group(2))
             min_price = min(val1, val2)
             max_price = max(val1, val2)
         else:
-            under_match = re.search(r'(?:under|below|less than|within|around|upto|up to)\s*(?:rs\.?|inr|₹)?\s*(\d+)', msg_lower)
+            under_match = re.search(r'(?:under|below|less than|within|around|upto|up to)\s*(?:rs\.?|inr|₹)?\s*(\d+k?)', msg_lower)
             if under_match:
-                max_price = float(under_match.group(1))
-            above_match = re.search(r'(?:above|over|more than|exceeding|from)\s*(?:rs\.?|inr|₹)?\s*(\d+)', msg_lower)
+                max_price = _parse_val(under_match.group(1))
+            above_match = re.search(r'(?:above|over|more than|exceeding|from)\s*(?:rs\.?|inr|₹)?\s*(\d+k?)', msg_lower)
             if above_match:
-                min_price = float(above_match.group(1))
+                min_price = _parse_val(above_match.group(1))
 
     # Clean semantic search query
     clean_q = raw_query.lower()
