@@ -54,7 +54,7 @@ Do not return anything outside the JSON.
 _PAY_VERB = re.compile(
     r"\b(?:checkout|check\s+out|pay|paying|payment|proceed|buy\s+now|purchase\s+now"
     r"|place\s+(?:my\s+|the\s+)?order|complete\s+(?:my\s+|the\s+)?(?:order|purchase)"
-    r"|razorpay|upi|card|netbanking)\b",
+    r"|razorpay|upi|card|netbanking|apply|accept|confirm|yes|deal|discount|ok|sure|go\s+ahead)\b",
     re.I,
 )
 

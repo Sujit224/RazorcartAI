@@ -3,7 +3,7 @@ import { Bot, Mic, Sparkles } from 'lucide-react';
 import { useAgent } from '../context/AgentContext';
 
 export const AgenticChatbotLauncher = () => {
-  const { isAgentOpen, setIsAgentOpen, setAgentMode } = useAgent();
+  const { isAgentOpen, setIsAgentOpen, toggleMic } = useAgent();
 
   if (isAgentOpen) return null;
 
@@ -27,12 +27,12 @@ export const AgenticChatbotLauncher = () => {
         <Bot className="w-3.5 h-3.5 text-[#0066cc]" />
       </button>
 
-      {/* Voice Mode Button */}
+      {/* Mic Input Launcher Button */}
       <button
-        onClick={() => { setAgentMode('voice'); setIsAgentOpen(true); }}
+        onClick={() => { setIsAgentOpen(true); toggleMic(); }}
         className="flex items-center justify-center w-10 h-10 bg-white hover:bg-[#f0f7ff] text-[#0066cc] border border-[#cbd5e1] hover:border-[#0066cc] rounded-lg shadow-md transition-all transform hover:scale-105 active:scale-95 cursor-pointer"
-        title="Voice Shopping Mode"
-        aria-label="ZORA Voice"
+        title="Speak to ZORA using Microphone"
+        aria-label="ZORA Voice Input"
       >
         <Mic className="w-4 h-4 text-[#0066cc]" />
       </button>

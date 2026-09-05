@@ -39,20 +39,11 @@ export const AgentProvider = ({ children }) => {
 
   const [agentMode, setAgentMode] = useState('standard');
   const [isListening, setIsListening] = useState(false);
-  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false); // Kept for interface compatibility
   const [speechTranscript, setSpeechTranscript] = useState('');
   const [voiceError, setVoiceError] = useState(null);
 
   const recognitionRef = useRef(null);
-  const synthRef = useRef(window.speechSynthesis);
-  const isSpeakingRef = useRef(false);
-
-  useEffect(() => {
-    isSpeakingRef.current = isSpeaking;
-  }, [isSpeaking]);
-
-  // Use a ref for sendMessage so the speech event handlers always call the latest version
-  const sendMessageRef = useRef(null);
 
   useEffect(() => {
     if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
@@ -81,65 +72,38 @@ export const AgentProvider = ({ children }) => {
         }
       }
       setSpeechTranscript(final || interim);
-      
-      if (final) {
-        setSpeechTranscript('');
-        if (sendMessageRef.current) sendMessageRef.current(final);
-      }
     };
 
     recognitionRef.current.onerror = (event) => {
       if (event.error !== 'no-speech') {
         setVoiceError(event.error);
       }
+      setIsListening(false);
     };
 
     recognitionRef.current.onend = () => {
-      if (agentMode === 'voice' && !isSpeakingRef.current) {
-         try { recognitionRef.current.start(); } catch(e){}
-      } else {
-         setIsListening(false);
-      }
+      setIsListening(false);
     };
-  }, [agentMode]);
+  }, []);
 
-  useEffect(() => {
-    if (agentMode === 'voice') {
-      try { recognitionRef.current?.start(); } catch(e){}
+  const toggleMic = () => {
+    if (isListening) {
+      try { recognitionRef.current?.stop(); } catch (e) {}
+      setIsListening(false);
     } else {
-      recognitionRef.current?.stop();
-      synthRef.current?.cancel();
-      setIsSpeaking(false);
-    }
-  }, [agentMode]);
-
-  useEffect(() => {
-    if (agentMode === 'voice' && messages.length > 0) {
-      const lastMsg = messages[messages.length - 1];
-      if (lastMsg.sender === 'agent' && lastMsg.text) {
-        let textToSpeak = lastMsg.text.replace(/\*\*/g, '').replace(/\*/g, '');
-        if (lastMsg.pending_confirmation && lastMsg.pending_confirmation.prompt) {
-           textToSpeak = lastMsg.pending_confirmation.prompt;
-        }
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        utterance.onstart = () => {
-          setIsSpeaking(true);
-          recognitionRef.current?.stop();
-        };
-        utterance.onend = () => {
-          setIsSpeaking(false);
-          if (agentMode === 'voice') {
-            try { recognitionRef.current?.start(); } catch(e){}
-          }
-        };
-        synthRef.current?.cancel();
-        synthRef.current?.speak(utterance);
+      setSpeechTranscript('');
+      setVoiceError(null);
+      try {
+        recognitionRef.current?.start();
+      } catch (e) {
+        console.error("Speech recognition start error:", e);
+        setVoiceError("Microphone access unavailable.");
       }
     }
-  }, [messages, agentMode]);
+  };
 
   const toggleVoiceMode = () => {
-    setAgentMode(prev => prev === 'standard' ? 'voice' : 'standard');
+    toggleMic();
   };
 
   const sendMessage = async (messageText, simulationFlag = null) => {
@@ -216,13 +180,12 @@ export const AgentProvider = ({ children }) => {
         await refreshCart();
       }
 
-      // `client_action` is the agent asking the UI to move. Navigating with the
-      // copilot open would put the destination behind a full-screen overlay, so
-      // close the panel — the conversation is kept in state and comes back with
-      // it.
+      // `client_action` is the agent asking the UI to move or fire an action.
       if (data.client_action?.type === 'navigate' && data.client_action.path) {
         setIsAgentOpen(false);
         navigate(data.client_action.path);
+      } else if (data.client_action?.type === 'checkout' || (data.intent === 'checkout' && data.checkout_data)) {
+        setIsCheckoutModalOpen(true);
       }
     } catch (err) {
       console.error("Agent chat error:", err);
@@ -242,9 +205,6 @@ export const AgentProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    sendMessageRef.current = sendMessage;
-  }, [sendMessage]);
 
   /**
    * Answer a gated action.
@@ -282,6 +242,7 @@ export const AgentProvider = ({ children }) => {
       agentMode,
       setAgentMode,
       toggleVoiceMode,
+      toggleMic,
       isListening,
       isSpeaking,
       speechTranscript,

@@ -46,9 +46,9 @@ function CustomerStorefront() {
       />
 
       <div className="flex-1 max-w-[1400px] w-full mx-auto px-4 md:px-8 py-6">
-        <CampaignBanner />
         {!searchQuery && selectedCategory === 'ALL' && <HeroBanner />}
         {!searchQuery && <PersonalizedFeed />}
+        <CampaignBanner />
         <ProductGrid selectedCategory={selectedCategory} searchQuery={searchQuery} />
       </div>
 

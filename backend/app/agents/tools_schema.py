@@ -36,10 +36,11 @@ def recommend_products(query: str, brand: Optional[str] = None, department: Opti
 class ManageCartInput(BaseModel):
     action: str = Field(..., description="Action to perform: 'add', 'remove', 'update', 'clear'.")
     product_id: Optional[int] = Field(None, description="The ID of the product to act upon.")
+    product_index: Optional[int] = Field(None, description="The 1-based index of the product from the current list (e.g. 1 for 1st, 2 for 2nd).")
     quantity: Optional[int] = Field(None, description="The quantity to add or update to.")
 
 @tool("manage_cart", args_schema=ManageCartInput)
-def manage_cart(action: str, product_id: Optional[int] = None, quantity: Optional[int] = None) -> str:
+def manage_cart(action: str, product_id: Optional[int] = None, product_index: Optional[int] = None, quantity: Optional[int] = None) -> str:
     """Manage the user's cart by adding, removing, updating items or clearing the cart."""
     pass
 
@@ -71,6 +72,33 @@ def compare_products(product_indices: Optional[List[int]] = None, product_ids: O
     """Compare specifications, prices, ratings, and features side-by-side for selected products from the recommended list or catalog."""
     pass
 
+class ApplyDiscountInput(BaseModel):
+    discount_pct: float = Field(..., description="The percentage discount to apply to checkout (e.g. 15.0 for 15%).")
+    reason: Optional[str] = Field(None, description="Reason for discount like bulk purchase or negotiation.")
+
+@tool("apply_discount", args_schema=ApplyDiscountInput)
+def apply_discount(discount_pct: float, reason: Optional[str] = None) -> str:
+    """Apply an authorized negotiated discount to the current order and proceed directly to checkout."""
+    pass
+
+class NavigateInput(BaseModel):
+    destination: str = Field(..., description="Target page destination: 'cart', 'orders', 'negotiate', 'home', or 'product'.")
+    product_id: Optional[int] = Field(None, description="Product ID if destination is 'product'.")
+
+@tool("navigate", args_schema=NavigateInput)
+def navigate(destination: str, product_id: Optional[int] = None) -> str:
+    """Navigate the app UI to a specific page such as cart, orders, negotiate bulk order, or product details page."""
+    pass
+
+class NegotiatePriceInput(BaseModel):
+    target_discount_pct: Optional[float] = Field(None, description="Requested discount percentage or target budget.")
+    reason: Optional[str] = Field(None, description="Reason for negotiation e.g. bulk order, Gold tier.")
+
+@tool("negotiate_price", args_schema=NegotiatePriceInput)
+def negotiate_price(target_discount_pct: Optional[float] = None, reason: Optional[str] = None) -> str:
+    """Initiate price negotiation for bulk or wholesale orders with the merchant AI engine."""
+    pass
+
 AVAILABLE_TOOLS = [
     view_cart,
     get_latest_orders,
@@ -78,5 +106,8 @@ AVAILABLE_TOOLS = [
     get_product_details,
     compare_products,
     manage_cart,
-    checkout
+    checkout,
+    apply_discount,
+    navigate,
+    negotiate_price
 ]

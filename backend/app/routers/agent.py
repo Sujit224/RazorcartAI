@@ -71,8 +71,17 @@ def agent_chat(req: AgentChatRequest, db: Session = Depends(get_db)):
 
     final_state = agent_app.invoke(initial_state)
 
+    reply_text = final_state.get("reply") or ""
+    if not reply_text and final_state.get("messages"):
+        last_m = final_state["messages"][-1]
+        if hasattr(last_m, "content") and last_m.content:
+            reply_text = str(last_m.content)
+
+    if not reply_text:
+        reply_text = "I am here to help you discover top-rated products and negotiate best prices."
+
     return AgentChatResponse(
-        reply=final_state.get("reply", "I am here to help you discover the highest rated products."),
+        reply=reply_text,
         intent=final_state.get("intent", "discovery"),
         products=final_state.get("products", []),
         fbt_products=final_state.get("fbt_products", []),

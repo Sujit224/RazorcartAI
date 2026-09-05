@@ -10,8 +10,8 @@ import os
 import json
 
 BASE_SYSTEM_PROMPT = """You are RazorCartAI's conversational shopping copilot.
-You have access to a variety of tools to interact with the database and assist the user.
-Interpret the user's intent and invoke the appropriate tool(s).
+You have access to a variety of tools to interact with the database and perform actions for the user.
+Interpret the user's intent from the full conversational context and invoke the appropriate tool(s).
 
 Available tools:
 - view_cart: View items currently in the cart.
@@ -20,16 +20,21 @@ Available tools:
 - get_product_details: Explore full specifications, detailed description, merchant info, and features of a specific product (by 1-based list index like 1, 2, 9, 10 or product ID/name).
 - compare_products: Compare 2 or more products side-by-side by list indices (e.g. product_indices=[9, 10]), product IDs, or names.
 - manage_cart: Add, remove, update quantities, or clear the cart.
-- checkout: Proceed to checkout.
+- checkout: Proceed to checkout and launch payment session.
+- apply_discount: Apply authorized/negotiated percentage discount and launch checkout modal.
+- navigate: Navigate the UI to specific pages ('cart', 'orders', 'negotiate', 'home', 'product').
+- negotiate_price: Initiate bulk discount/negotiation with merchant AI engine.
 
 RULES FOR TOOL CALLING & CONVERSATION:
-1. If the user asks to compare items (e.g. "compare 9th and 10th", "compare 1 and 2", "which is better between first and second"), ALWAYS call `compare_products` specifying `product_indices`.
-2. If the user asks to explore, see description, or learn more about a specific item (e.g. "tell me more about 9th one", "show specs of #2", "describe the first phone"), ALWAYS call `get_product_details` with `product_index`.
-3. If the user wants to add an item to cart (e.g. "add 9th one to cart", "buy the first one"), call `manage_cart` with action='add'.
-4. If the user asks for new products or recommendations, call `recommend_products`.
-5. If the user asks for payment options or alternatives (e.g. "explore more options" related to payment), list the available options: Razorpay, UPI (GPay, PhonePe, Paytm), Credit / Debit Cards, and NetBanking. Ask them which they'd like to use.
-6. When recommending products, ALWAYS ask a follow-up question: "Do you plan to make a bulk or wholesale purchase? If so, you can negotiate directly with the merchant."
-7. Always use tools rather than generic conversational text when information retrieval or store action is requested.
+1. When the user asks to checkout, pay, proceed with offer/discount, or confirm payment ("proceed with this", "apply discount", "checkout now", "pay", "yes"), ALWAYS call `checkout` or `apply_discount`.
+2. When the user asks to compare items (e.g. "compare 1 and 2"), ALWAYS call `compare_products` specifying `product_indices`.
+3. When the user asks to explore or see details (e.g. "tell me more about 1st one"), ALWAYS call `get_product_details` with `product_index`.
+4. When the user wants to add, remove, update, or clear items, call `manage_cart`.
+5. When the user asks for new products or recommendations, call `recommend_products`.
+6. When the user asks to navigate to cart, orders, or negotiate page, call `navigate`.
+7. When the user asks about bulk orders, wholesale discounts, or negotiating prices, call `negotiate_price` or `apply_discount`.
+8. If the user asks for payment options or alternatives, list the available options: Razorpay, UPI (GPay, PhonePe, Paytm), Credit / Debit Cards, and NetBanking.
+9. Always use tools rather than generic conversational text when information retrieval or store action is requested.
 """
 
 def get_llm():
@@ -80,19 +85,45 @@ def agent_node(state: AgentState) -> dict:
         SystemMessage(content=system_prompt)
     ]
     
+    # Pass past conversation turns so LLM has full conversational context
+    chat_history = state.get("chat_history") or []
+    if chat_history:
+        from langchain_core.messages import AIMessage
+        for turn in chat_history[-8:]:
+            role = turn.get("role") or turn.get("sender")
+            content = turn.get("content") or turn.get("text") or ""
+            if content:
+                if role in ["user", "human"]:
+                    messages.append(HumanMessage(content=content))
+                else:
+                    messages.append(AIMessage(content=content))
+    
     msg = state.get("user_message", "")
     if msg:
-        messages.append(HumanMessage(content=msg))
+        # Avoid duplicate if last message in chat_history matches current msg
+        if not chat_history or (chat_history[-1].get("content") != msg and chat_history[-1].get("text") != msg):
+            messages.append(HumanMessage(content=msg))
     
-    print(f"\n[Agent Node] Invoking LLM with message: {msg}")
+    print(f"\n[Agent Node] Invoking LLM with message count={len(messages)}, latest: {msg}")
     response = llm.invoke(messages)
     
+    reply_text = getattr(response, "content", "") or ""
+    
+    suggested_actions = state.get("suggested_actions") or []
+    if "bulk" in msg.lower() or "negotiat" in msg.lower() or "wholesale" in msg.lower():
+        if "Negotiate Bulk Order" not in suggested_actions:
+            suggested_actions = ["Negotiate Bulk Order"] + list(suggested_actions)
+
     if hasattr(response, "tool_calls") and response.tool_calls:
         print(f"[Agent Node] LLM decided to use {len(response.tool_calls)} tools.")
         for tc in response.tool_calls:
             print(f"  -> {tc['name']}({tc['args']})")
     else:
-        print("[Agent Node] LLM responded with conversational text.")
+        print(f"[Agent Node] LLM responded with conversational text: {reply_text[:100]}...")
     
-    return {"messages": [response]}
+    return {
+        "messages": [response],
+        "reply": reply_text,
+        "suggested_actions": suggested_actions
+    }
 

@@ -4,6 +4,7 @@ from ..state import AgentState
 from ..reference import KIND_PRODUCT, FocusItem, set_focus, get_focus
 from ...database import SessionLocal
 from ...models.product import Product
+from ...models.cart import CartItem
 from .cart_ops import _show_cart, _show_orders, _add_product, _remove, _update_qty, _clear
 from .discovery import discovery_node, _build_generic_comparison_response, _extract_comparison_indices
 
@@ -218,7 +219,89 @@ def tool_executor_node(state: AgentState) -> dict:
                     
             elif name == "checkout":
                 state["intent"] = "checkout"
+                state["client_action"] = {"type": "checkout"}
                 result_content = "Triggered checkout intent."
+
+            elif name == "apply_discount":
+                discount_pct = float(args.get("discount_pct", 15.0))
+                reason = args.get("reason", "Negotiated discount")
+                state["intent"] = "checkout"
+                state["client_action"] = {"type": "checkout", "discount_pct": discount_pct}
+                
+                # Calculate cart items and totals
+                total_amount = 0.0
+                items_summary = []
+                target_prod_id = None
+                if user_id:
+                    cart_entries = db.query(CartItem).filter(CartItem.user_id == user_id).all()
+                    for entry in cart_entries:
+                        prod = db.query(Product).filter(Product.id == entry.product_id).first()
+                        if prod:
+                            if not target_prod_id:
+                                target_prod_id = prod.id
+                            sub = prod.price * entry.quantity
+                            total_amount += sub
+                            items_summary.append(f"{entry.quantity}x {prod.brand} {prod.title}")
+                if total_amount == 0.0:
+                    total_amount = 10000.0
+                
+                # Fetch FBT items
+                fbt_items = []
+                if target_prod_id:
+                    parent_p = db.query(Product).filter(Product.id == target_prod_id).first()
+                    if parent_p:
+                        from ...services.fbt_engine import get_dynamic_fbts
+                        fbt_items = get_dynamic_fbts(db, parent_p, user_id or 1, limit=3)
+                        for item in fbt_items:
+                            item["rating_review_badge"] = f"★ {item['rating']} ({item['review_count']}+ reviews)"
+                        state["fbt_products"] = fbt_items
+                
+                saved_amount = (total_amount * discount_pct) / 100.0
+                new_total = max(0.0, total_amount - saved_amount)
+                
+                state["checkout_data"] = {
+                    "amount": new_total,
+                    "original_total": total_amount,
+                    "discount_pct": discount_pct,
+                    "discount_saved_inr": saved_amount,
+                    "reason": reason,
+                    "items_summary": items_summary
+                }
+                
+                fbt_note = ""
+                if fbt_items:
+                    fbt_note = "\n\n✨ **Frequently Bought Together Recommendations:** Check out these top-rated complementary items below to pair with your order:"
+
+                state["reply"] = (
+                    f"We are pleased to extend a **{discount_pct}% discount** on your order! "
+                    f"You save **Rs. {int(saved_amount):,}**, bringing your new total to **Rs. {int(new_total):,}**.{fbt_note}\n\n"
+                    f"Launching your updated checkout session now..."
+                )
+                result_content = f"Applied {discount_pct}% discount, saved Rs. {saved_amount}."
+
+            elif name == "navigate":
+                dest = str(args.get("destination", "cart")).lower()
+                pid = args.get("product_id")
+                if dest == "product" and pid:
+                    path = f"/product/{pid}"
+                elif dest in ["negotiate", "negotiation", "merchant"]:
+                    path = "/negotiate"
+                elif dest in ["orders", "order"]:
+                    path = "/orders"
+                elif dest in ["cart", "bag"]:
+                    path = "/cart"
+                else:
+                    path = "/"
+                state["client_action"] = {"type": "navigate", "path": path}
+                state["reply"] = f"Navigating to {dest.capitalize()} page."
+                result_content = f"Navigated to {path}."
+
+            elif name == "negotiate_price":
+                target_pct = float(args.get("target_discount_pct") or 15.0)
+                reason = args.get("reason") or "Bulk order request"
+                state["client_action"] = {"type": "navigate", "path": "/negotiate"}
+                state["reply"] = f"I am redirecting you to our AI Merchant Price Negotiator to finalize your request for a {target_pct}% bulk discount ({reason})."
+                result_content = f"Redirecting to negotiate page for {target_pct}% discount."
                 
         except Exception as e:
             result_content = f"Error: {str(e)}"

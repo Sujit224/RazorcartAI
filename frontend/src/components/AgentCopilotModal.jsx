@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, Send, Bot, Sparkles, Star, ShoppingBag, CreditCard, ShieldAlert, ArrowRight, CheckCircle2, Zap, Maximize2, Minimize2, ExternalLink, MapPin, ArrowUpRight, Minus, Plus, Trash2, PackageCheck, Info, Lock } from 'lucide-react';
+import { X, Send, Bot, Sparkles, Star, ShoppingBag, CreditCard, ShieldAlert, ArrowRight, CheckCircle2, Zap, Maximize2, Minimize2, ExternalLink, MapPin, ArrowUpRight, Minus, Plus, Trash2, PackageCheck, Info, Lock, Mic, MicOff } from 'lucide-react';
 import { useAgent } from '../context/AgentContext';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -23,7 +23,10 @@ export const AgentCopilotModal = () => {
     setIsAuditModalOpen,
     agentMode,
     setAgentMode,
-    toggleVoiceMode
+    toggleVoiceMode,
+    toggleMic,
+    isListening,
+    speechTranscript
   } = useAgent();
   const { addToCart, updateQuantity, removeFromCart } = useCart();
   const { currentUser } = useAuth();
@@ -31,6 +34,13 @@ export const AgentCopilotModal = () => {
   const [inputText, setInputText] = useState('');
   const [isFullScreen, setIsFullScreen] = useState(false);
   const messagesEndRef = useRef(null);
+
+  // Sync spoken transcript to input text box in real-time
+  useEffect(() => {
+    if (speechTranscript) {
+      setInputText(speechTranscript);
+    }
+  }, [speechTranscript]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -83,25 +93,19 @@ export const AgentCopilotModal = () => {
         
         {/* Copilot Header */}
         <div className="p-4 bg-white text-[#0c2340] flex items-center justify-between border-b border-[#e2e8f0]">
-          <div>
-            <h3 className="font-extrabold text-base tracking-tight text-[#0c2340]">ZORA</h3>
-          </div>
-
-          {/* Mode Selector Tab */}
-          <div className="flex bg-[#f8fafc] p-1 rounded-xl border border-[#e2e8f0]">
-             <button
-               onClick={() => setAgentMode('standard')}
-               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors ${agentMode === 'standard' ? 'bg-white text-[#0066cc] shadow-sm' : 'text-[#5c6f84] hover:text-[#0c2340]'}`}
-             >
-               Chat
-             </button>
-             <button
-               onClick={() => setAgentMode('voice')}
-               className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 ${agentMode === 'voice' ? 'bg-[#0066cc] text-white shadow-sm' : 'text-[#5c6f84] hover:text-[#0c2340]'}`}
-             >
-               <span className="w-3.5 h-3.5 flex items-center justify-center">🎙️</span>
-               Voice
-             </button>
+          <div className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-[#0066cc] flex items-center justify-center text-white font-black shadow-xs">
+              <Bot className="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-base tracking-tight text-[#0c2340] flex items-center gap-1.5 leading-none">
+                ZORA
+                <span className="text-[10px] font-black text-[#0066cc] bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200 uppercase tracking-wider">
+                  Copilot
+                </span>
+              </h3>
+              <p className="text-[11px] text-gray-500 mt-0.5 font-medium">Text Chat & Voice Input</p>
+            </div>
           </div>
 
           <div className="flex items-center gap-2">
@@ -130,12 +134,8 @@ export const AgentCopilotModal = () => {
           </div>
         </div>
 
-        {agentMode === 'voice' ? (
-          <ZoraVoiceView />
-        ) : (
-          <>
-            {/* Chat Messages Container */}
-            <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-white">
+        {/* Chat Messages Container */}
+        <div className="flex-1 overflow-y-auto p-5 space-y-4 bg-white">
           {messages.map((msg, idx) => {
             const isUser = msg.sender === 'user';
             const userInitial = currentUser?.name ? currentUser.name.trim().charAt(0).toUpperCase() : 'U';
@@ -580,32 +580,65 @@ export const AgentCopilotModal = () => {
           {loading && (
             <div className="flex items-center gap-2 text-xs font-bold text-[#5c6f84] bg-[#f8fafc] p-3 rounded-2xl w-fit border border-[#e2e8f0] shadow-xs animate-pulse">
               <Sparkles className="w-4 h-4 text-[#0066cc] animate-spin" />
-              <span>Analyzing catalog ratings & LangGraph state...</span>
+              <span>Checking out the inventory...</span>
             </div>
           )}
 
           <div ref={messagesEndRef} />
         </div>
 
-        {/* Input Bar */}
-        <form onSubmit={handleSend} className="p-4 bg-white border-t border-[#e2e8f0] flex items-center gap-2.5">
-          <input
-            type="text"
-            placeholder="Ask about 4.5★ shoes, reviews, pairing, or checkout..."
-            value={inputText}
-            onChange={(e) => setInputText(e.target.value)}
-            className="flex-1 px-4 py-3 bg-[#f8fafc] border border-[#e2e8f0] rounded-xl text-xs md:text-sm text-[#0c2340] placeholder-[#5c6f84] focus:bg-white focus:outline-none focus:border-[#0066cc] transition-all font-medium"
-          />
-          <button
-            type="submit"
-            disabled={!inputText.trim() || loading}
-            className="p-3 bg-[#0066cc] hover:bg-[#0052a3] text-white rounded-xl disabled:opacity-40 transition-colors shadow-sm cursor-pointer"
-          >
-            <Send className="w-4 h-4" />
-          </button>
+        {/* Input Bar with Speech-to-Text Microphone Button */}
+        <form onSubmit={handleSend} className="p-4 bg-white border-t border-[#e2e8f0] flex flex-col gap-2">
+          {isListening && (
+            <div className="flex items-center justify-between px-3 py-1.5 bg-red-50 text-red-700 text-xs font-extrabold rounded-xl border border-red-200 animate-pulse">
+              <div className="flex items-center gap-2">
+                <Mic className="w-3.5 h-3.5 text-red-600 animate-bounce" />
+                <span>Microphone Active — Speak your prompt...</span>
+              </div>
+              <button
+                type="button"
+                onClick={toggleMic}
+                className="text-[10px] bg-red-100 hover:bg-red-200 text-red-800 px-2 py-0.5 rounded font-bold transition-colors cursor-pointer"
+              >
+                Stop Mic
+              </button>
+            </div>
+          )}
+
+          <div className="flex items-center gap-2">
+            <input
+              type="text"
+              placeholder={isListening ? "Listening to your voice..." : "Ask about 4.5★ shoes, reviews, pairing, or checkout..."}
+              value={inputText}
+              onChange={(e) => setInputText(e.target.value)}
+              className="flex-1 px-4 py-3 bg-[#f8fafc] border border-[#e2e8f0] rounded-xl text-xs md:text-sm text-[#0c2340] placeholder-[#5c6f84] focus:bg-white focus:outline-none focus:border-[#0066cc] transition-all font-medium"
+            />
+
+            {/* Mic Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleMic}
+              className={`p-3 rounded-xl border transition-all cursor-pointer flex items-center justify-center shrink-0 ${
+                isListening
+                  ? 'bg-red-500 hover:bg-red-600 text-white border-red-500 shadow-md animate-pulse'
+                  : 'bg-[#f8fafc] hover:bg-[#f0f7ff] text-[#0066cc] border-[#e2e8f0] hover:border-[#0066cc]'
+              }`}
+              title={isListening ? "Stop Microphone" : "Speak prompt using Microphone"}
+            >
+              {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4 text-[#0066cc]" />}
+            </button>
+
+            {/* Send Button */}
+            <button
+              type="submit"
+              disabled={!inputText.trim() || loading}
+              className="p-3 bg-[#0066cc] hover:bg-[#0052a3] text-white rounded-xl disabled:opacity-40 transition-colors shadow-sm cursor-pointer shrink-0"
+              title="Send Message"
+            >
+              <Send className="w-4 h-4" />
+            </button>
+          </div>
         </form>
-        </>
-        )}
 
       </div>
     </div>

@@ -62,3 +62,5 @@ class NegotiateChatResponse(BaseModel):
     new_total: float
     can_apply: bool
     reasoning: Optional[str] = None
+    auto_execute: Optional[bool] = False
+    client_action: Optional[str] = None

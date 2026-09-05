@@ -48,7 +48,7 @@ export default function NegotiatePage() {
        setMessages([
          {
            sender: 'merchant_ai',
-           text: "Your cart is empty. Please add items before negotiating.",
+           text: "Hello! I am the automated **Merchant Price Negotiator**. Propose your desired budget or bulk order quantity (e.g., 30 items, 15% discount), and I will evaluate our seller margin guardrails to authorize the best possible deal.",
            can_apply: false
          }
        ]);
@@ -61,7 +61,7 @@ export default function NegotiatePage() {
 
   const handleSend = async (customText = null) => {
     const textToSend = (customText || inputText).trim();
-    if (!textToSend || loading || cartItems.length === 0) return;
+    if (!textToSend || loading) return;
 
     setInputText('');
     const newMessages = [...messages, { sender: 'user', text: textToSend }];
@@ -76,10 +76,10 @@ export default function NegotiatePage() {
       const res = await api.negotiateDiscountChat({
         user_id: currentUser?.id || 1,
         user_message: textToSend,
-        cart_value: cartSubtotal,
-        item_count: cartItems.length || 1,
+        cart_value: cartSubtotal || 10000,
+        item_count: cartItems.length || 10,
         categories: categories.length > 0 ? categories : ["General"],
-        product_titles: productTitles,
+        product_titles: productTitles.length > 0 ? productTitles : ["Bulk Order Inquiry"],
         product_ids: productIds,
         customer_loyalty_tier: currentUser?.loyalty_tier || "Gold",
         is_new_customer: false,
@@ -87,6 +87,13 @@ export default function NegotiatePage() {
       });
 
       const data = res.data;
+      if (data.can_apply || data.discount_pct > 0) {
+        setDiscountData(data);
+      }
+      if (data.auto_execute || data.client_action === 'checkout') {
+        setIsCheckoutOpen(true);
+      }
+
       setMessages(prev => [
         ...prev,
         {
@@ -117,6 +124,17 @@ export default function NegotiatePage() {
     }
   };
 
+  const handleApplyDiscount = (msg) => {
+    if (msg.discount_pct || msg.new_total) {
+      setDiscountData({
+        discount_pct: msg.discount_pct || 0,
+        discount_amount: msg.discount_amount || 0,
+        new_total: msg.new_total || cartSubtotal,
+        can_apply: true
+      });
+    }
+    setIsCheckoutOpen(true);
+  };
 
   const suggestedPrompts = [
     "Can you give me a 15% bulk discount?",

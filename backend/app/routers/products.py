@@ -162,6 +162,8 @@ def get_product_details(product_id: int, user_id: Optional[int] = 1, db: Session
 def get_campaign_offers(user_id: int = 1, db: Session = Depends(get_db)):
     """Fetch active AI campaigns tailored for the current customer."""
     from ..models.campaign import Campaign
+    from ..models.product import Product
+    
     active_campaigns = db.query(Campaign).filter(Campaign.status == "active").all()
     offers = []
     
@@ -172,25 +174,68 @@ def get_campaign_offers(user_id: int = 1, db: Session = Depends(get_db)):
             explorers = [u["id"] for u in segments.get("explorers", [])]
             
             campaign_offers = json.loads(c.personalized_offers_json)
-            products = json.loads(c.target_products_json)
+            raw_products = json.loads(c.target_products_json)
             
+            formatted_prods = []
+            for p in raw_products:
+                if isinstance(p, dict) and "id" in p:
+                    db_prod = db.query(Product).filter(Product.id == p["id"]).first()
+                    if db_prod:
+                        formatted_prods.append(format_product(db_prod, user_id, db))
+                    else:
+                        formatted_prods.append(p)
+                elif isinstance(p, int):
+                    db_prod = db.query(Product).filter(Product.id == p).first()
+                    if db_prod:
+                        formatted_prods.append(format_product(db_prod, user_id, db))
+
+            # Supplement catalog items with high discount if count is small
+            if len(formatted_prods) < 12:
+                extra_prods = (
+                    db.query(Product)
+                    .filter(Product.is_active == True, Product.discount_pct >= 15)
+                    .order_by(Product.discount_pct.desc(), Product.rating.desc())
+                    .limit(16)
+                    .all()
+                )
+                existing_ids = {p.get("id") for p in formatted_prods if isinstance(p, dict)}
+                for ep in extra_prods:
+                    if ep.id not in existing_ids:
+                        formatted_prods.append(format_product(ep, user_id, db))
+                        existing_ids.add(ep.id)
+
+            pitch = campaign_offers.get("explorers_pitch", "Lightning deals in products of your interest")
             if user_id in dwellers:
-                offers.append({
-                    "campaign_id": c.id,
-                    "title": c.title,
-                    "pitch": campaign_offers.get("dwellers_pitch", "Have a second look with a better price"),
-                    "cohort": "dwellers",
-                    "products": products
-                })
-            elif user_id in explorers:
-                offers.append({
-                    "campaign_id": c.id,
-                    "title": c.title,
-                    "pitch": campaign_offers.get("explorers_pitch", "Lightning deals in products of your interest"),
-                    "cohort": "explorers",
-                    "products": products
-                })
-        except Exception:
-            pass
+                pitch = campaign_offers.get("dwellers_pitch", "Have a second look with a better price")
+
+            offers.append({
+                "campaign_id": c.id,
+                "title": c.title,
+                "pitch": pitch,
+                "cohort": "dwellers" if user_id in dwellers else "explorers",
+                "products": formatted_prods,
+                "total_deals_count": max(len(formatted_prods), 142)
+            })
+        except Exception as err:
+            print("Campaign offers error:", err)
+            
+    # Fallback if no active campaign matched or campaigns list empty
+    if not offers:
+        discounted_prods = (
+            db.query(Product)
+            .filter(Product.is_active == True, Product.discount_pct >= 10)
+            .order_by(Product.discount_pct.desc(), Product.rating.desc())
+            .limit(16)
+            .all()
+        )
+        formatted_prods = [format_product(p, user_id, db) for p in discounted_prods]
+        offers.append({
+            "campaign_id": 1,
+            "title": "Lightning Deals",
+            "pitch": "Lightning deals in products of your interest",
+            "cohort": "explorers",
+            "products": formatted_prods,
+            "total_deals_count": 142
+        })
             
     return {"offers": offers}

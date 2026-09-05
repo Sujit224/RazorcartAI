@@ -4,10 +4,11 @@ from ...models.cart import CartItem
 from ...models.product import Product
 from ...services.razorpay_service import razorpay_service
 from ...services.discount_engine import discount_engine
+from ...services.fbt_engine import get_dynamic_fbts
 from ...schemas.discount import CheckoutContext
 
 def checkout_node(state: AgentState) -> AgentState:
-    """Generates Razorpay Test Mode Order and initiates conversational in-app checkout."""
+    """Generates Razorpay Test Mode Order and initiates conversational in-app checkout with FBT recommendations."""
     user_id = state.get("user_id")
     cart_ids = state.get("current_cart_ids", [])
     
@@ -34,12 +35,30 @@ def checkout_node(state: AgentState) -> AgentState:
             else:
                 total_amount = 3596.0 # Default demo cart
 
+        # Fetch Frequently Bought Together (FBT) Recommendations
+        fbt_items = []
+        target_prod_id = None
+        if user_id:
+            first_cart = db.query(CartItem).filter(CartItem.user_id == user_id).first()
+            if first_cart:
+                target_prod_id = first_cart.product_id
+        if not target_prod_id and state.get("products"):
+            target_prod_id = state.get("products")[0]["id"]
+            
+        if target_prod_id:
+            parent_p = db.query(Product).filter(Product.id == target_prod_id).first()
+            if parent_p:
+                fbt_items = get_dynamic_fbts(db, parent_p, user_id or 1, limit=3)
+                for item in fbt_items:
+                    item["rating_review_badge"] = f"★ {item['rating']} ({item['review_count']}+ reviews)"
+                state["fbt_products"] = fbt_items
+
         # Calculate optimal discount via Profit Maximization Engine
-        categories = [p.category for p in db.query(Product).filter(Product.id.in_([e.product_id for e in cart_entries])).all()] if user_id else ["General"]
+        categories = [p.category for p in db.query(Product).filter(Product.id.in_([e.product_id for e in cart_entries])).all()] if user_id and cart_entries else ["General"]
         disc_context = CheckoutContext(
             user_id=user_id or 1,
             cart_value=total_amount,
-            item_count=len(cart_entries) if user_id else 1,
+            item_count=len(cart_entries) if user_id and cart_entries else 1,
             categories=categories if categories else ["General"],
             customer_loyalty_tier="Gold",
             historical_conversion_rate=0.45,
@@ -76,10 +95,14 @@ def checkout_node(state: AgentState) -> AgentState:
             "discount_saved_inr": discount_applied_amount
         }
 
+        fbt_note = ""
+        if fbt_items:
+            fbt_note = "\n\n✨ **Frequently Bought Together Recommendations:** Check out these top-rated complementary items below to pair with your order before finalizing payment:"
+
         state["money_amount"] = total_amount
         state["profit_impact"] = total_amount
         state["reply"] = (
-            f"Your order total is **Rs. {int(total_amount):,}**.{discount_note} "
+            f"Your order total is **Rs. {int(total_amount):,}**.{discount_note}{fbt_note}\n\n"
             f"I have initialized a secure Razorpay Test Gateway session. "
             f"Click **Pay Now with Razorpay** below to complete your checkout safely."
         )
@@ -101,3 +124,4 @@ def checkout_node(state: AgentState) -> AgentState:
         db.close()
 
     return state
+
