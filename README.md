@@ -1,6 +1,6 @@
 ﻿<div align="center">
 
-# ⚡ RazorCartAI
+#  RazorCartAI
 ### *Agentic AI E-Commerce Platform*
 
 [![FastAPI](https://img.shields.io/badge/FastAPI-2.1.1-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com)
@@ -15,17 +15,17 @@
 
 ---
 
-## 🏆 Hackathon Track — AI Growth & Agentic Commerce
+##  Hackathon Track — AI Growth & Agentic Commerce
 
 RazorCartAI is a **production-grade agentic commerce system** where a LangGraph multi-agent orchestration engine drives the entire customer journey — from zero-query personalized discovery, through conversational cart negotiation, to autonomous payment failure recovery — with every financial action logged to an immutable Merchant Audit Ledger.
 
 ---
 
-## 🧠 System Architecture
+##  System Architecture
 
 ```mermaid
 flowchart TB
-    subgraph CLIENT["🖥️ React 18 + Vite Frontend"]
+    subgraph CLIENT[" React 18 + Vite Frontend"]
         direction LR
         UI["Myntra-Style Storefront"]
         CHAT["Conversational AI Chat"]
@@ -33,7 +33,7 @@ flowchart TB
         ADASH["Admin Portal"]
     end
 
-    subgraph GATEWAY["⚡ FastAPI Gateway  (v2.1.1)"]
+    subgraph GATEWAY[" FastAPI Gateway  (v2.1.1)"]
         direction TB
         AUTH["/auth — JWT"]
         PROD["/products — Catalog + Ranking"]
@@ -44,7 +44,7 @@ flowchart TB
         AUDIT["/audit — Ledger"]
     end
 
-    subgraph AGENT["🤖 LangGraph Multi-Agent Engine"]
+    subgraph AGENT[" LangGraph Multi-Agent Engine"]
         direction TB
         ENTRY["agent_node (Groq LLaMA 3.3 70B)"]
         ROUTER{"Route After Agent"}
@@ -69,7 +69,7 @@ flowchart TB
         LEDGER --> END(["END"])
     end
 
-    subgraph ML["🔬 ML & Intelligence Layer"]
+    subgraph ML[" ML & Intelligence Layer"]
         VECTOR["TF-IDF Vector Store (Scikit-Learn)"]
         RANK["Smart Ranking Engine (Multi-Factor Score)"]
         LGBM["LightGBM Discount Model (dynamic_pricing_lgbm.pkl)"]
@@ -78,7 +78,7 @@ flowchart TB
         FBT["FBT Graph Engine (Frequently Bought Together)"]
     end
 
-    subgraph DATA["🗄️ Data Layer (SQLAlchemy)"]
+    subgraph DATA[" Data Layer (SQLAlchemy)"]
         direction LR
         DB[("SQLite / PostgreSQL")]
         MODELS["User · Product · Cart · Order · AuditLedger · Campaign · Review"]
@@ -93,11 +93,11 @@ flowchart TB
 
 ---
 
-## 🔄 LangGraph Agent Flow — Request Lifecycle
+##  LangGraph Agent Flow — Request Lifecycle
 
 ```mermaid
 sequenceDiagram
-    participant U as 👤 User
+    participant U as  User
     participant C as Chat UI
     participant G as FastAPI /agent
     participant CMD as Command Parser
@@ -135,7 +135,7 @@ sequenceDiagram
 
 ---
 
-## 🎯 The 10 Pillars — Implementation Deep-Dive
+##  The 10 Pillars — Implementation Deep-Dive
 
 | # | Pillar | Implementation |
 |---|--------|----------------|
@@ -152,7 +152,7 @@ sequenceDiagram
 
 ---
 
-## 🤖 Agentic Intelligence — What Makes It Truly Agentic
+##  Agentic Intelligence — What Makes It Truly Agentic
 
 ### 1. Deterministic Command Grammar (Zero LLM Cost for Cart Ops)
 
@@ -212,24 +212,24 @@ A trained **LightGBM model** (`dynamic_pricing_lgbm.pkl`) evaluates 15 behaviora
 
 ---
 
-## 🏪 Merchant Portal
+##  Merchant Portal
 
 The full-featured **Merchant Portal** (`/merchant/dashboard`) features a persistent sidebar layout:
 
 ```
 Sidebar Navigation
-├── 📊  Home          — Revenue/Profit AreaChart + KPI stat cards (Orders, GMV, Avg Order Value)
-├── 📦  Products      — Full inventory management (add / edit / delete / image upload)
-├── 🎯  AI Campaigns  — Plain-English campaign creation with AI user segmentation
-├── 💸  Discounts     — LightGBM-powered dynamic pricing optimizer
-├── 📋  Orders        — Order management and fulfillment tracking
-├── 📈  Audit Ledger  — Immutable AI decision trail with money action history
-└── 👤  Profile       — Store identity, verification badge, stats & sign-out
+├──   Home          — Revenue/Profit AreaChart + KPI stat cards (Orders, GMV, Avg Order Value)
+├──   Products      — Full inventory management (add / edit / delete / image upload)
+├──   AI Campaigns  — Plain-English campaign creation with AI user segmentation
+├──   Discounts     — LightGBM-powered dynamic pricing optimizer
+├──   Orders        — Order management and fulfillment tracking
+├──   Audit Ledger  — Immutable AI decision trail with money action history
+└──   Profile       — Store identity, verification badge, stats & sign-out
 ```
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Layer | Technology | Purpose |
 |-------|-----------|---------|
@@ -247,7 +247,7 @@ Sidebar Navigation
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -288,21 +288,21 @@ npm run dev
 
 ---
 
-## 🧪 Chaos Center — Live Judge Controls
+##  Chaos Center — Live Judge Controls
 
-The floating **⚡ Chaos Center** widget (bottom-left) lets judges trigger all key agentic capabilities without any scripting:
+The floating ** Chaos Center** widget (bottom-left) lets judges trigger all key agentic capabilities without any scripting:
 
 | Trigger | What It Demonstrates |
 |---------|----------------------|
-| 🏃 **Switch → Priya (Bengaluru)** | Zero-query feed re-ranks on her composite vector + Bengaluru seller proximity boost |
-| 👟 **Switch → Rahul (Mumbai)** | Personalized rail shifts to his viewed products + Mumbai city boost |
-| ⚡ **Trigger 504 Timeout** | Intercepts gateway failure → Dynamic UPI QR → 15-min price freeze → Ledger entry |
-| 💳 **Trigger Card Decline** | Agent identifies lowest-priority accessory → proposes 1-click cart pruning → gated confirmation |
-| 🛡️ **Open Merchant Audit Ledger** | Live dashboard: revenue AreaChart + recovery ROI + AI decision step logs |
+|  **Switch → Priya (Bengaluru)** | Zero-query feed re-ranks on her composite vector + Bengaluru seller proximity boost |
+|  **Switch → Rahul (Mumbai)** | Personalized rail shifts to his viewed products + Mumbai city boost |
+|  **Trigger 504 Timeout** | Intercepts gateway failure → Dynamic UPI QR → 15-min price freeze → Ledger entry |
+|  **Trigger Card Decline** | Agent identifies lowest-priority accessory → proposes 1-click cart pruning → gated confirmation |
+|  **Open Merchant Audit Ledger** | Live dashboard: revenue AreaChart + recovery ROI + AI decision step logs |
 
 ---
 
-## 🔒 Security & Auditability Guarantees
+##  Security & Auditability Guarantees
 
 - **Gated Money Actions** — No spend executes without `pending_confirmation` being explicitly resolved.
 - **Immutable Audit Trail** — `AuditLedger` entries are append-only: `reasoning`, `failure_type`, `recovery_action`, `money_amount`, `profit_impact`, `audit_id`.
@@ -311,7 +311,7 @@ The floating **⚡ Chaos Center** widget (bottom-left) lets judges trigger all k
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 RazorCartAI/
