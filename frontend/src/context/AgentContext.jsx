@@ -185,6 +185,10 @@ export const AgentProvider = ({ children }) => {
         setIsAgentOpen(false);
         navigate(data.client_action.path);
       } else if (data.client_action?.type === 'checkout' || (data.intent === 'checkout' && data.checkout_data)) {
+        setActiveCheckoutData({
+          ...(data.checkout_data || {}),
+          fbt_products: data.fbt_products || []
+        });
         setIsCheckoutModalOpen(true);
       }
     } catch (err) {

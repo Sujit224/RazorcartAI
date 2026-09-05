@@ -138,6 +138,10 @@ def router_node(state: AgentState) -> AgentState:
         except Exception as e:
             print(f"[Router Node] Error saving user preferences: {e}")
 
+    # Explicit override if user asks for FBT / recommendations before checkout
+    if re.search(r"\b(?:fbt|fbt's|recommend|reccomend|frequently\s+bought|upsell|pair|add-?on)\b", msg, re.I):
+        state["intent"] = "fbt_upsell"
+
     # Guard the money intent
     if state["intent"] == "checkout" and not _PAY_VERB.search(msg):
         state["intent"] = "discovery"

@@ -13,7 +13,7 @@ export const CheckoutModal = ({ isOpen, onClose, customAmount, discountData }) =
     activeCheckoutData,
     setIsAuditModalOpen
   } = useAgent();
-  const { cart, clearCart } = useCart();
+  const { cart, clearCart, addToCart } = useCart();
   const { currentUser } = useAuth();
 
   const [paymentStep, setPaymentStep] = useState('gateway'); // gateway, processing, success, timeout_recovery, failed
@@ -216,6 +216,43 @@ export const CheckoutModal = ({ isOpen, onClose, customAmount, discountData }) =
                   </span>
                 </div>
               </div>
+
+              {/* Frequently Bought Together (FBT) Pre-Checkout Add-ons */}
+              {activeCheckoutData?.fbt_products?.length > 0 && (
+                <div className="bg-[#f0f7ff] border border-blue-200 rounded-xl p-3.5 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-extrabold text-[#0066cc] flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-[#0066cc]" />
+                      Frequently Bought Together (FBT) Recommendations
+                    </span>
+                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                      +28.4% Basket Lift
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    {activeCheckoutData.fbt_products.map((item) => (
+                      <div key={item.id} className="bg-white border border-[#e2e8f0] p-2 rounded-lg flex items-center justify-between text-xs hover:border-blue-300 transition-all">
+                        <div className="flex items-center gap-2.5 min-w-0 pr-2">
+                          <img src={item.image_url} alt={item.title} className="w-9 h-9 object-cover rounded-md border border-gray-100 shrink-0" />
+                          <div className="truncate">
+                            <p className="font-extrabold text-[#0c2340] truncate">{item.brand} {item.title}</p>
+                            <p className="text-[11px] font-semibold text-emerald-700">Rs. {Math.round(item.price).toLocaleString()} • ★ {item.rating}</p>
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            addToCart(item.id, 1, "Standard");
+                          }}
+                          className="px-2.5 py-1.5 bg-[#0066cc] hover:bg-[#0052a3] text-white font-bold text-[11px] rounded-md shadow-xs transition-transform active:scale-95 cursor-pointer shrink-0"
+                        >
+                          + Pair Item
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Payment Methods */}
               <div className="space-y-2">
