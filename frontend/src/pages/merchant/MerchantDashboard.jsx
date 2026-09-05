@@ -9,7 +9,7 @@ import {
   ArrowLeft, CheckCircle2, ChevronDown, ChevronUp, Sparkles, Building2,
   Users, Plus, Trash2, Search, Filter, X, ArrowRight, Eye, ShoppingBag,
   Clock, MapPin, Mail, AlertTriangle, Layers, Award, Tag, ExternalLink,
-  Activity, Check, ArrowUpRight, Megaphone
+  Activity, Check, ArrowUpRight, Megaphone, Brain, Calculator
 } from 'lucide-react';
 import { api } from '../../services/api';
 
@@ -118,7 +118,9 @@ export default function MerchantDashboard() {
   const [proposedCampaign, setProposedCampaign] = useState(null);
   const [isProposing, setIsProposing] = useState(false);
   const [isLaunching, setIsLaunching] = useState(false);
-  const [expandedDwellers, setExpandedDwellers] = useState(false);
+  const [expandedDwellers, setExpandedDwellers] = useState(true);
+  const [expandedExplorers, setExpandedExplorers] = useState(true);
+  const [selectedReasoningUser, setSelectedReasoningUser] = useState(null);
 
   // Auth guard
   useEffect(() => {
@@ -1274,36 +1276,63 @@ export default function MerchantDashboard() {
                             </p>
                             
                             {expandedDwellers && proposedCampaign.segments?.dwellers?.length > 0 && (
-                              <div className="mt-2 space-y-2 border-t border-blue-200/60 pt-2.5 max-h-[220px] overflow-y-auto">
+                              <div className="mt-2 space-y-2 border-t border-blue-200/60 pt-2.5 max-h-[300px] overflow-y-auto pr-1">
                                 {proposedCampaign.segments.dwellers.map((user, idx) => (
                                   <div 
                                     key={idx} 
-                                    className="bg-white rounded-xl p-2.5 border border-blue-100 cursor-pointer hover:border-blue-300 hover:shadow-sm transition-all"
-                                    onClick={() => handleOpenCustomer(user.id)}
+                                    className="bg-white rounded-xl p-3 border border-blue-100 space-y-2 hover:border-blue-300 transition-all shadow-2xs"
                                   >
-                                    <div className="flex items-center justify-between mb-1.5">
-                                      <span className="text-xs font-bold text-[#0C1A2E] flex items-center gap-1">
-                                        {user.name}
-                                        <ExternalLink className="w-3 h-3 text-[#2963FF]" />
-                                      </span>
-                                      <span className="text-[10px] font-mono font-bold text-[#2963FF] bg-blue-50 px-2 py-0.5 rounded border border-blue-100">
-                                        UID #{user.id}
-                                      </span>
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                      <div>
+                                        <div className="flex items-center gap-1.5">
+                                          <span className="text-xs font-extrabold text-[#0C1A2E]">{user.name}</span>
+                                          {user.city && <span className="text-[10px] text-gray-500 font-medium">({user.city})</span>}
+                                          <button type="button" onClick={() => handleOpenCustomer(user.id)} className="text-[#2963FF] hover:underline flex items-center gap-0.5 text-[10px] font-bold">
+                                            #UID-{user.id}
+                                            <ExternalLink className="w-2.5 h-2.5" />
+                                          </button>
+                                        </div>
+                                      </div>
+                                      
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-xs font-black text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 shadow-2xs">
+                                          ⚡ {user.attained_discount_pct || 15}% OFF
+                                        </span>
+                                        {user.original_price && (
+                                          <span className="text-[11px] font-bold text-gray-700">
+                                            <span className="line-through text-gray-400 mr-1">{fmt(user.original_price)}</span>
+                                            <strong className="text-[#2963FF]">{fmt(user.final_price)}</strong>
+                                          </span>
+                                        )}
+                                      </div>
                                     </div>
-                                    {user.dwelled_products?.length > 0 ? (
+
+                                    {user.dwelled_products?.length > 0 && (
                                       <div className="space-y-1 mt-1">
                                         <p className="text-[9px] font-extrabold uppercase tracking-wider text-[#5c6f84]">Products Viewed:</p>
                                         <div className="flex flex-wrap gap-1.5">
                                           {user.dwelled_products.map((dp, i) => (
-                                            <div key={i} className="flex items-center gap-1.5 bg-[#f1f5fa] border border-[#e2e8f0] rounded-md p-1 max-w-[140px]">
+                                            <div key={i} className="flex items-center gap-1.5 bg-[#f1f5fa] border border-[#e2e8f0] rounded-md p-1 max-w-[150px]">
                                               <img src={dp.image_url} alt={dp.title} className="w-5 h-5 rounded object-cover border border-[#e2e8f0]" />
                                               <span className="text-[9px] font-semibold text-[#0C1A2E] truncate">{dp.title}</span>
                                             </div>
                                           ))}
                                         </div>
                                       </div>
-                                    ) : (
-                                      <p className="text-[9px] text-[#94969f] italic">No specific products tracked</p>
+                                    )}
+
+                                    {/* Reasoning & Probability Button */}
+                                    {user.reasoning_matrix && (
+                                      <div className="pt-1 flex justify-end">
+                                        <button
+                                          type="button"
+                                          onClick={() => setSelectedReasoningUser({ ...user, cohort_label: 'Dweller (Cart / View Match)' })}
+                                          className="flex items-center gap-1.5 text-[10px] font-extrabold text-[#2963FF] hover:text-[#1a4fd6] bg-blue-50 hover:bg-blue-100 px-2.5 py-1 rounded-lg border border-blue-200 transition-colors cursor-pointer"
+                                        >
+                                          <Brain className="w-3.5 h-3.5" />
+                                          <span>View ML Probabilities & Calculation</span>
+                                        </button>
+                                      </div>
                                     )}
                                   </div>
                                 ))}
@@ -1313,10 +1342,14 @@ export default function MerchantDashboard() {
                           
                           {/* Explorers Cohort - Emerald Green Highlight Accent */}
                           <div className="bg-[#E8F7F1]/50 border border-[#A8D5BF] rounded-xl p-3.5 space-y-2">
-                            <div className="flex items-center justify-between">
-                              <span className="text-xs font-extrabold text-[#0C1A2E] flex items-center gap-1.5">
+                            <div 
+                              className="flex items-center justify-between cursor-pointer"
+                              onClick={() => setExpandedExplorers(!expandedExplorers)}
+                            >
+                              <span className="text-xs font-extrabold text-[#0C1A2E] flex items-center gap-1.5 hover:text-[#27AE60] transition-colors">
                                 <span className="w-2 h-2 rounded-full bg-[#27AE60]"></span>
                                 Explorers (Vector Affinity)
+                                {expandedExplorers ? <ChevronUp className="w-3.5 h-3.5 text-[#27AE60]" /> : <ChevronDown className="w-3.5 h-3.5 text-[#27AE60]" />}
                               </span>
                               <span className="text-[10px] font-extrabold bg-[#27AE60] text-white px-2.5 py-0.5 rounded-full shadow-2xs">
                                 {proposedCampaign.segments?.explorers?.length} Users
@@ -1325,6 +1358,56 @@ export default function MerchantDashboard() {
                             <p className="text-[11px] font-medium text-[#5c6f84]">
                               Pitch: <span className="font-bold text-[#27AE60]">"{proposedCampaign.offers?.explorers_pitch}"</span>
                             </p>
+
+                            {expandedExplorers && proposedCampaign.segments?.explorers?.length > 0 && (
+                              <div className="mt-2 space-y-2 border-t border-[#A8D5BF]/60 pt-2.5 max-h-[300px] overflow-y-auto pr-1">
+                                {proposedCampaign.segments.explorers.map((user, idx) => (
+                                  <div 
+                                    key={idx} 
+                                    className="bg-white rounded-xl p-3 border border-emerald-100 space-y-2 hover:border-emerald-300 transition-all shadow-2xs"
+                                  >
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                      <div>
+                                        <div className="flex items-center gap-1.5">
+                                          <span className="text-xs font-extrabold text-[#0C1A2E]">{user.name}</span>
+                                          {user.city && <span className="text-[10px] text-gray-500 font-medium">({user.city})</span>}
+                                          <button type="button" onClick={() => handleOpenCustomer(user.id)} className="text-[#27AE60] hover:underline flex items-center gap-0.5 text-[10px] font-bold">
+                                            #UID-{user.id}
+                                            <ExternalLink className="w-2.5 h-2.5" />
+                                          </button>
+                                        </div>
+                                      </div>
+                                      
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-xs font-black text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 shadow-2xs">
+                                          ⚡ {user.attained_discount_pct || 10}% OFF
+                                        </span>
+                                        {user.original_price && (
+                                          <span className="text-[11px] font-bold text-gray-700">
+                                            <span className="line-through text-gray-400 mr-1">{fmt(user.original_price)}</span>
+                                            <strong className="text-[#27AE60]">{fmt(user.final_price)}</strong>
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    {/* Reasoning & Probability Button */}
+                                    {user.reasoning_matrix && (
+                                      <div className="pt-1 flex justify-end">
+                                        <button
+                                          type="button"
+                                          onClick={() => setSelectedReasoningUser({ ...user, cohort_label: 'Explorer (Vector Affinity)' })}
+                                          className="flex items-center gap-1.5 text-[10px] font-extrabold text-[#27AE60] hover:text-[#1e8548] bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-lg border border-emerald-200 transition-colors cursor-pointer"
+                                        >
+                                          <Brain className="w-3.5 h-3.5" />
+                                          <span>View ML Probabilities & Calculation</span>
+                                        </button>
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                           </div>
 
                         </div>
@@ -2163,6 +2246,156 @@ export default function MerchantDashboard() {
           <p className="text-[11px] text-[#94969f]">Powered by Autonomous Multi-Agent Commerce Core</p>
         </div>
       </footer>
+
+      {/* ML Dynamic Pricing & Probability Calculation Modal */}
+      {selectedReasoningUser && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200 p-6 space-y-5 animate-in fade-in">
+            
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-[#2963FF]">
+                  <Brain className="w-5 h-5 text-[#2963FF]" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-black text-[#0C1A2E]">
+                    ML Dynamic Pricing & Probability Reasoning
+                  </h3>
+                  <p className="text-xs text-slate-500 font-medium">
+                    Target Customer: <strong className="text-slate-800">{selectedReasoningUser.name}</strong> (UID #{selectedReasoningUser.id}, {selectedReasoningUser.city || 'Bengaluru'}) • <span className="text-[#2963FF] font-bold">{selectedReasoningUser.cohort_label}</span>
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => setSelectedReasoningUser(null)}
+                className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Discount Summary Banner */}
+            <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-blue-50 border border-emerald-200 rounded-xl p-4 flex items-center justify-between">
+              <div>
+                <span className="text-[10px] font-black text-emerald-800 uppercase tracking-wider">Attained Campaign Discount</span>
+                <div className="text-2xl font-black text-emerald-700 flex items-baseline gap-2 mt-0.5">
+                  ⚡ {selectedReasoningUser.attained_discount_pct}% OFF
+                  <span className="text-sm font-bold text-emerald-600">(Save {fmt(selectedReasoningUser.discount_amount_inr)})</span>
+                </div>
+                <div className="text-xs font-medium text-slate-600 mt-1">
+                  Original Price: <span className="line-through text-slate-400 mr-1.5">{fmt(selectedReasoningUser.original_price)}</span> ➔ Campaign Price: <strong className="text-[#2963FF] font-black">{fmt(selectedReasoningUser.final_price)}</strong>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-[10px] font-extrabold uppercase bg-emerald-600 text-white px-3 py-1 rounded-full shadow-xs">
+                  Optimal Authorized Tier
+                </span>
+              </div>
+            </div>
+
+            {/* Key Probabilities Metrics Cards */}
+            <div className="grid grid-cols-3 gap-3">
+              <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl text-center">
+                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Base P(Conversion)</p>
+                <p className="text-xl font-black text-slate-700 mt-1">
+                  {((selectedReasoningUser.reasoning_matrix?.base_conv_probability || 0) * 100).toFixed(1)}%
+                </p>
+                <p className="text-[9px] text-slate-400 font-medium mt-0.5">At 0% Discount</p>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-200 p-3 rounded-xl text-center">
+                <p className="text-[10px] font-bold text-blue-600 uppercase tracking-wider">Boosted P(Conversion)</p>
+                <p className="text-xl font-black text-[#2963FF] mt-1">
+                  {((selectedReasoningUser.reasoning_matrix?.boosted_conv_probability || 0) * 100).toFixed(1)}%
+                </p>
+                <p className="text-[9px] text-blue-500 font-medium mt-0.5">At {selectedReasoningUser.attained_discount_pct}% Campaign Tier</p>
+              </div>
+
+              <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-center">
+                <p className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">Predicted Conversion Uplift</p>
+                <p className="text-xl font-black text-emerald-600 mt-1">
+                  +{selectedReasoningUser.reasoning_matrix?.uplift_pct}%
+                </p>
+                <p className="text-[9px] text-emerald-500 font-medium mt-0.5">Net Likelihood Gain</p>
+              </div>
+            </div>
+
+            {/* Candidate Discount Tiers Table */}
+            {selectedReasoningUser.reasoning_matrix?.evaluated_tiers?.length > 0 && (
+              <div className="space-y-2">
+                <h4 className="text-xs font-black text-[#0C1A2E] uppercase tracking-wider flex items-center gap-1.5">
+                  <Calculator className="w-3.5 h-3.5 text-[#2963FF]" />
+                  LightGBM Candidate Discount Tiers Evaluation Table
+                </h4>
+                <div className="border border-slate-200 rounded-xl overflow-hidden text-xs">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-slate-100 text-slate-600 font-bold border-b border-slate-200 text-[11px]">
+                        <th className="p-2.5">Discount Tier</th>
+                        <th className="p-2.5">LightGBM P(Conv)</th>
+                        <th className="p-2.5">Effective Margin</th>
+                        <th className="p-2.5">Expected Profit (INR)</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 font-medium">
+                      {selectedReasoningUser.reasoning_matrix.evaluated_tiers.map((tier, tIdx) => {
+                        const isOptimal = tier.discount_pct === selectedReasoningUser.attained_discount_pct;
+                        return (
+                          <tr key={tIdx} className={isOptimal ? 'bg-blue-50/80 font-bold text-[#2963FF]' : 'hover:bg-slate-50'}>
+                            <td className="p-2.5 flex items-center gap-1.5">
+                              {tier.discount_pct}%
+                              {isOptimal && <span className="text-[9px] bg-[#2963FF] text-white px-1.5 py-0.5 rounded font-black">OPTIMAL TIER</span>}
+                            </td>
+                            <td className="p-2.5">{(tier.conversion_probability * 100).toFixed(1)}%</td>
+                            <td className="p-2.5">{(tier.effective_margin_rate * 100).toFixed(1)}%</td>
+                            <td className="p-2.5 font-bold">{fmt(tier.expected_profit_inr)}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Step-by-Step Mathematical Calculation Formula */}
+            <div className="space-y-1.5 bg-slate-900 text-slate-100 p-4 rounded-xl border border-slate-800 text-xs font-mono">
+              <p className="font-bold text-blue-400 flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-blue-400" />
+                Step-by-Step Mathematical Calculation Formula:
+              </p>
+              <p className="text-slate-300 leading-relaxed text-[11px] pt-1">
+                {selectedReasoningUser.reasoning_matrix?.calculation_formula}
+              </p>
+            </div>
+
+            {/* Enforced Rules */}
+            {selectedReasoningUser.reasoning_matrix?.applied_rules?.length > 0 && (
+              <div className="space-y-1.5 text-xs">
+                <p className="font-bold text-slate-700 uppercase tracking-wider text-[10px]">Merchant Guardrails & Policies Enforced:</p>
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedReasoningUser.reasoning_matrix.applied_rules.map((rule, rIdx) => (
+                    <span key={rIdx} className="bg-slate-100 text-slate-700 border border-slate-200 px-2.5 py-1 rounded-md text-[10px] font-bold">
+                      {rule}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* ML Explanation */}
+            <div className="bg-blue-50/70 p-4 rounded-xl border border-blue-200/80 text-xs space-y-1">
+              <p className="font-bold text-[#2963FF] uppercase tracking-wider text-[10px]">AI Model Strategy & Reasoning Explanation:</p>
+              <p className="text-slate-700 leading-relaxed font-medium">
+                {selectedReasoningUser.reasoning_matrix?.ml_explanation}
+              </p>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
