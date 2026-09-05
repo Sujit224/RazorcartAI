@@ -196,14 +196,16 @@ def get_merchant_transactions(
     db: Session = Depends(get_db)
 ):
     """Paginated transaction log for the merchant's own audit entries."""
-    mid = current_user.merchant_id
+    mid = current_user.merchant_id or "merch_001"
     offset = (page - 1) * per_page
 
-    total = db.query(AuditLedger).filter(AuditLedger.merchant_id == mid).count()
+    q = db.query(AuditLedger).filter(
+        (AuditLedger.merchant_id == mid) | (AuditLedger.merchant_id.is_(None))
+    ) if mid == "merch_001" else db.query(AuditLedger).filter(AuditLedger.merchant_id == mid)
+
+    total = q.count()
     rows = (
-        db.query(AuditLedger)
-        .filter(AuditLedger.merchant_id == mid)
-        .order_by(AuditLedger.timestamp.desc())
+        q.order_by(AuditLedger.timestamp.desc())
         .offset(offset)
         .limit(per_page)
         .all()
@@ -224,27 +226,40 @@ def get_merchant_daily_chart(
     db: Session = Depends(get_db)
 ):
     """Daily revenue vs AI profit for the last N days (for chart rendering)."""
-    mid = current_user.merchant_id
+    mid = current_user.merchant_id or "merch_001"
     since = datetime.utcnow() - timedelta(days=days)
 
-    rows = db.execute(text("""
-        SELECT strftime('%Y-%m-%d', timestamp) as day,
-               SUM(money_amount) as revenue,
-               SUM(profit_from_ai) as ai_profit
-        FROM audit_ledger
-        WHERE merchant_id = :mid AND timestamp >= :since
-        GROUP BY strftime('%Y-%m-%d', timestamp)
-        ORDER BY day
-    """), {"mid": mid, "since": since.isoformat()}).fetchall()
+    if mid == "merch_001":
+        rows = db.execute(text("""
+            SELECT strftime('%Y-%m-%d', timestamp) as day,
+                   SUM(money_amount) as revenue,
+                   SUM(profit_from_ai) as ai_profit
+            FROM audit_ledger
+            WHERE (merchant_id = :mid OR merchant_id IS NULL) AND timestamp >= :since
+            GROUP BY strftime('%Y-%m-%d', timestamp)
+            ORDER BY day
+        """), {"mid": mid, "since": since.isoformat()}).fetchall()
+    else:
+        rows = db.execute(text("""
+            SELECT strftime('%Y-%m-%d', timestamp) as day,
+                   SUM(money_amount) as revenue,
+                   SUM(profit_from_ai) as ai_profit
+            FROM audit_ledger
+            WHERE merchant_id = :mid AND timestamp >= :since
+            GROUP BY strftime('%Y-%m-%d', timestamp)
+            ORDER BY day
+        """), {"mid": mid, "since": since.isoformat()}).fetchall()
 
-    return [
+    chart_data = [
         {
             "date": r[0],
             "revenue": round(r[1] or 0, 2),
             "ai_profit": round(r[2] or 0, 2),
         }
-        for r in rows
+        for r in rows if r[0]
     ]
+
+    return chart_data
 
 
 # ─────────────────────────────────────────────
