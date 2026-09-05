@@ -1,6 +1,9 @@
-from typing import TypedDict, List, Dict, Any, Optional
+from typing import TypedDict, List, Dict, Any, Optional, Annotated
+from langchain_core.messages import AnyMessage
+from langgraph.graph.message import add_messages
 
 class AgentState(TypedDict):
+    messages: Annotated[list[AnyMessage], add_messages]
     user_message: str
     user_id: Optional[int]
     user_city: Optional[str]

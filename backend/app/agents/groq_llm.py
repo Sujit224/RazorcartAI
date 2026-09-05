@@ -12,7 +12,7 @@ class GroqLLMClient:
         self.model = settings.GROQ_MODEL
         self.client = Groq(api_key=self.api_key) if self.api_key else None
 
-    def invoke_chat(self, system_prompt: str, user_message: str, response_format_json: bool = False) -> str:
+    def invoke_chat(self, system_prompt: str, user_message: str, response_format_json: bool = False, tools: Optional[List[Dict]] = None) -> Any:
         """Call Groq LLM (e.g. LLaMA 3.3 70B) with automatic JSON or text parsing."""
         if not self.client:
             # Fallback to local heuristic intelligence if no Groq API Key provided yet
@@ -30,9 +30,17 @@ class GroqLLMClient:
             }
             if response_format_json:
                 kwargs["response_format"] = {"type": "json_object"}
+            if tools:
+                kwargs["tools"] = tools
+                kwargs["tool_choice"] = "auto"
 
             response = self.client.chat.completions.create(**kwargs)
-            return response.choices[0].message.content.strip()
+            message = response.choices[0].message
+            
+            if message.tool_calls:
+                return message
+                
+            return message.content.strip() if message.content else ""
         except Exception as e:
             print(f"[Groq LLM Warning] Groq API call error: {e}. Utilizing fallback engine.")
             return self._heuristic_fallback(system_prompt, user_message, response_format_json)
